@@ -150,7 +150,7 @@ nav a:hover::after {
 aside {
   width: 200px;
   border-bottom: 1px solid var(--line-color);
-  border-right: 1px solid var(--line-color);
+  #border-right: 1px solid var(--line-color);
 }
 
 aside nav {
@@ -258,7 +258,7 @@ footer:hover p {
 /* Toggle Buttons */
 .menu-toggle {
   display: none;
-  font-size: 24px;
+  font-size: 15px;
   background-color: var(--bg-color);
   color: var(--text-color);
   border: 0;
@@ -313,7 +313,7 @@ footer:hover p {
     background-color: var(--bg-color);
     position: fixed;
     right: 0px;
-    top: 55px;
+    top: 50px;
     padding: 10px;
     border: 1px solid var(--line-color);
     border-radius: 5px;
@@ -356,10 +356,10 @@ nav#sidebarMenu {
   background-color: var(--bg-color);
   position: absolute;
   left: 0px;
-  top: 89px;
+  top: 73px;
   padding: 1px;
   border: 1px solid var(--line-color);
-  border-radius: 5px;
+  #border-radius: 5px;
   transform: translateX(120%);
   transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.3s ease;
   opacity: 0;
@@ -380,7 +380,7 @@ nav#sidebarMenu a {
   opacity: 0;
   transform: translateX(20px);
   transition: all 0.3s ease;
-  padding: 8px 0;
+  padding: 5px 10px;
   border-bottom: 1px solid rgba(0,0,0,0.1);
   color: var(--text-color);
   text-decoration: none;
