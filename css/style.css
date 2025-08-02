@@ -308,19 +308,21 @@ footer:hover p {
 @media (max-width: 768px) {
   /* Header Menu */
   nav#headerMenu {
+    display: none;
     flex-direction: column;
     background-color: var(--bg-color);
     position: fixed;
-    left: 0; /* Changed from right: 0 */
+    left: 0px;
     top: 50px;
     padding: 10px;
     border: 1px solid var(--line-color);
     border-radius: 5px;
-    transform: translateX(0); /* Changed from translateX(120%) */
+    transform: translateX(  0%);
     transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.3s ease;
     opacity: 0;
     box-shadow: -5px 5px 15px rgba(0, 0, 0, 0.1);
     z-index: 1000;
+
     width: 100%; /* Changed from 30% */
     max-width: 100%; /* Changed from 250px */
     margin: 0 auto; /* Center horizontally */
