@@ -1,8 +1,22 @@
 // Theme Toggle
 const themeToggle = document.getElementById("themeSwitcher");
-themeToggle.addEventListener("change", () => {
-  document.body.classList.toggle("dark-theme");
-});
+
+if (themeToggle) {
+  // ✅ On Load: Apply stored theme & check toggle
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme === "dark") {
+    document.body.classList.add("dark-theme");
+    themeToggle.checked = true; // ✅ visually check the toggle
+  }
+
+  // ✅ On Toggle: Switch theme and update storage
+  themeToggle.addEventListener("change", () => {
+    const isDark = themeToggle.checked;
+    document.body.classList.toggle("dark-theme", isDark);
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+  });
+}
+
 
 // Header Menu Toggle
 const headerBtn = document.getElementById("headerMenuToggle");
