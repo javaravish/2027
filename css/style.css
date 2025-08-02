@@ -125,7 +125,7 @@ aside nav a {
 }
 
 main {
-  padding: 20px;
+  padding: 10px;
   flex-grow: 1;
   transition: all 0.3s ease-in-out;
 }
