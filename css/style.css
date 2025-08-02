@@ -563,6 +563,7 @@ footer:hover p {
 @media (max-width: 768px) {
   .menu-toggle {
     transition: all 0.3s ease;
+    padding: 1px 20px;
   }
 
   .menu-toggle:hover {
@@ -646,7 +647,7 @@ footer:hover p {
     }
 
     nav#headerMenu {
-        gap: 10px; /* Adjust mobile menu spacing */
+        gap: 1px; /* Adjust mobile menu spacing */
     }
 }
 
