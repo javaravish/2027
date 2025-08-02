@@ -568,6 +568,7 @@ nav#sidebarMenu a:hover::after {
 
   .menu-toggle:hover {
     animation: pulse-glow 1.5s infinite;
+    padding: 1px 20px;
   }
 
   nav#headerMenu.active {
