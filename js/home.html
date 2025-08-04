@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Tutorials</title>
     <link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         /* Logo Animation Styles */
         .logo-section {
@@ -412,6 +412,20 @@
             background-color: rgba(0, 0, 0, 0.1);
             color: var(--hover-color);
             transform: translateX(5px);
+        }
+
+        .menu a:hover::before {
+            left: 100%;
+        }
+        .menu a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(31, 177, 20, 0.1), transparent);
+            transition: all 0.5s ease;
         }
 
         .menu a.active {
