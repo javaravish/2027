@@ -372,7 +372,18 @@ footer:hover p {
     #width: 30%;
     #max-width: 250px;
     gap: 1px;
-  }
+    animation: slideInLeft 0.5s ease-out 0.1s both;
+    }
+    @keyframes slideInLeft {
+                from {
+                    transform: translateX(-20px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+    }
 
   nav#sidebarMenu.active {
     transform: translateX(0);
