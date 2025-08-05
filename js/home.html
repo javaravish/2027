@@ -80,7 +80,7 @@
             75% { transform: rotate(-5deg); }
         }
 
-        .theme-change-animation .logo {
+        .theme-change-animation .logo-img {
             animation: logoSpin 0.8s ease-in-out, colorPulse 1.6s linear;
         }
 
@@ -264,12 +264,6 @@
             color: var(--hover-color);
             letter-spacing: 1px;
             transform: translateY(-2px);
-            animation: bounceHover 0.5s ease;
-        }
-
-        @keyframes bounceHover {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
         }
 
         .header-items a:hover::after {
@@ -596,15 +590,38 @@
                 width: 100%;
                 background-color: var(--header-bg);
                 flex-direction: column;
-                gap: 1rem;
+                gap: .5rem;
                 border-bottom: 1px solid var(--border-color);
                 transform: translateY(-150%);
                 transition: transform 0.6s;
                 z-index: 999;
+                #padding: 1rem 0;
             }
 
             .header-items.open {
                 transform: translateY(0);
+            }
+
+            /* Mobile header items text decoration */
+            .header-items a {
+                #width: 100%;
+                text-align: center;
+                #padding: 0.5rem 1rem;
+                #font-size: 1.1rem;
+                border-bottom: 1px solid var(--border-color);
+                transition: all 0.3s ease;
+                background-color: var(--header-bg);
+            }
+
+            .header-items a:hover {
+                background-color: rgba(0, 0, 0, 0.1);
+                letter-spacing: 1.5px;
+                transform: scale(1.05);
+                color: var(--hover-color);
+            }
+
+            .header-items a::after {
+                display: none;
             }
 
             .mobile-menu-btn, .mobile-sidebar-btn {
@@ -863,11 +880,15 @@
 
     // Logo animation on theme change
     themeToggle.addEventListener('change', function() {
+        const logoImg = document.querySelector('.logo-img');
         const logoSection = document.querySelector('.logo-section');
-        logoSection.classList.add('theme-change-animation');
 
+        // Add animation class to the logo image
+        logoImg.classList.add('theme-change-animation');
+
+        // Remove the animation class after it completes
         setTimeout(() => {
-            logoSection.classList.remove('theme-change-animation');
+            logoImg.classList.remove('theme-change-animation');
         }, 2000);
     });
 
