@@ -7,6 +7,37 @@
     <link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        .nav-link1:hover {
+        	background: var(--link-color);
+        	text-decoration: none;
+        }
+        .oh {
+            border: 1px solid var(--box-shadow-current);
+        }
+        .nav-link1 {
+        	border-radius: 3px;
+        	display: block;
+        	padding: .1rem 15px .1rem 1.1rem;
+        	color: #14af07;
+        	box-shadow: var(--box-shadow);
+        	width: 165px;
+        	height: 165px;
+        }
+        .row {
+            display: flex;
+            flex-wrap: wrap;          /* allows boxes to wrap to next line */
+            justify-content: center;  /* centers boxes horizontally */
+            gap: 10px;                 /* space between boxes */
+        }
+
+        .column {
+            padding: 1px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
         /* Logo Animation Styles */
         .logo-section {
             display: flex;
@@ -106,8 +137,10 @@
             --footer-bg: #f8f9fa;
             --link-color: #333333;
             --hover-color: #1fb114;
-            --toggle-bg: #e0e0e0;
+            --toggle-bg: #1e1e1e;
             --toggle-knob: #ffffff;
+            --box-shadow-current: #333333;
+            --box-shadow: 2px 2px 2px rgba(60, 60, 50),0px 4px 6px 0px rgba(0,0,0,.06);
         }
 
         .dark-mode {
@@ -120,8 +153,10 @@
             --footer-bg: #1e1e1e;
             --link-color: #e0e0e0;
             --hover-color: #1fb114;
-            --toggle-bg: #424242;
+            --toggle-bg: #fff;
             --toggle-knob: #121212;
+            --box-shadow-current: #ffffff;
+            --box-shadow: 2px 2px 2px rgba(255, 255, 204),0px 4px 6px 0px rgba(0,0,0,.06);
         }
 
         /* Base Styles */
@@ -419,7 +454,7 @@
         /* Main Content Styles */
         main {
             grid-area: main;
-            padding: 1rem;
+            padding: 2rem;
             overflow-y: auto;
             animation: fadeIn 0.8s ease-out 0.3s both;
         }
@@ -788,57 +823,104 @@
     </ul>
 </aside>
 
-<main>
-    <div class="content-section" style="--animation-order: 1">
-        <h2>Welcome to My Tutorials</h2>
-        <p>This is a comprehensive collection of tutorials covering various topics in web development and programming.</p>
-    </div>
-
-    <div class="content-section" style="--animation-order: 2">
-        <h3>Featured Tutorials</h3>
-        <p>Explore our most popular tutorials to enhance your skills:</p>
-        <ul>
-            <li>HTML5 Fundamentals</li>
-            <li>CSS3 Styling Techniques</li>
-            <li>JavaScript ES6+ Features</li>
-            <li>React Hooks Guide</li>
-            <li>Node.js Backend Development</li>
-        </ul>
-    </div>
-
-    <div class="content-section" style="--animation-order: 3">
-        <h3>Latest Updates</h3>
-        <p>Stay updated with our newest content additions:</p>
-        <ul>
-            <li>Added new section on CSS Grid Layout</li>
-            <li>Updated JavaScript tutorial with modern patterns</li>
-            <li>New React performance optimization guide</li>
-        </ul>
-    </div>
-
-    <div class="content-section" style="--animation-order: 4">
-        <h3>About This Platform</h3>
-        <p>Our tutorial platform is designed to provide clear, concise, and practical learning materials for developers
-            of all skill levels. Whether you're just starting out or looking to advance your knowledge, we have content
-            tailored to your needs.</p>
-        <p>The platform features responsive design, dark/light mode, and easy navigation to enhance your learning
-            experience.</p>
-    </div>
-
-    <div class="content-section" style="--animation-order: 5">
-        <h3>Additional Content</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris.</p>
-    </div>
-
-    <div class="content-section" style="--animation-order: 6">
-        <h3>More Information</h3>
-        <p>Vivamus luctus urna sed urna ultricies ac tempor dui sagittis.</p>
-    </div>
-
-    <div class="content-section" style="--animation-order: 7">
-        <h3>Final Section</h3>
-        <p>Donec lobortis risus a elit. Etiam tempor. Ut ullamcorper, ligula eu tempor congue, eros est euismod turpis,
-            id tincidunt sapien risus a quam.</p>
+<main id="content">
+    <div class="row">
+        <div class="column">
+            <a class="nav-link1 oh" href="./java/introduction.html"><img
+                    src="../images/java-round.png"
+                    style="height: 100px; max-width: 100%; margin: 10px;" alt="java Tutorial"
+                    title="Java Tutorial">
+                <figcaption style="text-align: center;">Java Tutorial</figcaption>
+            </a>
+        </div>
+        <div class="column">
+            <a class="nav-link1 oh" href="./java/java8/introduction.html"><img
+                    src="../images/java8f.png"
+                    style="height: 100px; max-width: 100%; margin: 10px;" alt="Java 8 Feature"
+                    title="Java 8 Feature">
+                <figcaption style="text-align: center;">Java 8 Feature</figcaption>
+            </a>
+        </div>
+        <div class="column">
+            <a class="nav-link1 oh" href="./spring/introduction.html"><img
+                    src="../images/spring-round.png"
+                    style="height: 100px; max-width: 100%; margin: 10px;" alt="spring Tutorial"
+                    title="Spring Tutorial">
+                <figcaption style="text-align: center;">Spring Tutorial</figcaption>
+            </a>
+        </div>
+        <div class="column">
+            <a class="nav-link1 oh" href="./springboot/introduction.html"><img
+                    src="../images/spring-boot-round.png"
+                    style="height: 100px; max-width: 100%; margin: 10px;" alt="springBoot Tutorial"
+                    title="SpringBoot Tutorial">
+                <figcaption style="text-align: center;">Spring Boot</figcaption>
+            </a>
+        </div>
+        <div class="column">
+            <a class="nav-link1 oh" href="./microservices/ms-intro.html"><img
+                    src="../images/microservices2.png"
+                    style="height: 100px; max-width: 120%; margin: 10px;" alt="Microservices Tutorial"
+                    title="Microservices Tutorial">
+                <figcaption style="text-align: center;">Microservices</figcaption>
+            </a>
+        </div>
+        <div class="column">
+            <a class="nav-link1 oh" href="./kafka.html"><img
+                    src="../images/kafka.png"
+                    style="height: 100px; max-width: 120%; margin: 10px;" alt="kafka Tutorial"
+                    title="Apache Kafka">
+                <figcaption style="text-align: center;">Kafka</figcaption>
+            </a>
+        </div>
+        <div class="column">
+            <a class="nav-link1 oh" href="./database.html"><img
+                    src="../images/db.png"
+                    style="height: 100px; max-width: 120%; margin: 10px;" alt="Database Tutorial"
+                    title="DB">
+                <figcaption style="text-align: center;">Database</figcaption>
+            </a>
+        </div>
+        <div class="column">
+            <a class="nav-link1 oh" href="./DP/introduction.html"><img
+                    src="../images/ds.png"
+                    style="height: 100px; max-width: 100%; margin: 10px;" alt="Design Patterns"
+                    title="Design Patterns">
+                <figcaption style="text-align: center;">Design Patterns</figcaption>
+            </a>
+        </div>
+        <div class="column">
+            <a class="nav-link1 oh" href="./sorting/bubble.html"><img
+                    src="../images/sort.png"
+                    style="height: 100px; max-width: 100%; margin: 10px;" alt="Sorting Tutorial"
+                    title="Sorting">
+                <figcaption style="text-align: center;">Sortings</figcaption>
+            </a>
+        </div>
+        <div class="column">
+            <a class="nav-link1 oh" href="./dsa/dsa.html"><img
+                    src="../images/ala1.png"
+                    style="height: 100px; max-width: 100%; margin: 10px;" alt="Data Structures"
+                    title="Data Structures">
+                <figcaption style="text-align: center;">Data Structures</figcaption>
+            </a>
+        </div>
+        <div class="column">
+            <a class="nav-link1 oh" href="./java/cheatsheets.html"><img
+                    src="../images/java-round.png"
+                    style="height: 100px; max-width: 100%; margin: 10px;" alt="Java Cheat Sheets"
+                    title="Java Cheat Sheets">
+                <figcaption style="text-align: center;">Java Cheat Sheet</figcaption>
+            </a>
+        </div>
+        <div class="column">
+            <a class="nav-link1 oh" href="./interview/interview-questions.html"><img
+                    src="../images/interview.png"
+                    style="height: 100px; max-width: 100%; margin: 10px;" alt="Interview Special"
+                    title="Interview Special">
+                <figcaption style="text-align: center;">Interview Special</figcaption>
+            </a>
+        </div>
     </div>
 </main>
 
