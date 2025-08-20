@@ -3,7 +3,7 @@
         	text-decoration: none;
         }
         .oh {
-            border: 1px solid var(--box-shadow-current);
+            border: 1px solid #dbd1d1;;
         }
         .nav-link1 {
         	border-radius: 3px;
@@ -131,7 +131,7 @@
             --toggle-bg: #1e1e1e;
             --toggle-knob: #ffffff;
             --box-shadow-current: #333333;
-            --box-shadow: 2px 2px 2px rgba(60, 60, 50),0px 4px 6px 0px rgba(0,0,0,.06);
+            --box-shadow: 2px 2px 3px 2px rgba(36, 38, 47, .1), 0px 4px 6px 0px rgba(0, 0, 0, .06);
         }
 
         .dark-mode {
@@ -147,7 +147,7 @@
             --toggle-bg: #fff;
             --toggle-knob: #121212;
             --box-shadow-current: #ffffff;
-            --box-shadow: 2px 2px 2px rgba(255, 255, 204),0px 4px 6px 0px rgba(0,0,0,.06);
+            --box-shadow: 2px 2px 2px 2px rgba(255, 255, 255, 0.4), 0px 4px 6px 0px rgba(0,0,0,.06);
         }
 
         /* Base Styles */
