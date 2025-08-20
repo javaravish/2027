@@ -383,7 +383,7 @@
             transition: all 0.3s ease, transform 0.2s ease;
             position: relative;
             overflow: hidden;
-            left: 5px;
+            left: 10px;
         }
 
         /* Light theme shine effect (dark shine) */

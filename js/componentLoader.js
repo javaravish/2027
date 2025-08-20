@@ -57,11 +57,21 @@ function rewriteRootLinks(scope = document) {
 // ---------- Components ----------
 const components = {
   header: `
+    <!-- Head Section -->
+    <meta charset="UTF-8">
+        <meta name="author" content="RaviKalyan">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/x-icon" href="js/images/tab_logo.png">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
     <!-- Header Section -->
     <header>
       <div class="logo-section logo-img-container">
         <a data-href="/home.html" href="#">
-          <img class="logo-img" width="55" height="30" data-src="/images/logo.png" alt="Home">
+          <img class="logo-img" width="55" height="30" data-src="/js/images/logo.png" alt="Home">
         </a>
         <a class="brand-name-link" data-href="/home.html" href="#">
           <span class="brand-name">Ravish</span>
