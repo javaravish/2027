@@ -270,7 +270,7 @@ aside {
     grid-area: sidebar;
     background-color: var(--sidebar-bg);
     border-right: 1px solid var(--border-color);
-    padding: 0.50rem;
+    padding: 1.1rem;
     animation: slideInLeft 0.5s ease-out 0.1s both;
     overflow-y: auto;
     height: calc(100vh - 30px - 30px - 60px); /* Adjusted height calculation */
@@ -372,7 +372,7 @@ aside {
 /* Main Content Styles */
 main {
     grid-area: main;
-    padding: 2rem;
+    padding: 1rem;
     overflow-y: auto;
     animation: fadeIn 0.8s ease-out 0.3s both;
     height: calc(100vh - 65px - 30px - 60px); /* Adjusted height calculation */
