@@ -13,7 +13,8 @@ const components = {
             </div>
             <div class="header-content">
                 <div class="header-items" id="headerItems">
-                    <a href="./java/intro.html">Java</a>
+                      <a href="./home.html">Home</a>
+                      <a href="./java/intro.html">Java</a>
                       <a href="./spring/intro.html">Spring</a>
                       <a href="./springboot/intro.html">SpringBoot</a>
                       <a href="./microservices/intro.html">Microservices</a>

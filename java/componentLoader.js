@@ -13,7 +13,8 @@ const components = {
             </div>
             <div class="header-content">
                 <div class="header-items" id="headerItems">
-                    <a href="./intro.html">Java</a>
+                      <a href="../home.html">Home</a>
+                      <a href="./intro.html">Java</a>
                       <a href="./spring/intro.html">Spring</a>
                       <a href="./springboot/intro.html">SpringBoot</a>
                       <a href="./microservices/intro.html">Microservices</a>
@@ -166,6 +167,7 @@ function loadComponents() {
     initHeader();
     initSidebar();
     initFooter();
+    highlightCurrentPage(); // Add this to highlight current page
 }
 
 // Initialize theme toggle
@@ -230,6 +232,25 @@ function initHeader() {
         });
     });
 }
+
+// NEW FUNCTION: Highlight current page in sidebar
+        function highlightCurrentPage() {
+            // Get current page URL
+            const currentPageUrl = window.location.pathname.split('/').pop();
+
+            // Find all sidebar links
+            const sidebarLinks = document.querySelectorAll('#sidebar .nav-link');
+
+            // Check each link to see if it matches the current page
+            sidebarLinks.forEach(link => {
+                const linkUrl = link.getAttribute('href').split('/').pop();
+
+                // If the link URL matches the current page URL, add the active class
+                if (linkUrl === currentPageUrl) {
+                    link.classList.add('active');
+                }
+            });
+        }
 
 // Initialize sidebar
 function initSidebar() {
