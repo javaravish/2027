@@ -208,13 +208,10 @@ const components = {
         <ul class="menu">
           <h4>Interview Preparation</h4>
           <li class="nav-item"><a class="nav-link" data-href="/interview/java/questions.html" href="#">Java Questions</a></li>
+          <li class="nav-item"><a class="nav-link" data-href="/interview/java/questions.html" href="#">Java 8 Questions</a></li>
           <li class="nav-item"><a class="nav-link" data-href="/interview/spring/questions.html" href="#">Spring Questions</a></li>
+          <li class="nav-item"><a class="nav-link" data-href="/interview/spring/questions.html" href="#">SpringBoot Questions</a></li>
           <li class="nav-item"><a class="nav-link" data-href="/interview/ms/questions.html" href="#">Microservices Questions</a></li>
-          <li class="nav-item"><a class="nav-link" data-href="/interview/database/questions.html" href="#">Database Questions</a></li>
-          <li class="nav-item"><a class="nav-link" data-href="/interview/system-design/questions.html" href="#">System Design Questions</a></li>
-          <li class="nav-item"><a class="nav-link" data-href="/interview/behavioral/questions.html" href="#">Behavioral Questions</a></li>
-          <li class="nav-item"><a class="nav-link" data-href="/interview/resume-tips.html" href="#">Resume Tips</a></li>
-          <li class="nav-item"><a class="nav-link" data-href="/interview/coding-tips.html" href="#">Coding Tips</a></li>
         </ul>
       </aside>
     `
