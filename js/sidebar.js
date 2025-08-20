@@ -1,6 +1,4 @@
-// sidebars.js
-
-// ---------- Sidebar Components ----------
+// ---------- Sidebars ----------
 const sidebars = {
   tutorials: `
     <!-- Tutorials Sidebar -->
@@ -127,49 +125,3 @@ const sidebars = {
     </aside>
   `
 };
-
-// ---------- Sidebar Load + Init ----------
-function loadSidebar() {
-  const sidebarType = document.body.getAttribute('data-sidebar') || 'tutorials';
-  const sidebarHTML = sidebars[sidebarType] || sidebars.tutorials;
-  const nav = document.querySelector('nav');
-
-  if (nav) nav.insertAdjacentHTML('afterend', sidebarHTML);
-  else document.body.insertAdjacentHTML('afterbegin', sidebarHTML);
-
-  // Initialize sidebar functionality
-  initSidebar();
-  highlightCurrentPage();
-}
-
-// Sidebar initialization
-function initSidebar() {
-  const mobileSidebarBtn = document.getElementById('mobileSidebarBtn');
-  const sidebar = document.getElementById('sidebar');
-
-  if (mobileSidebarBtn && sidebar) {
-    mobileSidebarBtn.addEventListener('click', function () {
-      sidebar.classList.toggle('open');
-      this.textContent = sidebar.classList.contains('open') ? '✕' : '☰';
-
-      const headerItems = document.getElementById('headerItems');
-      const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-      if (sidebar.classList.contains('open') && headerItems && headerItems.classList.contains('open')) {
-        headerItems.classList.remove('open');
-        if (mobileMenuBtn) mobileMenuBtn.textContent = '☰';
-      }
-    });
-  }
-}
-
-// Highlight current page in sidebar
-function highlightCurrentPage() {
-  const currentPage = window.location.pathname.split('/').pop();
-  document.querySelectorAll('#sidebar .nav-link').forEach(link => {
-    const linkUrl = (link.getAttribute('href') || '').split('/').pop();
-    if (linkUrl === currentPage) link.classList.add('active');
-  });
-}
-
-// Load sidebar when DOM is ready
-document.addEventListener('DOMContentLoaded', loadSidebar);

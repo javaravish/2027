@@ -65,6 +65,7 @@ const components = {
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
     <!-- Header Section -->
     <header>
