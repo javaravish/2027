@@ -762,6 +762,7 @@ article {
 /* Responsive Styles */
 @media (max-width: 768px) {
     body {
+        font-family: var(--font-family) !important; /* Force your font family */
         grid-template-areas:
             "header header"
             "nav nav"
@@ -769,6 +770,18 @@ article {
             "footer footer";
         padding-top: 100px;
         overflow: auto; /* Allow body scrolling on mobile */
+        grid-template-rows: auto auto 1fr auto; /* Ensure proper row structure */
+        min-height: 100vh;
+        height: auto; /* Change from 100vh to auto */
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-family: var(--font-family-special) !important; /* Force special font */
+    }
+
+    /* Ensure code/monospace fonts are also overridden */
+    code, pre, .monospace {
+        font-family: var(--monospace-font-family) !important;
     }
 
     header {
@@ -840,17 +853,14 @@ article {
         top: 90px;
         left: -250px;
         width: 200px;
-        #height: calc(100vh - 100px);
         z-index: 997;
         transition: left 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         border-right: 1px solid var(--border-color);
         overflow-y: auto;
-        height: calc(100vh - 90px); /* Adjusted for mobile */
-    }
+        #height: calc(100vh - 90px - 60px) !important; /* Account for header, nav AND footer */
 
-    /* Ensure footer is visible on mobile when needed */
-    body.scrolled-to-bottom footer {
-        bottom: 0;
+        height: auto !important; /* Change from fixed height to auto */
+        max-height: calc(100vh - 90px) !important; /* But limit to viewport */
     }
 
     aside.open {
@@ -859,17 +869,25 @@ article {
 
     main {
         padding-top: 0;
-        height: auto;
-        min-height: calc(100vh - 100px - 40px);
-        overflow-y: visible;
         height: calc(100vh - 90px); /* Adjusted for mobile header height */
-        padding-bottom: 60px;
+        min-height: calc(100vh - 150px); /* Account for header, nav, and footer */
+        padding-bottom: 60px; /* Space for footer */
+        height: auto; /* Change from fixed height to auto */
+        overflow: visible; /* Allow content to flow naturally */
+        margin-bottom: 60px; /* Create space for footer */
+        overflow-y: auto;
     }
 
     footer {
-        position: relative;
+        position: relative; /* Change from fixed to relative */
+        bottom: auto; /* Remove fixed positioning */
         z-index: 998;
         height: 60px;
+        margin-top: auto; /* Push footer to bottom */
+    }
+
+    body.scrolled-to-bottom footer {
+        bottom: auto;
     }
 
     .mobile-sidebar-btn {

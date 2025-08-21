@@ -235,15 +235,23 @@ document.addEventListener('click', function (event) {
   }
 });
 
-// Add this to your existing JavaScript
 function checkScroll() {
-    const main = document.querySelector('main');
-    if (main.scrollHeight - main.scrollTop <= main.clientHeight + 5) {
-        document.body.classList.add('scrolled-to-bottom');
+    // Only apply scroll detection on desktop
+    if (window.innerWidth > 768) {
+        const main = document.querySelector('main');
+        if (main && main.scrollHeight - main.scrollTop <= main.clientHeight + 5) {
+            document.body.classList.add('scrolled-to-bottom');
+        } else {
+            document.body.classList.remove('scrolled-to-bottom');
+        }
     } else {
+        // Always show footer on mobile
         document.body.classList.remove('scrolled-to-bottom');
     }
 }
+
+// Add resize listener to handle screen size changes
+window.addEventListener('resize', checkScroll);
 
 // Initialize scroll detection
 document.addEventListener('DOMContentLoaded', function() {
