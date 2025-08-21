@@ -44,13 +44,14 @@ function rewriteRootLinks(scope = document) {
 const components = {
   header: `
     <!-- Head Section -->
-      <meta charset="UTF-8">
-          <meta name="author" content="RaviKalyan">
-      <meta name="viewport" content="width=device-width,initial-scale=1">
-      <link rel="shortcut icon" type="image/x-icon" href="js/images/tab_logo.png">
+    <meta charset="UTF-8">
+        <meta name="author" content="RaviKalyan">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="js/images/tab_logo.png">
 
-      <!-- Google Fonts -->
-      <link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap" rel="stylesheet">
+
     <!-- Header Section -->
     <header>
       <div class="logo-section logo-img-container">
@@ -232,6 +233,26 @@ document.addEventListener('click', function (event) {
       mobileSidebarBtn.textContent = '☰';
     }
   }
+});
+
+// Add this to your existing JavaScript
+function checkScroll() {
+    const main = document.querySelector('main');
+    if (main.scrollHeight - main.scrollTop <= main.clientHeight + 5) {
+        document.body.classList.add('scrolled-to-bottom');
+    } else {
+        document.body.classList.remove('scrolled-to-bottom');
+    }
+}
+
+// Initialize scroll detection
+document.addEventListener('DOMContentLoaded', function() {
+    const main = document.querySelector('main');
+    if (main) {
+        main.addEventListener('scroll', checkScroll);
+        // Check initial state
+        checkScroll();
+    }
 });
 
 // Load components when DOM is ready
