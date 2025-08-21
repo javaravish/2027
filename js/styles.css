@@ -27,7 +27,7 @@
 /* Root Variables */
 :root {
     --font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-	--font-family-special: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    --font-family-special: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
     --monospace-font-family: "SFMono-Regular", "Consolas", "Liberation Mono", "Menlo", monospace;
     --bg-color: #ffffff;
     --text-color: #333333;
