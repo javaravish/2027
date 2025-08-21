@@ -853,14 +853,12 @@ article {
         top: 90px;
         left: -250px;
         width: 200px;
+        #height: calc(100vh - 100px);
         z-index: 997;
         transition: left 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         border-right: 1px solid var(--border-color);
         overflow-y: auto;
-        #height: calc(100vh - 90px - 60px) !important; /* Account for header, nav AND footer */
-
-        height: auto !important; /* Change from fixed height to auto */
-        max-height: calc(100vh - 90px) !important; /* But limit to viewport */
+        height: calc(100vh - 90px); /* Adjusted for mobile */
     }
 
     aside.open {
@@ -874,8 +872,6 @@ article {
         padding-bottom: 60px; /* Space for footer */
         height: auto; /* Change from fixed height to auto */
         overflow: visible; /* Allow content to flow naturally */
-        margin-bottom: 60px; /* Create space for footer */
-        overflow-y: auto;
     }
 
     footer {
@@ -883,11 +879,6 @@ article {
         bottom: auto; /* Remove fixed positioning */
         z-index: 998;
         height: 60px;
-        margin-top: auto; /* Push footer to bottom */
-    }
-
-    body.scrolled-to-bottom footer {
-        bottom: auto;
     }
 
     .mobile-sidebar-btn {
