@@ -49,6 +49,9 @@ const components = {
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="js/images/tab_logo.png">
 
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap" rel="stylesheet">
+
     <!-- Header Section -->
     <header>
       <div class="logo-section logo-img-container">
