@@ -50,7 +50,6 @@ const components = {
     <link rel="shortcut icon" type="image/x-icon" href="js/images/tab_logo.png">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap" rel="stylesheet">
 
     <!-- Header Section -->
     <header>
