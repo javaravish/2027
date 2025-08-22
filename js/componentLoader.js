@@ -45,7 +45,7 @@ const components = {
   header: `
     <!-- Head Section -->
     <meta charset="UTF-8">
-        <meta name="author" content="RaviKalyan">
+    <meta name="author" content="RaviKalyan">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="js/images/tab_logo.png">
 
