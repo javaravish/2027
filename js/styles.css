@@ -27,8 +27,6 @@
 /* Root Variables */
 :root {
     --font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-	--font-family-special: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-    --monospace-font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
     --bg-color: #ffffff;
     --text-color: #000000;
     --border-color: #dddddd;
@@ -66,10 +64,10 @@
     padding: 0;
     box-sizing: border-box;
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    font-family: var(--font-family);
 }
 
 body {
-    font-family: var(--font-family);
     background-color: var(--bg-color);
     color: var(--text-color);
     display: grid;
@@ -709,22 +707,6 @@ article {
     filter: drop-shadow(0 4px 8px rgba(0, 68, 153, 0.3));
 }
 
-.brand-name {
-    font-family: 'Berkshire Swash', serif;
-    font-size: 20px;
-    font-weight: normal;
-    color: var(--text-color);
-    text-decoration: none;
-    text-align: center;
-    position: relative;
-    display: inline-block;
-    transition: all 0.3s ease;
-}
-
-.brand-name:hover {
-    animation: rubberBand 0.8s, textGlow 1s ease-in-out;
-}
-
 @keyframes rubberBand {
     0% { transform: scale(1); }
     30% { transform: scale(1.25, 0.75); }
@@ -765,7 +747,6 @@ article {
 /* Responsive Styles */
 @media (max-width: 768px) {
     body {
-        font-family: var(--font-family) !important; /* Force your font family */
         grid-template-areas:
             "header header"
             "nav nav"
@@ -779,12 +760,10 @@ article {
     }
 
     h1, h2, h3, h4, h5, h6 {
-        font-family: var(--font-family-special) !important; /* Force special font */
     }
 
     /* Ensure code/monospace fonts are also overridden */
     code, pre, .monospace {
-        font-family: var(--monospace-font-family) !important;
     }
 
     header {
