@@ -66,7 +66,6 @@
     padding: 0;
     box-sizing: border-box;
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
 }
 
 body {
@@ -262,7 +261,6 @@ nav {
     color: var(--link-color);
     text-decoration: none;
     transition: color 0.3s ease;
-    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
 }
 
 .breadcrumbs a:hover {
@@ -312,7 +310,6 @@ aside {
     position: relative;
     overflow: hidden;
     left: 7px;
-    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
 }
 
 /* Light theme shine effect (dark shine) */
@@ -560,7 +557,6 @@ p {
     margin-bottom: 0.75rem;
     line-height: 1.5;
     font-size: 1.1rem;
-    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
 }
 
 .content-section {
@@ -783,7 +779,7 @@ article {
     }
 
     h1, h2, h3, h4, h5, h6 {
-        font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+        font-family: var(--font-family-special) !important; /* Force special font */
     }
 
     /* Ensure code/monospace fonts are also overridden */
