@@ -932,7 +932,12 @@ article {
   background-color: var(--table_border-color);
 }
 
-
+/* Wrapper to handle scroll */
+.table-container {
+  width: 100%;            /* Always fit screen */
+  overflow-x: auto;       /* Horizontal scroll if too wide */
+  overflow-y: hidden;     /* Prevent vertical scroll here */
+}
 
 
 /* General code block style */
