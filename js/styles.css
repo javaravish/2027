@@ -20,7 +20,7 @@
 
 /* For Firefox */
 * {
-    scrollbar-width: thin;
+    #scrollbar-width: thin;
     #scrollbar-color: #888 var(--sidebar-bg);
 }
 
@@ -28,9 +28,9 @@
 :root {
     --font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
 	--font-family-special: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-    --monospace-font-family: "SFMono-Regular", "Consolas", "Liberation Mono", "Menlo", monospace;
+    --monospace-font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
     --bg-color: #ffffff;
-    --text-color: #333333;
+    --text-color: #000000;
     --border-color: #dddddd;
     --header-bg: #ffffff;
     --sidebar-bg: #ffffff;
@@ -46,7 +46,7 @@
 
 .dark-mode {
     --bg-color: #1b1f23;
-    --text-color: #e0e0e0;
+    --text-color: #fff;
     --border-color: #333333;
     --header-bg: #1b1f23;
     --sidebar-bg: #1b1f23;
