@@ -904,12 +904,22 @@ article {
 }
 
 /* Table styles */
+/* Wrapper to handle scroll */
+.table-container {
+  width: 100%;
+  overflow-x: auto;   /* Enable horizontal scroll */
+  overflow-y: hidden; /* Prevent vertical scroll here */
+}
+
 .basic-table {
   border-collapse: collapse; /* Ensure borders look clean */
   float: left; /* Push table to left side */
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
   float: left;      /* stick to left side */
-    margin-left: 0;
+  margin-left: 0;
+  margin: 0;
+  min-width: 600px;       /* Ensures headers don’t shrink too much */
+  width: max-content;     /* Expands only as wide as needed */
 }
 
 .basic-table thead tr {
@@ -921,6 +931,7 @@ article {
 .basic-table td {
   padding: 8px 8px;
   border: 2px solid var(--link-color);
+  white-space: nowrap; /* Prevent wrapping of headers/data */
 }
 
 .basic-table tbody tr:hover {
@@ -937,6 +948,8 @@ article {
 
 /* General code block style */
 .code-block {
+  width: 100%;               /* Full width */
+  max-width: 100%;
   background-color: var(--code_bg);  /* Dark background */
   color: var(--bg-color);           /* Default text */
   padding: 15px;
@@ -959,6 +972,8 @@ article {
 
 /* General Java code block */
 .java-code {
+  width: 100%;               /* Full width */
+  max-width: 100%;
   background-color: var(--code_bg);
   color: var(--bg-color);
   padding: 15px;
