@@ -658,6 +658,7 @@ article {
     box-shadow: var(--box-shadow);
     width: 165px;
     height: 165px;
+    text-decoration: none;
 }
 
 .row {
