@@ -21,7 +21,7 @@
 /* For Firefox */
 * {
     scrollbar-width: thin;
-    scrollbar-color: #888 var(--sidebar-bg);
+    #scrollbar-color: #888 var(--sidebar-bg);
 }
 
 /* Root Variables */
@@ -32,9 +32,9 @@
     --bg-color: #ffffff;
     --text-color: #333333;
     --border-color: #dddddd;
-    --header-bg: #f8f9fa;
-    --sidebar-bg: #f1f1f1;
-    --nav-bg: #e9ecef;
+    --header-bg: #ffffff;
+    --sidebar-bg: #ffffff;
+    --nav-bg: #ffffff;
     --footer-bg: #ffffff;
     --link-color: #333333;
     --hover-color: #1fb114;
@@ -541,6 +541,8 @@ h2 {
 
 h3 {
     font-size: 1.25rem;
+    margin-top: 25px;
+    margin-bottom: 5px;
 }
 
 h4 {

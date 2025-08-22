@@ -88,6 +88,8 @@ const sidebars = {
         <li class="nav-item"><a class="nav-link" data-href="/interview/java/java-collections.html" href="#">Collections interview questions</a></li>
         <li class="nav-item"><a class="nav-link" data-href="/java/javaprograms.html" href="#">Java programs</a></li>
         <li class="nav-item"><a class="nav-link" data-href="/java/random.html" href="#">Java Miscellaneous</a></li>
+        <br>
+        <br>
       </ul>
     </aside>
   `,
