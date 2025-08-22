@@ -127,5 +127,15 @@ const sidebars = {
         <li class="nav-item"><a class="nav-link" data-href="/interview/ms/questions.html" href="#">Microservices Questions</a></li>
       </ul>
     </aside>
-  `
+  `,
+
+  kafka: `
+      <!-- Interview Sidebar -->
+      <aside id="sidebar">
+        <ul class="menu">
+          <h4>Kafka Tutorial</h4>
+          <li class="nav-item"><a class="nav-link" data-href="/kafka.html" href="#">Kafka</a></li>
+        </ul>
+      </aside>
+    `
 };

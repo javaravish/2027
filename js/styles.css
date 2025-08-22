@@ -40,6 +40,9 @@
     --toggle-knob: #ffffff;
     --box-shadow-current: #333333;
     --box-shadow: 2px 2px 5px 2px rgba(36, 38, 47, .1), 0px 4px 6px 0px rgba(0, 0, 0, .06);
+    --table_border-color: #f8f9fa;
+    --table_hr_border-color: #e3f2fd;
+    --code_bg: #1e1e1e;
 }
 
 .dark-mode {
@@ -56,6 +59,9 @@
     --toggle-knob: #121212;
     --box-shadow-current: #ffffff;
     --box-shadow: 2px 2px 9px 2px rgba(255, 255, 255, 0.4), 0px 4px 6px 0px rgba(0, 0, 0, .06);
+    --table_border-color: #38444d;
+    --table_hr_border-color: #e0e0e0;
+    --code_bg: #ffffff;
 }
 
 /* Base Styles */
@@ -664,7 +670,7 @@ article {
 .row {
     display: flex;
     flex-wrap: wrap;          /* allows boxes to wrap to next line */
-    justify-content: center;  /* centers boxes horizontally */
+    justify-content: left;  /* centers boxes horizontally */
     gap: 10px;                 /* space between boxes */
 }
 
@@ -896,3 +902,81 @@ article {
         width: 6px;
     }
 }
+
+/* Table styles */
+.basic-table {
+  border-collapse: collapse; /* Ensure borders look clean */
+  float: left; /* Push table to left side */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  float: left;      /* stick to left side */
+    margin-left: 0;
+}
+
+.basic-table thead tr {
+  background-color: #009879;
+  text-align: left;
+}
+
+.basic-table th,
+.basic-table td {
+  padding: 8px 8px;
+  border: 2px solid var(--link-color);
+}
+
+.basic-table tbody tr:hover {
+  background-color: var(--table_hr_border-color);
+  cursor: pointer;
+}
+
+.basic-table tbody tr:nth-of-type(even) {
+  background-color: var(--table_border-color);
+}
+
+
+
+
+/* General code block style */
+.code-block {
+  background-color: var(--code_bg);  /* Dark background */
+  color: var(--bg-color);           /* Default text */
+  padding: 15px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: "Fira Code", monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 20px 0;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+/* Syntax Colors */
+.code-block .tag       { color: #569cd6; } /* XML tags */
+.code-block .attr      { color: #9cdcfe; } /* Attributes */
+.code-block .value     { color: #e3116c; } /* Attribute values, strings */
+.code-block .key       { color: #4ec9b0; } /* Keys (YAML/Properties) */
+.code-block .number    { color: #c18401; } /* Numbers */
+.code-block .comment   { color: #6a9955; font-style: italic; } /* Comments */
+
+/* General Java code block */
+.java-code {
+  background-color: var(--code_bg);
+  color: var(--bg-color);
+  padding: 15px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: "Fira Code", monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 20px 0;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+/* Syntax Colors */
+.java-code .keyword   { color: #569cd6; font-weight: bold; }   /* public, class, void */
+.java-code .class     { color: #4ec9b0; font-weight: bold; }   /* Class names */
+.java-code .method    { color: #f14f00; }                      /* Method names */
+.java-code .string    { color: #50a14f; }                      /* String literals */
+.java-code .number    { color: #b5cea8; }                      /* Numbers */
+.java-code .comment   { color: #ce9178; font-style: italic; }  /* Comments */
+.java-code .annotation{ color: #c586c0; }                      /* @Annotation */
+.java-code .var       { color: #9cdcfe; }                      /* Variables */
