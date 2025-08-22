@@ -764,11 +764,8 @@ article {
 
 /* Responsive Styles */
 @media (max-width: 768px) {
-    * {
-        font-family: var(--font-family) !important;
-    }
     body {
-        font-family: var(--font-family) !important;
+        font-family: var(--font-family) !important; /* Force your font family */
         grid-template-areas:
             "header header"
             "nav nav"
@@ -782,12 +779,12 @@ article {
     }
 
     h1, h2, h3, h4, h5, h6 {
-        font-family: var(--font-family) !important;
+        font-family: var(--font-family-special) !important; /* Force special font */
     }
 
     /* Ensure code/monospace fonts are also overridden */
     code, pre, .monospace {
-        font-family: var(--font-family) !important;
+        font-family: var(--monospace-font-family) !important;
     }
 
     header {
@@ -797,7 +794,6 @@ article {
         right: 0;
         z-index: 1000;
         height: 60px;
-        font-family: var(--font-family) !important;
     }
 
     nav {
@@ -807,7 +803,6 @@ article {
         right: 0;
         z-index: 999;
         height: 30px;
-        font-family: var(--font-family) !important;
     }
 
     .header-items {
@@ -823,7 +818,6 @@ article {
         transition: transform 0.6s;
         z-index: 999;
         padding: 1rem 0;
-        font-family: var(--font-family) !important;
     }
 
     .header-items.open {
@@ -840,7 +834,6 @@ article {
         border-bottom: 1px solid var(--border-color);
         transition: all 0.3s ease;
         background-color: var(--header-bg);
-        font-family: var(--font-family) !important;
     }
 
     .header-items a:hover {
@@ -869,7 +862,6 @@ article {
         border-right: 1px solid var(--border-color);
         overflow-y: auto;
         height: calc(100vh - 90px); /* Adjusted for mobile */
-        font-family: var(--font-family) !important;
     }
 
     aside.open {
@@ -883,7 +875,6 @@ article {
         padding-bottom: 60px; /* Space for footer */
         height: auto; /* Change from fixed height to auto */
         overflow: visible; /* Allow content to flow naturally */
-        font-family: var(--font-family) !important;
     }
 
     footer {
@@ -891,7 +882,6 @@ article {
         bottom: auto; /* Remove fixed positioning */
         z-index: 998;
         height: 60px;
-        font-family: var(--font-family) !important;
     }
 
     .mobile-sidebar-btn {
