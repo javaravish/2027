@@ -670,7 +670,7 @@ article {
 .row {
     display: flex;
     flex-wrap: wrap;          /* allows boxes to wrap to next line */
-    justify-content: left;  /* centers boxes horizontally */
+    justify-content: center;  /* centers boxes horizontally */
     gap: 10px;                 /* space between boxes */
 }
 
