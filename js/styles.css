@@ -989,4 +989,4 @@ article {
 .java-code .number    { color: #b5cea8; }                      /* Numbers */
 .java-code .comment   { color: #ce9178; font-style: italic; }  /* Comments */
 .java-code .annotation{ color: #c586c0; }                      /* @Annotation */
-.java-code .var       { color: #9cdcfe; }                      /* Variables */
+.java-code .var       { color: #e3116c; }                      /* Variables */
