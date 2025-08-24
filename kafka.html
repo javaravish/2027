@@ -19,128 +19,134 @@
 
 <!-- Main Content Section -->
 <main id="content">
-    <h2>1. Introduction to Apache Kafka</h2>
+    <h3>1. Introduction to Apache Kafka</h3>
+
     <p>Apache Kafka is an <strong>open-source, distributed event streaming platform</strong> designed for
-        high-performance data pipelines, streaming analytics, data integrations, and mission-critical
-        applications.
-        It's optimized for ingesting and processing streaming data in real-time.</p>
-    <p><strong>Event streaming</strong> is defined as "the practice of capturing the data in real time from
-        event
-        sources like databases, sensors, mobile devices, cloud services, and software applications in in the
-        form of
+        high-performance data pipelines, streaming analytics, data integrations, and mission-critical applications. It's
+        optimized for ingesting and processing streaming data in real-time.</p>
+
+    <p><strong>Event streaming</strong> is defined as "the practice of capturing the data in real time from event
+        sources like databases, sensors, mobile devices, cloud services, and software applications in in the form of
         streams of events."</p>
 
-    <h2>2. Key Features and Advantages of Kafka</h2>
+    <h3>2. Key Features and Advantages of Kafka</h3>
+
     <p>Kafka boasts several powerful features that make it a robust solution for real-time data processing:</p>
+
     <ol>
-        <li><strong>High Scalability</strong>: Kafka is designed for <strong>horizontal scalability</strong>,
-            allowing it to handle massive amounts of data by adding more hardware or nodes to a cluster without
-            downtime.
+        <li><strong>High Scalability</strong>: Kafka is designed for <strong>horizontal scalability</strong>, allowing
+            it to handle massive amounts of data by adding more hardware or nodes to a cluster without downtime.
         </li>
-        <li><strong>High Throughput & Low Latency</strong>: <strong>Throughput</strong> is "a measure of how
-            many
-            units of information a system can process in a given amount of time." Kafka can handle "millions of
-            messages per second."
+
+        <li><strong>High Throughput & Low Latency</strong>: <strong>Throughput</strong> is "a measure of how many units
+            of information a system can process in a given amount of time." Kafka can handle "millions of messages per
+            second."
         </li>
-        <li><strong>Latency</strong> is "the delay in the network communication." Kafka achieves low latency (as
-            low
-            as 2 milliseconds max) by storing data in memory, enabling quick read and write operations.
+
+        <li><strong>Latency</strong> is "the delay in the network communication." Kafka achieves low latency (as low as
+            2 milliseconds max) by storing data in memory, enabling quick read and write operations.
         </li>
-        <li><strong>Distributed Systems</strong>: Kafka's distributed architecture ensures <strong>fault
-            tolerance
-            and reliability</strong>. Data is distributed across multiple nodes, reducing the risk of data loss.
+
+        <li><strong>Distributed Systems</strong>: Kafka's distributed architecture ensures <strong>fault tolerance and
+            reliability</strong>. Data is distributed across multiple nodes, reducing the risk of data loss.
         </li>
-        <li><strong>Publish-Subscribe Messaging System</strong>: Kafka operates as a pub-sub system where
-            "producer
-            can publish the messages or data to the topics and consumer subscribes to those topics to receive
-            the
-            data."
+
+        <li><strong>Publish-Subscribe Messaging System</strong>: Kafka operates as a pub-sub system where "producer can
+            publish the messages or data to the topics and consumer subscribes to those topics to receive the data."
         </li>
-        <li><strong>Retention and Durability</strong>: Kafka offers <strong>configurable retention
-            periods</strong>
-            for messages, ensuring data durability over time. Data can be stored for a specified duration or
-            size,
-            allowing for data replay or reprocessing.
+
+        <li><strong>Retention and Durability</strong>: Kafka offers <strong>configurable retention periods</strong> for
+            messages, ensuring data durability over time. Data can be stored for a specified duration or size, allowing
+            for data replay or reprocessing.
         </li>
-        <li><strong>Support for Stream Processing</strong>: Kafka provides a streaming platform for building
-            real-time data pipelines and applications, with the Kafka Streams API enabling processing within its
-            ecosystem.
+
+        <li><strong>Support for Stream Processing</strong>: Kafka provides a streaming platform for building real-time
+            data pipelines and applications, with the Kafka Streams API enabling processing within its ecosystem.
         </li>
-        <li><strong>Connectivity and Integrations</strong>: Kafka supports connectors for seamless integration
-            with
+
+        <li><strong>Connectivity and Integrations</strong>: Kafka supports connectors for seamless integration with
             various data sources and sinks, facilitating data transfer between systems.
         </li>
     </ol>
 
-    <h2>3. Kafka Use Cases</h2>
+    <h3>3. Kafka Use Cases</h3>
+
     <p>Kafka is widely used across various industries for:</p>
+
     <ol>
-        <li><strong>Financial Transactions</strong>: Processing payments and financial transactions in real-time
-            (e.g., stock exchanges, banks, insurance).
+        <li><strong>Financial Transactions</strong>: Processing payments and financial transactions in real-time (e.g.,
+            stock exchanges, banks, insurance).
         </li>
+
         <li><strong>Logistics & Automotive</strong>: Tracking and monitoring parts, shipments, and vehicles in
             real-time.
         </li>
-        <li><strong>IoT Data</strong>: Continuously capturing and analyzing sensor data from IoT devices and
-            other
+
+        <li><strong>IoT Data</strong>: Continuously capturing and analyzing sensor data from IoT devices and other
             equipment (e.g., factories, wind parks).
         </li>
-        <li><strong>E-commerce & Retail</strong>: Collecting and reacting to customer interactions in real-time
-            (e.g., e-commerce, order processing, hotel/travel).
+
+        <li><strong>E-commerce & Retail</strong>: Collecting and reacting to customer interactions in real-time (e.g.,
+            e-commerce, order processing, hotel/travel).
         </li>
-        <li><strong>Healthcare</strong>: Monitoring patients and predicting condition changes for timely
-            treatment
-            in emergencies.
+
+        <li><strong>Healthcare</strong>: Monitoring patients and predicting condition changes for timely treatment in
+            emergencies.
         </li>
-        <li><strong>Data Integration</strong>: Connecting, storing, and making data available across different
-            company divisions.
+
+        <li><strong>Data Integration</strong>: Connecting, storing, and making data available across different company
+            divisions.
         </li>
-        <li><strong>Architectural Foundations</strong>: Serving as the foundation for data platforms,
-            event-driven
+
+        <li><strong>Architectural Foundations</strong>: Serving as the foundation for data platforms, event-driven
             architectures, and microservices.
         </li>
     </ol>
 
-    <h2>4. Kafka Key Components</h2>
+    <h3>4. Kafka Key Components</h3>
+
     <p>Understanding these core concepts is crucial for working with Kafka:</p>
+
     <ol>
-        <li><strong>Kafka Clusters</strong>: A set of Kafka brokers working together. One broker acts as a
-            controller to manage cluster metadata.
+        <li><strong>Kafka Clusters</strong>: A set of Kafka brokers working together. One broker acts as a controller to
+            manage cluster metadata.
         </li>
-        <li><strong>Brokers</strong>: A Kafka server that stores data and serves clients. A Kafka cluster
-            consists
-            of multiple brokers for load balancing. Brokers are stateless and use replication for fault
-            tolerance
-            and data durability.
+
+        <li><strong>Brokers</strong>: A Kafka server that stores data and serves clients. A Kafka cluster consists of
+            multiple brokers for load balancing. Brokers are stateless and use replication for fault tolerance and data
+            durability.
         </li>
-        <li><strong>Topics</strong>: A logical channel to which messages are sent and from which messages are
-            consumed. It can have multiple partitions.
+
+        <li><strong>Topics</strong>: A logical channel to which messages are sent and from which messages are consumed.
+            It can have multiple partitions.
         </li>
+
         <li><strong>Partitions</strong>: "Each topic is divided into one or more partitions, the basic unit of
-            parallelism and distribution in the cough." Messages within a partition are ordered and assigned an
-            offset for tracking.
+            parallelism and distribution in the cough." Messages within a partition are ordered and assigned an offset
+            for tracking.
         </li>
-        <li><strong>Partitions Offset</strong>: "A unique ID for each message in a partition. Consumers use
-            offsets
-            to track read progress." Offsets are crucial for consumers to track their position, know which
-            messages
-            they've consumed, and resume consumption from the last committed offset if they crash or restart.
+
+        <li><strong>Partitions Offset</strong>: "A unique ID for each message in a partition. Consumers use offsets to
+            track read progress." Offsets are crucial for consumers to track their position, know which messages they've
+            consumed, and resume consumption from the last committed offset if they crash or restart.
         </li>
     </ol>
+
     <p>An offset is a unique identifier for a message within a partition.</p>
+
     <p>Kafka stores messages in partitions in a sequential log.</p>
+
     <p>Each message in a partition has an increasing offset like 0, 1, 2, 3, ....</p>
+
     <p>Consumers track offsets to know what message to read next.</p>
 
     <pre class="java-code">
 <code>
-<span class="comment"> // Example of offset configuration</span>
- props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 </code>
 </pre>
 
     <div class="table-container">
-        <br>
         <table class="basic-table">
             <thead>
             <tr>
@@ -167,111 +173,171 @@
 
     <pre class="code-block">
 <code>
-<span class="key">  spring:</span>
-  <span class="key">    kafka:</span>
-    <span class="key">  consumer:</span>
-      <span class="key">    group-id:</span> <span class="value">payment-group</span>
-      <span class="key">    auto-offset-reset:</span> <span class="value">earliest</span> <span
-        class="comment">    # or latest</span>
+<span class="key">spring:</span>
+  <span class="key">kafka:</span>
+    <span class="key">consumer:</span>
+      <span class="key">group-id:</span> <span class="value">payment-group</span>
+      <span class="key">auto-offset-reset:</span> <span class="value">earliest</span> <span
+        class="comment"># or latest</span>
 </code>
 </pre>
 
     <ol start="6">
-        <li><strong>Producers</strong>: A client that publishes (writes) data (messages/events) to one or more
-            Kafka
-            topics. Producers decide which partition to write to. Producers send messages asynchronously and
-            serialize data into a byte format.
+        <li><strong>Producers</strong>: A client that publishes (writes) data (messages/events) to one or more Kafka
+            topics. Producers decide which partition to write to. Producers send messages asynchronously and serialize
+            data into a byte format.
         </li>
-        <li><strong>Consumers</strong>: A client that subscribes (reads) messages from one or more Kafka topics.
-            Can
-            be part of a consumer group for load balancing.
+
+        <li><strong>Consumers</strong>: A client that subscribes (reads) messages from one or more Kafka topics. Can be
+            part of a consumer group for load balancing.
         </li>
     </ol>
-    <p>Consumers always read data from lower to higher offsets.</p>
-    <p>If a consumer reads from multiple partitions, message order is not guaranteed across partitions.</p>
-    <p>Consumers deserialize data from byte format into usable data structures.</p>
-    <p>Consumers are assigned to specific partitions for parallel processing and scalability.</p>
-    <p>Consumers acknowledge message receipt and commit offsets to ensure reliable, at-least-once message
-        delivery.</p>
 
-    <h2>8. Acknowledgement Settings (acks)</h2>
+    <p>Consumers always read data from lower to higher offsets.</p>
+
+    <p>If a consumer reads from multiple partitions, message order is not guaranteed across partitions.</p>
+
+    <p>Consumers deserialize data from byte format into usable data structures.</p>
+
+    <p>Consumers are assigned to specific partitions for parallel processing and scalability.</p>
+
+    <p>Consumers acknowledge message receipt and commit offsets to ensure reliable, at-least-once message delivery.</p>
+
+    <h3>8. Acknowledgement Settings (acks)</h3>
+
     <p>Producers can configure acks to control message delivery durability and reliability:</p>
+
     <p><strong>acks=0:</strong> Producer sends data without waiting for acknowledgement. Possible data loss.</p>
-    <p><strong>acks=1</strong> (Default in Kafka 2.0+): Leader broker acknowledges receipt. Limited data loss
-        possible if leader fails before replicas synchronize.</p>
+
+    <p><strong>acks=1</strong> (Default in Kafka 2.0+): Leader broker acknowledges receipt. Limited data loss possible
+        if leader fails before replicas synchronize.</p>
+
     <p><strong>acks=all:</strong> Leader waits for all in-sync replicas to acknowledge before responding to the
         producer. No data loss.</p>
 
-    <h2>9. Message Keys</h2>
-    <p>Messages can have an optional key. If the key is null, messages are distributed evenly across partitions
-        in a
-        round-robin fashion. If a key is provided, messages with the same key are always sent to and stored in
-        the
-        same Kafka partition, ensuring order.</p>
+    <h3>9. Message Keys</h3>
 
-    <h2>10. Consumer Group</h2>
-    <p>"Consumers are organized into consumer groups...where each group read from a topic." A consumer group can
-        contain multiple consumers, processing subsets of messages, which facilitates scalability and load
-        distribution.</p>
-    <p><strong>Consumer Behavior with Partitions: Single Consumer, Multiple Partitions:</strong> A single
-        consumer
-        in a group will consume all partitions of a topic.</p>
+    <p>Messages can have an optional key. If the key is null, messages are distributed evenly across partitions in a
+        round-robin fashion. If a key is provided, messages with the same key are always sent to and stored in the same
+        Kafka partition, ensuring order.</p>
+
+    <h3>10. Consumer Group</h3>
+
+    <p>"Consumers are organized into consumer groups...where each group read from a topic." A consumer group can contain
+        multiple consumers, processing subsets of messages, which facilitates scalability and load distribution.</p>
+
+    <p><strong>Consumer Behavior with Partitions: Single Consumer, Multiple Partitions:</strong> A single consumer in a
+        group will consume all partitions of a topic.</p>
+
     <p><strong>Multiple Consumers, Multiple Partitions (Consumers <= Partitions):</strong> Kafka auto-balances,
-        assigning partitions to consumers for load distribution. Each partition is consumed by only one consumer
-        within a group at a time.</p>
+        assigning partitions to consumers for load distribution. Each partition is consumed by only one consumer within
+        a group at a time.</p>
+
     <p><strong>Multiple Consumers, Multiple Partitions (Consumers > Partitions):</strong> All partitions will be
         consumed, and any excess consumers will sit idle.</p>
+
     <p><strong>Multiple Consumer Groups:</strong> Each consumer group independently consumes from the topic's
         partitions.</p>
 
     <img src="js/images/kafka/consumer_grp.png" class="responsive-img">
+    <h3>11. Leader/Follower Replications</h3>
 
-    <h2>11. Leader/Follower Replications</h2>
-    <p>Each partition has one leader and multiple followers. Leaders handle all read and write requests for
-        their
-        partition, and followers replicate the leader's data. If a leader fails, a follower becomes the new
-        leader.
+    <p>Each partition has one leader and multiple followers. Leaders handle all read and write requests for their
+        partition, and followers replicate the leader's data. If a leader fails, a follower becomes the new leader.
         leaders perform all reads and writes to a particular topic partition. followers replicate leaders.</p>
-
     <img src="js/images/kafka/replica.png" class="responsive-img">
+    <h3>5. Zookeeper and Kafka (Legacy vs. Current)</h3>
 
-    <h2>5. Zookeeper and Kafka (Legacy vs. Current)</h2>
     <ul>
-        <li><strong>Zookeeper (Legacy):</strong> Traditionally, Zookeeper acted as a distributed coordination
-            service in Kafka, managing and coordinating Kafka brokers. It notified producers and consumers about
-            new
-            or failed brokers, facilitating tasks like metadata management, leader election, consumer group
-            coordination, and configuration management. Kafka would get offset values from Zookeeper.
+        <li><strong>Zookeeper (Legacy):</strong> Traditionally, Zookeeper acted as a distributed coordination service in
+            Kafka, managing and coordinating Kafka brokers. It notified producers and consumers about new or failed
+            brokers, facilitating tasks like metadata management, leader election, consumer group coordination, and
+            configuration management. Kafka would get offset values from Zookeeper.
         </li>
-        <li><strong>Newer Versions (Kafka 3.3+):</strong> "Apache Kafka 3.3 replaces Zookeeper with the new care
-            of
-            consensus protocol," specifically <strong>Kaft (Kafka Raft metadata mode)</strong>. In this model,
-            "each
-            broker will have a Quorum controller," which handles the reading and writing of events to a
-            dedicated
+
+        <li><strong>Newer Versions (Kafka 3.3+):</strong> "Apache Kafka 3.3 replaces Zookeeper with the new care of
+            consensus protocol," specifically <strong>Kaft (Kafka Raft metadata mode)</strong>. In this model, "each
+            broker will have a Quorum controller," which handles the reading and writing of events to a dedicated
             metadata topic within the Kafka cluster itself, eliminating the Zookeeper dependency.
         </li>
     </ul>
-    <img src="js/images/kafka/arc.png" class="responsive-img">
 
-    <h2>6. Spring Boot Kafka Integration</h2>
-    <p>The tutorial demonstrates how to integrate Apache Kafka with Spring Boot, focusing on setting up
-        producers
-        and consumers.</p>
+    <h3>Kafka Architecture</h3>
+    <img src="js/images/kafka/arc.png" class="responsive-img">
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Producer 1</th>
+                <th>Broker 1</th>
+                <th>Broker 2</th>
+                <th>Broker 3</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td></td>
+                <td>Topic 1</td>
+                <td>Topic 1</td>
+                <td>Topic 1</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Topic 2</td>
+                <td>Topic 2</td>
+                <td>Topic 2</td>
+            </tr>
+            <tr>
+                <td>Producer 2</td>
+                <td>Partition 0</td>
+                <td>Partition 0</td>
+                <td>Partition 0</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Leader</td>
+                <td>Replica 1</td>
+                <td>Replica 2</td>
+            </tr>
+            <tr>
+                <td>Producer 3</td>
+                <td>Partition 1</td>
+                <td>Partition 1</td>
+                <td>Partition 1</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>0.1 2.3 4.5</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Producer 4</td>
+                <td>Partition 2</td>
+                <td>Partition 2</td>
+                <td>Partition 2</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <hr>
+    <h3>6. Spring Boot Kafka Integration</h3>
+
+    <p>The tutorial demonstrates how to integrate Apache Kafka with Spring Boot, focusing on setting up producers and
+        consumers.</p>
 
     <p>Prerequisites: Kafka needs to be installed and running (version 3.6.1 used, supporting Kaft).</p>
 
     <h3>6.1 Running Kafka with Kraft</h3>
+
     <p>Generate Cluster UUID: kafka-storage.sh random-uuid (generates a unique identifier for the cluster).</p>
-    <p>Format Log Directories: kafka-storage.sh format -t
-        <UUID> -c
-            <path_to_server.properties>
-    </p>
-    <p>Start Kafka Server: kafka-server-start.sh
-        <path_to_server.properties>
-    </p>
+
+    <p>Format Log Directories: kafka-storage.sh format -t &lt;UUID&gt; -c &lt;path_to_server.properties&gt;</p>
+
+    <p>Start Kafka Server: kafka-server-start.sh &lt;path_to_server.properties&gt;</p>
 
     <h3>6.2 Producer Configuration and Service</h3>
+
     <p>Dependencies: Spring Web and Kafka dependencies are required.</p>
 
     <pre class="code-block">
@@ -284,17 +350,18 @@
 </pre>
 
     <p>ProducerConfiguration Class: Defines three beans:</p>
+
     <ol>
-        <li>ProducerFactory: An interface used to create Kafka producer instances, enabling consistent
-            configuration
+        <li>ProducerFactory: An interface used to create Kafka producer instances, enabling consistent configuration
             across Spring Boot applications. It's configured with bootstrap.servers, key.serializer, and
             value.serializer.
         </li>
-        <li>KafkaTemplate: Simplifies Kafka producer usage by providing a higher-level abstraction for common
-            operations like sending messages (synchronously and asynchronously).
+
+        <li>KafkaTemplate: Simplifies Kafka producer usage by providing a higher-level abstraction for common operations
+            like sending messages (synchronously and asynchronously).
         </li>
-        <li>NewTopic: Creates a Kafka topic with specified name, number of partitions, and replication factor.
-        </li>
+
+        <li>NewTopic: Creates a Kafka topic with specified name, number of partitions, and replication factor.</li>
     </ol>
 
     <pre class="java-code">
@@ -305,31 +372,36 @@
     <span class="annotation">@Bean</span>
     <span class="keyword">public</span> <span class="class">ProducerFactory</span>&lt;<span class="class">String</span>,<span
         class="class">String</span>&gt; <span class="method">producerFactory</span>(){
-    <span class="class">Map</span>&lt;<span class="class">String</span>,<span class="class">Object</span>&gt; configMaps= <span
-        class="keyword">new</span> <span class="class">HashMap</span>&lt;&gt;();
-    configMaps.put(ProducerConfig.BOOTSTRAP_SERVERS_COMFIG,<span class="string">"localhost:9092"</span>);
-    configMaps.put(ProducerConfig.KEY_SERIALIZER_CLASS_COMFIG, StringSerializer.class);
-    configMaps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_COMFIG, StringSerializer.class);
-    <span class="keyword">return</span> <span class="keyword">new</span> DefaultKafkaProducerFactory&lt;&gt;(configMaps);
+    <span class="class">Map</span>&lt;<span class="class">String</span>,<span class="class">Object</span>&gt; <span
+        class="var">configMaps</span>= <span class="keyword">new</span> <span class="class">HashMap</span>&lt;&gt;();
+    <span class="var">configMaps</span>.put(<span class="class">ProducerConfig</span>.BOOTSTRAP_SERVERS_COMFIG,<span
+        class="string">"localhost:9092"</span>);
+    <span class="var">configMaps</span>.put(<span class="class">ProducerConfig</span>.KEY_SERIALIZER_CLASS_COMFIG, <span
+        class="class">StringSerializer</span>.class);
+    <span class="var">configMaps</span>.put(<span
+        class="class">ProducerConfig</span>.VALUE_SERIALIZER_CLASS_COMFIG, <span class="class">StringSerializer</span>.class);
+    <span class="keyword">return</span> <span class="keyword">new</span> <span
+        class="class">DefaultKafkaProducerFactory</span>&lt;&gt;(<span class="var">configMaps</span>);
     }
     <span class="comment">//KafkaTemplate</span>
     <span class="annotation">@Bean</span>
     <span class="keyword">public</span> <span class="class">KafkaTemplate</span>&lt;<span
         class="class">String</span>,<span class="class">String</span>&gt; <span class="method">kafkaTemplate</span>(){
-    <span class="keyword">return</span> <span class="keyword">new</span> KafkaTemplate&lt;&gt;(producerFactory());
+    <span class="keyword">return</span> <span class="keyword">new</span> <span class="class">KafkaTemplate</span>&lt;&gt;(<span
+        class="method">producerFactory</span>());
     }
     <span class="comment">//NewTopic</span>
     <span class="annotation">@Bean</span>
     <span class="keyword">public</span> <span class="class">NewTopic</span> <span class="method">paymentTopic</span>(){
-    <span class="keyword">return</span> <span class="keyword">new</span> NewTopic(<span
-        class="string">"payment-topic"</span>,3,(<span class="keyword">short</span>) 1);
+    <span class="keyword">return</span> <span class="keyword">new</span> <span class="class">NewTopic</span>(<span
+        class="string">"payment-topic"</span>,<span class="number">3</span>,(<span class="keyword">short</span>) <span
+        class="number">1</span>);
     }
 }
 </code>
 </pre>
 
     <div class="table-container">
-        <br>
         <table class="basic-table">
             <thead>
             <tr>
@@ -339,13 +411,12 @@
             </thead>
             <tbody>
             <tr>
-                <td>"payment-topic"</td>
-                <td>Name of the topic being created. In this case, the topic is called "payment-topic".</td>
+                <th>"payment-topic"</th>
+                <th>Name of the topic being created. In this case, the topic is called "payment-topic".</th>
             </tr>
             <tr>
                 <td>3</td>
-                <td>Number of partitions for the topic. This means the topic will be split into 3 partitions.
-                    Each
+                <td>Number of partitions for the topic. This means the topic will be split into 3 partitions. Each
                     partition can handle part of the data for parallelism and scalability.
                 </td>
             </tr>
@@ -360,6 +431,7 @@
     </div>
 
     <p><strong>ProducerService Class:</strong> Autodires KafkaTemplate.</p>
+
     <p>Includes methods to generate random payment transactions.</p>
 
     <pre class="java-code">
@@ -369,110 +441,122 @@
 <span class="keyword">public class</span> <span class="class">ProducerService</span> {
     <span class="annotation">@Autowired</span>
     <span class="keyword">private</span> <span class="class">KafkaTemplate</span>&lt;<span
-        class="class">String</span>,<span class="class">String</span>&gt; KafkaTemplate;
+        class="class">String</span>,<span class="class">String</span>&gt; <span class="var">KafkaTemplate</span>;
     <span class="comment">//generateRandomTransaction</span>
     <span class="keyword">public</span> <span class="class">String</span> <span
         class="method">generateRandomTransaction</span>(){
-        <span class="class">String</span> vendors[]={<span class="string">"Amazon"</span>,<span
-        class="string">"Paypal"</span>,<span class="string">"Visa"</span>,<span class="string">"mastercard"</span>);
-        <span class="class">String</span> vendors[ThreadLocalRandom.current().nextInt(vendors.length)];
-        <span class="keyword">double</span> amount = ThreadLocalRandom.current().nextDouble(0.10,1000.0);
-        <span class="keyword">return</span> <span class="string">"Vendor: "</span>+vendor+<span class="string">"Amount $"</span>+amount;
+        <span class="class">String</span> <span class="var">vendors</span>[]={<span class="string">"Amazon"</span>,<span
+        class="string">"Paypal"</span>,<span class="string">"Visa"</span>,<span class="string">"mastercard"</span>};
+        <span class="class">String</span> <span class="var">vendor</span> = <span class="var">vendors</span>[<span
+        class="class">ThreadLocalRandom</span>.current().nextInt(<span class="var">vendors</span>.length)];
+        <span class="keyword">double</span> <span class="var">amount</span> = <span
+        class="class">ThreadLocalRandom</span>.current().nextDouble(<span class="number">0.10</span>,<span
+        class="number">1000.0</span>);
+        <span class="keyword">return</span> <span class="string">"Vendor: "</span>+<span class="var">vendor</span>+<span
+        class="string">"Amount $"</span>+<span class="var">amount</span>;
     }
     <span class="comment">//SendPaymentTransactions Asynchronously</span>
     <span class="comment">// @Schedule(fixedRate = 2000)</span>
-    <span class="keyword">public</span> <span class="class">void</span> <span class="method">SendPaymentTransactionsAsynchronously</span>(){
-        <span class="class">String</span> transactions generateRandomTransaction();
-        log.info(<span class="string">"Sending payment transactions {}"</span>,transaction);
-        kafkaTemplate.send(<span class="string">"payment-topic"</span>,transaction)
-        .whenComplete(((sendResult, throwable) -> {
-            <span class="keyword">if</span>(throwable!=<span class="keyword">null</span>){
-                onFailure(throwable);
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="method">SendPaymentTransactionsAsynchronously</span>(){
+        <span class="class">String</span> <span class="var">transaction</span> = <span class="method">generateRandomTransaction</span>();
+        log.info(<span class="string">"Sending payment transactions {}"</span>,<span class="var">transaction</span>);
+        <span class="var">kafkaTemplate</span>.send(<span class="string">"payment-topic"</span>,<span class="var">transaction</span>)
+        .whenComplete(((<span class="var">sendResult</span>, <span class="var">throwable</span>) -&gt; {
+            <span class="keyword">if</span>(<span class="var">throwable</span>!=<span class="keyword">null</span>){
+                <span class="method">onFailure</span>(<span class="var">throwable</span>);
             }<span class="keyword">else</span> {
-                onSuccess(sendResult);
-            });
+                <span class="method">onSuccess</span>(<span class="var">sendResult</span>);
+            }
+        }));
     }
-}
-<span class="keyword">private</span> <span class="class">void</span> <span class="method">onSuccess</span>(<span
-        class="class">SendResult</span>&lt;<span class="class">String</span>, <span class="class">String</span>&gt; sendResult) {
-    log.info(<span class="string">"Received new metadata. \n"</span> +
-    <span class="string">"Topic: {}, Partition: {}, Offset: {}, Timestamp: {}"</span>,
-    sendResult.getRecordMetadata().topic(),
-    sendResult.getRecordMetadata().partition(),
-    sendResult.getRecordMetadata().offset(),
-    sendResult.getRecordMetadata().timestamp());
-}
-<span class="keyword">private</span> <span class="class">void</span> <span class="method">onFailure</span>(<span
-        class="class">Throwable</span> throwable) {
-    log.info(<span class="string">"Error occurred while producing the message {}"</span>, throwable);
-}
-<span class="keyword">public</span> <span class="class">String</span> <span class="method">generateTransactionKey</span>(){
-    <span class="keyword">return</span> UUID.randomUUID().toString();
-}
-<span class="comment">//SendPaymentTransactions-2)synchronously</span>
-<span class="annotation">@ScheduleoffixedRate</span> = 2000)
-<span class="keyword">public</span> <span class="class">SendResult</span>&lt;<span class="class">String</span>,<span
+    <span class="keyword">private</span> <span class="keyword">void</span> <span class="method">onSuccess</span>(<span
+        class="class">SendResult</span>&lt;<span class="class">String</span>, <span
+        class="class">String</span>&gt; <span class="var">sendResult</span>) {
+        log.info(<span class="string">"Received new metadata. \n"</span> +
+        <span class="string">"Topic: {}, Partition: {}, Offset: {}, Timestamp: {}"</span>,
+        <span class="var">sendResult</span>.getRecordMetadata().topic(),
+        <span class="var">sendResult</span>.getRecordMetadata().partition(),
+        <span class="var">sendResult</span>.getRecordMetadata().offset(),
+        <span class="var">sendResult</span>.getRecordMetadata().timestamp());
+    }
+    <span class="keyword">private</span> <span class="keyword">void</span> <span class="method">onFailure</span>(<span
+        class="class">Throwable</span> <span class="var">throwable</span>) {
+        log.info(<span class="string">"Error occurred while producing the message {}"</span>, <span class="var">throwable</span>);
+    }
+    <span class="keyword">public</span> <span class="class">String</span> <span
+        class="method">generateTransactionKey</span>(){
+        <span class="keyword">return</span> <span class="class">UUID</span>.randomUUID().toString();
+    }
+    <span class="comment">//SendPaymentTransactions-2)synchronously</span>
+    <span class="annotation">@ScheduleoffixedRate</span> = <span class="number">2000</span>)
+    <span class="keyword">public</span> <span class="class">SendResult</span>&lt;<span class="class">String</span>,<span
         class="class">String</span>&gt; <span class="method">SendPaymentTransactionsSynchronously</span>() <span
         class="keyword">throws</span> <span class="class">ExecutionException</span>,
-<span class="class">InterruptedException</span> {
-    <span class="class">String</span> transaction= generateRandomTransaction();
-    log.info(<span class="string">"Sending payment transactions {}"</span>,transaction);
-    <span class="class">SendResult</span>&lt;<span class="class">String</span>,<span class="class">String</span>&gt; sendResult = kafkaTemplate.send(<span
-        class="string">"payment-topic"</span>,generateTransactionKey(),transaction).get();
-    log.info(<span class="string">"Received new metadata. \n"</span> +
-    <span class="string">"Topic: {}, Partition: {}, Offset: {}, timestamp: {}"</span>
-    sendResult.getRecordMetadata().topic(),
-    sendResult.getRecordMetadata().partition(),
-    sendResult.getRecordMetadata().offset(),
-    <span class="keyword">return</span> sendResult;
+    <span class="class">InterruptedException</span> {
+        <span class="class">String</span> <span class="var">transaction</span>= <span class="method">generateRandomTransaction</span>();
+        log.info(<span class="string">"Sending payment transactions {}"</span>,<span class="var">transaction</span>);
+        <span class="class">SendResult</span>&lt;<span class="class">String</span>,<span class="class">String</span>&gt; <span
+        class="var">sendResult</span> = <span class="var">kafkaTemplate</span>.send(<span
+        class="string">"payment-topic"</span>,<span class="method">generateTransactionKey</span>(),<span class="var">transaction</span>).get();
+        log.info(<span class="string">"Received new metadata. \n"</span> +
+        <span class="string">"Topic: {}, Partition: {}, Offset: {}, timestamp: {}"</span>,
+        <span class="var">sendResult</span>.getRecordMetadata().topic(),
+        <span class="var">sendResult</span>.getRecordMetadata().partition(),
+        <span class="var">sendResult</span>.getRecordMetadata().offset(),
+        <span class="var">sendResult</span>.getRecordMetadata().timestamp());
+        <span class="keyword">return</span> <span class="var">sendResult</span>;
+    }
 }
 </code>
 </pre>
 
-    <p>Sending Messages:Asynchronously: kafkaTemplate.send(topic, key, value) returns a ListenableFuture. A
-        whenComplete callback is used to process the SendResult (containing metadata like topic, partition,
-        offset,
-        timestamp) on success or handle exceptions on failure.</p>
-    <p>Synchronously: kafkaTemplate.send(topic, key, value).get() blocks until the message is sent and returns
-        the
+    <p>Sending Messages:Asynchronously: kafkaTemplate.send(topic, key, value) returns a ListenableFuture. A whenComplete
+        callback is used to process the SendResult (containing metadata like topic, partition, offset, timestamp) on
+        success or handle exceptions on failure.</p>
+
+    <p>Synchronously: kafkaTemplate.send(topic, key, value).get() blocks until the message is sent and returns the
         SendResult.</p>
+
     <p>Scheduling: Uses @ScheduleoffixedRate = 2000) to send transactions every 2 seconds.</p>
-    <p>Specific Partition Sending: kafkaTemplate.send(topic, partition, key, value) allows explicitly specifying
-        the
+
+    <p>Specific Partition Sending: kafkaTemplate.send(topic, partition, key, value) allows explicitly specifying the
         target partition.</p>
 
     <pre class="java-code">
 <code>
 <span class="comment">// Case 1: Send to specific partition, here 2</span>
-kafkaTemplate.send(<span class="string">"payment-topic"</span>, 2, <span class="string">"txn123"</span>, <span
-        class="string">"Rs 100 paid"</span>);
+<span class="var">kafkaTemplate</span>.send(<span class="string">"payment-topic"</span>, <span class="number">2</span>, <span
+        class="string">"txn123"</span>, <span class="string">"Rs 100 paid"</span>);
 
 <span class="comment">// Case 2: Send with key (Kafka decides partition using key hash)</span>
-kafkaTemplate.send(<span class="string">"payment-topic"</span>, <span class="string">"txn123"</span>, <span
-        class="string">"Rs 200 paid"</span>);
+<span class="var">kafkaTemplate</span>.send(<span class="string">"payment-topic"</span>, <span
+        class="string">"txn123"</span>, <span class="string">"Rs 200 paid"</span>);
 
 <span class="comment">// Case 3: Send without key (Kafka round-robins the partition)</span>
-kafkaTemplate.send(<span class="string">"payment-topic"</span>, <span class="string">"Rs 300 paid"</span>);
+<span class="var">kafkaTemplate</span>.send(<span class="string">"payment-topic"</span>, <span class="string">"Rs 300 paid"</span>);
 </code>
 </pre>
 
     <h3>6.3 Consumer Configuration and Service</h3>
+
     <p>Dependencies: Similar to producer, Spring Web and Kafka are needed.</p>
 
     <pre class="code-block">
 <code>
 <span class="tag">&lt;dependency&gt;</span>
-    <span class="tag">&lt;groupId&gt;</span>org.springframework.kafka<span class="tag">&lt;/groupId&gt;</span>
-    <span class="tag">&lt;artifactId&gt;</span>spring-kafka<span class="tag">&lt;/artifactId&gt;</span>
+<span class="tag">&lt;groupId&gt;</span>org.springframework.kafka<span class="tag">&lt;/groupId&gt;</span>
+<span class="tag">&lt;artifactId&gt;</span>spring-kafka<span class="tag">&lt;/artifactId&gt;</span>
 <span class="tag">&lt;/dependency&gt;</span>
 </code>
 </pre>
 
     <p>ConsumerConfiguration Class:Defines two beans:</p>
+
     <ol>
         <li>ConsumerFactory: Configured with bootstrap.servers, key.deserializer, and value.deserializer.</li>
-        <li>ConcurrentKafkaListenerContainerFactory: Used to create KafkaMessageListenerContainer instances that
-            manage Kafka consumers. It's configured with the ConsumerFactory.
+
+        <li>ConcurrentKafkaListenerContainerFactory: Used to create KafkaMessageListenerContainer instances that manage
+            Kafka consumers. It's configured with the ConsumerFactory.
         </li>
     </ol>
 
@@ -481,273 +565,394 @@ kafkaTemplate.send(<span class="string">"payment-topic"</span>, <span class="str
 <span class="annotation">@Configuration</span>
 <span class="annotation">@EnableKafka</span>
 <span class="keyword">public class</span> <span class="class">ConsumerConfiguration</span> {
+
     <span class="comment">//ConsumerFactory</span>
+
     <span class="annotation">@Bean</span>
     <span class="keyword">public</span> <span class="class">ConsumerFactory</span>&lt;<span class="class">String</span>,<span
         class="class">String</span>&gt; <span class="method">consumerFactory</span>() {
-        <span class="class">Map</span>&lt;<span class="class">String</span>,<span class="class">Object</span>&gt; configMap = <span
-        class="keyword">new</span> <span class="class">HashMap</span>&lt;&gt;();
-        configMap.put(ConsumerConfig.BOOTSTRAP_SERVERS_COMFIG,<span class="string">"localhost:9092"</span>);
-        configMap.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_COMFIG, StringDeserializer.class);
-        configMap.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_COMFIG, StringDeserializer.class);
-        <span class="keyword">return</span> <span class="keyword">new</span> DefaultKafkaConsumerFactory&lt;&gt;(configMap);
+        <span class="class">Map</span>&lt;<span class="class">String</span>,<span class="class">Object</span>&gt; <span
+        class="var">configMap</span> = <span class="keyword">new</span> <span class="class">HashMap</span>&lt;&gt;();
+        <span class="var">configMap</span>.put(<span class="class">ConsumerConfig</span>.BOOTSTRAP_SERVERS_COMFIG,<span
+        class="string">"localhost:9092"</span>);
+        <span class="var">configMap</span>.put(<span class="class">ConsumerConfig</span>.KEY_DESERIALIZER_CLASS_COMFIG, <span
+        class="class">StringDeserializer</span>.class);
+        <span class="var">configMap</span>.put(<span class="class">ConsumerConfig</span>.VALUE_DESERIALIZER_CLASS_COMFIG, <span
+        class="class">StringDeserializer</span>.class);
+        <span class="keyword">return</span> <span class="keyword">new</span> <span class="class">DefaultKafkaConsumerFactory</span>&lt;&gt;(<span
+        class="var">configMap</span>);
     }
     <span class="comment">//ConcurrentKafkaListenerContainerFactory</span>
     <span class="annotation">@Bean</span>
     <span class="keyword">public</span> <span class="class">ConcurrentKafkaListenerContainerFactory</span>&lt;<span
         class="class">String</span>,<span class="class">String</span>&gt;
     <span class="method">concurrentKafkaListenerContainerFactory</span>() {
+
         <span class="class">ConcurrentKafkaListenerContainerFactory</span>&lt;<span class="class">String</span>,<span
-        class="class">String</span>&gt; containerFactory = <span class="keyword">new</span>
-        ConcurrentKafkaListenerContainerFactory&lt;<span class="class">String</span>,<span class="class">String</span>&gt;();
-        containerFactory.setConsumerFactory(consumerFactory());
-        <span class="keyword">return</span> containerFactory;
+        class="class">String</span>&gt; <span class="var">containerFactory</span> = <span class="keyword">new</span>
+        <span class="class">ConcurrentKafkaListenerContainerFactory</span>&lt;<span class="class">String</span>,<span
+        class="class">String</span>&gt;();
+        <span class="var">containerFactory</span>.setConsumerFactory(<span class="method">consumerFactory</span>());
+        <span class="keyword">return</span> <span class="var">containerFactory</span>;
     }
 }
 </code>
 </pre>
 
     <p>ConsumerService Class:Uses @KafkaListener annotation to listen for messages:</p>
-    <p>@KafkaListener(topics = "payment-topic", groupId = "group-id"): Basic listener for a topic within a
-        consumer
+
+    <p>@KafkaListener(topics = "payment-topic", groupId = "group-id"): Basic listener for a topic within a consumer
         group.</p>
 
     <pre class="java-code">
 <code>
 <span class="annotation">@Service</span>
-<span class="annotation">@S1f4j</span>
+<span class="annotation">@Slf4j</span>
 <span class="keyword">public class</span> <span class="class">ConsumerService</span> {
+
     <span class="annotation">@Autowired</span>
     <span class="keyword">private</span> <span class="class">KafkaTemplate</span>&lt;<span
-        class="class">String</span>,<span class="class">String</span>&gt; kafkaTemplate;
+        class="class">String</span>,<span class="class">String</span>&gt; <span class="var">kafkaTemplate</span>;
+
     <span class="annotation">@KafkaListener</span>(topics = <span class="string">"payment-topic"</span>, groupId = <span
         class="string">"group_id"</span>)
-    <span class="keyword">public</span> <span class="class">void</span> <span class="method">consume</span>(<span
-        class="class">ConsumerRecord</span>&lt;<span class="class">String</span>,<span class="class">String</span>&gt; message) {
-        log.info(<span class="string">"Key: {} | Value: {}"</span>, message.key(), message.value());
-        log.info(<span class="string">"Partition: {} | Offset: {}"</span>, message.partition(), message.offset());
-        Integer.parseInt(message.value());
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="method">consume</span>(<span
+        class="class">ConsumerRecord</span>&lt;<span class="class">String</span>,<span
+        class="class">String</span>&gt; <span class="var">message</span>) {
+        log.info(<span class="string">"Key: {} | Value: {}"</span>, <span class="var">message</span>.key(), <span
+        class="var">message</span>.value());
+        log.info(<span class="string">"Partition: {} | Offset: {}"</span>, <span class="var">message</span>.partition(), <span
+        class="var">message</span>.offset());
+        <span class="class">Integer</span>.parseInt(<span class="var">message</span>.value());
     }
 }
 </code>
 </pre>
 
-    <p>Accessing Message Details: The listener method can accept ConsumerRecord
-        <String
-                , String> to access key, value, partition, and offset.
-    </p>
+    <p>Accessing Message Details: The listener method can accept ConsumerRecord&lt;String, String&gt; to access key,
+        value, partition, and offset.</p>
 
-    <p>Listening from Specific Partitions: @TopicPartition annotation within @KafkaListener allows specifying
-        topic
-        and a list of partitions to listen from (e.g., partitions = {"0", "1"}).</p>
+    <p>Listening from Specific Partitions: @TopicPartition annotation within @KafkaListener allows specifying topic and
+        a list of partitions to listen from (e.g., partitions = {"0", "1"}).</p>
 
     <pre class="java-code">
 <code>
 <span class="annotation">@KafkaListener</span>(
-    topicPartitions = <span class="annotation">@TopicPartition</span>(
-        topic = <span class="string">"payment-topic"</span>,
-        partitions = { <span class="string">"0"</span>, <span class="string">"1"</span> } <span class="comment">// consume only from partition 0 and 1</span>
+    <span class="var">topicPartitions</span> = <span class="annotation">@TopicPartition</span>(
+        <span class="var">topic</span> = <span class="string">"payment-topic"</span>,
+        <span class="var">partitions</span> = { <span class="string">"0"</span>, <span class="string">"1"</span> } <span
+        class="comment">// consume only from partition 0 and 1</span>
     ),
-    groupId = <span class="string">"manual-partition-group"</span>
+    <span class="var">groupId</span> = <span class="string">"manual-partition-group"</span>
 )
-<span class="keyword">public</span> <span class="class">void</span> <span
+<span class="keyword">public</span> <span class="keyword">void</span> <span
         class="method">listenFromSpecificPartitions</span>(<span class="class">ConsumerRecord</span>&lt;<span
-        class="class">String</span>, <span class="class">String</span>&gt; record) {
-    System.out.printf(<span class="string">"Consumed from partition %d: %s%n"</span>, record.partition(), record.value());
+        class="class">String</span>, <span class="class">String</span>&gt; <span class="var">record</span>) {
+    <span class="class">System</span>.out.printf(<span class="string">"Consumed from partition %d: %s%n"</span>, <span
+        class="var">record</span>.partition(), <span class="var">record</span>.value());
 }
 </code>
 </pre>
 
-    <p>Concurrency: The concurrency property in @KafkaListener allows starting multiple consumer instances
-        (containers) for parallel message consumption (e.g., concurrency = "3").</p>
+    <p>Concurrency: The concurrency property in @KafkaListener allows starting multiple consumer instances (containers)
+        for parallel message consumption (e.g., concurrency = "3").</p>
+
     <p>In Spring Kafka, concurrency defines the number of consumer threads (i.e., how many instances of your
         @KafkaListener will run in parallel) within the same application.</p>
+
     <p>This only works when the topic has multiple partitions.</p>
-    <p>Topic: payment-topic<br>
-        Partitions: 6</p>
+
+    <p>Topic: payment-topic</p>
+    <p>Partitions: 6</p>
     <p>Concurrency: 3</p>
+
     <p>Spring Kafka will start 3 threads:</p>
+
     <ul>
         <li>Thread 1 → Partition 0, 1</li>
         <li>Thread 2 → Partition 2, 3</li>
         <li>Thread 3 → Partition 4, 5</li>
     </ul>
+
     <p>All listeners use the same group ID, hence each thread handles exclusive partitions.</p>
 
     <h3>6.4 Producing and Consuming Custom Messages</h3>
-    <p>Custom Object Serialization/Deserialization: For custom object types (e.g., Location with id,
-        locationName,
-        latitude, longitude), configure appropriate serializers and deserializers in ProducerFactory and
-        ConsumerFactory.</p>
+
+    <p>Custom Object Serialization/Deserialization: For custom object types (e.g., Location with id, locationName, and
+        MessageMetadata), JsonSerializer (for producer value.serializer) and JsonDeserializer (for consumer
+        value.deserializer) are used.</p>
 
     <pre class="java-code">
 <code>
-<span class="keyword">public class</span> <span class="class">Location</span> {
-    <span class="keyword">private</span> <span class="class">String</span> id;
-    <span class="keyword">private</span> <span class="class">String</span> locationName;
-    <span class="keyword">private</span> <span class="class">Double</span> latitude;
-    <span class="keyword">private</span> <span class="class">Double</span> longitude;
-    <span class="comment">// Constructors, getters, setters, toString</span>
-}
-</code>
-</pre>
-
-    <p>Producer Configuration for Custom Objects: Use JsonSerializer.class for value.serializer.</p>
-
-    <pre class="java-code">
-<code>
+<span class="comment">//Producer</span>
 <span class="annotation">@Bean</span>
 <span class="keyword">public</span> <span class="class">ProducerFactory</span>&lt;<span
-        class="class">String</span>,<span class="class">Location</span>&gt; <span class="method">producerFactory</span>() {
-    <span class="class">Map</span>&lt;<span class="class">String</span>,<span class="class">Object</span>&gt; configMap = <span
-        class="keyword">new</span> <span class="class">HashMap</span>&lt;&gt;();
-    configMap.put(ProducerConfig.BOOTSTRAP_SERVERS_COMFIG,<span class="string">"localhost:9092"</span>);
-    configMap.put(ProducerConfig.KEY_SERIALIZER_CLASS_COMFIG, StringSerializer.class);
-    configMap.put(ProducerConfig.VALUE_SERIALIZER_CLASS_COMFIG, JsonSerializer.class);
-    <span class="keyword">return</span> <span class="keyword">new</span> DefaultKafkaProducerFactory&lt;&gt;(configMap);
+        class="class">String</span>, <span class="class">Location</span>&gt; <span class="method">LocationProducerFactory</span>()
+{
+    <span class="class">Map</span>&lt;<span class="class">String</span>, <span class="class">Object</span>&gt; <span
+        class="var">configProps</span> = <span class="keyword">new</span> <span class="class">HashMap</span>&lt;&gt;();
+    <span class="var">configProps</span>.put(<span class="class">ProducerConfig</span>.BODTSTRAP_SERVERS_CONFIG, <span
+        class="string">"localhost:9092"</span>);
+    <span class="var">configProps</span>.put(<span
+        class="class">ProducerConfig</span>.KEY_SERIALIZER_CLASS_CONFIG, <span class="class">StringSerializer</span>.class);
+    <span class="var">configProps</span>.put(<span
+        class="class">ProducerConfig</span>.VALUE_SERIALIZER_CLASS_CONFIG, <span class="class">JsonSerializer</span>.class);
+    <span class="keyword">return</span> <span class="keyword">new</span> <span
+        class="class">DefaultKafkaProducerFactory</span>&lt;&gt;(<span class="var">configProps</span>);
 }
+
 <span class="annotation">@Bean</span>
-<span class="keyword">public</span> <span class="class">KafkaTemplate</span>&lt;<span class="class">String</span>,<span
-        class="class">Location</span>&gt; <span class="method">kafkaTemplate</span>() {
-    <span class="keyword">return</span> <span class="keyword">new</span> KafkaTemplate&lt;&gt;(producerFactory());
-}
+<span class="keyword">public</span> <span class="class">KafkaTemplate</span>&lt;<span class="class">String</span>, <span
+        class="class">Location</span>&gt; <span class="method">LocationKafkaTemplate</span>()
 </code>
 </pre>
-
-    <p>Consumer Configuration for Custom Objects: Use JsonDeserializer.class for value.deserializer, specifying
-        the
-        trusted packages.</p>
 
     <pre class="java-code">
 <code>
-<span class="annotation">@Bean</span>
-<span class="keyword">public</span> <span class="class">ConsumerFactory</span>&lt;<span
-        class="class">String</span>,<span class="class">Location</span>&gt; <span class="method">consumerFactory</span>() {
-    <span class="class">Map</span>&lt;<span class="class">String</span>,<span class="class">Object</span>&gt; configMap = <span
-        class="keyword">new</span> <span class="class">HashMap</span>&lt;&gt;();
-    configMap.put(ConsumerConfig.BOOTSTRAP_SERVERS_COMFIG,<span class="string">"localhost:9092"</span>);
-    configMap.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_COMFIG, StringDeserializer.class);
-    configMap.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_COMFIG, JsonDeserializer.class);
-    configMap.put(JsonDeserializer.TRUSTED_PACKAGES, <span class="string">"com.example.demo"</span>);
-    <span class="keyword">return</span> <span class="keyword">new</span> DefaultKafkaConsumerFactory&lt;&gt;(configMap);
+{
+    <span class="keyword">return</span> <span class="keyword">new</span> <span class="class">KafkaTemplate</span>&lt;&gt;(<span
+        class="method">LocationProducerFactory</span>());
+
 }
+
+<span class="comment">//Consumer</span>
 <span class="annotation">@Bean</span>
+
+<span class="keyword">public</span> <span class="class">ConsumerFactory</span>&lt;<span
+        class="class">String</span>, <span class="class">Location</span>&gt; <span class="method">locationConsumerFactory</span>() {
+    <span class="class">Map</span>&lt;<span class="class">String</span>, <span class="class">Object</span>&gt; <span
+        class="var">props</span> = <span class="keyword">new</span> <span class="class">HashMap</span>&lt;&gt;();
+    <span class="var">props</span>.put(<span class="class">ConsumerConfig</span>.BOUTSTRAP_SERVERS_COMFIG, <span
+        class="string">"localhost:9092"</span>);
+    <span class="var">props</span>.put(<span class="class">ConsumerConfig</span>.GROUP_ID_COMFIG, <span class="string">"location-group-id"</span>);
+    <span class="var">props</span>.put(<span class="class">ConsumerConfig</span>.KFY_DESERTALIZER_CLASS_COMFIG, <span
+        class="class">StringDeserializer</span>.class);
+    <span class="var">props</span>.put(<span class="class">ConsumerConfig</span>.VALUE_DESERTALIZER_CLASS_COMFIG, <span
+        class="class">JsonDeserializer</span>.class);
+    <span class="keyword">return</span> <span class="keyword">new</span> <span
+        class="class">DefaultKafkaConsumerFactory</span>&lt;&gt;(<span class="var">props</span>, <span class="keyword">new</span> <span
+        class="class">StringBuilder</span>(), <span class="keyword">new</span> <span
+        class="class">JsonDeserializer</span>(<span class="class">Location</span>.class));
+}
+
+<span class="annotation">@Bean</span>
+
 <span class="keyword">public</span> <span class="class">ConcurrentKafkaListenerContainerFactory</span>&lt;<span
-        class="class">String</span>,<span class="class">Location</span>&gt;
-<span class="method">concurrentKafkaListenerContainerFactory</span>() {
-    <span class="class">ConcurrentKafkaListenerContainerFactory</span>&lt;<span class="class">String</span>,<span
-        class="class">Location</span>&gt; containerFactory = <span class="keyword">new</span>
-    ConcurrentKafkaListenerContainerFactory&lt;<span class="class">String</span>,<span class="class">Location</span>&gt;();
-    containerFactory.setConsumerFactory(consumerFactory());
-    <span class="keyword">return</span> containerFactory;
+        class="class">String</span>, <span class="class">Location</span>&gt; <span
+        class="method">locationListener</span>()
+{
+    <span class="class">ConcurrentKafkaListenerContainerFactory</span>&lt;<span class="class">String</span>, <span
+        class="class">Location</span>&gt; <span class="var">factory</span> = <span class="keyword">new</span> <span
+        class="class">ConcurrentKafkaListenerContainerFactory</span>&lt;&gt;();
+
+    <span class="var">factory</span>.setConsumerFactory(<span class="method">locationConsumerFactory</span>());
+    <span class="keyword">return</span> <span class="var">factory</span>;
+}
+
+<span class="annotation">@KafkaListener</span>(topics = <span class="string">"location-topic"</span>, groupId = <span
+        class="string">"location-group-id"</span>, concurrency = <span class="string">"3"</span>)
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="method">listen</span>(<span
+        class="class">ConsumerRecord</span>&lt;<span class="class">String</span>,<span class="class">Location</span>&gt; <span
+        class="var">message</span>) {
+    log.info(<span class="string">"Key: {} | Value: {}"</span>, <span class="var">message</span>.key(), <span
+        class="var">message</span>.value());
+    log.info(<span class="string">"Partition: {} | Offset: {}"</span>, <span
+        class="var">message</span>.partition(), <span class="var">message</span>.offset());
 }
 </code>
 </pre>
 
-    <p>Producing and Consuming Custom Objects: Use KafkaTemplate to send Location objects and @KafkaListener to
-        receive them.</p>
+    <p>The MessageMetadata can include details like messagedd, sourceOriginator, and timestamp to track message origin
+        and context.</p>
+
+    <p><strong>Consumer Group ID:</strong> For custom message consumption, ensure a unique group.id is defined for each
+        consumer group to correctly identify and coordinate consumers.</p>
+
+    <h3>6.5 Consumer Partition Rebalance</h3>
+
+    <p>When a new consumer joins a consumer group (with the same group.id), the GroupCoordinator triggers a <strong>rebalance</strong>.
+    </p>
+
+    <p><strong>Rebalancing</strong> involves changing partition ownership from one consumer to another to distribute the
+        workload evenly among active consumers in the group. This ensures efficient parallel processing as consumers are
+        assigned specific partitions.</p>
+
+    <h3>6.6 Committing Offsets</h3>
+
+    <ul>
+        <li><strong>Offset Committing:</strong> When a consumer consumes messages, it needs to send an acknowledgement
+            to the broker (or Kafka itself in newer versions) by committing its offset. This tracks the consumer's
+            progress.
+        </li>
+
+        <li><strong>enable.auto.commit Property:</strong> If true, Kafka automatically commits offsets based on its
+            internal configuration.
+        </li>
+
+        <li>If false (default since Spring for Apache Kafka 2.2.3), the container supports several acknowledgement
+            modes.
+        </li>
+
+        <li><strong>Acknowledgement Modes (ackMode):BATCH (Default):</strong> "Commit the offset when all records
+            written by the poll that have been processed." This means offsets are committed after a batch of messages
+            has been successfully processed.
+        </li>
+    </ul>
+
+    <ul>
+        <li><strong>RECORD</strong>: "Commit the offset when The Listener returns after processing the Record here."
+            Offsets are committed immediately after each individual record is processed.
+        </li>
+
+        <li>Other options include <strong>TIME, COUNT, MANUAL, MANUAL_IMMEDIATE</strong>. The choice depends on the
+            application's reliability and performance requirements.
+        </li>
+    </ul>
+
+    <h3>6.7 Error Handling in Kafka Consumers</h3>
+
+    <p>Spring for Apache Kafka provides robust error handling mechanisms:</p>
+
+    <ul>
+        <li><strong>Blocking Retry</strong>: If a retryable exception occurs during message consumption, the consumer
+            will retry processing the message.
+        </li>
+
+        <li>This approach <strong>blocks</strong> the consumption of subsequent messages until the current message is
+            successfully processed or the retry attempts are exhausted.
+        </li>
+
+        <li>Default behavior: attempts to consume a message at least 10 times before moving to the next message and
+            logging an error.
+        </li>
+
+        <li><strong>Non-Blocking Retry (@RetryableTopic):</strong> Uses @RetryableTopic annotation on the @KafkaListener
+            method.
+        </li>
+
+        <li>When a message fails, it's sent to a dedicated <strong>retry topic</strong> (e.g.,
+            payment-topic-retry-3000).
+        </li>
+
+        <li>Configurable with attempts (number of retries) and backoff (delay between retries, with optional
+            multiplier).
+        </li>
+
+        <li>This prevents blocking the main consumer thread, allowing other messages to be processed while a failing
+            message is retried on a separate topic.
+        </li>
+
+        <li><strong>Dead Letter Topic and Handler (@DttHandler):</strong> When messages exceed the maximum non-blocking
+            retry attempts, they are automatically sent to a <strong>dead letter topic</strong> (DLT).
+        </li>
+
+        <li>A separate @DttHandler method is used to process these failed messages (e.g., for logging, alerting via
+            email notifications, or further manual intervention).
+        </li>
+
+        <li>This ensures that messages that cannot be processed after multiple retries are not lost but are moved to a
+            designated location for analysis and resolution.
+        </li>
+    </ul>
+
+    <hr>
 
     <pre class="java-code">
 <code>
 <span class="annotation">@Service</span>
-<span class="annotation">@S1f4j</span>
-<span class="keyword">public class</span> <span class="class">ProducerService</span> {
+<span class="annotation">@Slf4j</span>
+<span class="keyword">public class</span> <span class="class">ConsumerService</span> {
+
     <span class="annotation">@Autowired</span>
     <span class="keyword">private</span> <span class="class">KafkaTemplate</span>&lt;<span
-        class="class">String</span>,<span class="class">Location</span>&gt; kafkaTemplate;
-    <span class="annotation">@Scheduled</span>(fixedRate = 2000)
-    <span class="keyword">public</span> <span class="class">void</span> <span class="method">sendLocation</span>() {
-        <span class="class">Location</span> location = <span class="keyword">new</span> Location(
-            UUID.randomUUID().toString(),
-            <span class="string">"Office"</span>,
-            ThreadLocalRandom.current().nextDouble(-90.0, 90.0),
-            ThreadLocalRandom.current().nextDouble(-180.0, 180.0)
-        );
-        log.info(<span class="string">"Sending location: {}"</span>, location);
-        kafkaTemplate.send(<span class="string">"location-topic"</span>, location);
+        class="class">String</span>,<span class="class">String</span>&gt; <span class="var">kafkaTemplate</span>;
+
+    <span class="annotation">@RetryableTopic</span>(attempts = <span class="string">"3"</span>, backoff = <span
+        class="annotation">@Backoff</span>(delay = <span class="number">3000</span>, multiplier =<span
+        class="number">2</span> ))
+    <span class="annotation">@KafkaListener</span>(topics = <span class="string">"payment-topic"</span>, groupId = <span
+        class="string">"group_id"</span>, containerFactory = <span class="string">"concurrentKafkaListenerContainerFactory"</span>)
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="method">consume</span>(<span
+        class="class">ConsumerRecord</span>&lt;<span class="class">String</span>,<span
+        class="class">String</span>&gt; <span class="var">message</span>) {
+        log.info(<span class="string">"Key: {} | Value: {}"</span>, <span class="var">message</span>.key(), <span
+        class="var">message</span>.value());
+        log.info(<span class="string">"Partition: {} | Offset: {}"</span>, <span class="var">message</span>.partition(), <span
+        class="var">message</span>.offset());
+        <span class="class">Integer</span>.parseInt(<span class="var">message</span>.value());
     }
-}
-</code>
-</pre>
-
-    <pre class="java-code">
-<code>
-<span class="annotation">@Service</span>
-<span class="annotation">@S1f4j</span>
-<span class="keyword">public class</span> <span class="class">ConsumerService</span> {
-    <span class="annotation">@KafkaListener</span>(topics = <span
-        class="string">"location-topic"</span>, groupId = <span class="string">"location-group"</span>)
-    <span class="keyword">public</span> <span class="class">void</span> <span
-        class="method">consumeLocation</span>(<span class="class">Location</span> location) {
-        log.info(<span class="string">"Received location: {}"</span>, location);
+    <span class="annotation">@DltHandler</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> <span
+        class="method">processFailureMessages</span>(<span class="class">ConsumerRecord</span>&lt;<span class="class">String</span>,<span
+        class="class">String</span>&gt; <span class="var">message</span>){
+        log.info(<span class="string">"Dead letter topic Key: {} | Value: {}"</span>, <span class="var">message</span>.key(), <span
+        class="var">message</span>.value());
     }
-}
+
+<span class="comment">//Send email notifications about failure message</span>
 </code>
 </pre>
 
-    <h2>7. Error Handling and Retry Mechanisms</h2>
-    <p>RetryTemplate: Spring Kafka provides RetryTemplate for handling transient errors by retrying message
-        processing a specified number of times with backoff policies.</p>
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Attribute</th>
+                <th>Meaning</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>attempts = "3"</td>
+                <td>Total of 3 delivery attempts (1 original + 2 retries).</td>
+            </tr>
+            <tr>
+                <td>@Backoff(delay = 3000, multiplier = 2)</td>
+                <td>Wait 3 seconds before first retry, then backoff doubles: 3s ~ 6s.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
-    <pre class="java-code">
+    <pre class="code-block">
 <code>
-<span class="annotation">@Bean</span>
-<span class="keyword">public</span> <span class="class">ConcurrentKafkaListenerContainerFactory</span>&lt;<span
-        class="class">String</span>,<span class="class">String</span>&gt;
-<span class="method">concurrentKafkaListenerContainerFactory</span>() {
-    <span class="class">ConcurrentKafkaListenerContainerFactory</span>&lt;<span class="class">String</span>,<span
-        class="class">String</span>&gt; containerFactory = <span class="keyword">new</span>
-    ConcurrentKafkaListenerContainerFactory&lt;<span class="class">String</span>,<span class="class">String</span>&gt;();
-    containerFactory.setConsumerFactory(consumerFactory());
-    containerFactory.setRetryTemplate(retryTemplate());
-    <span class="keyword">return</span> containerFactory;
-}
-<span class="annotation">@Bean</span>
-<span class="keyword">public</span> <span class="class">RetryTemplate</span> <span class="method">retryTemplate</span>() {
-    <span class="class">RetryTemplate</span> retryTemplate = <span class="keyword">new</span> RetryTemplate();
-    <span class="class">FixedBackOffPolicy</span> backOffPolicy = <span class="keyword">new</span> FixedBackOffPolicy();
-    backOffPolicy.setBackOffPeriod(1000); <span class="comment">// 1 second</span>
-    retryTemplate.setBackOffPolicy(backOffPolicy);
-    <span class="class">SimpleRetryPolicy</span> retryPolicy = <span class="keyword">new</span> SimpleRetryPolicy();
-    retryPolicy.setMaxAttempts(3); <span class="comment">// retry 3 times</span>
-    retryTemplate.setRetryPolicy(retryPolicy);
-    <span class="keyword">return</span> retryTemplate;
-}
+<span class="number">1</span> 1st attempt (fails) -
+<span class="number">2</span>  Wait 3 sec -
+<span class="number">3</span>  2nd attempt (fails) -
+<span class="number">4</span>  Wait 6 sec -
+<span class="number">5</span>  3rd attempt (fails) -
+<span class="number">6</span>  - Sent to Dead Letter Topic (DLT)
 </code>
 </pre>
 
-    <p>Error Handlers: Custom error handlers can be implemented to manage specific exceptions and decide whether
-        to
-        retry or send to a dead-letter topic.</p>
+    <p>Spring will auto-create retry topics and the DLT unless you override naming and handling.</p>
 
-    <pre class="java-code">
-<code>
-<span class="annotation">@Bean</span>
-<span class="keyword">public</span> <span class="class">ErrorHandler</span> <span class="method">errorHandler</span>() {
-    <span class="keyword">return</span> (thrownException, data) -> {
-        log.error(<span class="string">"Error occurred: {}"</span>, thrownException.getMessage());
-        <span class="comment">// Send to dead-letter topic or take other actions</span>
-    };
-}
-</code>
-</pre>
+    <p>Retry the message 2 times (after 3s and 6s delays)</p>
 
-    <h2>8. Conclusion</h2>
-    <p>Apache Kafka is a powerful distributed streaming platform that enables high-throughput, low-latency data
-        processing. Its architecture, based on topics, partitions, producers, and consumers, provides
-        scalability,
-        fault tolerance, and reliability. Spring Boot's integration with Kafka simplifies the development of
-        producers and consumers, offering features like KafkaTemplate, @KafkaListener, and robust error
-        handling. By
-        leveraging Kafka's capabilities, developers can build efficient real-time data pipelines and streaming
-        applications.</p>
+    <p>Still fails? - Sent to payment-topic-dlt</p>
 
-    <h2>9. References</h2>
+    <p>The @DltHandler method handles it</p>
+
+    <p>@DltHandler</p>
+
+    <p>This method handles messages that failed even after retries.</p>
+
     <ul>
-        <li>Apache Kafka Official Documentation</li>
-        <li>Spring for Apache Kafka Documentation</li>
-        <li>Confluent Kafka Documentation</li>
+        <li>Messages from the Dead Letter Topic will be sent to this method.</li>
+        <li>You can log them, alert teams, store in DB, etc.</li>
+        <li>Spring Kafka (if not configured otherwise) will auto-create:
+            <ul>
+                <li>Retry topics like:
+                    payment-topic-retry-0, payment-topic-retry-1, etc.
+                </li>
+                <li>Dead-letter topic:
+                    payment-topic-dlt
+                </li>
+            </ul>
+        </li>
     </ul>
+
+    <p>You can override topic names if needed.</p>
 </main>
 
 <!-- Scripts -->

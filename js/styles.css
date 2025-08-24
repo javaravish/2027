@@ -911,13 +911,20 @@ article {
     }
 }
 
+/* Wrapper to handle scroll */
+.table-container {
+  width: 100%;            /* Always fit screen */
+  overflow-x: auto;       /* Horizontal scroll if too wide */
+  overflow-y: hidden;     /* Prevent vertical scroll here */
+  margin-bottom: 16px; /* ✅ space after table */
+}
+
 /* Table styles */
 .basic-table {
   border-collapse: collapse; /* Ensure borders look clean */
-  float: left; /* Push table to left side */
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-  float: left;      /* stick to left side */
-    margin-left: 0;
+  margin: 0;
+  float: none;
 }
 
 .basic-table thead tr {
@@ -940,14 +947,6 @@ article {
 .basic-table tbody tr:nth-of-type(even) {
   background-color: var(--table_border-color);
 }
-
-/* Wrapper to handle scroll */
-.table-container {
-  width: 100%;            /* Always fit screen */
-  overflow-x: auto;       /* Horizontal scroll if too wide */
-  overflow-y: hidden;     /* Prevent vertical scroll here */
-}
-
 
 /* General code block style */
 .code-block {
