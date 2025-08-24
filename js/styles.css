@@ -990,3 +990,20 @@ article {
 .java-code .comment   { color: #ce9178; font-style: italic; }  /* Comments */
 .java-code .annotation{ color: #c586c0; }                      /* @Annotation */
 .java-code .var       { color: #e3116c; }                      /* Variables */
+
+/* General Java code block */
+.sql-code {
+  width: 100%;               /* Full width */
+  max-width: 100%;
+  background-color: var(--code_bg);
+  color: var(--bg-color);
+  #padding: 15px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: "Fira Code", monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 20px 0;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+.sql-code .keyword   { color: #e3116c; font-weight: bold; }   /* public, class, void */

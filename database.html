@@ -24,6 +24,1343 @@
     <div class="row">
 
     </div>
+    <h3>1. What is a Database?</h3>
+    <p>A database is an organized collection of data that can be easily accessed, managed, and updated.</p>
+    <p>Databases are used to store information like customer records, employee data, etc.</p>
+    <p>Example: A table storing employee records (ID, name, salary).</p>
+
+    <h3>2. What is DBMS and RDBMS?</h3>
+    <p>DBMS (Database Management System) is software that interacts with the user, applications, and the database to
+        capture and analyze data.</p>
+    <p>Examples: MySQL, Oracle, SQL Server, PostgreSQL.</p>
+    <p>RDBMS (Relational Database Management System) is a type of DBMS that stores data in tables (rows and columns)
+        and uses SQL for database access.</p>
+
+    <div class="table-container">
+        <br>
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Feature</th>
+                <th>DBMS</th>
+                <th>RDBMS</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Full Form</td>
+                <td>Database Management System</td>
+                <td>Relational Database Management System</td>
+            </tr>
+            <tr>
+                <td>Structure</td>
+                <td>File-based</td>
+                <td>Table-based (rows & columns)</td>
+            </tr>
+            <tr>
+                <td>Relation</td>
+                <td>No relation between tables</td>
+                <td>Tables have defined relationships</td>
+            </tr>
+            <tr>
+                <td>Example</td>
+                <td>Microsoft Access</td>
+                <td>MySQL, PostgreSQL, Oracle</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>3. What is SQL?</h3>
+    <p>SQL (Structured Query Language) is used to interact with databases — for querying, updating, inserting, and
+        deleting data.</p>
+    <p>SQL (Structured Query Language) is a standard language for managing and manipulating relational databases.
+        It's used for querying, inserting, updating, and deleting data.</p>
+
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> employees;
+  </code>
+</pre>
+
+    <h3>4. What are the types of SQL Commands?</h3>
+    <div class="table-container">
+        <br>
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Example</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>DDL</td>
+                <td>Data Definition Language</td>
+                <td>CREATE , ALTER , DROP</td>
+            </tr>
+            <tr>
+                <td>DML</td>
+                <td>Data Manipulation Language</td>
+                <td>INSERT , UPDATE , DELETE</td>
+            </tr>
+            <tr>
+                <td>DQL</td>
+                <td>Data Query Language</td>
+                <td>SELECT</td>
+            </tr>
+            <tr>
+                <td>DCL</td>
+                <td>Data Control Language</td>
+                <td>GRANT , REVOKE</td>
+            </tr>
+            <tr>
+                <td>TCL</td>
+                <td>Transaction Control Language</td>
+                <td>COMMIT , ROLLBACK</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>5. What is a Primary Key?</h3>
+    <p>A primary key is a column or set of columns that uniquely identifies each row in a table. It cannot contain
+        NULL values and must be unique.</p>
+
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">CREATE TABLE</span> students (
+        student_id <span class="type">INT</span> <span class="keyword">PRIMARY KEY</span>,
+        name <span class="type">VARCHAR</span>(50)
+    );
+  </code>
+</pre>
+
+    <h3>6. What is a Foreign Key?</h3>
+    <p>A foreign key is a column or set of columns that establishes a relationship between data in two tables. It
+        references the primary key of another table.</p>
+
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">CREATE TABLE</span> orders (
+        order_id <span class="type">INT</span>,
+        customer_id <span class="type">INT</span>,
+        <span class="keyword">FOREIGN KEY</span> (customer_id) <span class="keyword">REFERENCES</span> customers(customer_id)
+    );
+  </code>
+</pre>
+
+    <h3>7. What is Normalization?</h3>
+    <p>Normalization is the process of organizing data in a database to reduce redundancy and improve data
+        integrity. The main normal forms are:</p>
+
+    <div class="table-container">
+        <br>
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Form</th>
+                <th>Rule Example</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>1NF</td>
+                <td>Atomic values only</td>
+            </tr>
+            <tr>
+                <td>2NF</td>
+                <td>No partial dependency on composite key</td>
+            </tr>
+            <tr>
+                <td>3NF</td>
+                <td>No transitive dependency</td>
+            </tr>
+            <tr>
+                <td>BCNF (Boyce-Codd Normal Form)</td>
+                <td>BCNF (Boyce-Codd Normal Form)</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>8. What is Denormalization?</h3>
+    <p>Denormalization is the process of combining normalized tables to improve read performance at the cost of some
+        redundancy.</p>
+
+    <h3>9. What is an Index?</h3>
+    <p>An index is a database object that improves the speed of data retrieval operations on a table.</p>
+    <p>It works like a book's index, allowing the database to find data without scanning the entire table.</p>
+
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">CREATE INDEX</span> idx_name <span class="keyword">ON</span> employees(name);
+  </code>
+</pre>
+
+    <h3>10. What is a View?</h3>
+    <p>A view is a virtual table based on the result set of an SQL statement. It doesn't store data itself but
+        presents data from underlying tables.</p>
+
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">CREATE VIEW</span> high_salary <span class="keyword">AS</span>
+    <span class="keyword">SELECT</span> name, salary <span class="keyword">FROM</span> employees <span class="keyword">WHERE</span> salary > 50000;
+  </code>
+</pre>
+
+    <h3>11. What is a Stored Procedure?</h3>
+    <p>A stored procedure is a group of SQL statements stored in the database and executed as a unit.</p>
+    <p>A stored procedure is a prepared SQL code that you can save and reuse. It can accept parameters and return
+        values, improving performance and security.</p>
+
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">CREATE PROCEDURE</span> GetAllEmployees()
+    <span class="keyword">BEGIN</span>
+        <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> employees;
+    <span class="keyword">END</span>;
+  </code>
+</pre>
+
+    <h3>12. What is a Trigger?</h3>
+    <p>A trigger is a special kind of stored procedure that automatically executes when an event (INSERT, UPDATE,
+        DELETE) occurs on a table.</p>
+
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">CREATE TRIGGER</span> update_salary
+    <span class="keyword">BEFORE UPDATE</span> <span class="keyword">ON</span> employees
+    <span class="keyword">FOR EACH ROW</span>
+    <span class="keyword">SET</span> NEW.update_at = <span class="function">NOW</span>();
+  </code>
+</pre>
+
+    <h3>13. What is the difference between WHERE and HAVING ?</h3>
+    <ul>
+        <li>WHERE filters rows before grouping (GROUP BY)</li>
+        <li>HAVING filters groups after the GROUP BY clause</li>
+        <li>WHERE cannot use aggregate functions, while HAVING can</li>
+    </ul>
+
+    <div class="table-container">
+        <br>
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Clause</th>
+                <th>Used With</th>
+                <th>Filters Based On</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>WHERE</td>
+                <td>SELECT, UPDATE</td>
+                <td>Rows before grouping</td>
+            </tr>
+            <tr>
+                <td>HAVING</td>
+                <td>GROUP BY</td>
+                <td>Groups after aggregation</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">SELECT</span> dept, <span class="function">COUNT</span>(*)
+    <span class="keyword">FROM</span> employees
+    <span class="keyword">GROUP BY</span> dept
+    <span class="keyword">HAVING</span> <span class="function">COUNT</span>(*) > 5;
+  </code>
+</pre>
+
+    <h3>14. What is a Join? What are its types?</h3>
+    <p><strong>Joins</strong> combine rows from two or more tables based on a related column.</p>
+    <ul>
+        <li><strong>INNER JOIN</strong>: Returns matching rows from both tables</li>
+        <li><strong>LEFT JOIN</strong>: Returns all rows from left table and matched rows from right</li>
+        <li><strong>RIGHT JOIN</strong>: Returns all rows from right table and matched rows from left</li>
+        <li><strong>FULL JOIN</strong>: Returns all rows when there's a match in either table</li>
+        <li><strong>CROSS JOIN</strong>: Returns Cartesian product of both tables</li>
+    </ul>
+
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">SELECT</span> e.name, d.name
+    <span class="keyword">FROM</span> employees e
+    <span class="keyword">JOIN</span> departments d <span class="keyword">ON</span> e.dept_id = d.id;
+  </code>
+</pre>
+
+    <h3>15. What is the difference between DELETE and TRUNCATE?</h3>
+    <ul>
+        <li><strong>DELETE</strong>: Removes rows from a table (can be rolled back, can have WHERE clause)</li>
+        <li><strong>TRUNCATE</strong>: Removes all rows from a table (faster than DELETE, cannot be rolled back)
+        </li>
+        <li><strong>DROP</strong>: Removes the entire table structure from the database</li>
+    </ul>
+
+    <div class="table-container">
+        <br>
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Operation</th>
+                <th>DELETE</th>
+                <th>TRUNCATE</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Deletes</td>
+                <td>Row-by-row</td>
+                <td>All rows at once</td>
+            </tr>
+            <tr>
+                <td>Rollback</td>
+                <td>Yes</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <td>Speed</td>
+                <td>Slower</td>
+                <td>Faster</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>16. What is ACID in DBMS?</h3>
+    <p>A transaction is a sequence of operations performed as a single logical unit of work. It follows ACID
+        properties:</p>
+
+    <div class="table-container">
+        <br>
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Letter</th>
+                <th>Stands For</th>
+                <th>Meaning</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>A</td>
+                <td>Atomicity</td>
+                <td>All operations complete or none</td>
+            </tr>
+            <tr>
+                <td>C</td>
+                <td>Consistency</td>
+                <td>Database remains valid after transaction</td>
+            </tr>
+            <tr>
+                <td>I</td>
+                <td>Isolation</td>
+                <td>Transactions occur independently</td>
+            </tr>
+            <tr>
+                <td>D</td>
+                <td>Durability</td>
+                <td>Changes persist even after system failure</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>17. What is a Transaction?</h3>
+    <p>A transaction is a sequence of one or more SQL operations performed as a single unit of work.</p>
+
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">BEGIN</span>;
+    <span class="keyword">UPDATE</span> accounts <span class="keyword">SET</span> balance = balance - 100 <span
+          class="keyword">WHERE</span> id = 1;
+    <span class="keyword">UPDATE</span> accounts <span class="keyword">SET</span> balance = balance + 100 <span
+          class="keyword">WHERE</span> id = 2;
+    <span class="keyword">COMMIT</span>;
+  </code>
+</pre>
+
+    <h3>18. Difference between SQL and NoSQL</h3>
+    <div class="table-container">
+        <br>
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Feature</th>
+                <th>SQL</th>
+                <th>NoSQL</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Structure</td>
+                <td>Relational (tables)</td>
+                <td>Non-relational (JSON, docs)</td>
+            </tr>
+            <tr>
+                <td>Schema</td>
+                <td>Fixed schema</td>
+                <td>Dynamic schema</td>
+            </tr>
+            <tr>
+                <td>Scalability</td>
+                <td>Vertical</td>
+                <td>Horizontal</td>
+            </tr>
+            <tr>
+                <td>Examples</td>
+                <td>MySQL, Oracle, PostgreSQL</td>
+                <td>MongoDB, Cassandra, CouchDB</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>19. What is the difference between UNION and UNION ALL?</h3>
+    <ul>
+        <li>UNION combines results of two queries and removes duplicates</li>
+        <li>UNION ALL combines results including duplicates (faster than UNION)</li>
+    </ul>
+
+    <h3>20. What are aggregate functions in SQL?</h3>
+    <p>Aggregate functions perform calculations on sets of values:</p>
+    <ul>
+        <li>COUNT(): Counts rows</li>
+        <li>SUM(): Calculators sum</li>
+        <li>AVG(): Calculators average</li>
+        <li>MAX(): Finds maximum value</li>
+        <li>MIN(): Finds minimum value</li>
+    </ul>
+
+    <h3>21. What is a constraint?</h3>
+    <p>Answer:</p>
+    <p>A constraint is used to enforce rules on the data in a table.</p>
+    <p>Types:</p>
+    <ul>
+        <li>NOT NULL</li>
+        <li>UNIQUE</li>
+        <li>PRIMARY KEY</li>
+        <li>FOREIGN KEY</li>
+        <li>CHECK</li>
+        <li>DEFAULT</li>
+    </ul>
+
+    <h3>22. What is the difference between UNION and UNION ALL?</h3>
+    <div class="table-container">
+        <br>
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Feature</th>
+                <th>UNION</th>
+                <th>UNION ALL</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Duplicates</td>
+                <td>Removes duplicates</td>
+                <td>Keeps duplicates</td>
+            </tr>
+            <tr>
+                <td>Performance</td>
+                <td>Slower</td>
+                <td>Faster</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>1. Write a query to fetch all columns from a table.</h3>
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> employees;
+  </code>
+</pre>
+
+    <h3>2. How to fetch specific columns from a table?</h3>
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">SELECT</span> id, name, salary <span class="keyword">FROM</span> employees;
+  </code>
+</pre>
+
+    <h3>3. Write a query to fetch unique job titles.</h3>
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">SELECT DISTINCT</span> job_title <span class="keyword">FROM</span> employees;
+  </code>
+</pre>
+
+    <h3>4. How to filter rows using a condition?</h3>
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> employees <span class="keyword">WHERE</span> salary > 50000;
+  </code>
+</pre>
+
+    <h3>5. How to use AND/OR in WHERE clause?</h3>
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> employees <span class="keyword">WHERE</span> salary > 50000 <span
+          class="keyword">AND</span> department = 'IT';
+    <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> employees <span class="keyword">WHERE</span> department = 'HR' <span
+          class="keyword">OR</span> department = 'Finance';
+  </code>
+</pre>
+
+    <h3>6. How to use BETWEEN to filter a range?</h3>
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> employees <span class="keyword">WHERE</span> salary <span
+          class="keyword">BETWEEN</span> 40000 <span class="keyword">AND</span> 60000;
+  </code>
+</pre>
+
+    <h3>7. How to filter values using IN?</h3>
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> employees <span class="keyword">WHERE</span> department <span
+          class="keyword">IN</span> ('HR', 'IT', 'Finance');
+  </code>
+</pre>
+
+    <h3>8. How to sort records in ascending/descending order?</h3>
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> employees <span
+          class="keyword">ORDER BY</span> salary <span class="keyword">ASC</span>;
+    <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> employees <span
+          class="keyword">ORDER BY</span> salary <span class="keyword">DESC</span>;
+  </code>
+</pre>
+
+    <h3>9. How to count the number of rows in a table?</h3>
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">SELECT</span> <span class="function">COUNT</span>(*) <span class="keyword">FROM</span> employees;
+  </code>
+</pre>
+
+    <h3>10. How to get the maximum and minimum salary?</h3>
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">SELECT</span> <span class="function">MAX</span>(salary) <span class="keyword">FROM</span> employees;
+    <span class="keyword">SELECT</span> <span class="function">MIN</span>(salary) <span class="keyword">FROM</span> employees;
+  </code>
+</pre>
+
+    <h3>11. How to get the average salary?</h3>
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">SELECT</span> <span class="function">AVG</span>(salary) <span class="keyword">FROM</span> employees;
+  </code>
+</pre>
+
+    <h3>12. How to rename a column in the result?</h3>
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">SELECT</span> salary <span class="keyword">AS</span> monthly_salary <span
+          class="keyword">FROM</span> employees;
+  </code>
+</pre>
+
+    <h3>13. How to get total salary grouped by department?</h3>
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">SELECT</span> department, <span class="function">SUM</span>(salary) <span
+          class="keyword">FROM</span> employees <span class="keyword">GROUP BY</span> department;
+  </code>
+</pre>
+
+    <h3>14. How to get departments with more than 5 employees?</h3>
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">SELECT</span> department, <span class="function">COUNT</span>(*) <span
+          class="keyword">FROM</span> employees <span class="keyword">GROUP BY</span> department <span class="keyword">HAVING</span> <span
+          class="function">COUNT</span>(*) > 5;
+  </code>
+</pre>
+
+    <h3>15. How to fetch top 3 highest salaries?</h3>
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> employees <span
+          class="keyword">ORDER BY</span> salary <span class="keyword">DESC</span> <span class="keyword">LIMIT</span> 3;
+  </code>
+</pre>
+
+    <h3>16. How to update a record?</h3>
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">UPDATE</span> employees <span class="keyword">SET</span> salary = salary + 5000 <span
+          class="keyword">WHERE</span> id = 101;
+  </code>
+</pre>
+
+    <h3>17. How to delete records from a table?</h3>
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">DELETE FROM</span> employees <span class="keyword">WHERE</span> department = 'Temp';
+  </code>
+</pre>
+
+    <h3>18. How to insert a new row?</h3>
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">INSERT INTO</span> employees (id, name, salary, department)
+    <span class="keyword">VALUES</span> (110, 'Ravi', 60000, 'IT');
+  </code>
+</pre>
+
+    <h3>19. What does IS NULL and IS NOT NULL do?</h3>
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> employees <span class="keyword">WHERE</span> manager_id <span
+          class="keyword">IS NULL</span>;
+    <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> employees <span class="keyword">WHERE</span> manager_id <span
+          class="keyword">IS NOT NULL</span>;
+  </code>
+</pre>
+
+    <h3>20. How to get the second highest salary?</h3>
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">SELECT</span> <span class="function">MAX</span>(salary) <span class="keyword">FROM</span> employees
+    <span class="keyword">WHERE</span> salary < (<span class="keyword">SELECT</span> <span class="function">MAX</span>(salary) <span
+          class="keyword">FROM</span> employees);
+  </code>
+</pre>
+
+    <h3>21. What is the difference between DELETE, TRUNCATE, and DROP?</h3>
+    <ul>
+        <li>DELETE: Removes rows (can be rolled back, can have WHERE clause)</li>
+        <li>TRUNCATE: Removes all rows (faster, can't be rolled back, resets auto-increment)</li>
+        <li>DROP: Removes entire table structure</li>
+    </ul>
+
+    <div class="table-container">
+        <br>
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Keyword</th>
+                <th>Use / Meaning</th>
+                <th>Example</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>SELECT</td>
+                <td>Retrieve data from a table</td>
+                <td>SELECT * FROM employees;</td>
+                <td>Fetches all rows and columns</td>
+            </tr>
+            <tr>
+                <td>FROM</td>
+                <td>Specify the table to retrieve from</td>
+                <td>SELECT name FROM employees;</td>
+                <td>Defines source table</td>
+            </tr>
+            <tr>
+                <td>WHERE</td>
+                <td>Filter records based on condition</td>
+                <td>SELECT * FROM employees WHERE salary > 50000;</td>
+                <td>Conditional filtering</td>
+            </tr>
+            <tr>
+                <td>AND , OR</td>
+                <td>Combine multiple conditions</td>
+                <td>WHERE dept = 'IT' AND salary > 50000;</td>
+                <td>Logical operators</td>
+            </tr>
+            <tr>
+                <td>IN</td>
+                <td>Check against multiple values</td>
+                <td>WHERE dept IN ('IT', 'HR')</td>
+                <td>Shorter alternative to multiple ORs</td>
+            </tr>
+            <tr>
+                <td>BETWEEN</td>
+                <td>Filter range of values</td>
+                <td>WHERE salary BETWEEN 30000 AND 50000;</td>
+                <td>For inclusive ranges</td>
+            </tr>
+            <tr>
+                <td>LIKE</td>
+                <td>Pattern matching with wildcards</td>
+                <td>WHERE name LIKE 'A%'</td>
+                <td>% for any chars, _ for one char</td>
+            </tr>
+            <tr>
+                <td>IS NULL</td>
+                <td>Check if column has no value</td>
+                <td>WHERE manager_id IS NULL;</td>
+                <td>Detects missing values</td>
+            </tr>
+            <tr>
+                <td>DISTINCT</td>
+                <td>Return only unique values</td>
+                <td>SELECT DISTINCT dept FROM employees;</td>
+                <td>Removes duplicates</td>
+            </tr>
+            <tr>
+                <td>ORDER BY</td>
+                <td>Sort the result set</td>
+                <td>ORDER BY salary DESC;</td>
+                <td>ASC (default), DESC</td>
+            </tr>
+            <tr>
+                <td>GROUP BY</td>
+                <td>Group rows by column values</td>
+                <td>GROUP BY dept</td>
+                <td>Used with aggregate functions</td>
+            </tr>
+            <tr>
+                <td>HAVING</td>
+                <td>Filter grouped data</td>
+                <td>HAVING COUNT(*) > 5;</td>
+                <td>Like WHERE but used after GROUP BY</td>
+            </tr>
+            <tr>
+                <td>COUNT()</td>
+                <td>Returns number of rows</td>
+                <td>SELECT COUNT(*) FROM employees;</td>
+                <td>Aggregate function</td>
+            </tr>
+            <tr>
+                <td>SUM()</td>
+                <td>Returns total value</td>
+                <td>SELECT SUM(salary) FROM employees;</td>
+                <td>For numeric columns</td>
+            </tr>
+            <tr>
+                <td>AVG()</td>
+                <td>Returns average value</td>
+                <td>SELECT AVG(salary) FROM employees;</td>
+                <td>For averages</td>
+            </tr>
+            <tr>
+                <td>MAX()</td>
+                <td>Returns largest value</td>
+                <td>SELECT MAX(salary) FROM employees;</td>
+                <td>Highest number</td>
+            </tr>
+            <tr>
+                <td>MIN()</td>
+                <td>Returns smallest value</td>
+                <td>SELECT MIN(salary) FROM employees;</td>
+                <td>Lowest number</td>
+            </tr>
+            <tr>
+                <td>INSERT</td>
+                <td>Add new record to table</td>
+                <td>INSERT INTO employees (id, name) VALUES (1, 'Ravi');</td>
+                <td>Add new data</td>
+            </tr>
+            <tr>
+                <td>UPDATE</td>
+                <td>Modify existing record</td>
+                <td>UPDATE employees SET salary = 60000 WHERE id = 1;</td>
+                <td>Modify data</td>
+            </tr>
+            <tr>
+                <td>DELETE</td>
+                <td>Remove record from table</td>
+                <td>DELETE FROM employees WHERE id = 1;</td>
+                <td>Deletes data</td>
+            </tr>
+            <tr>
+                <td>CREATE</td>
+                <td>Create database/table</td>
+                <td>CREATE TABLE employees (...);</td>
+                <td>Used in DDL</td>
+            </tr>
+            <tr>
+                <td>DROP</td>
+                <td>Delete table/database</td>
+                <td>DROP TABLE employees;</td>
+                <td>Deletes structure</td>
+            </tr>
+            <tr>
+                <td>ALTER</td>
+                <td>Modify structure of table</td>
+                <td>ALTER TABLE employees ADD age INT;</td>
+                <td>Add/modify columns</td>
+            </tr>
+            <tr>
+                <td>TRUNCATE</td>
+                <td>Remove all data from table</td>
+                <td>TRUNCATE TABLE employees;</td>
+                <td>Faster than DELETE</td>
+            </tr>
+            <tr>
+                <td>LIMIT</td>
+                <td>Restrict number of rows returned</td>
+                <td>SELECT * FROM employees LIMIT 5;</td>
+                <td>Pagination</td>
+            </tr>
+            <tr>
+                <td>JOIN</td>
+                <td>Combine rows from two tables</td>
+                <td>INNER JOIN, LEFT JOIN, etc.</td>
+                <td>Based on related keys</td>
+            </tr>
+            <tr>
+                <td>UNION</td>
+                <td>Combine results of two queries</td>
+                <td>SELECT name FROM a UNION SELECT name FROM b;</td>
+                <td>Removes duplicates</td>
+            </tr>
+            <tr>
+                <td>AS</td>
+                <td>Rename column or table in result</td>
+                <td>SELECT name AS employee_name FROM employees;</td>
+                <td>For aliasing</td>
+            </tr>
+            <tr>
+                <td>PRIMARY KEY</td>
+                <td>Uniquely identifies a row</td>
+                <td>id INT PRIMARY KEY</td>
+                <td>No duplicates or nulls</td>
+            </tr>
+            <tr>
+                <td>FOREIGN KEY</td>
+                <td>Reference to another table's primary key</td>
+                <td>FOREIGN KEY (dept_id) REFERENCES departments(id)</td>
+                <td>Enforces relationship</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="table-container">
+        <br>
+        <h2>SQL vs MongoDB</h2>
+        <p>Comprehensive comparison between Oracle SQL Database and MongoDB, covering architecture, features, usage,
+            performance, and more:</p>
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Feature / Criteria</th>
+                <th>Oracle SQL Database</th>
+                <th>MongoDB</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Database Type</td>
+                <td>Relational (RDBMS)</td>
+                <td>NoSQL (Document-based)</td>
+            </tr>
+            <tr>
+                <td>Data Format</td>
+                <td>Tables (rows and columns)</td>
+                <td>JSON/BSON documents</td>
+            </tr>
+            <tr>
+                <td>Schema</td>
+                <td>Fixed schema (strict typing)</td>
+                <td>Schema-less (flexible structure)</td>
+            </tr>
+            <tr>
+                <td>Data Integrity</td>
+                <td>Strong (via constraints, relationships)</td>
+                <td>Moderate (requires manual validation or schema enforcement using schema validators)</td>
+            </tr>
+            <tr>
+                <td>Query Language</td>
+                <td>SQL</td>
+                <td>MongoDB Query Language (MQL)</td>
+            </tr>
+            <tr>
+                <td>Joins Support</td>
+                <td>Fully supported with multi-table JOINS</td>
+                <td>Limited; supported via $lookup in aggregation</td>
+            </tr>
+            <tr>
+                <td>ACID Compliance</td>
+                <td>Fully ACID compliant</td>
+                <td>ACID compliant (for single or multi-document transactions from v4.0)</td>
+            </tr>
+            <tr>
+                <td>BASE Model</td>
+                <td>No (strict consistency)</td>
+                <td>Yes (Basically Available, Soft state, Eventual consistency)</td>
+            </tr>
+            <tr>
+                <td>Indexing</td>
+                <td>Rich indexing support (B-tree, bitmap, function-based)</td>
+                <td>Supports single, compound, text, geo indexes</td>
+            </tr>
+            <tr>
+                <td>Transactions</td>
+                <td>Full transaction support</td>
+                <td>Multi-document transactions supported</td>
+            </tr>
+            <tr>
+                <td>Scalability</td>
+                <td>Vertical scaling</td>
+                <td>Horizontal scaling (sharding)</td>
+            </tr>
+            <tr>
+                <td>Performance</td>
+                <td>Optimized for complex queries</td>
+                <td>Fast for high-volume write/read operations</td>
+            </tr>
+            <tr>
+                <td>Storage Engine</td>
+                <td>Oracle proprietary (row/column-based)</td>
+                <td>WiredTiger (default), MMAPv1 (deprecated)</td>
+            </tr>
+            <tr>
+                <td>Deployment</td>
+                <td>On-premises, Oracle Cloud</td>
+                <td>On-premises, MongoDB Atlas (cloud)</td>
+            </tr>
+            <tr>
+                <td>Replication</td>
+                <td>Data Guard, RAC</td>
+                <td>Replica sets (native support)</td>
+            </tr>
+            <tr>
+                <td>Sharding / Partitioning</td>
+                <td>Partitioning supported</td>
+                <td>Sharding built-in (automatic and manual)</td>
+            </tr>
+            <tr>
+                <td>Data Types</td>
+                <td>Strong types (DATE, VARCHAR2, NUMBER, etc.)</td>
+                <td>Flexible types (string, array, object, etc.)</td>
+            </tr>
+            <tr>
+                <td>Backup and Recovery</td>
+                <td>RMAN, Data Pump</td>
+                <td>Mongodump, Atlas Backup</td>
+            </tr>
+            <tr>
+                <td>Security</td>
+                <td>Advanced (TDE, audit, roles)</td>
+                <td>Basic to advanced (TLS, role-based access)</td>
+            </tr>
+            <tr>
+                <td>Tooling</td>
+                <td>SQL Developer, OEM</td>
+                <td>MongoDB Compass, Mongo Shell, Atlas UI</td>
+            </tr>
+            <tr>
+                <td>Best Use Cases</td>
+                <td>Banking, ERP, Finance, CRM</td>
+                <td>Real-time apps, Analytics, IoT, CMS, Catalogs</td>
+            </tr>
+            <tr>
+                <td>Development Speed</td>
+                <td>Slower, rigid schema changes</td>
+                <td>Faster, agile-friendly</td>
+            </tr>
+            <tr>
+                <td>Community & Support</td>
+                <td>Mature enterprise support</td>
+                <td>Large open-source + enterprise support</td>
+            </tr>
+            <tr>
+                <td>License</td>
+                <td>Commercial (expensive)</td>
+                <td>Open source (Server Side Public License), commercial support available</td>
+            </tr>
+            <tr>
+                <td>Learning Curve</td>
+                <td>Higher for non-relational concepts</td>
+                <td>Easier for developers familiar with JSON</td>
+            </tr>
+            <tr>
+                <td>Vendor Lock-in</td>
+                <td>Yes (Oracle ecosystem)</td>
+                <td>Low (open-source tools)</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <h2>SQL JOINS</h2>
+    <p>JOINS are used to combine rows from two or more tables based on a related column between them.</p>
+
+    <h3>■ Sample Tables Used</h3>
+    <p>employees Table</p>
+    <div class="table-container">
+        <br>
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>dept_id</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>1</td>
+                <td>Ravi</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Anu</td>
+                <td>20</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>John</td>
+                <td>NULL</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Priya</td>
+                <td>30</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p>departments Table</p>
+    <div class="table-container">
+        <br>
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>dept_id</th>
+                <th>dept_name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>10</td>
+                <td>HR</td>
+            </tr>
+            <tr>
+                <td>20</td>
+                <td>IT</td>
+            </tr>
+            <tr>
+                <td>30</td>
+                <td>Finance</td>
+            </tr>
+            <tr>
+                <td>40</td>
+                <td>Marketing</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>1. INNER JOIN</h3>
+    <p>Returns only the matching rows from both tables.</p>
+
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">SELECT</span> e.name, d.dept_name
+    <span class="keyword">FROM</span> employees e
+    <span class="keyword">INNER JOIN</span> departments d <span class="keyword">ON</span> e.dept_id = d.dept_id;
+  </code>
+</pre>
+
+    <p>✔ Output:</p>
+    <div class="table-container">
+        <br>
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>name</th>
+                <th>dept_name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Ravi</td>
+                <td>HR</td>
+            </tr>
+            <tr>
+                <td>Anu</td>
+                <td>IT</td>
+            </tr>
+            <tr>
+                <td>Priya</td>
+                <td>Finance</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p>Note: John (no department) and Marketing (no employee) are excluded.</p>
+
+    <h3>2. LEFT JOIN (LEFT OUTER JOIN)</h3>
+    <p>Returns all rows from the left table ( employees ), and matching rows from the right table. If no match, NULL
+        is returned.</p>
+
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">SELECT</span> e.name, d.dept_name
+    <span class="keyword">FROM</span> employees e
+    <span class="keyword">LEFT JOIN</span> departments d <span class="keyword">ON</span> e.dept_id = d.dept_id;
+  </code>
+</pre>
+
+    <p>✔ Output:</p>
+    <div class="table-container">
+        <br>
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>name</th>
+                <th>dept_name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Ravi</td>
+                <td>HR</td>
+            </tr>
+            <tr>
+                <td>Anu</td>
+                <td>IT</td>
+            </tr>
+            <tr>
+                <td>John</td>
+                <td>NULL</td>
+            </tr>
+            <tr>
+                <td>Priya</td>
+                <td>Finance</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p>Note: John has no department, so dept_name is NULL .</p>
+
+    <h3>3. RIGHT JOIN (RIGHT OUTER JOIN)</h3>
+    <p>Returns all rows from the right table ( departments ), and matching rows from the left table. If no match,
+        NULL is returned.</p>
+
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">SELECT</span> e.name, d.dept_name
+    <span class="keyword">FROM</span> employees e
+    <span class="keyword">RIGHT JOIN</span> departments d <span class="keyword">ON</span> e.dept_id = d.dept_id;
+  </code>
+</pre>
+
+    <p>📌 Output:</p>
+    <div class="table-container">
+        <br>
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>name</th>
+                <th>dept_name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Ravi</td>
+                <td>HR</td>
+            </tr>
+            <tr>
+                <td>Anu</td>
+                <td>IT</td>
+            </tr>
+            <tr>
+                <td>Priya</td>
+                <td>Finance</td>
+            </tr>
+            <tr>
+                <td>NULL</td>
+                <td>Marketing</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p>📌 Note: No employee is in Marketing department, so name is NULL.</p>
+
+    <h3>4. FULL JOIN (FULL OUTER JOIN)</h3>
+    <p>Returns all rows from both tables. Non-matching rows will have NULL values.</p>
+    <p>Not supported in MySQL directly (can simulate using UNION).</p>
+
+    <pre class="sql-code">
+  <code>
+    <span class="comment">-- Simulated FULL JOIN using UNION in MySQL</span>
+    <span class="keyword">SELECT</span> e.name, d.dept_name
+    <span class="keyword">FROM</span> employees e
+    <span class="keyword">LEFT JOIN</span> departments d <span class="keyword">ON</span> e.dept_id = d.dept_id
+    <span class="keyword">UNION</span>
+    <span class="keyword">SELECT</span> e.name, d.dept_name
+    <span class="keyword">FROM</span> employees e
+    <span class="keyword">RIGHT JOIN</span> departments d <span class="keyword">ON</span> e.dept_id = d.dept_id;
+  </code>
+</pre>
+
+    <p>📌 Output:</p>
+    <div class="table-container">
+        <br>
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>name</th>
+                <th>dept_name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Ravi</td>
+                <td>HR</td>
+            </tr>
+            <tr>
+                <td>Anu</td>
+                <td>IT</td>
+            </tr>
+            <tr>
+                <td>John</td>
+                <td>NULL</td>
+            </tr>
+            <tr>
+                <td>Priya</td>
+                <td>Finance</td>
+            </tr>
+            <tr>
+                <td>NULL</td>
+                <td>Marketing</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>5. CROSS JOIN</h3>
+    <p>Returns the Cartesian product – every row from the first table is paired with every row from the second.</p>
+
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">SELECT</span> e.name, d.dept_name
+    <span class="keyword">FROM</span> employees e
+    <span class="keyword">CROSS JOIN</span> departments d;
+  </code>
+</pre>
+
+    <p>📌 Output (4 employees x 4 departments = 16 rows):</p>
+    <div class="table-container">
+        <br>
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>name</th>
+                <th>dept_name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Ravi</td>
+                <td>HR</td>
+            </tr>
+            <tr>
+                <td>Ravi</td>
+                <td>IT</td>
+            </tr>
+            <tr>
+                <td>Ravi</td>
+                <td>Finance</td>
+            </tr>
+            <tr>
+                <td>Ravi</td>
+                <td>Marketing</td>
+            </tr>
+            <tr>
+                <td>Anu</td>
+                <td>HR</td>
+            </tr>
+            <tr>
+                <td>Anu</td>
+                <td>IT</td>
+            </tr>
+            <tr>
+                <td>...</td>
+                <td>...</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p>---</p>
+    <p>🔍 Use case: Testing all combinations (e.g., matching products to regions).</p>
+    <p>---</p>
+
+    <h3>6. SELF JOIN</h3>
+    <p>Used to join a table to itself.</p>
+    <p>Example: Find employees who have the same department.</p>
+
+    <pre class="sql-code">
+  <code>
+    <span class="keyword">SELECT</span> e1.name <span class="keyword">AS</span> Emp1, e2.name <span
+          class="keyword">AS</span> Emp2, e1.dept_id
+    <span class="keyword">FROM</span> employees e1
+    <span class="keyword">JOIN</span> employees e2 <span class="keyword">ON</span> e1.dept_id = e2.dept_id
+    <span class="keyword">WHERE</span> e1.id <> e2.id;
+  </code>
+</pre>
+
+    <h3>✅ Summary Table</h3>
+    <div class="table-container">
+        <br>
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>JOIN Type</th>
+                <th>Description</th>
+                <th>Includes Unmatched Rows?</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>INNER JOIN</td>
+                <td>Matches in both tables</td>
+                <td>✅ No</td>
+            </tr>
+            <tr>
+                <td>LEFT JOIN</td>
+                <td>All from left + matches from right</td>
+                <td>✅ Left only</td>
+            </tr>
+            <tr>
+                <td>RIGHT JOIN</td>
+                <td>All from right + matches from left</td>
+                <td>✅ Right only</td>
+            </tr>
+            <tr>
+                <td>FULL JOIN</td>
+                <td>All rows from both tables</td>
+                <td>✅ Both</td>
+            </tr>
+            <tr>
+                <td>CROSS JOIN</td>
+                <td>All combinations (Cartesian product)</td>
+                <td>✅ No filter</td>
+            </tr>
+            <tr>
+                <td>SELF JOIN</td>
+                <td>Join same table on itself</td>
+                <td>✅ Depends on condition</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+    </div>
 </main>
 
 <!-- Scripts -->
