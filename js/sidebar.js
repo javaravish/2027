@@ -137,5 +137,15 @@ const sidebars = {
           <li class="nav-item"><a class="nav-link" data-href="/kafka.html" href="#">Kafka</a></li>
         </ul>
       </aside>
+    `,
+
+  db: `
+      <!-- Interview Sidebar -->
+      <aside id="sidebar">
+        <ul class="menu">
+          <h4>Kafka Tutorial</h4>
+          <li class="nav-item"><a class="nav-link" data-href="/database.html" href="#">Database</a></li>
+        </ul>
+      </aside>
     `
 };
