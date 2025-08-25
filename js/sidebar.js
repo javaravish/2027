@@ -115,6 +115,54 @@ const sidebars = {
     </aside>
   `,
 
+  sb: `
+    <!-- Springboot Sidebar -->
+    <aside id="sidebar">
+      <ul class="menu">
+        <h4>Springboot Framework</h4>
+        <li class="nav-item"><a class="nav-link" data-href="/spring/intro.html" href="#">Spring Introduction</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/spring/core.html" href="#">Spring Core</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/spring/beans.html" href="#">Spring Beans</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/spring/di.html" href="#">Dependency Injection</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/spring/aop.html" href="#">Aspect Oriented Programming</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/spring/mvc.html" href="#">Spring MVC</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/spring/security.html" href="#">Spring Security</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/spring/data.html" href="#">Spring Data</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/spring/boot.html" href="#">Spring Boot</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/spring/cloud.html" href="#">Spring Cloud</a></li>
+      </ul>
+    </aside>
+  `,
+
+  ms: `
+    <!-- MS Sidebar -->
+    <aside id="sidebar">
+      <ul class="menu">
+        <h4>Microservices</h4>
+        <li class="nav-item"><a class="nav-link" data-href="/ms/intro.html" href="#">Introduction</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/ms/architecture.html" href="#">Architecture</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/ms/registry-discovery.html" href="#">Service Registry and Discovery</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/ms/config-server.html" href="#">Config Server</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/ms/gateway.html" href="#">API Gateway</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/ms/resilience4j.html" href="#">Circuit Breaker</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/ms/webclient.html" href="#">WebClient</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/ms/feign.html" href="#">Feign Client</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/ms/zipkin.html" href="#">Zipkin and Sleuth</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/ms/saga.html" href="#">Saga Pattern</a></li>
+      </ul>
+    </aside>
+  `,
+
+    kafka: `
+        <!-- Interview Sidebar -->
+        <aside id="sidebar">
+          <ul class="menu">
+            <h4>Kafka Tutorial</h4>
+            <li class="nav-item"><a class="nav-link" data-href="/kafka.html" href="#">Kafka</a></li>
+          </ul>
+        </aside>
+      `,
+
   interview: `
     <!-- Interview Sidebar -->
     <aside id="sidebar">
@@ -128,16 +176,6 @@ const sidebars = {
       </ul>
     </aside>
   `,
-
-  kafka: `
-      <!-- Interview Sidebar -->
-      <aside id="sidebar">
-        <ul class="menu">
-          <h4>Kafka Tutorial</h4>
-          <li class="nav-item"><a class="nav-link" data-href="/kafka.html" href="#">Kafka</a></li>
-        </ul>
-      </aside>
-    `,
 
   db: `
       <!-- Interview Sidebar -->

@@ -920,6 +920,7 @@ article {
   overflow-x: auto;       /* Horizontal scroll if too wide */
   overflow-y: hidden;     /* Prevent vertical scroll here */
   margin-bottom: 16px; /* ✅ space after table */
+  margin-top: 10px;
 }
 
 /* Table styles */

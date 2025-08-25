@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Registry</title>
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../js/styles.css"/>
+</head>
+<body data-sidebar="ms">
+<nav>
+    <button class="mobile-sidebar-btn" id="mobileSidebarBtn">☰</button>
+    <div class="breadcrumbs">
+        <a href="../home.html">Home</a>
+        <span class="separator">/</span>
+        <a href="#">microservices</a>
+        <span class="separator">/</span>
+        <a href="#">Introduction</a>
+    </div>
+</nav>
+<!-- Components will be inserted here by components.js -->
+
+<!-- Main Content Section -->
+<main id="content">
+
+    <h3>1. What is a Service Registry?</h3>
+
+    <p>The Eureka Server acts as a central <strong>service registry</strong> where all microservices in an ecosystem
+        register themselves. Its primary purpose is to enable dynamic service discovery, allowing microservices to
+        locate and communicate with each other.</p>
+
+    <h3>Why Use a Service Registry?</h3>
+
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Without Service Registry</th>
+                <th>With Service Registry (Eureka)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Services have to know IPs/ports</td>
+                <td>Services discover each other dynamically</td>
+            </tr>
+            <tr>
+                <td>Hardcoded URLs</td>
+                <td>Load-balanced discovery</td>
+            </tr>
+            <tr>
+                <td>Hard to scale</td>
+                <td>Auto-registration & health check</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <ul>
+        <li>✅ It allows <strong>dynamic discovery</strong>, <strong>load balancing</strong>, and <strong>fault
+            tolerance</strong></li>
+        <li>✅ Helps avoid hardcoded URLs and enables <strong>service-to-service communication</strong></li>
+    </ul>
+
+    <h3>1.1. Setting up Eureka Server</h3>
+
+    <p>The process of setting up a Eureka Server involves:</p>
+
+    <p><strong>Project Initialization: </strong> Using Spring Initializer with Maven build tool, adding spring web and
+        Eureka server dependencies.</p>
+
+    <pre class="code-block">
+<code>
+<span class="tag">&lt;dependency&gt;</span>
+<span class="tag">&lt;groupId&gt;</span>org.springframework.cloud<span class="tag">&lt;/groupId&gt;</span>
+<span class="tag">&lt;artifactId&gt;</span>spring-cloud-starter-netflix-eureka-server<span class="tag">&lt;/artifactId&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span>
+</code>
+</pre>
+
+    <p><strong>Enabling Eureka Server: </strong>Annotating the main application class with @EnableEurekaServer.</p>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@SpringBootApplication</span>
+<span class="annotation">@EnableEurekaServer</span>
+<span class="keyword">public class</span> <span class="class">EurekaServerApp</span> {
+    <span class="keyword">public static void</span> <span class="method">main</span>(<span class="class">String</span>[] <span
+        class="var">args</span>) {
+        <span class="class">SpringApplication</span>.run(<span class="class">EurekaServerApp</span>.class, <span
+        class="var">args</span>);
+    }
+}
+</code>
+</pre>
+
+    <p><strong>Configuration (application.yml): </strong>Defining spring.application.name (e.g., eureka-server).</p>
+
+    <p>Setting server.port (default is 8761).</p>
+
+    <pre class="code-block">
+<code>
+<span class="key">eureka:</span>
+  <span class="key">client:</span>
+    <span class="key">register-with-eureka:</span> <span class="value">false</span>
+    <span class="key">fetch-registry:</span> <span class="value">false</span>
+</code>
+</pre>
+
+    <p><strong>Crucially, for the Eureka Server itself not to register with itself and fetch its own registry:</strong>
+    </p>
+    <p>eureka.client.register-with-eureka: false</p>
+
+    <p>eureka.client.fetch-registry: false</p>
+
+    <h3>1.2. Monitoring Eureka Server</h3>
+
+    <p>Once started, the Eureka Server provides a dashboard (accessible via its port, e.g., http://localhost:8761) that
+        displays:</p>
+
+    <p>System status, Instances currently running and registered with Eureka.</p>
+
+    <h3>2. Eureka Client</h3>
+
+    <p>Eureka Clients are individual microservices that register themselves with the Eureka Server and use it to
+        discover other services.</p>
+
+    <h3>Setting up a Eureka Client (Product Service Example)</h3>
+
+    <p>The example demonstrates setting up a product-service as a Eureka client:</p>
+
+    <p><strong>Project Initialization:</strong> Using Spring Initializer, adding spring web, Eureka Discovery Client,
+        and Lombok dependencies.</p>
+
+    <pre class="code-block">
+<code>
+<span class="tag">&lt;dependency&gt;</span>
+<span class="tag">&lt;groupId&gt;</span>org.springframework.cloud<span class="tag">&lt;/groupId&gt;</span>
+<span class="tag">&lt;artifactId&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="tag">&lt;/artifactId&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span>
+</code>
+</pre>
+
+    <p><strong>Configuration (application.yml):</strong> Defining spring.application.name (e.g., product-service). This
+        name is crucial as it's how the service will be identified in the registry.</p>
+
+    <pre class="code-block">
+<code>
+<span class="key">eureka:</span>
+  <span class="key">client:</span>
+    <span class="key">service-url:</span>
+      <span class="key">defaultZone:</span> <span class="value">http://localhost:8761/eureka</span>
+</code>
+</pre>
+
+    <p>Setting server.port (e.g., 8081).</p>
+
+    <p><strong>Specifying Eureka Server URL:</strong> eureka.client.service-url.defaultZone:
+        http://localhost:8761/eureka/</p>
+
+    <p><strong>Automatic Registration:</strong> The Eureka Discovery Client dependency handles the registration process
+        automatically when the service starts.</p>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@SpringBootApplication</span>
+<span class="annotation">@EnableEurekaClient</span> <span class="comment">//Optional in newer spring versions</span>
+<span class="keyword">public class</span> <span class="class">UserServiceApp</span>{
+    <span class="keyword">public static void</span> <span class="method">main</span>(<span class="class">String</span>[] <span
+        class="var">args</span>){
+        <span class="class">SpringApplication</span>.run(<span class="class">UserServiceApp</span>.class, <span
+        class="var">args</span>);
+    }
+}
+</code>
+</pre>
+
+    <h3>Service Instance Identification</h3>
+
+    <p>By default, Eureka identifies instances by a combination of application name, IP address, and port number. The
+        source demonstrates how to customize this instance ID for better readability and uniqueness, especially when
+        running multiple instances of the same service.</p>
+
+    <p><strong>Default ID:</strong> "application name and the status here right here you can see some application name
+        right so with the IP and the service name and the port number."</p>
+
+    <p><strong>Customizing Instance ID:</strong> By adding the following to application.yml:</p>
+
+    <pre class="code-block">
+<code>
+<span class="key">eureka:</span>
+  <span class="key">instance:</span>
+    <span class="key">instance-id:</span> <span class="value">${spring.application.name}:${random.value}</span>
+</code>
+</pre>
+
+    <p>This changes the displayed instance ID to include the application name and a random value, making each instance's
+        entry unique and easily distinguishable in the Eureka dashboard.</p>
+
+    <h3>3. Dynamic Service Discovery in Action</h3>
+
+    <p>The core benefit of Eureka is demonstrated through running multiple instances of a service.</p>
+
+    <p><strong>Running Multiple Instances:</strong> The source shows how to start a second instance of the
+        product-service on a different port (e.g., 8083) using a VM option Dserver.port=8083.</p>
+
+    <p><strong>Eureka Server's View:</strong> When both product-service instances are running, the Eureka Server
+        dashboard displays "the two instances here," demonstrating that both are successfully registered and
+        discoverable.</p>
+
+    <p><strong>Client Discovery (Implied):</strong> While not explicitly shown in the provided excerpts how a client
+        service would use Eureka to discover and call product-service, the setup clearly establishes the foundation for
+        this. For example, a consumer service would query Eureka for "product-service" and receive the details (IP,
+        port) of available instances to make requests.</p>
+
+    <h3>4. Key Takeaways and Benefits</h3>
+
+    <p><strong>Centralized Registry:</strong> Eureka provides a single point of truth for all running microservices.</p>
+
+    <p><strong>Decoupling:</strong> Services don't need to hardcode the network locations of other services; they rely
+        on Eureka for resolution.</p>
+
+    <p><strong>Scalability & Resilience:</strong> New instances of services can be added or removed dynamically, and
+        Eureka keeps the registry updated, supporting load balancing and fault tolerance.</p>
+
+    <p><strong>Simplified Communication:</strong> Enables microservices to discover and communicate with each other
+        easily, even as their network locations change.</p>
+
+    <p><strong>Netflix OSS & Spring Cloud Integration:</strong> Eureka is a mature and widely adopted solution within
+        the Spring Cloud ecosystem, leveraging Netflix's experience in building highly distributed systems.</p>
+</main>
+<!-- Scripts -->
+<script src="../js/sidebar.js"></script>
+<script src="../js/componentLoader.js"></script>
+</body>
+</html>
