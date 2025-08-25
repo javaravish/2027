@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Zipkin</title>
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../js/styles.css"/>
+</head>
+<body data-sidebar="ms">
+<nav>
+    <button class="mobile-sidebar-btn" id="mobileSidebarBtn">☰</button>
+    <div class="breadcrumbs">
+        <a href="../home.html">Home</a>
+        <span class="separator">/</span>
+        <a href="#">microservices</a>
+        <span class="separator">/</span>
+        <a href="#">Zipkin</a>
+    </div>
+</nav>
+<!-- Components will be inserted here by components.js -->
+
+<!-- Main Content Section -->
+<main id="content">
+
+    <p><strong>Spring Cloud Sleuth</strong> is used for distributed tracing in microservices.</p>
+
+    <ul>
+        <li>It automatically adds Trace IDs and Span IDs to logs.</li>
+        <li>Helps track a request across multiple services.</li>
+        <li>Often used with Zipkin, OpenTelemetry, or <strong>Grafana Tempo</strong> to visualize trace flows.</li>
+    </ul>
+
+    <hr>
+
+    <h3>Features of Sleuth</h3>
+
+    <ul>
+        <li>Auto-configuration of logging with <code>traceId</code> and <code>spanId</code></li>
+        <li>Works with <code>RestTemplate</code>, <code>WebClient</code>, and messaging tools</li>
+        <li>Adds tracing information in HTTP headers (e.g., X-B3-TraceId)</li>
+    </ul>
+
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>&lt;!-- Sleuth for tracing --&gt;</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <pre class="code-block">
+<code>
+<span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>org.springframework.cloud<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>spring-cloud-starter-sleuth<span class="tag">&lt;/artifactId&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span>
+</code>
+                    </pre>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <pre class="code-block">
+<code>
+<span class="key">spring:</span>
+  <span class="key">application:</span>
+    <span class="key">name:</span> <span class="value">order-service</span>
+
+  <span class="key">logging:</span>
+    <span class="key">pattern:</span>
+      <span class="key">level:</span> <span class="value">"%Sp [${spring.application.name:},%X(traceId),%X(spanId)]"</span>
+</code>
+</pre>
+
+    <pre class="code-block">
+<code>
+<span class="value">INFO [order-service, 6fd19e8b0a5d1f9c, 6fd19e8b0a5d1f9c] Starting OrderController</span>
+</code>
+</pre>
+    <div class="card-footer">
+        <br>
+        <ul class="pagination justify-content-center">
+            <li class="page-item"><a class="page-link btn-outline-primary"
+                                     href="../ms/feign.html">&lArr; Previous</a></li>
+            <li class="page-item"><a class="page-link" href="../ms/saga.html">Next
+                &rArr;</a></li>
+        </ul>
+    </div>
+</main>
+<!-- Scripts -->
+<script src="../js/sidebar.js"></script>
+<script src="../js/componentLoader.js"></script>
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Feign Client</title>
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../js/styles.css"/>
+</head>
+<body data-sidebar="ms">
+<nav>
+    <button class="mobile-sidebar-btn" id="mobileSidebarBtn">☰</button>
+    <div class="breadcrumbs">
+        <a href="../home.html">Home</a>
+        <span class="separator">/</span>
+        <a href="#">microservices</a>
+        <span class="separator">/</span>
+        <a href="#">Feign Client</a>
+    </div>
+</nav>
+<!-- Components will be inserted here by components.js -->
+
+<!-- Main Content Section -->
+<main id="content">
+    <h3>Feign Client</h3>
+
+    <p><strong>Feign is a declarative</strong> web service client that makes it easier to interact with REST APIs. It
+        allows you to define interfaces with annotations to represent your API endpoints, and Feign handles the
+        underlying HTTP requests.).</p>
+
+    <h3>Key Features of Feign</h3>
+
+    <ol>
+        <li><strong>Declarative Syntax</strong>: Simplifies the creation of HTTP clients by using annotations, avoiding
+            the need to write boilerplate code.
+        </li>
+        <li><strong>Integration with Spring Cloud</strong>: Easily integrates with Spring Cloud components like Eureka
+            for service discovery.
+        </li>
+        <li><strong>Automatic Load Balancing</strong>: Works with Ribbon for client-side load balancing when using
+            Spring Cloud.
+        </li>
+        <li><strong>Error Handling</strong>: Provides built-in error handling and fallback mechanisms.</li>
+        <li><strong>Ease of Use</strong>: Makes it easier to define and consume RESTful services, promoting clean and
+            readable code.
+        </li>
+        <li><strong>Fallbacks</strong>: Supports Hystrix or Resilience4j for handling failures with fallback methods.
+        </li>
+        <li><strong>Automatic JSON Mapping</strong>: Uses Jackson or Gson to automatically map JSON responses to Java
+            objects.
+        </li>
+    </ol>
+
+    <hr>
+
+    <h3>1. Add Dependencies: Include the necessary dependencies in your <code>pom.xml</code>:</h3>
+
+    <pre class="code-block">
+<code>
+<span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>org.springframework.cloud<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>spring-cloud-starter-openfeign<span
+        class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;version&gt;</span>4.1.0<span class="tag">&lt;/version&gt;</span> <span class="comment">&lt;!-- Use latest version --&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span>
+</code>
+</pre>
+
+    <hr>
+
+    <h3>2. Enable Feign Clients: Enable Feign clients in your Spring Boot application class by adding the
+        @EnableFeignClients annotation:</h3>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@SpringBootApplication</span>
+<span class="annotation">@EnableFeignClients</span> <span
+        class="comment">// &lt;&lt; Required to scan Feign clients</span>
+<span class="keyword">public class</span> <span class="class">MyApp</span> {
+    <span class="keyword">public static</span> <span class="class">void</span> <span class="method">main</span>(<span
+        class="class">String</span>[] <span class="var">args</span>) {
+        <span class="class">SpringApplication</span>.<span class="method">run</span>(<span
+        class="class">MyApp</span>.<span class="keyword">class</span>, <span class="var">args</span>);
+    }
+}
+</code>
+</pre>
+
+    <hr>
+
+    <h3>3. Define Feign Client Interface: Create a Java interface to define the RESTful API endpoints:</h3>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@FeignClient</span>(
+    name = <span class="string">"github-client"</span>,
+    url = <span class="string">"https://api.github.com"</span>,
+    configuration = <span class="class">FeignConfig</span>.<span class="keyword">class</span>
+)
+<span class="keyword">public interface</span> <span class="class">GitHubClient</span> {
+    <span class="annotation">@GetMapping</span>(<span class="string">"/users/username!"</span>)
+    <span class="class">GitHubUser</span> <span class="method">getUser</span>(<span
+        class="annotation">@PathVariable</span> <span class="class">String</span> <span class="var">username</span>);
+}
+</code>
+</pre>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@FeignClient</span>(name = <span class="string">"user-service"</span>, url = <span
+        class="string">"http://localhost:8081"</span>)
+<span class="keyword">public interface</span> <span class="class">UserClient</span> {
+
+    <span class="annotation">@GetMapping</span>(<span class="string">"/user/profile"</span>)
+    <span class="class">String</span> <span class="method">getUserProfile</span>();
+}
+</code>
+</pre>
+
+    <h3>4. Add in yaml file</h3>
+
+    <pre class="code-block">
+<code>
+<span class="key">feign:</span>
+  <span class="key">client:</span>
+    <span class="key">config:</span>
+      <span class="key">default:</span>
+        <span class="key">connectTimeout:</span> <span class="number">5000</span>
+        <span class="key">readTimeout:</span> <span class="number">5000</span>
+        <span class="key">loggerLevel:</span> <span class="value">full</span>
+</code>
+</pre>
+
+    <h3>5. Use Feign Client in Services: Inject the Feign client interface into your service class and use it to make
+        HTTP requests</h3>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@Service</span>
+<span class="keyword">public class</span> <span class="class">MyService</span> {
+
+    <span class="keyword">private final</span> <span class="class">ExampleClient</span> <span
+        class="var">exampleClient</span>;
+
+    <span class="keyword">public</span> <span class="method">MyService</span>(<span
+        class="class">ExampleClient</span> <span class="var">exampleClient</span>) {
+        <span class="keyword">this</span>.<span class="var">exampleClient</span> = <span
+        class="var">exampleClient</span>;
+    }
+
+    <span class="keyword">public</span> <span class="class">String</span> <span class="method">fetchData</span>() {
+        <span class="keyword">return</span> <span class="var">exampleClient</span>.<span
+        class="method">getExampleData</span>();
+    }
+
+    <span class="keyword">public</span> <span class="class">String</span> <span class="method">sendData</span>(<span
+        class="class">ExampleRequest</span> <span class="var">request</span>) {
+        <span class="keyword">return</span> <span class="var">exampleClient</span>.<span
+        class="method">postExampleData</span>(<span class="var">request</span>);
+    }
+}
+</code>
+</pre>
+
+    <h3>6. Failback Configuration (Optional): Configure fallback methods using Hystrix or Resiliencedj</h3>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@FeignClient</span>(name = <span class="string">"example-service"</span>, fallback = <span
+        class="class">ExampleClientFailback</span>.<span class="keyword">class</span>)
+<span class="keyword">public interface</span> <span class="class">ExampleClient</span> {
+
+    <span class="annotation">@GetMapping</span>(<span class="string">"/api/example"</span>)
+    <span class="class">String</span> <span class="method">getExampleData</span>();
+
+    <span class="annotation">@PostMapping</span>(<span class="string">"/api/example"</span>)
+    <span class="class">String</span> <span class="method">postExampleData</span>(<span
+        class="annotation">@RequestBody</span> <span class="class">ExampleRequest</span> <span
+        class="var">request</span>);
+}
+
+<span class="annotation">@Component</span>
+</code>
+</pre>
+
+    <pre class="java-code">
+<code>
+<span class="keyword">public class</span> <span class="class">ExampleClientCallback</span> <span class="keyword">implements</span> <span
+        class="class">ExampleClient</span> {
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="class">String</span> <span class="method">getExampleData</span>() {
+        <span class="keyword">return</span> <span class="string">"Fallback response for getExampleData"</span>;
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="class">String</span> <span
+        class="method">postExampleData</span>(<span class="class">ExampleRequest</span> <span class="var">request</span>) {
+        <span class="keyword">return</span> <span class="string">"Fallback response for postExampleData"</span>;
+    }
+}
+</code>
+</pre>
+    <div class="card-footer">
+        <br>
+        <ul class="pagination justify-content-center">
+            <li class="page-item"><a class="page-link btn-outline-primary"
+                                     href="../ms/webclient.html">&lArr; Previous</a></li>
+            <li class="page-item"><a class="page-link" href="../ms/zipkin.html">Next
+                &rArr;</a></li>
+        </ul>
+    </div>
+</main>
+<!-- Scripts -->
+<script src="../js/sidebar.js"></script>
+<script src="../js/componentLoader.js"></script>
+</body>
+</html>

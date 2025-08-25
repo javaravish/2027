@@ -140,15 +140,17 @@ const sidebars = {
       <ul class="menu">
         <h4>Microservices</h4>
         <li class="nav-item"><a class="nav-link" data-href="/ms/intro.html" href="#">Introduction</a></li>
-        <li class="nav-item"><a class="nav-link" data-href="/ms/architecture.html" href="#">Architecture</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/ms/arc.html" href="#">Architecture</a></li>
         <li class="nav-item"><a class="nav-link" data-href="/ms/registry-discovery.html" href="#">Service Registry and Discovery</a></li>
-        <li class="nav-item"><a class="nav-link" data-href="/ms/config-server.html" href="#">Config Server</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/ms/config.html" href="#">Config Server</a></li>
         <li class="nav-item"><a class="nav-link" data-href="/ms/gateway.html" href="#">API Gateway</a></li>
         <li class="nav-item"><a class="nav-link" data-href="/ms/resilience4j.html" href="#">Circuit Breaker</a></li>
         <li class="nav-item"><a class="nav-link" data-href="/ms/webclient.html" href="#">WebClient</a></li>
         <li class="nav-item"><a class="nav-link" data-href="/ms/feign.html" href="#">Feign Client</a></li>
         <li class="nav-item"><a class="nav-link" data-href="/ms/zipkin.html" href="#">Zipkin and Sleuth</a></li>
         <li class="nav-item"><a class="nav-link" data-href="/ms/saga.html" href="#">Saga Pattern</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/ms/mp.html" href="#">Micrometer and Prometheus</a></li>
+         <li class="nav-item"><a class="nav-link" data-href="/ms/miscellaneous.html" href="#">Miscellaneous</a></li>
       </ul>
     </aside>
   `,

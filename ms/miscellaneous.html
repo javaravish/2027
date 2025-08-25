@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Miscellaneous</title>
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../js/styles.css"/>
+</head>
+<body data-sidebar="ms">
+<nav>
+    <button class="mobile-sidebar-btn" id="mobileSidebarBtn">☰</button>
+    <div class="breadcrumbs">
+        <a href="../home.html">Home</a>
+        <span class="separator">/</span>
+        <a href="#">Microservices</a>
+        <span class="separator">/</span>
+        <a href="#">Miscellaneous</a>
+    </div>
+</nav>
+<!-- Components will be inserted here by components.js -->
+
+<!-- Main Content Section -->
+<main id="content">
+    <h2>🔐 1. Rate Limiter Pattern (Resilience4j)</h2>
+
+    <p><strong>Purpose:</strong> Prevents the number of requests a service can handle in a given timeframe to prevent
+        overload.</p>
+
+    <h3>Example</h3>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@RestController</span>
+<span class="annotation">@RequiredArgsConstructor</span>
+<span class="keyword">public class</span> <span class="class">PaymentController</span> {
+
+    <span class="keyword">private final</span> <span class="class">PaymentService</span> <span class="var">paymentService</span>;
+
+    <span class="annotation">@RateLimiter</span>(name = <span
+        class="string">"paymentService"</span>, fallbackMethod = <span class="string">"rateLimitFallback"</span>)
+    <span class="annotation">@GetMapping</span>(<span class="string">"/payment"</span>)
+    <span class="keyword">public</span> <span class="class">String</span> <span class="method">makePayment</span>() {
+        <span class="keyword">return</span> <span class="var">paymentService</span>.<span class="method">process</span>();
+    }
+
+    <span class="keyword">public</span> <span class="class">String</span> <span class="method">rateLimitFallback</span>(<span
+        class="class">Exception</span> <span class="var">e</span>) {
+        <span class="keyword">return</span> <span class="string">"Too many requests. Please try again later."</span>;
+    }
+}
+</code>
+</pre>
+
+    <h3>application.yml</h3>
+
+    <pre class="code-block">
+<code>
+<span class="key">resilience4j.ratelimiter:</span>
+  <span class="key">instances:</span>
+    <span class="key">paymentService:</span>
+      <span class="key">limitForPeriod:</span> <span class="number">5</span>
+      <span class="key">limitRefreshPeriod:</span> <span class="number">1s</span>
+      <span class="key">timeoutDuration:</span> <span class="number">0</span>
+</code>
+</pre>
+
+    <p><strong>Meaning:</strong> Only 5 requests per second are allowed. If more, fallback is called.</p>
+
+    <p><strong>Key Parameters:</strong></p>
+
+    <ul>
+        <li><strong>limitForPeriod</strong>: Max requests allowed</li>
+        <li><strong>limitRefreshPeriod</strong>: Time window (e.g., 1 second)</li>
+        <li><strong>timeoutDuration</strong>: How long to wait if limit is reached</li>
+    </ul>
+
+    <hr>
+    <br>
+    <h2>🧱 2. Bulkhead Pattern</h2>
+
+    <p><strong>Purpose:</strong> Prevents a failure in one part of the system from bringing down others. Limits
+        concurrent calls.</p>
+
+    <p>Isolates resources (threads/connections) to prevent cascading failures.</p>
+
+    <h3>Example (Semaphore Based)</h3>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@Bulkhead</span>(name = <span class="string">"inventoryService"</span>, fallbackMethod = <span
+        class="string">"fallbackInventory"</span>)
+<span class="annotation">@GetMapping</span>(<span class="string">"/inventory"</span>)
+<span class="keyword">public</span> <span class="class">String</span> <span class="method">getInventory</span>() {
+    <span class="keyword">return</span> <span class="var">inventoryService</span>.<span
+        class="method">fetchInventory</span>();
+}
+
+<span class="keyword">public</span> <span class="class">String</span> <span
+        class="method">fallbackInventory</span>(<span class="class">Exception</span> <span class="var">e</span>) {
+    <span class="keyword">return</span> <span class="string">"System is overloaded, try again later"</span>;
+}
+</code>
+</pre>
+
+    <h3>application.yml</h3>
+
+    <pre class="code-block">
+<code>
+<span class="key">resilience4j:</span>
+  <span class="key">bulkhead:</span>
+    <span class="key">instances:</span>
+      <span class="key">myService:</span>
+        <span class="key">max-concurrent-calls:</span> <span class="number">5</span>
+        <span class="comment"># Max parallel executions</span>
+        <span class="key">max-wait-duration:</span> <span class="number">100ms</span>
+        <span class="comment"># Queue time before rejection</span>
+</code>
+</pre>
+
+    <p><strong>Meaning:</strong> Only 3 concurrent requests are allowed to this method. Others fail fast and go to
+        fallback.</p>
+
+    <ul>
+        <li>ThreadPoolBulkhead: Limits concurrent threads</li>
+        <li>SemaphoreBulkhead: Limits concurrent calls</li>
+    </ul>
+    <hr>
+    <br>
+    <h2>🔁 3. Retry Pattern</h2>
+
+    <p><strong>Purpose:</strong> Automatically retries failed operations a certain number of times.</p>
+
+    <p>Automatically retries failed operations with configurable delays.</p>
+
+    <p>✅ Example</p>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@Retry</span>(name = <span class="string">"externalApi"</span>, fallbackMethod = <span
+        class="string">"retryFallback"</span>)
+<span class="annotation">@GetMapping</span>(<span class="string">"/external"</span>)
+<span class="keyword">public</span> <span class="class">String</span> <span class="method">callExternalService</span>() {
+    <span class="keyword">return</span> <span class="var">externalService</span>.<span class="method">call</span>();
+}
+
+<span class="keyword">public</span> <span class="class">String</span> <span class="method">retryFallback</span>(<span
+        class="class">Exception</span> <span class="var">e</span>) {
+    <span class="keyword">return</span> <span class="string">"Service is currently unavailable."</span>;
+}
+</code>
+</pre>
+
+    <h3>application.yml</h3>
+
+    <pre class="code-block">
+<code>
+<span class="key">resilience4j:</span>
+  <span class="key">retry:</span>
+    <span class="key">instances:</span>
+      <span class="key">myService:</span>
+        <span class="key">max-attempts:</span> <span class="number">3</span>
+        <span class="comment"># Total retries (1 initial + 2 retries)</span>
+        <span class="key">wait-duration:</span> <span class="number">1s</span>
+        <span class="comment"># Delay between retries</span>
+        <span class="key">retry-exceptions:</span>
+        <span class="comment"># Retry only on these exceptions</span>
+        - <span class="value">org.springframework.web.client.HttpServerErrorException</span>
+        - <span class="value">java.io.IOException</span>
+</code>
+</pre>
+
+    <p><strong>Meaning:</strong> Tries 3 times with 2 seconds delay before fallback is executed.</p>
+
+    <ul>
+        <li>maxAttempts : Total retry attempts</li>
+        <li>waitDuration : Delay between retries</li>
+        <li>retryOnPredicate: Conditions to retry</li>
+    </ul>
+    <hr>
+    <br>
+    <h2>⏱ 4. Timeout Pattern</h2>
+
+    <p><strong>Purpose:</strong> Fails a call if it takes longer than a specified time to prevent blocking system
+        resources.</p>
+
+    <p>Fails fast if an operation exceeds a time limit.</p>
+
+    <p>✅ Example</p>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@TimeLimiter</span>(name = <span class="string">"delayedService"</span>, fallbackMethod = <span
+        class="string">"timeoutFallback"</span>)
+<span class="annotation">@Async</span>
+<span class="annotation">@GetMapping</span>(<span class="string">"/delay"</span>)
+<span class="keyword">public</span> <span class="class">CompletableFuture</span>&lt;<span class="class">String</span>&gt; <span
+        class="method">delayedResponse</span>() {
+    <span class="keyword">return</span> <span class="class">CompletableFuture</span>.<span
+        class="method">supplyAsync</span>(() -> <span class="var">service</span>.<span
+        class="method">callWithDelay</span>());
+}
+
+<span class="keyword">public</span> <span class="class">CompletableFuture</span>&lt;<span class="class">String</span>&gt; <span
+        class="method">timeoutFallback</span>(<span class="class">Throwable</span> <span class="var">t</span>) {
+    <span class="keyword">return</span> <span class="class">CompletableFuture</span>.<span class="method">completedFuture</span>(<span
+        class="string">"Request timed out"</span>);
+}
+</code>
+</pre>
+
+    <h3>application.yml</h3>
+
+    <pre class="code-block">
+<code>
+<span class="key">resilience4j:</span>
+  <span class="key">timeLimiter:</span>
+    <span class="key">instances:</span>
+      <span class="key">myService:</span>
+        <span class="key">timeout-duration:</span> <span class="number">2s</span>    <span class="comment"># Cancel after 2 seconds</span>
+</code>
+</pre>
+
+    <p><strong>Meaning:</strong> If the callWithDelay() takes more than 2 seconds, fullback is called.</p>
+    <hr>
+    <br>
+    <h2>🧾 5. Event Sourcing (Spring + Axon Framework)</h2>
+
+    <p><strong>Purpose:</strong> Store every change to an application state as a sequence of events.</p>
+
+    <p>Stores state changes as a sequence of events rather than current state.</p>
+
+    <p>✅ Example Domain: Bank Account</p>
+
+    <h3>📌 Create Account Command</h3>
+
+    <pre class="java-code">
+<code>
+<span class="keyword">public class</span> <span class="class">CreateAccountCommand</span> {
+    <span class="annotation">@TargetAggregateIdentifier</span>
+    <span class="keyword">private</span> <span class="class">String</span> <span class="var">accountId</span>;
+    <span class="keyword">private</span> <span class="class">BigDecimal</span> <span class="var">initialBalance</span>;
+}
+</code>
+</pre>
+
+    <h3>📌 Account Aggregate</h3>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@Aggregate</span>
+<span class="keyword">public class</span> <span class="class">BankAccount</span> {
+
+    <span class="annotation">@AggregateIdentifier</span>
+    <span class="keyword">private</span> <span class="class">String</span> <span class="var">accountId</span>;
+    <span class="keyword">private</span> <span class="class">BigDecimal</span> <span class="var">balance</span>;
+
+    <span class="annotation">@CommandHandler</span>
+    <span class="keyword">public</span> <span class="method">BankAccount</span>(<span
+        class="class">CreateAccountCommand</span> <span class="var">cmd</span>) {
+        <span class="class">AggregateLifecycle</span>.<span class="method">apply</span>(<span class="keyword">new</span> <span
+        class="class">AccountCreatedEvent</span>(<span class="var">cmd</span>.<span class="method">getAccountId</span>(), <span
+        class="var">cmd</span>.<span class="method">getInitialBalance</span>()));
+    }
+
+    <span class="annotation">@EventSourcingHandler</span>
+    <span class="keyword">public</span> <span class="class">void</span> <span class="method">on</span>(<span
+        class="class">AccountCreatedEvent</span> <span class="var">event</span>) {
+        <span class="keyword">this</span>.<span class="var">accountId</span> = <span class="var">event</span>.<span
+        class="method">getAccountId</span>();
+        <span class="keyword">this</span>.<span class="var">balance</span> = <span class="var">event</span>.<span
+        class="method">getInitialBalance</span>();
+    }
+}
+</code>
+</pre>
+
+    <h3>Event Definition</h3>
+
+    <pre class="java-code">
+<code>
+<span class="keyword">public class</span> <span class="class">AccountCreatedEvent</span> {
+    <span class="keyword">private</span> <span class="class">String</span> <span class="var">accountId</span>;
+    <span class="keyword">private</span> <span class="class">BigDecimal</span> <span class="var">initialBalance</span>;
+}
+</code>
+</pre>
+
+    <h3>Configuration (Axon + Spring Boot)</h3>
+
+    <pre class="code-block">
+<code>
+<span class="comment">&lt;!-- pom.xml --&gt;</span>
+<span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>org.axonframework<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>axon-spring-boot-starter<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;version&gt;</span>4.9.1<span class="tag">&lt;/version&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span>
+</code>
+</pre>
+
+    <h3>Yaml file Configuration</h3>
+
+    <pre class="code-block">
+<code>
+<span class="key">axon:</span>
+  <span class="key">eventhandling:</span>
+    <span class="key">processors:</span>
+      <span class="key">default:</span>
+        <span class="key">mode:</span> <span class="value">tracking</span>    <span class="comment"># Event processing mode</span>
+  <span class="key">serializer:</span>
+    <span class="key">general:</span> <span class="value">jackson</span>    <span
+        class="comment"># Serialization format</span>
+  <span class="key">aggregates:</span>
+    <span class="key">bank-account:</span>
+      <span class="key">snapshotter:</span>
+        <span class="key">threshold:</span> <span class="number">50</span>    <span class="comment"># Take snapshot every 50 events</span>
+</code>
+</pre>
+
+    <h3>Result</h3>
+
+    <ul>
+        <li>Every change (event) is stored.</li>
+        <li>Event store can replay events to rebuild state (for CQRS).</li>
+        <li>Useful for audit and restoring state.</li>
+    </ul>
+    <hr>
+    <br>
+    <h2>Combining Patterns (Example)</h2>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@CircuitBreaker</span>(name = <span class="string">"myService"</span>)
+<span class="annotation">@RateLimiter</span>(name = <span class="string">"myService"</span>)
+<span class="annotation">@Bulkhead</span>(name = <span class="string">"myService"</span>)
+<span class="annotation">@Retry</span>(name = <span class="string">"myService"</span>)
+<span class="annotation">@Timeout</span>(name = <span class="string">"myService"</span>)
+<span class="keyword">public</span> <span class="class">String</span> <span class="method">resilientMethod</span>() {
+    <span class="comment">// Combines all resilience patterns</span>
+}
+</code>
+</pre>
+
+    <pre class="code-block">
+<code>
+<span class="key">resilience4j:</span>
+  <span class="key">circuitbreaker:</span>
+    <span class="key">instances:</span>
+      <span class="key">myService:</span>
+        <span class="key">failure-rate-threshold:</span> <span class="number">50</span>
+        <span class="key">wait-duration-in-open-state:</span> <span class="number">10s</span>
+  <span class="key">ratelimiter:</span>
+    <span class="key">instances:</span>
+      <span class="key">myService:</span>
+        <span class="key">limit-for-period:</span> <span class="number">10</span>
+  <span class="key">bulkhead:</span>
+    <span class="key">instances:</span>
+      <span class="key">myService:</span>
+        <span class="key">max-concurrent-calls:</span> <span class="number">5</span>
+  <span class="key">retry:</span>
+    <span class="key">instances:</span>
+      <span class="key">myService:</span>
+        <span class="key">max-attempts:</span> <span class="number">3</span>
+  <span class="key">timelimiter:</span>
+    <span class="key">instances:</span>
+      <span class="key">myService:</span>
+        <span class="key">timeout-duration:</span> <span class="number">2s</span>
+</code>
+</pre>
+
+    <h2>Summary Table</h2>
+
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Pattern</th>
+                <th>Tool</th>
+                <th>Purpose</th>
+                <th>Fallback?</th>
+                <th>Usage</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Rate Limiter</td>
+                <td>Resilience4j</td>
+                <td>Limit requests per second</td>
+                <td>✔</td>
+                <td>Prevent overuse</td>
+            </tr>
+            <tr>
+                <td>Bulkhead</td>
+                <td>Resilience4j</td>
+                <td>Limit concurrent calls to service</td>
+                <td>✔</td>
+                <td>Isolation</td>
+            </tr>
+            <tr>
+                <td>Retry</td>
+                <td>Resilience4j</td>
+                <td>Retry failed external/API calls</td>
+                <td>✔</td>
+                <td>Transient failure</td>
+            </tr>
+            <tr>
+                <td>Timeout</td>
+                <td>Resilience4j</td>
+                <td>Fail fast on slow services</td>
+                <td>✔</td>
+                <td>Avoid blocking</td>
+            </tr>
+            <tr>
+                <td>Event Sourcing</td>
+                <td>Axon / Kafka</td>
+                <td>Store every state change as event</td>
+                <td>✗</td>
+                <td>Full history</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer">
+        <br>
+        <ul class="pagination justify-content-center">
+            <li class="page-item"><a class="page-link btn-outline-primary"
+                                     href="../ms/mp.html">&lArr; Previous</a></li>
+        </ul>
+    </div>
+</main>
+
+<!-- Scripts -->
+<script src="../js/sidebar.js"></script>
+<script src="../js/componentLoader.js"></script>
+</body>
+</html>

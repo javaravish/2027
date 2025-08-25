@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Config Server</title>
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../js/styles.css"/>
+</head>
+<body data-sidebar="ms">
+<nav>
+    <button class="mobile-sidebar-btn" id="mobileSidebarBtn">☰</button>
+    <div class="breadcrumbs">
+        <a href="../home.html">Home</a>
+        <span class="separator">/</span>
+        <a href="#">microservices</a>
+        <span class="separator">/</span>
+        <a href="#">Config Server</a>
+    </div>
+</nav>
+<!-- Components will be inserted here by components.js -->
+
+<!-- Main Content Section -->
+<main id="content">
+
+    <h3>1. Introduction to Spring Cloud Config</h3>
+
+    <p>Spring Cloud Config is a powerful tool designed to "support like externalized configuration in distributed
+        systems." It provides a mechanism to manage application properties across various environments from a single,
+        centralized location. This eliminates the need to bundle configuration files directly within individual
+        microservices, simplifying updates and ensuring consistency.</p>
+
+    <h3>2. Core Components and Their Roles</h3>
+
+    <p>The system operates with two primary components:</p>
+
+    <p><strong>Spring Cloud Config Server:</strong> This is the central repository for all application configurations.
+        It fetches configuration data from a backend source (e.g., Git repository) and serves it to client applications.
+        A centralized place to manage external configuration for applications.</p>
+
+    <p><strong>Spring Cloud Config Client:</strong> This is integrated into individual microservices. It connects to the
+        Config Server to retrieve its necessary configuration properties at startup. Your Spring Boot app that fetches
+        configuration from the Config Server.</p>
+
+    <h3>3. Centralized Configuration Storage (Git Repository)</h3>
+
+    <p>The source emphasizes the use of a "centralized location" for storing configuration files. In the example
+        provided, a Git repository is used. This repository contains:</p>
+
+    <ul>
+        <li>application.yml: A default configuration file that applies to all environments.</li>
+        <li>dev.yml: Specific configurations for the development environment.</li>
+        <li>production.yml: Specific configurations for the production environment.</li>
+    </ul>
+
+    <p>This structure allows for environment-specific property overriding, providing flexibility in managing different
+        deployment contexts.</p>
+
+    <h3>4. Setting up the Spring Cloud Config Server</h3>
+
+    <h4>4.1. Project Creation:</h4>
+
+    <p>Create a Spring Boot application using Spring Initialize.</p>
+
+    <p>Include the <strong>Cloud Config Server</strong> dependency.</p>
+
+    <pre class="code-block">
+<code>
+<span class="tag">&lt;dependency&gt;</span>
+<span class="tag">&lt;groupId&gt;</span>org.springframework.cloud<span class="tag">&lt;/groupId&gt;</span>
+<span class="tag">&lt;artifactId&gt;</span>spring-cloud-config-server<span class="tag">&lt;/artifactId&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span>
+</code>
+</pre>
+
+    <h4>4.2. Enabling the Config Server:</h4>
+
+    <p>Annotate the main application class with @EnableConfigServer to activate the server functionality.</p>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@SpringBootApplication</span>
+<span class="annotation">@EnableConfigServer</span>
+<span class="keyword">public class</span> <span class="class">ConfigServerApp</span> {
+</code>
+</pre>
+
+    <pre class="java-code">
+<code>
+<span class="keyword">public static void</span> <span class="method">main</span>(<span
+        class="class">String</span>[] <span class="var">args</span>) {
+    <span class="class">SpringApplication</span>.run(<span class="class">ConfigServerApp</span>.class, <span
+        class="var">args</span>);
+}
+</code>
+</pre>
+
+    <h4>4.3. Configuration (application.yml):</h4>
+
+    <p>The application.yml file for the Config Server requires specific properties:</p>
+
+    <p>spring.application.name: E.g., config-server</p>
+
+    <p>server.port: E.g., 8888</p>
+
+    <p>spring.cloud.config.server.git.url: This is crucial. It points to the Git repository containing the configuration
+        files. For example:</p>
+
+    <pre class="code-block">
+<code>
+<span class="key">spring:</span>
+  <span class="key">cloud:</span>
+    <span class="key">config:</span>
+      <span class="key">server:</span>
+        <span class="key">git:</span>
+          <span class="key">url:</span> <span class="value">https://github.com/your-username/spring-config-repo</span>
+          <span class="key">clone-on-start:</span> <span class="value">true</span>
+</code>
+</pre>
+
+    <p>Enable refresh:</p>
+
+    <pre class="code-block">
+<code>
+<span class="key">management:</span>
+  <span class="key">endpoints:</span>
+    <span class="key">web:</span>
+      <span class="key">exposure:</span>
+        <span class="key">include:</span> <span class="value">refresh</span>
+</code>
+</pre>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@RefreshScope</span>
+<span class="keyword">public class</span> <span class="class">MessageController</span> {
+    ...
+}
+</code>
+</pre>
+
+    <p>Now you can run:</p>
+
+    <p>POST http://localhost:8888/actuator/refresh</p>
+
+    <p>To reload latest config from Config Server without restarting the app.</p>
+
+    <h4>4.4. Testing the Config Server:</h4>
+
+    <p>The Config Server exposes configurations via HTTP endpoints following a specific pattern:
+        /{application}/{profile}/{label}.</p>
+
+    <ul>
+        <li>Example: localhost:8888/application-name/dev will retrieve properties for application-name in the dev
+            profile.
+        </li>
+        <li>The source demonstrates retrieving the default application.yml and dev.yml properties, showing how
+            environment-specific messages are served.
+        </li>
+        <li>http://localhost:8888/payment-service/default -- returns config JSON.</li>
+    </ul>
+
+    <h3>2. Setting up the Spring Cloud Config Client</h3>
+
+    <h3>1. Project Creation:</h3>
+
+    <p>Create a Spring Boot application using Spring Initialize.</p>
+
+    <p>Include Spring Web, Lombok, and Config Client dependencies.</p>
+
+    <pre class="code-block">
+<code>
+<span class="tag">&lt;dependency&gt;</span>
+<span class="tag">&lt;groupId&gt;</span>org.springframework.cloud<span class="tag">&lt;/groupId&gt;</span>
+<span class="tag">&lt;artifactId&gt;</span>spring-cloud-starter-config<span class="tag">&lt;/artifactId&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span>
+</code>
+</pre>
+
+    <h3>2. Configuration (application.yml):</h3>
+
+    <p>The application.yml file for the Config Client specifies how it connects to the Config Server:</p>
+
+    <p>spring.application.name: E.g., config-client</p>
+
+    <p>spring.config.import: This property defines the Config Server URL. The optional parameter is highlighted as a
+        useful feature:</p>
+
+    <pre class="code-block">
+<code>
+<span class="key">spring:</span>
+  <span class="key">config:</span>
+    <span class="key">import:</span> <span class="value">optional:configserver:http://localhost:8888</span>
+</code>
+</pre>
+
+    <p>The optional keyword means "If this config server does not exist it doesn't throw any error," providing
+        resilience.</p>
+
+    <h3>3. Reading Properties in the Client:</h3>
+
+    <ul>
+        <li>Properties from the Config Server are injected into client applications using the @Value annotation.</li>
+        <li>Example: @Value("${service.name}") private String serviceInfo; retrieves the value of service.name from the
+            Config Server.
+        </li>
+    </ul>
+
+    <h3>4. Activating Profiles:</h3>
+
+    <p>To retrieve configuration for a specific environment (e.g., dev), the client application's profile needs to be
+        activated. This is typically done via JVM options:</p>
+
+    <ul>
+        <li>-Dspring.profiles.active=dev</li>
+    </ul>
+
+    <p>The source demonstrates how activating the dev profile results in the client receiving the service.name from
+        dev.yml instead of the default application.yml.</p>
+
+    <h3>3. Key Components</h3>
+
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Component</th>
+                <th>Configuration/Code</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Config Server</td>
+                <td>spring-cloud-config-server</td>
+                <td>Dependency</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>spring.cloud.config.server.git.uri</td>
+                <td>Git repo path with external config files</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@EnableConfigServer</td>
+                <td>Enables the Spring Cloud Config server</td>
+            </tr>
+            <tr>
+                <td>Config Client</td>
+                <td>spring-cloud-starter-config</td>
+                <td>Dependency</td>
+            </tr>
+            <tr>
+                <td>Property Access</td>
+                <td>spring.cloud.import=optional:configserver:http://localhost:8888</td>
+                <td>URL to the config server</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Value("${user.message}")</td>
+                <td>Inject property from external config</td>
+            </tr>
+            <tr>
+                <td>Refresh</td>
+                <td>@RefreshScope on Bean / Controller</td>
+                <td>Makes the bean refreshable at runtime</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Actuator Endpoint: /actuator/refresh</td>
+                <td>Triggers runtime reload of config</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>management.endpoints.web.exposure.include-refresh</td>
+                <td>Enables actuator refresh endpoint</td>
+            </tr>
+            <tr>
+                <td>Test URL</td>
+                <td>http://localhost:8888/user-service/default</td>
+                <td>Fetch config JSON for a service</td>
+            </tr>
+            <tr>
+                <td>Git Repo Example Files</td>
+                <td>user-service.yml, order-service.yml, application.yml in remote repo</td>
+                <td>Config files stored in Git or local folder</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>4. Key Benefits and Main Themes</h3>
+
+    <ul>
+        <li><strong>Centralized Management:</strong> All configurations are managed from a single Git repository,
+            simplifying updates and version control.
+        </li>
+        <li><strong>Externalized Configuration:</strong> Decouples configuration from application code, making
+            microservices more portable and easier to deploy.
+        </li>
+        <li><strong>Environment-Specific Profiles:</strong> Easily manage different configurations for various
+            environments (dev, test, prod) using YAML files and profile activation.
+        </li>
+        <li><strong>Reduced Configuration Duplication:</strong> Avoids redundant configuration across multiple
+            microservice instances.
+        </li>
+        <li><strong>Dynamic Configuration (Implied):</strong> While not explicitly detailed, the centralized nature lays
+            the groundwork for dynamic configuration updates without application restarts.
+        </li>
+        <li><strong>Resilience with optional import:</strong> The optional parameter in spring.config.import prevents
+            client startup failures if the Config Server is temporarily unavailable.
+        </li>
+        <li><strong>Integration with Service Discovery:</strong> Seamless integration with Eureka ensures reliable
+            communication between clients and the Config Server in dynamic microservices landscapes.
+        </li>
+    </ul>
+    <div class="card-footer">
+        <br>
+        <ul class="pagination justify-content-center">
+            <li class="page-item"><a class="page-link btn-outline-primary"
+                                     href="../ms/registry-discovery.html">&lArr; Previous</a></li>
+            <li class="page-item"><a class="page-link" href="../ms/gateway.html">Next
+                &rArr;</a></li>
+        </ul>
+    </div>
+</main>
+<!-- Scripts -->
+<script src="../js/sidebar.js"></script>
+<script src="../js/componentLoader.js"></script>
+</body>
+</html>

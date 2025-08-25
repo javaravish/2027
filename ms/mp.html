@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Micrometer and Prometheus</title>
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../js/styles.css"/>
+</head>
+<body data-sidebar="ms">
+<nav>
+    <button class="mobile-sidebar-btn" id="mobileSidebarBtn">☰</button>
+    <div class="breadcrumbs">
+        <a href="../home.html">Home</a>
+        <span class="separator">/</span>
+        <a href="#">Microservices</a>
+        <span class="separator">/</span>
+        <a href="#">Micrometer and Prometheus</a>
+    </div>
+</nav>
+<!-- Components will be inserted here by components.js -->
+
+<!-- Main Content Section -->
+<main id="content">
+    <h2>Spring Boot Micrometer, Prometheus, and Sleuth Integration</h2>
+
+    <h3>1. System Overview</h3>
+
+    <h4>1. Micrometer</h4>
+    <ul>
+        <li><strong>What it is</strong>: A metrics facade that provides a vendor-neutral interface for instrumentation
+        </li>
+        <li><strong>Purpose</strong>: Collects application metrics (JVM, HTTP requests, custom metrics) in a
+            standardized way
+        </li>
+        <li><strong>Supported backends</strong>: Prometheus, Datadog, New Relic, Graphite, etc.</li>
+    </ul>
+
+    <h4>2. Prometheus</h4>
+    <ul>
+        <li><strong>What it is</strong>: An open-source monitoring and alerting system</li>
+        <li><strong>Key features</strong>:
+            <ul>
+                <li>Time-series database</li>
+                <li>Powerful query language (PromQL)</li>
+                <li>Pull-based metrics collection</li>
+                <li>Alerting capabilities</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h4>3. Sleuth</h4>
+    <ul>
+        <li><strong>What it is</strong>: Distributed tracing solution for Spring Cloud</li>
+        <li><strong>Purpose</strong>: Provides request correlation IDs across microservices</li>
+        <li><strong>Key features</strong>:
+            <ul>
+                <li>Adds trace and span IDs to logs</li>
+                <li>Integrates with Zipkin for visualization</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h3>2. Setup and Dependencies</h3>
+
+    <h4>Required Dependencies</h4>
+
+    <div class="table-container">
+                    <pre class="code-block">
+<code>
+<span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>io.micrometer<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>micrometer-registry-prometheus<span
+        class="tag">&lt;/artifactId&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span>
+<span class="tag">&lt;!-- Sleuth --&gt;</span>
+<span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>org.springframework.cloud<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>spring-cloud-starter-sleuth<span class="tag">&lt;/artifactId&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span>
+<span class="tag">&lt;!-- Optional: For distributed tracing visualization --&gt;</span>
+<span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>org.springframework.cloud<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>spring-cloud-sleuth-zipkin<span class="tag">&lt;/artifactId&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span>
+</code>
+                    </pre>
+
+    </div>
+
+    <p>Configuration (application.yml)</p>
+
+    <pre class="code-block">
+<code>
+<span class="key">management:</span>
+  <span class="key">endpoints:</span>
+    <span class="key">web:</span>
+      <span class="key">exposure:</span>
+        <span class="key">include:</span> <span class="value">health, info, prometheus</span>
+  <span class="key">metrics:</span>
+    <span class="key">tags:</span>
+      <span class="key">application:</span> <span class="value">${spring.application.name}</span> <span class="comment"># Adds app name to all metrics</span>
+    <span class="key">distribution:</span>
+      <span class="key">percentiles-histogram:</span> <span class="value">true</span> <span class="comment"># For histogram metrics</span>
+
+<span class="key">spring:</span>
+  <span class="key">application:</span>
+    <span class="key">name:</span> <span class="value">product-service</span>
+  <span class="key">sleuth:</span>
+    <span class="key">sampler:</span>
+      <span class="key">probability:</span> <span class="number">1.0</span> <span class="comment"># 100% sampling rate (for demo)</span>
+</code>
+</pre>
+
+    <h3>3. Micrometer Metrics with Prometheus</h3>
+
+    <h4>Custom Business Metrics</h4>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@Service</span>
+<span class="keyword">public class</span> <span class="class">InventoryService</span> {
+
+    <span class="keyword">private final</span> <span class="class">Counter</span> <span
+        class="var">inventoryUpdates</span>;
+    <span class="keyword">private final</span> <span class="class">Timer</span> <span
+        class="var">inventoryCheckTimer</span>;
+    <span class="keyword">private final</span> <span class="class">Gauge</span> <span class="var">inventoryLevel</span>;
+
+    <span class="keyword">private</span> <span class="class">AtomicInteger</span> <span
+        class="var">currentInventory</span> = <span class="keyword">new</span> <span class="class">AtomicInteger</span>(<span
+        class="number">1000</span>);
+
+    <span class="keyword">public</span> <span class="method">InventoryService</span>(<span
+        class="class">MeterRegistry</span> <span class="var">registry</span>) {
+        <span class="comment">// Counter for inventory updates</span>
+        <span class="var">inventoryUpdates</span> = <span class="class">Counter</span>.<span
+        class="method">builder</span>(<span class="string">"inventory.updates"</span>)
+            .<span class="method">description</span>(<span class="string">"Total number of inventory updates"</span>)
+            .<span class="method">tag</span>(<span class="string">"type"</span>, <span class="string">"restock"</span>)
+            .<span class="method">register</span>(<span class="var">registry</span>);
+
+        <span class="comment">// Timer for inventory checks</span>
+        <span class="var">inventoryCheckTimer</span> = <span class="class">Timer</span>.<span
+        class="method">builder</span>(<span class="string">"inventory.check.time"</span>)
+            .<span class="method">description</span>(<span class="string">"Time taken to check inventory levels"</span>)
+            .<span class="method">register</span>(<span class="var">registry</span>);
+
+        <span class="comment">// Gauge for current inventory level</span>
+        <span class="var">inventoryLevel</span> = <span class="class">Gauge</span>.<span
+        class="method">builder</span>(<span class="string">"inventory.level"</span>, <span
+        class="var">currentInventory</span>, <span class="class">AtomicInteger</span>::get)
+            .<span class="method">description</span>(<span class="string">"Current inventory quantity"</span>)
+            .<span class="method">register</span>(<span class="var">registry</span>);
+    }
+
+    <span class="annotation">@Timed</span>(value = <span
+        class="string">"inventory.process.time"</span>, description = <span class="string">"Time taken to process inventory"</span>)
+    <span class="keyword">public</span> <span class="class">void</span> <span
+        class="method">processInventoryUpdate</span>(<span class="class">int</span> <span class="var">quantity</span>) {
+        <span class="var">inventoryCheckTimer</span>.<span class="method">record</span>(() -> {
+            <span class="keyword">try</span> {
+                <span class="comment">// Simulate processing time</span>
+                <span class="class">Thread</span>.<span class="method">sleep</span>(<span
+        class="keyword">new</span> <span class="class">Random</span>().<span class="method">nextInt</span>(<span
+        class="number">200</span>));
+
+                <span class="comment">// Update inventory</span>
+                <span class="var">currentInventory</span>.<span class="method">addAndGet</span>(<span class="var">quantity</span>);
+                <span class="var">inventoryUpdates</span>.<span class="method">increment</span>();
+
+            } <span class="keyword">catch</span> (<span class="class">InterruptedException</span> <span
+        class="var">e</span>) {
+                <span class="class">Thread</span>.<span class="method">currentThread</span>().<span class="method">interrupt</span>();
+            }
+        });
+    }
+</code>
+</pre>
+
+    <h4>Controller with Metrics</h4>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@RestController</span>
+<span class="annotation">@RequestMapping</span>(<span class="string">"/api/inventory"</span>)
+<span class="keyword">public class</span> <span class="class">InventoryController</span> {
+    <span class="keyword">private final</span> <span class="class">InventoryService</span> <span class="var">inventoryService</span>;
+    <span class="keyword">private final</span> <span class="class">Counter</span> <span class="var">apiRequests</span>;
+
+    <span class="keyword">public</span> <span class="method">InventoryController</span>(<span class="class">InventoryService</span> <span
+        class="var">inventoryService</span>, <span class="class">MeterRegistry</span> <span class="var">registry</span>) {
+        <span class="keyword">this</span>.<span class="var">inventoryService</span> = <span
+        class="var">inventoryService</span>;
+        <span class="keyword">this</span>.<span class="var">apiRequests</span> = <span
+        class="class">Counter</span>.<span class="method">builder</span>(<span
+        class="string">"api.inventory.requests"</span>)
+            .<span class="method">description</span>(<span class="string">"Total inventory API requests"</span>)
+            .<span class="method">tag</span>(<span class="string">"version"</span>, <span class="string">"v1"</span>)
+            .<span class="method">register</span>(<span class="var">registry</span>);
+    }
+
+    <span class="annotation">@GetMapping</span>(<span class="string">"/{productId}"</span>)
+    <span class="keyword">public</span> <span class="class">ResponseEntity</span>&lt;<span class="class">Integer</span>&gt; <span
+        class="method">getInventory</span>(<span class="annotation">@PathVariable</span> <span
+        class="class">String</span> <span class="var">productId</span>) {
+        <span class="var">apiRequests</span>.<span class="method">increment</span>();
+        <span class="keyword">return</span> <span class="class">ResponseEntity</span>.<span
+        class="method">ok</span>(<span class="var">inventoryService</span>.<span
+        class="method">getCurrentInventory</span>(<span class="var">productId</span>));
+    }
+
+    <span class="annotation">@PostMapping</span>(<span class="string">"/restock"</span>)
+    <span class="keyword">public</span> <span class="class">ResponseEntity</span>&lt;<span class="class">Void</span>&gt; <span
+        class="method">restockInventory</span>(<span class="annotation">@RequestBody</span> <span class="class">RestockRequest</span> <span
+        class="var">request</span>) {
+        <span class="var">apiRequests</span>.<span class="method">increment</span>();
+        <span class="var">inventoryService</span>.<span class="method">processInventoryUpdate</span>(<span class="var">request</span>.<span
+        class="method">getQuantity</span>());
+        <span class="keyword">return</span> <span class="class">ResponseEntity</span>.<span
+        class="method">ok</span>().<span class="method">build</span>();
+    }
+}
+</code>
+</pre>
+
+    <h3>4. Distributed Tracing with Zipkin</h3>
+
+    <h4>Setting Up Zipkin Server</h4>
+
+    <ol>
+        <li>Run Zipkin Server (using Docker):</li>
+    </ol>
+
+    <pre class="code-block">
+<code>
+<span class="value">docker run -d -p 9411:9411 --name zipkin openzipkin/zipkin</span>
+</code>
+</pre>
+
+    <ol start="2">
+        <li>Configure Spring Boot Applications:</li>
+    </ol>
+
+    <pre class="code-block">
+<code>
+<span class="key">spring:</span>
+  <span class="key">zipkin:</span>
+    <span class="key">base-url:</span> <span class="value">http://localhost:9411</span>
+  <span class="key">sleuth:</span>
+    <span class="key">sampler:</span>
+      <span class="key">probability:</span> <span class="number">1.0</span> <span class="comment"># Sample all traces for demo</span>
+</code>
+</pre>
+
+    <h4>Tracing REST Calls Between Services</h4>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@RestController</span>
+<span class="annotation">@RequestMapping</span>(<span class="string">"/api/orders"</span>)
+<span class="keyword">public class</span> <span class="class">OrderController</span> {
+
+    <span class="keyword">private final</span> <span class="class">RestTemplate</span> <span
+        class="var">restTemplate</span>;
+    <span class="keyword">private final</span> <span class="class">Tracer</span> <span class="var">tracer</span>;
+
+    <span class="keyword">public</span> <span class="method">OrderController</span>(<span class="class">RestTemplateBuilder</span> <span
+        class="var">restTemplateBuilder</span>, <span class="class">Tracer</span> <span class="var">tracer</span>) {
+        <span class="keyword">this</span>.<span class="var">restTemplate</span> = <span
+        class="var">restTemplateBuilder</span>.<span class="method">build</span>();
+        <span class="keyword">this</span>.<span class="var">tracer</span> = <span class="var">tracer</span>;
+    }
+
+    <span class="annotation">@PostMapping</span>
+    <span class="keyword">public</span> <span class="class">ResponseEntity</span>&lt;<span class="class">Order</span>&gt; <span
+        class="method">createOrder</span>(<span class="annotation">@RequestBody</span> <span
+        class="class">OrderRequest</span> <span class="var">request</span>) {
+        <span class="comment">// Start a new span for business logic</span>
+        <span class="class">Span</span> <span class="var">businessSpan</span> = <span class="var">tracer</span>.<span
+        class="method">nextSpan</span>().<span class="method">name</span>(<span class="string">"order-processing"</span>).<span
+        class="method">start</span>();
+
+        <span class="keyword">try</span> (<span class="class">SpanInScope</span> <span class="var">ws</span> = <span
+        class="var">tracer</span>.<span class="method">withSpan</span>(<span class="var">businessSpan</span>)) {
+            <span class="comment">// Check inventory</span>
+            <span class="class">ResponseEntity</span>&lt;<span class="class">InventoryResponse</span>&gt; <span
+        class="var">inventoryResponse</span> = <span class="var">restTemplate</span>.<span
+        class="method">exchange</span>(
+                <span class="string">"http://inventory-service/api/inventory/{productId}"</span>,
+                <span class="class">HttpMethod</span>.<span class="var">GET</span>,
+                <span class="keyword">null</span>,
+                <span class="class">InventoryResponse</span>.<span class="keyword">class</span>,
+                <span class="var">request</span>.<span class="method">getProductId</span>()
+            );
+
+            <span class="comment">// Process payment</span>
+            <span class="class">PaymentResponse</span> <span class="var">paymentResponse</span> = <span class="var">restTemplate</span>.<span
+        class="method">postForObject</span>(
+                <span class="string">"http://payment-service/api/payments"</span>,
+                <span class="keyword">new</span> <span class="class">PaymentRequest</span>(<span
+        class="var">request</span>.<span class="method">getCustomerId</span>(), <span class="var">request</span>.<span
+        class="method">getAmount</span>()),
+                <span class="class">PaymentResponse</span>.<span class="keyword">class</span>
+            );
+
+            <span class="comment">// Create order</span>
+            <span class="class">Order</span> <span class="var">order</span> = <span class="keyword">new</span> <span
+        class="class">Order</span>(
+                <span class="var">request</span>.<span class="method">getCustomerId</span>(),
+                <span class="var">request</span>.<span class="method">getProductId</span>(),
+                <span class="var">request</span>.<span class="method">getQuantity</span>(),
+                <span class="var">paymentResponse</span>.<span class="method">getTransactionId</span>()
+            );
+
+            <span class="keyword">return</span> <span class="class">ResponseEntity</span>.<span class="method">ok</span>(<span
+        class="var">order</span>);
+        } <span class="keyword">finally</span> {
+            <span class="var">businessSpan</span>.<span class="method">end</span>();
+        }
+    }
+</code>
+</pre>
+
+    <h4>Custom Tracing Spans</h4>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@Service</span>
+<span class="keyword">public class</span> <span class="class">PaymentService</span> {
+
+    <span class="keyword">private final</span> <span class="class">Tracer</span> <span class="var">tracer</span>;
+
+    <span class="keyword">public</span> <span class="method">PaymentService</span>(<span
+        class="class">Tracer</span> <span class="var">tracer</span>) {
+        <span class="keyword">this</span>.<span class="var">tracer</span> = <span class="var">tracer</span>;
+    }
+
+    <span class="keyword">public</span> <span class="class">PaymentResponse</span> <span
+        class="method">processPayment</span>(<span class="class">PaymentRequest</span> <span class="var">request</span>) {
+        <span class="comment">// Create a custom span</span>
+        <span class="class">Span</span> <span class="var">paymentSpan</span> = <span class="var">tracer</span>.<span
+        class="method">nextSpan</span>().<span class="method">name</span>(<span
+        class="string">"payment-processing"</span>)
+            .<span class="method">tag</span>(<span class="string">"customer.id"</span>, <span class="var">request</span>.<span
+        class="method">getCustomerId</span>())
+            .<span class="method">tag</span>(<span class="string">"amount"</span>, <span
+        class="class">String</span>.<span class="method">valueOf</span>(<span class="var">request</span>.<span
+        class="method">getAmount</span>()))
+            .<span class="method">start</span>();
+
+        <span class="keyword">try</span> (<span class="class">SpanInScope</span> <span class="var">ws</span> = <span
+        class="var">tracer</span>.<span class="method">withSpan</span>(<span class="var">paymentSpan</span>)) {
+            <span class="comment">// Payment processing logic</span>
+            <span class="keyword">if</span> (<span class="var">request</span>.<span class="method">getAmount</span>() &gt; <span
+        class="number">1000</span>) {
+                <span class="var">paymentSpan</span>.<span class="method">event</span>(<span class="string">"High value payment detected"</span>);
+            }
+
+            <span class="comment">// Simulate processing time</span>
+            <span class="class">Thread</span>.<span class="method">sleep</span>(<span class="keyword">new</span> <span
+        class="class">Random</span>().<span class="method">nextInt</span>(<span class="number">300</span>));
+
+            <span class="keyword">return</span> <span class="keyword">new</span> <span
+        class="class">PaymentResponse</span>(<span class="class">UUID</span>.<span
+        class="method">randomUUID</span>().<span class="method">toString</span>(), <span class="string">"SUCCESS"</span>);
+        } <span class="keyword">catch</span> (<span class="class">InterruptedException</span> <span class="var">e</span>) {
+            <span class="var">paymentSpan</span>.<span class="method">tag</span>(<span
+        class="string">"error"</span>, <span class="string">"true"</span>);
+            <span class="class">Thread</span>.<span class="method">currentThread</span>().<span
+        class="method">interrupt</span>();
+            <span class="keyword">throw</span> <span class="keyword">new</span> <span
+        class="class">RuntimeException</span>(<span class="string">"Payment processing interrupted"</span>);
+        } <span class="keyword">finally</span> {
+            <span class="var">paymentSpan</span>.<span class="method">end</span>();
+        }
+    }
+}
+</code>
+</pre>
+
+    <h3>5. Complete Integration Example</h3>
+
+    <h4>Application Configuration</h4>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@SpringBootApplication</span>
+<span class="annotation">@EnableDiscoveryClient</span> <span class="comment">// If using service discovery</span>
+<span class="keyword">public class</span> <span class="class">InventoryServiceApplication</span> {
+
+    <span class="annotation">@Bean</span>
+    <span class="keyword">public</span> <span class="class">RestTemplate</span> <span class="method">restTemplate</span>(<span
+        class="class">RestTemplateBuilder</span> <span class="var">builder</span>) {
+        <span class="keyword">return</span> <span class="var">builder</span>.<span class="method">build</span>();
+    }
+
+    <span class="annotation">@Bean</span>
+    <span class="keyword">public</span> <span class="class">Sampler</span> <span class="method">defaultSampler</span>() {
+        <span class="keyword">return</span> <span class="class">Sampler</span>.<span
+        class="var">ALWAYS_SAMPLE</span>; <span class="comment">// For demo purposes</span>
+    }
+
+    <span class="keyword">public static</span> <span class="class">void</span> <span class="method">main</span>(<span
+        class="class">String</span>[] <span class="var">args</span>) {
+        <span class="class">SpringApplication</span>.<span class="method">run</span>(<span class="class">InventoryServiceApplication</span>.<span
+        class="keyword">class</span>, <span class="var">args</span>);
+    }
+}
+</code>
+</pre>
+
+    <h4>Docker Compose for Full Stack</h4>
+
+    <pre class="code-block">
+<code>
+<span class="key">version:</span> <span class="string">'3'</span>
+
+<span class="key">services:</span>
+  <span class="key">zipkin:</span>
+    <span class="key">image:</span> <span class="value">openzipkin/zipkin</span>
+    <span class="key">ports:</span>
+      - <span class="string">"9411:9411"</span>
+
+  <span class="key">prometheus:</span>
+    <span class="key">image:</span> <span class="value">prom/prometheus</span>
+    <span class="key">ports:</span>
+      - <span class="string">"9090:9090"</span>
+    <span class="key">volumes:</span>
+      - <span class="value">./prometheus.yml:/etc/prometheus/prometheus.yml</span>
+
+  <span class="key">grafana:</span>
+    <span class="key">image:</span> <span class="value">grafana/grafana</span>
+    <span class="key">ports:</span>
+      - <span class="string">"3080:3080"</span>
+    <span class="key">volumes:</span>
+      - <span class="value">grafana-storage:/var/lib/grafana</span>
+
+  <span class="key">inventory-service:</span>
+    <span class="key">build:</span> <span class="value">./inventory-service</span>
+    <span class="key">ports:</span>
+      - <span class="string">"8081:8080"</span>
+    <span class="key">environment:</span>
+      - <span class="value">SPRING_ZIPKIN_BASE_URL=http://zipkin:9411</span>
+
+  <span class="key">order-service:</span>
+    <span class="key">build:</span> <span class="value">./order-service</span>
+    <span class="key">ports:</span>
+      - <span class="string">"8082:8080"</span>
+    <span class="key">environment:</span>
+      - <span class="value">SPRING_ZIPKIN_BASE_URL=http://zipkin:9411</span>
+
+<span class="key">volumes:</span>
+  <span class="key">grafana-storage:</span>
+</code>
+</pre>
+
+    <h4>Prometheus Configuration (prometheus.yml)</h4>
+
+    <pre class="code-block">
+<code>
+<span class="key">global:</span>
+  <span class="key">scrape_interval:</span> <span class="number">15s</span>
+  <span class="key">evaluation_interval:</span> <span class="number">15s</span>
+
+<span class="key">scrape_configs:</span>
+  - <span class="key">job_name:</span> <span class="string">'inventory-service'</span>
+    <span class="key">metrics_path:</span> <span class="string">'/actuator/prometheus'</span>
+    <span class="key">static_configs:</span>
+      - <span class="key">targets:</span> [<span class="string">'inventory-service:8080'</span>]
+
+  - <span class="key">job_name:</span> <span class="string">'order-service'</span>
+    <span class="key">metrics_path:</span> <span class="string">'/actuator/prometheus'</span>
+    <span class="key">static_configs:</span>
+      - <span class="key">targets:</span> [<span class="string">'order-service:8080'</span>]
+
+  - <span class="key">job_name:</span> <span class="string">'zipkin'</span>
+    <span class="key">metrics_path:</span> <span class="string">'/metrics'</span>
+    <span class="key">static_configs:</span>
+      - <span class="key">targets:</span> [<span class="string">'zipkin:9411'</span>]
+</code>
+</pre>
+
+    <h3>6. Visualization and Dashboards</h3>
+
+    <h4>Prometheus Queries</h4>
+
+    <ol>
+        <li>Request Rate per Service:</li>
+    </ol>
+
+    <pre class="code-block">
+<code>
+<span class="value">sum(rate(http_server_requests_seconds_count[1m])) by (application)</span>
+</code>
+</pre>
+
+    <ol start="2">
+        <li>Error Rate:</li>
+    </ol>
+
+    <pre class="code-block">
+<code>
+<span class="value">sum(rate(http_server_requests_seconds_count{status="5.."}[1m])) by (application)</span>
+</code>
+</pre>
+
+    <ol start="3">
+        <li>95th Percentile Latency:</li>
+    </ol>
+
+    <pre class="code-block">
+<code>
+<span class="value">histogram_quantile(0.95, sum(rate(http_server_requests_seconds_bucket[1m])) by (le, application))</span>
+</code>
+</pre>
+
+    <h4>Grafana Dashboards</h4>
+
+    <ol>
+        <li>Import Micrometer Dashboard:
+            <ul>
+                <li>ID: 4701 (JVM Micrometer)</li>
+                <li>ID: 10280 (Spring Boot Statistics)</li>
+            </ul>
+        </li>
+        <li>Custom Trace Dashboard:
+            <ul>
+                <li>Use Zipkin data source</li>
+                <li>Visualize service dependencies</li>
+                <li>Show latency percentiles</li>
+            </ul>
+        </li>
+    </ol>
+
+    <h4>Zipkin UI Features</h4>
+
+    <ol>
+        <li>Trace Search:
+            <ul>
+                <li>Filter by service, span name, duration</li>
+                <li>Find traces with errors</li>
+            </ul>
+        </li>
+        <li>Dependency Diagram:
+            <ul>
+                <li>Visualize service dependencies</li>
+                <li>Identify bottlenecks</li>
+            </ul>
+        </li>
+        <li>Span Details:
+            <ul>
+                <li>View timing breakdown</li>
+                <li>See tags and logs</li>
+            </ul>
+        </li>
+    </ol>
+
+    <h3>7. Best Practices</h3>
+
+    <h4>Metrics Best Practices</h4>
+
+    <ol>
+        <li>Metric Naming:</li>
+    </ol>
+
+    <pre class="code-block">
+<code>
+<span class="comment">- Use dots for hierarchy ( service.request.count )</span>
+<span class="comment">- Be consistent across services</span>
+<span class="comment">- Avoid high-cardinality tags</span>
+</code>
+</pre>
+
+    <ol start="2">
+        <li>Sampling:
+            <ul>
+                <li>Adjust sampling rate based on traffic</li>
+                <li>Sample more during debugging</li>
+            </ul>
+        </li>
+        <li>Alerting:
+            <ul>
+                <li>Set up alerts for key metrics</li>
+                <li>Use Prometheus alertmanager</li>
+            </ul>
+        </li>
+    </ol>
+
+    <h4>Tracing Best Practices</h4>
+
+    <ol>
+        <li>Span Naming:
+            <ul>
+                <li>Use clear, descriptive names</li>
+                <li>Follow naming conventions</li>
+            </ul>
+        </li>
+        <li>Tagging:
+            <ul>
+                <li>Add relevant business context</li>
+                <li>Avoid sensitive data</li>
+            </ul>
+        </li>
+        <li>Correlation:
+            <ul>
+                <li>Include trace IDs in logs</li>
+                <li>Correlate metrics and traces</li>
+            </ul>
+        </li>
+    </ol>
+
+    <h4>Performance Considerations</h4>
+
+    <ol>
+        <li>Overhead:
+            <ul>
+                <li>Monitor collector performance</li>
+                <li>Adjust sampling rates</li>
+            </ul>
+        </li>
+        <li>Storage:
+            <ul>
+                <li>Configure retention policies</li>
+                <li>Consider sampling strategies</li>
+            </ul>
+        </li>
+        <li>Network:
+            <ul>
+                <li>Batch spans where possible</li>
+                <li>Use efficient serialization</li>
+            </ul>
+        </li>
+    </ol>
+
+    <h4>Troubleshooting</h4>
+
+    <ol>
+        <li>Missing Traces:
+            <ul>
+                <li>Verify sampling probability</li>
+                <li>Check Zipkin connection</li>
+            </ul>
+        </li>
+        <li>Missing Metrics:
+            <ul>
+                <li>Verify actuator exposure</li>
+                <li>Check Prometheus scrape config</li>
+            </ul>
+        </li>
+        <li>High Cardinality:
+            <ul>
+                <li>Review metric tags</li>
+                <li>Consider aggregation</li>
+            </ul>
+        </li>
+    </ol>
+    <p>This comprehensive setup provides full observability for your Spring Boot microservices with metrics in
+        Prometheus and distributed traces in Zipkin, giving you both the granular request-level view and the aggregated
+        service-level metrics.</p>
+    <div class="card-footer">
+        <br>
+        <ul class="pagination justify-content-center">
+            <li class="page-item"><a class="page-link btn-outline-primary"
+                                     href="../ms/saga.html">&lArr; Previous</a></li>
+            <li class="page-item"><a class="page-link" href="../ms/miscellaneous.html">Next
+                &rArr;</a></li>
+        </ul>
+    </div>
+</main>
+
+<!-- Scripts -->
+<script src="../js/sidebar.js"></script>
+<script src="../js/componentLoader.js"></script>
+</body>
+</html>

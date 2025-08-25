@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Circuit Breaker</title>
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../js/styles.css"/>
+</head>
+<body data-sidebar="ms">
+<nav>
+    <button class="mobile-sidebar-btn" id="mobileSidebarBtn">☰</button>
+    <div class="breadcrumbs">
+        <a href="../home.html">Home</a>
+        <span class="separator">/</span>
+        <a href="#">microservices</a>
+        <span class="separator">/</span>
+        <a href="#">Circuit Breaker</a>
+    </div>
+</nav>
+<!-- Components will be inserted here by components.js -->
+<main id="content">
+    <!-- Main Content Section -->
+    <h3>1. Circuit Breaker with Resilience4j</h3>
+
+    <p><strong>Core Theme:</strong> Ensuring the stability and reliability of microservices by implementing resilience
+        patterns to handle failures gracefully and prevent cascading system outages.</p>
+
+    <p><strong>Key Concepts and Patterns:</strong></p>
+
+    <h3>1. Circuit Breaker Pattern</h3>
+
+    <p><strong>Problem:</strong> When a service calls a remote service, failures (e.g., slow responses, timeouts,
+        errors) can exhaust network resources and degrade performance, potentially leading to a cascade of failures
+        across the entire application. As the source states, "The failure of one service can be potential cascade to
+        other services in the whole application."</p>
+
+    <p><strong>Solution:</strong> The Circuit Breaker pattern acts like an electrical circuit breaker. It monitors calls
+        to a service and, if failures exceed a certain threshold, it "trips" (opens the circuit) to prevent further
+        calls to the failing service. This saves system resources and allows the failing service to recover.</p>
+
+    <p><strong>States of a Circuit Breaker:</strong></p>
+
+    <ul>
+        <li><strong>Closed:</strong> The normal state where all calls pass through to the service. If the number of
+            failures exceeds a configured threshold, it transitions to the Open state.
+        </li>
+        <li><strong>Open:</strong> The circuit breaker blocks all calls to the service, failing immediately without
+            attempting to execute the function. After a configured "wait time" or "period," it transitions to the
+            Half-Open state.
+        </li>
+        <li><strong>Half-Open:</strong> A limited number of test calls are allowed to pass through to the service. If
+            these test calls succeed, the circuit breaker returns to the Closed state. If they fail, it returns to the
+            Open state.
+        </li>
+    </ul>
+
+    <p><strong>Resilience4j Implementation (Circuit Breaker):</strong></p>
+
+    <ul>
+        <li><strong>Annotation:</strong> @CircuitBreaker(name = "yourServiceName", fallbackMethod =
+            "yourFallbackMethod") is used to apply the circuit breaker to a method.
+        </li>
+        <li><strong>Fallback Method:</strong> A method with a matching signature that is executed when the circuit
+            breaker is open or when an exception occurs. This provides a graceful degradation of service. For example:
+            "If my item service is down, it should return a fallback method."
+        </li>
+        <li><strong>Configuration Properties (in application.yml):</strong> failureRateThreshold: Percentage of failed
+            calls (e.g., 50%) that will cause the circuit breaker to open.
+        </li>
+        <li><strong>minimumNumberOfCalls:</strong> Minimum number of calls required before the failure rate threshold is
+            evaluated (e.g., 5 calls).
+        </li>
+        <li><strong>slidingWindowSize:</strong> The number of calls that are recorded and used to calculate the failure
+            rate (e.g., 10 calls).
+        </li>
+        <li><strong>slidingWindowType:</strong> Can be COUNT_BASED or TIME_BASED.</li>
+        <li><strong>waitDurationInOpenState:</strong> The duration the circuit breaker stays in the Open state (e.g., 30
+            seconds).
+        </li>
+        <li><strong>permittedNumberOfCallsInHalfOpenState:</strong> Number of calls allowed in the Half-Open state
+            (e.g., 3 calls).
+        </li>
+        <li><strong>automaticTransitionFromOpenToHalfOpenEnabled:</strong> Enables automatic transition.</li>
+    </ul>
+
+    <p><strong>Monitoring:</strong> Resilience4j integrates with Spring Boot Actuator and Prometheus to provide health
+        indicators and metrics (e.g., resilience4j_circuitbreaker_calls_total, resilience4j_circuitbreaker_state).</p>
+
+    <h3>2. Retry Pattern</h3>
+
+    <p><strong>Problem:</strong> Transient failures (e.g., network glitches, temporary service unavailability) can lead
+        to failed requests, even if the service might recover quickly.</p>
+
+    <p><strong>Solution:</strong> The Retry pattern automatically re-attempts a failed operation a specified number of
+        times with a defined delay between retries. This increases the chances of a successful execution for transient
+        issues.</p>
+
+    <p><strong>Resilience4j Implementation (Retry):</strong></p>
+
+    <ul>
+        <li><strong>Annotation:</strong> @Retry(name = "yourServiceName", fallbackMethod = "yourFallbackMethod")</li>
+        <li><strong>Configuration Properties:</strong> maxAttempts: The maximum number of retry attempts (e.g., 3
+            times).
+        </li>
+        <li><strong>waitDuration:</strong> The delay between retry attempts (e.g., 2 seconds).</li>
+        <li><strong>retryExceptions:</strong> Specifies which exceptions should trigger a retry.</li>
+        <li><strong>ignoreExceptions:</strong> Specifies which exceptions should not trigger a retry.</li>
+    </ul>
+
+    <p><strong>Monitoring:</strong> Similar to Circuit Breaker, retry metrics are exposed via Actuator and Prometheus.
+    </p>
+
+    <h3>3. Bulkhead Pattern</h3>
+
+    <p><strong>Problem:</strong> Unbounded resource consumption by one failing or slow component can exhaust shared
+        resources (e.e., thread pools, connections) and degrade the performance or availability of other, healthy
+        components. As the source explains, the Bulkhead pattern prevents "the failure of one component from affecting
+        the entire system."</p>
+
+    <p><strong>Solution:</strong> The Bulkhead pattern isolates components into separate resource pools (e.g., thread
+        pools, semaphores). If one component fails or becomes slow, it only consumes the resources allocated to its
+        specific bulkhead, leaving other components unaffected. This is analogous to bulkheads in a ship, preventing a
+        breach in one compartment from sinking the entire vessel. The source describes it as "Splitting into small
+        multiple compartments saving the bulkhead."</p>
+
+    <p><strong>When to Use:</strong></p>
+
+    <ul>
+        <li>When services are scalable and independent.</li>
+        <li>To prevent cascading failures.</li>
+        <li>To ensure some level of functionality even if certain services are unresponsive.</li>
+    </ul>
+
+    <p><strong>Resilience4j Implementation (Bulkhead):</strong></p>
+
+    <ul>
+        <li><strong>Annotation:</strong> @Bulkhead(name = "yourServiceName", fallbackMethod = "yourFallbackMethod")</li>
+        <li><strong>Types of Bulkhead:</strong> Semaphore Bulkhead: Limits the number of concurrent calls (default in
+            Resilience4j).
+        </li>
+        <li><strong>ThreadPool Bulkhead:</strong> Isolates calls into a dedicated thread pool.</li>
+        <li><strong>Configuration Properties (for Semaphore Bulkhead):</strong> maxConcurrentCalls: Maximum number of
+            concurrent calls allowed (e.g., 5 calls).
+        </li>
+        <li><strong>maxWaitDuration:</strong> Maximum time a thread waits for permission to enter the bulkhead (e.g., 0
+            milliseconds for immediate rejection).
+        </li>
+        <li><strong>Configuration Properties (for ThreadPool Bulkhead):</strong> maxThreadPoolSize: Maximum size of the
+            thread pool.
+        </li>
+        <li><strong>queueCapacity:</strong> Capacity of the waiting queue.</li>
+    </ul>
+
+    <p><strong>Monitoring:</strong> Bulkhead metrics (e.g., available_concurrent_calls, max_allowed_concurrent_calls)
+        are exposed.</p>
+
+    <h3>4. Rate Limiter Pattern</h3>
+
+    <p><strong>Problem:</strong> A service can be overwhelmed by a high volume of requests, leading to resource
+        exhaustion, degraded performance, or even crashes. This pattern "helps to ensure services are available by just
+        limiting the number of calls with a pre-configured rate."</p>
+
+    <p><strong>Solution:</strong> The Rate Limiter pattern controls the rate at which requests are processed by a
+        service. It typically uses a token bucket algorithm to allow a certain number of requests per unit of time.
+        Requests exceeding the limit are either rejected or queued.</p>
+
+    <p><strong>When to Use:</strong></p>
+
+    <ul>
+        <li>To protect against denial-of-service (DoS) attacks.</li>
+        <li>To prevent resource exhaustion.</li>
+        <li>To prioritize critical requests.</li>
+        <li>To handle services with limited resources.</li>
+    </ul>
+
+    <p><strong>Resilience4j Implementation (Rate Limiter):</strong></p>
+
+    <ul>
+        <li><strong>Annotation:</strong> @RateLimiter(name = "yourServiceName", fallbackMethod = "yourFallbackMethod")
+        </li>
+        <li><strong>Configuration Properties:</strong> limitForPeriod: Maximum number of permissions (requests) allowed
+            in a given limitRefreshPeriod (e.g., 2 permissions).
+        </li>
+        <li><strong>limitRefreshPeriod:</strong> The duration in which limitForPeriod permissions are granted (e.g., 10
+            seconds).
+        </li>
+        <li><strong>timeoutDuration:</strong> The time a calling thread is willing to wait for a permission (e.g., 0
+            milliseconds for immediate rejection).
+        </li>
+        <li><strong>drainPermissionsOnResult:</strong> Whether to consume permissions even if the call fails.</li>
+        <li><strong>registerHealthIndicator:</strong> Exposes health status (e.g., true).</li>
+    </ul>
+
+    <p><strong>Monitoring:</strong> Rate Limiter metrics (e.g., available_permissions, waiting_threads) are exposed.</p>
+
+    <h3>5. Time Limiter Pattern</h3>
+
+    <p><strong>Problem:</strong> Slow-running operations or external service calls that take too long can tie up
+        resources (e.g., threads) and lead to timeouts or resource exhaustion.</p>
+
+    <p><strong>Solution:</strong> The Time Limiter pattern sets a maximum duration for an operation to complete. If the
+        operation does not finish within this time, it is interrupted or cancelled, and a TimeoutException is thrown.
+        This prevents long-running operations from blocking the application. The source defines it as "A limiting amount
+        of time that will allow for an operation to complete."</p>
+
+    <p><strong>When to Use:</strong></p>
+
+    <ul>
+        <li>When dealing with potentially slow external service calls.</li>
+        <li>To prevent thread starvation.</li>
+        <li>To ensure predictable response times.</li>
+    </ul>
+
+    <p><strong>Resilience4j Implementation (Time Limiter):</strong></p>
+
+    <ul>
+        <li><strong>Annotation:</strong> @TimeLimiter(name = "yourServiceName", fallbackMethod = "yourFallbackMethod")
+        </li>
+        <li><strong>Configuration Properties:</strong> timeoutDuration: The maximum duration for the operation (e.g., 2
+            seconds).
+        </li>
+        <li><strong>cancelRunningFuture:</strong> Whether the underlying CompletableFuture should be cancelled if the
+            timeout occurs (e.g., true).
+        </li>
+    </ul>
+
+    <p><strong>Monitoring:</strong> Time Limiter metrics are exposed via Actuator and Prometheus.</p>
+
+    <h3>Practical Implementation Notes:</h3>
+
+    <ul>
+        <li><strong>Dependencies:</strong> Spring Boot Actuator, Resilience4j Spring Boot 3 starter, Prometheus, and
+            Grafana are commonly used for implementing and monitoring these patterns.
+        </li>
+    </ul>
+
+    <ul>
+        <li><strong>Configuration:</strong> All patterns are configured in the application.yml or application.properties
+            file under resilience4j.&lt;patternName&gt;.
+        </li>
+        <li><strong>Fallback Methods:</strong> Crucial for graceful degradation. They must match the signature of the
+            original method and handle exceptions appropriately.
+        </li>
+        <li><strong>Monitoring Tools:</strong> Prometheus and Grafana are highlighted for visualizing the metrics
+            exposed by Resilience4j, providing dashboards for monitoring circuit breaker states, retry attempts,
+            bulkhead concurrency, rate limit permissions, and time limiter outcomes.
+        </li>
+        <li><strong>JMeter:</strong> Mentioned as a tool for load testing and simulating concurrent requests to observe
+            how resilience patterns behave under stress.
+        </li>
+    </ul>
+
+    <p>By implementing these resilience patterns with Resilience4j, developers can build more robust and fault-tolerant
+        microservices, improving the overall stability and user experience of their applications.</p>
+
+    <p><strong>Implementation</strong></p>
+
+    <pre class="code-block">
+<code>
+<span class="tag">&lt;dependency&gt;</span>
+<span class="tag">&lt;groupId&gt;</span>io.github.resilience4j<span class="tag">&lt;/groupId&gt;</span>
+<span class="tag">&lt;artifactId&gt;</span>resilience4j-spring-boot3<span class="tag">&lt;/artifactId&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span>
+</code>
+</pre>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@Service</span>
+<span class="keyword">public class</span> <span class="class">UserService</span> {
+
+    <span class="keyword">private final</span> <span class="class">RestTemplate</span> <span
+        class="var">restTemplate</span> = <span class="keyword">new</span> <span class="class">RestTemplate</span>();
+
+    <span class="annotation">@CircuitBreaker</span>(name = <span
+        class="string">"userService"</span>, fallbackMethod = <span class="string">"fallbackUser"</span>)
+    <span class="annotation">@Retry</span>(name = <span class="string">"userService"</span>)
+    <span class="annotation">@TimeLimiter</span>(name = <span
+        class="string">"userService"</span>, fallbackMethod = <span class="string">"fallbackUserFuture"</span>)
+    <span class="keyword">public</span> <span class="class">CompletableFuture</span>&lt;<span
+        class="class">String</span>&gt; <span class="method">getUserData</span>() {
+        <span class="keyword">return</span> <span class="class">CompletableFuture</span>.supplyAsync(() -&gt; {
+            <span class="keyword">return</span> <span class="var">restTemplate</span>.getForObject(<span class="string">"http://localhost:8081/api/user"</span>, <span
+        class="class">String</span>.class);
+        });
+    }
+
+    <span class="comment">// Fallback method (synchronous)</span>
+    <span class="keyword">public</span> <span class="class">String</span> <span class="method">fallbackUser</span>(<span
+        class="class">Throwable</span> <span class="var">ex</span>) {
+        <span class="keyword">return</span> <span class="string">"Fallback: User service is down!"</span>;
+    }
+
+    <span class="comment">// Fallback for CompletableFuture</span>
+    <span class="keyword">public</span> <span class="class">CompletableFuture</span>&lt;<span
+        class="class">String</span>&gt; <span class="method">fallbackUserFuture</span>(<span
+        class="class">Throwable</span> <span class="var">ex</span>) {
+        <span class="keyword">return</span> <span class="class">CompletableFuture</span>.completedFuture(<span
+        class="string">"Fallback: Timed out!"</span>);
+    }
+}
+</code>
+</pre>
+
+    <pre class="code-block">
+<code>
+<span class="key">resilience4j:</span>
+  <span class="key">circuitbreaker:</span>
+    <span class="key">instances:</span>
+      <span class="key">userService:</span>
+        <span class="key">register-health-indicator:</span> <span class="value">true</span>
+        <span class="key">sliding-window-size:</span> <span class="number">5</span>
+        <span class="key">minimum-number-of-calls:</span> <span class="number">3</span>
+        <span class="key">failure-rate-threshold:</span> <span class="number">50</span>
+        <span class="key">wait-duration-in-open-state:</span> <span class="value">5s</span>
+
+  <span class="key">retry:</span>
+    <span class="key">instances:</span>
+      <span class="key">userService:</span>
+        <span class="key">max-attempts:</span> <span class="number">3</span>
+        <span class="key">wait-duration:</span> <span class="value">2s</span>
+
+  <span class="key">timelimiter:</span>
+    <span class="key">instances:</span>
+      <span class="key">userService:</span>
+        <span class="key">timeout-duration:</span> <span class="value">2s</span>
+</code>
+</pre>
+    <div class="card-footer">
+        <br>
+        <ul class="pagination justify-content-center">
+            <li class="page-item"><a class="page-link btn-outline-primary"
+                                     href="../ms/gateway.html">&lArr; Previous</a></li>
+            <li class="page-item"><a class="page-link" href="../ms/webclient.html">Next
+                &rArr;</a></li>
+        </ul>
+    </div>
+</main>
+<!-- Scripts -->
+<script src="../js/sidebar.js"></script>
+<script src="../js/componentLoader.js"></script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>WebClient</title>
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../js/styles.css"/>
+</head>
+<body data-sidebar="ms">
+<nav>
+    <button class="mobile-sidebar-btn" id="mobileSidebarBtn">☰</button>
+    <div class="breadcrumbs">
+        <a href="../home.html">Home</a>
+        <span class="separator">/</span>
+        <a href="#">microservices</a>
+        <span class="separator">/</span>
+        <a href="#">WebClient</a>
+    </div>
+</nav>
+<!-- Components will be inserted here by components.js -->
+
+<!-- Main Content Section -->
+<main id="content">
+    <h3>WebClient</h3>
+
+    <p>WebClient is a modern, non-blocking, reactive HTTP client introduced in Spring 5 as part of the Spring WebFlux
+        module. It replaces the older `RestTemplate` (which is now in maintenance mode) and is designed for <strong>asynchronous</strong>
+        and <strong>reactive</strong> programming.</p>
+
+    <h3>Key Advantages of WebClient</h3>
+
+    <ol>
+        <li>Non-Blocking & Reactive: Uses Project Reactor (Mono/Flux) for efficient I/O operations without thread
+            blocking.
+        </li>
+
+        <li>Functional Style API: Supports fluent, declarative request building.</li>
+
+        <li>Better Performance: Handles high concurrency with fewer threads (uses event-loop model).</li>
+
+        <li>Supports Sync & Async Calls: Can be used in both reactive and traditional applications.</li>
+
+        <li>Integration with Spring Ecosystem: Works well with Spring Security, Circuit Breakers (Resilience4J), and
+            Kotlin Coroutines.
+        </li>
+
+        <li>Supports HTTP/2: Better performance with multiplexed connections.</li>
+
+        <li>Error Handling: Provides built-in mechanisms for error handling and retry logic.</li>
+    </ol>
+
+    <h3>1. Add Dependencies:</h3>
+    <p>Add the necessary dependencies to your `pom.xml`:</p>
+
+    <pre class="code-block">
+<code>
+<span class="tag">&lt;dependency&gt;</span>
+<span class="tag">&lt;groupId&gt;</span>org.springframework.boot<span class="tag">&lt;/groupId&gt;</span>
+<span class="tag">&lt;artifactId&gt;</span>spring-boot-starter-webflux<span class="tag">&lt;/artifactId&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span>
+</code>
+</pre>
+
+    <h3>2. Configure WebClient Bean:</h3>
+    <p>Define a `WebClient` bean in your configuration class:</p>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@Configuration</span>
+<span class="keyword">public class</span> <span class="class">WebClientConfig</span> {
+    <span class="annotation">@Bean</span>
+    <span class="keyword">public</span> <span class="class">WebClient</span> <span class="method">webClient</span>() {
+        <span class="keyword">return</span> <span class="class">WebClient</span>.builder()
+        .baseUrl(<span class="string">"https://jsonplaceholder.typicode.com"</span>)
+        .defaultHeader(<span class="class">HttpHeaders</span>.CONTENT_TYPE, <span class="class">MediaType</span>.APPLICATION_JSON_VALUE)
+        .build();
+    }
+}
+</code>
+</pre>
+
+    <h3>3. Use WebClient in Services:</h3>
+    <p>Inject the `WebClient` bean into your service class and use it to make HTTP requests:</p>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@Service</span>
+<span class="keyword">public class</span> <span class="class">Service</span> {
+    <span class="keyword">private final</span> <span class="class">WebClient</span> <span class="var">webClient</span>;
+
+    <span class="keyword">public</span> <span class="class">Service</span>(<span class="class">WebClient</span> <span
+        class="var">webClient</span>) {
+        <span class="keyword">this</span>.<span class="var">webClient</span> = <span class="var">webClient</span>;
+    }
+</code>
+</pre>
+
+    <pre class="java-code">
+<code>
+<span class="keyword">public</span> <span class="class">Mono</span>&lt;<span class="class">String</span>&gt; <span
+        class="method">fetchPostById</span>(<span class="keyword">int</span> <span class="var">id</span>) {
+    <span class="keyword">return</span> <span class="var">webClient</span>.get()
+    .uri(<span class="string">"/posts/{id}"</span>, <span class="var">id</span>)
+    .retrieve()
+    .bodyToMono(<span class="class">String</span>.class);
+}
+</code>
+</pre>
+
+    <hr>
+
+    <pre class="java-code">
+<code>
+<span class="var">webClient</span>.get()
+  .uri(<span class="string">"/posts/999"</span>) <span class="comment">// Assume this doesn't exist</span>
+  .retrieve()
+  .onStatus(
+    <span class="var">status</span> -&gt; <span class="var">status</span>.is4xxClientError() || <span
+        class="var">status</span>.is5xxServerError(),
+    <span class="var">response</span> -&gt; <span class="class">Mono</span>.error(<span class="keyword">new</span> <span
+        class="class">RuntimeException</span>(<span class="string">"API Error: "</span> + <span
+        class="var">response</span>.statusCode()))
+    )
+  .bodyToMono(<span class="class">String</span>.class)
+  .doOnError(<span class="var">e</span> -&gt; <span class="class">System</span>.err.println(<span class="string">"Error: "</span> + <span
+        class="var">e</span>.getMessage()));
+  .subscribe(<span class="class">System</span>.out::println);
+}
+</code>
+</pre>
+
+    <hr>
+
+    <p>Async (Reactive)</p>
+
+    <pre class="java-code">
+<code>
+<span class="var">webClient</span>.get()
+  .uri(<span class="string">"/posts/1"</span>)
+  .retrieve()
+  .bodyToMono(<span class="class">String</span>.class)
+  .subscribe(<span class="var">response</span> -&gt; <span class="class">System</span>.out.println(<span class="string">"Async Response: "</span> + <span
+        class="var">response</span>));
+</code>
+</pre>
+
+    <hr>
+
+    <p>Blocking (Traditional)</p>
+
+    <pre class="java-code">
+<code>
+<span class="class">String</span> <span class="var">response</span> = <span class="var">webClient</span>.get()
+  .uri(<span class="string">"/posts/1"</span>)
+  .retrieve()
+  .bodyToMono(<span class="class">String</span>.class)
+  .block(); <span class="comment">// Blocks until response arrives (avoid in reactive apps)</span>
+<span class="class">System</span>.out.println(<span class="string">"Blocking Response: "</span> + <span class="var">response</span>);
+</code>
+</pre>
+
+    <hr>
+
+    <pre class="java-code">
+<code>
+<span class="var">webClient</span>.get()
+  .uri(<span class="string">"/posts/1"</span>)
+  .retrieve()
+  .bodyToMono(<span class="class">Post</span>.class)
+  .timeout(<span class="class">Duration</span>.ofSeconds(<span class="number">5</span>))
+  .retry(<span class="number">2</span>)
+</code>
+</pre>
+
+    <h3>Additional Considerations</h3>
+
+    <ul>
+        <li><strong>Error Handling:</strong> Use OnErrorResume, OnErrorReturn, or OnErrorMap for error handling.</li>
+
+        <li><strong>Retry:</strong> Implement retry logic using Spring Retry or custom logic.</li>
+
+        <li><strong>Load Balancing:</strong> Use Spring Cloud LoadBalancer for load balancing.</li>
+
+        <li><strong>Circuit Breaker:</strong> Combine with Resilience4j for circuit breaking.</li>
+    </ul>
+    <div class="card-footer">
+        <br>
+        <ul class="pagination justify-content-center">
+            <li class="page-item"><a class="page-link btn-outline-primary"
+                                     href="../ms/resilience4j.html">&lArr; Previous</a></li>
+            <li class="page-item"><a class="page-link" href="../ms/feign.html">Next
+                &rArr;</a></li>
+        </ul>
+    </div>
+</main>
+<!-- Scripts -->
+<script src="../js/sidebar.js"></script>
+<script src="../js/componentLoader.js"></script>
+</body>
+</html>
