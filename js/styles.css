@@ -570,7 +570,7 @@ h4 {
 p {
     margin-bottom: 0.75rem;
     line-height: 1.5;
-    font-size: 1.1rem;
+    #font-size: 1.1rem;
 }
 
 .content-section {
@@ -762,6 +762,9 @@ article {
 
 /* Responsive Styles */
 @media (max-width: 768px) {
+    .responsive-img {
+        width: 100%;
+      }
     body {
         grid-template-areas:
             "header header"
@@ -955,12 +958,13 @@ article {
   background-color: var(--code_bg);  /* Dark background */
   color: var(--bg-color);           /* Default text */
   #padding: 15px;
+  padding-left: 15px;
   border-radius: 8px;
   overflow-x: auto;
   font-family: "Fira Code", monospace;
   font-size: 14px;
   line-height: 1.5;
-  margin: 20px 0;
+  margin: 15px 0;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
@@ -979,12 +983,13 @@ article {
   background-color: var(--code_bg);
   color: var(--bg-color);
   #padding: 15px;
+  padding-left: 15px;
   border-radius: 8px;
   overflow-x: auto;
   font-family: "Fira Code", monospace;
   font-size: 14px;
   line-height: 1.6;
-  margin: 20px 0;
+  margin: 15px 0;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
@@ -1010,7 +1015,7 @@ article {
   font-family: "Fira Code", monospace;
   font-size: 14px;
   line-height: 1.6;
-  margin: 20px 0;
+  margin: 15px 0;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 .sql-code .keyword   { color: #e3116c; font-weight: bold; }   /* public, class, void */

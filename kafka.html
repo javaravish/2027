@@ -264,62 +264,6 @@ props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
     <h3>Kafka Architecture</h3>
     <img src="js/images/kafka/arc.png" class="responsive-img">
-    <div class="table-container">
-        <table class="basic-table">
-            <thead>
-            <tr>
-                <th>Producer 1</th>
-                <th>Broker 1</th>
-                <th>Broker 2</th>
-                <th>Broker 3</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td></td>
-                <td>Topic 1</td>
-                <td>Topic 1</td>
-                <td>Topic 1</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>Topic 2</td>
-                <td>Topic 2</td>
-                <td>Topic 2</td>
-            </tr>
-            <tr>
-                <td>Producer 2</td>
-                <td>Partition 0</td>
-                <td>Partition 0</td>
-                <td>Partition 0</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>Leader</td>
-                <td>Replica 1</td>
-                <td>Replica 2</td>
-            </tr>
-            <tr>
-                <td>Producer 3</td>
-                <td>Partition 1</td>
-                <td>Partition 1</td>
-                <td>Partition 1</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>0.1 2.3 4.5</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Producer 4</td>
-                <td>Partition 2</td>
-                <td>Partition 2</td>
-                <td>Partition 2</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
     <hr>
     <h3>6. Spring Boot Kafka Integration</h3>
 
