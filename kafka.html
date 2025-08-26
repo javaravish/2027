@@ -28,7 +28,7 @@
     <p><strong>Event streaming</strong> is defined as "the practice of capturing the data in real time from event
         sources like databases, sensors, mobile devices, cloud services, and software applications in in the form of
         streams of events."</p>
-
+    <hr>
     <h3>2. Key Features and Advantages of Kafka</h3>
 
     <p>Kafka boasts several powerful features that make it a robust solution for real-time data processing:</p>
@@ -68,7 +68,7 @@
             various data sources and sinks, facilitating data transfer between systems.
         </li>
     </ol>
-
+    <hr>
     <h3>3. Kafka Use Cases</h3>
 
     <p>Kafka is widely used across various industries for:</p>
@@ -102,7 +102,7 @@
             architectures, and microservices.
         </li>
     </ol>
-
+    <hr>
     <h3>4. Kafka Key Components</h3>
 
     <p>Understanding these core concepts is crucial for working with Kafka:</p>
@@ -130,15 +130,11 @@
             track read progress." Offsets are crucial for consumers to track their position, know which messages they've
             consumed, and resume consumption from the last committed offset if they crash or restart.
         </li>
+        <p>An offset is a unique identifier for a message within a partition.</p>
+        <p>Kafka stores messages in partitions in a sequential log.</p>
+        <p>Each message in a partition has an increasing offset like 0, 1, 2, 3, ....</p>
+        <p>Consumers track offsets to know what message to read next.</p>
     </ol>
-
-    <p>An offset is a unique identifier for a message within a partition.</p>
-
-    <p>Kafka stores messages in partitions in a sequential log.</p>
-
-    <p>Each message in a partition has an increasing offset like 0, 1, 2, 3, ....</p>
-
-    <p>Consumers track offsets to know what message to read next.</p>
 
     <pre class="java-code">
 <code>
@@ -191,61 +187,77 @@ props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         <li><strong>Consumers</strong>: A client that subscribes (reads) messages from one or more Kafka topics. Can be
             part of a consumer group for load balancing.
         </li>
+        <p>Consumers always read data from lower to higher offsets.</p>
+        <p>If a consumer reads from multiple partitions, message order is not guaranteed across partitions.</p>
+        <p>Consumers deserialize data from byte format into usable data structures.</p>
+        <p>Consumers are assigned to specific partitions for parallel processing and scalability.</p>
+        <p>Consumers acknowledge message receipt and commit offsets to ensure reliable, at-least-once message
+            delivery.</p>
+        <li><strong>Acknowledgement Settings (acks)</strong> Producers can configure acks to control message delivery
+            durability and reliability:
+        </li>
+
+        <p><strong>acks=0:</strong> Producer sends data without waiting for acknowledgement. Possible data loss.</p>
+
+        <p><strong>acks=1</strong> (Default in Kafka 2.0+): Leader broker acknowledges receipt. Limited data loss
+            possible
+            if leader fails before replicas synchronize.</p>
+
+        <p><strong>acks=all:</strong> Leader waits for all in-sync replicas to acknowledge before responding to the
+            producer. No data loss.</p>
+
+        <li><strong>Message Keys</strong>
+            partitions in a
+            round-robin fashion. If a key is provided, messages with the same key are always sent to and stored
+            in the
+            same
+            Kafka partition, ensuring order.
+        </li>
+
+        <li><strong>Consumer Group</strong>
+
+            "Consumers are organized into consumer groups...where each group read from a topic." A consumer
+            group can
+            contain
+            multiple consumers, processing subsets of messages, which facilitates scalability and load
+            distribution.
+        </li>
+
+        <p><strong>Consumer Behavior with Partitions: Single Consumer, Multiple Partitions:</strong> A
+            single consumer
+            in a
+            group will consume all partitions of a topic.</p>
+
+        <p><strong>Multiple Consumers, Multiple Partitions (Consumers <= Partitions):</strong> Kafka
+            auto-balances,
+            assigning partitions to consumers for load distribution. Each partition is consumed by only one
+            consumer
+            within
+            a group at a time.</p>
+
+        <p><strong>Multiple Consumers, Multiple Partitions (Consumers > Partitions):</strong> All partitions
+            will be
+            consumed, and any excess consumers will sit idle.</p>
+
+        <p><strong>Multiple Consumer Groups:</strong> Each consumer group independently consumes from the
+            topic's
+            partitions.</p>
+
+        <img src="js/images/kafka/consumer_grp.png" class="responsive-img">
+        <br>
+        <li><strong>Leader/Follower Replications</strong>
+            Each partition has one leader and multiple followers. Leaders handle all read and write
+            requests for their
+            partition, and followers replicate the leader's data. If a leader fails, a follower becomes
+            the new leader.
+            leaders perform all reads and writes to a particular topic partition. followers replicate
+            leaders.
+        </li>
+        <br>
+        <img src="js/images/kafka/replica.png" class="responsive-img">
     </ol>
-
-    <p>Consumers always read data from lower to higher offsets.</p>
-
-    <p>If a consumer reads from multiple partitions, message order is not guaranteed across partitions.</p>
-
-    <p>Consumers deserialize data from byte format into usable data structures.</p>
-
-    <p>Consumers are assigned to specific partitions for parallel processing and scalability.</p>
-
-    <p>Consumers acknowledge message receipt and commit offsets to ensure reliable, at-least-once message delivery.</p>
-
-    <h3>8. Acknowledgement Settings (acks)</h3>
-
-    <p>Producers can configure acks to control message delivery durability and reliability:</p>
-
-    <p><strong>acks=0:</strong> Producer sends data without waiting for acknowledgement. Possible data loss.</p>
-
-    <p><strong>acks=1</strong> (Default in Kafka 2.0+): Leader broker acknowledges receipt. Limited data loss possible
-        if leader fails before replicas synchronize.</p>
-
-    <p><strong>acks=all:</strong> Leader waits for all in-sync replicas to acknowledge before responding to the
-        producer. No data loss.</p>
-
-    <h3>9. Message Keys</h3>
-
-    <p>Messages can have an optional key. If the key is null, messages are distributed evenly across partitions in a
-        round-robin fashion. If a key is provided, messages with the same key are always sent to and stored in the same
-        Kafka partition, ensuring order.</p>
-
-    <h3>10. Consumer Group</h3>
-
-    <p>"Consumers are organized into consumer groups...where each group read from a topic." A consumer group can contain
-        multiple consumers, processing subsets of messages, which facilitates scalability and load distribution.</p>
-
-    <p><strong>Consumer Behavior with Partitions: Single Consumer, Multiple Partitions:</strong> A single consumer in a
-        group will consume all partitions of a topic.</p>
-
-    <p><strong>Multiple Consumers, Multiple Partitions (Consumers <= Partitions):</strong> Kafka auto-balances,
-        assigning partitions to consumers for load distribution. Each partition is consumed by only one consumer within
-        a group at a time.</p>
-
-    <p><strong>Multiple Consumers, Multiple Partitions (Consumers > Partitions):</strong> All partitions will be
-        consumed, and any excess consumers will sit idle.</p>
-
-    <p><strong>Multiple Consumer Groups:</strong> Each consumer group independently consumes from the topic's
-        partitions.</p>
-
-    <img src="js/images/kafka/consumer_grp.png" class="responsive-img">
-    <h3>11. Leader/Follower Replications</h3>
-
-    <p>Each partition has one leader and multiple followers. Leaders handle all read and write requests for their
-        partition, and followers replicate the leader's data. If a leader fails, a follower becomes the new leader.
-        leaders perform all reads and writes to a particular topic partition. followers replicate leaders.</p>
-    <img src="js/images/kafka/replica.png" class="responsive-img">
+    <br>
+    <hr>
     <h3>5. Zookeeper and Kafka (Legacy vs. Current)</h3>
 
     <ul>
@@ -262,7 +274,6 @@ props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         </li>
     </ul>
 
-    <h3>Kafka Architecture</h3>
     <img src="js/images/kafka/arc.png" class="responsive-img">
     <hr>
     <h3>6. Spring Boot Kafka Integration</h3>
@@ -270,19 +281,22 @@ props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
     <p>The tutorial demonstrates how to integrate Apache Kafka with Spring Boot, focusing on setting up producers and
         consumers.</p>
 
-    <p>Prerequisites: Kafka needs to be installed and running (version 3.6.1 used, supporting Kaft).</p>
+    <p><strong>Prerequisites: </strong> Kafka needs to be installed and running (version 3.6.1 used, supporting Kaft).
+    </p>
 
     <h3>6.1 Running Kafka with Kraft</h3>
 
-    <p>Generate Cluster UUID: kafka-storage.sh random-uuid (generates a unique identifier for the cluster).</p>
+    <p><strong>Generate Cluster UUID: </strong> kafka-storage.sh random-uuid (generates a unique identifier for the
+        cluster).</p>
 
-    <p>Format Log Directories: kafka-storage.sh format -t &lt;UUID&gt; -c &lt;path_to_server.properties&gt;</p>
+    <p><strong>Format Log Directories: </strong> kafka-storage.sh format -t &lt;UUID&gt; -c &lt;path_to_server.properties&gt;
+    </p>
 
-    <p>Start Kafka Server: kafka-server-start.sh &lt;path_to_server.properties&gt;</p>
+    <p><strong>Start Kafka Server: </strong> kafka-server-start.sh &lt;path_to_server.properties&gt;</p>
 
     <h3>6.2 Producer Configuration and Service</h3>
 
-    <p>Dependencies: Spring Web and Kafka dependencies are required.</p>
+    <p><strong>Dependencies: </strong> Spring Web and Kafka dependencies are required.</p>
 
     <pre class="code-block">
 <code>
@@ -293,19 +307,23 @@ props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 </code>
 </pre>
 
-    <p>ProducerConfiguration Class: Defines three beans:</p>
+    <p><strong>ProducerConfiguration Class: </strong> Defines three beans:</p>
 
     <ol>
-        <li>ProducerFactory: An interface used to create Kafka producer instances, enabling consistent configuration
+        <li><strong>ProducerFactory: </strong> An interface used to create Kafka producer instances, enabling consistent
+            configuration
             across Spring Boot applications. It's configured with bootstrap.servers, key.serializer, and
             value.serializer.
         </li>
 
-        <li>KafkaTemplate: Simplifies Kafka producer usage by providing a higher-level abstraction for common operations
+        <li><strong>KafkaTemplate: </strong> Simplifies Kafka producer usage by providing a higher-level abstraction for
+            common operations
             like sending messages (synchronously and asynchronously).
         </li>
 
-        <li>NewTopic: Creates a Kafka topic with specified name, number of partitions, and replication factor.</li>
+        <li><strong>NewTopic: </strong> Creates a Kafka topic with specified name, number of partitions, and replication
+            factor.
+        </li>
     </ol>
 
     <pre class="java-code">
@@ -454,16 +472,19 @@ props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 </code>
 </pre>
 
-    <p>Sending Messages:Asynchronously: kafkaTemplate.send(topic, key, value) returns a ListenableFuture. A whenComplete
+    <p><strong>Sending Messages:Asynchronously:</strong> kafkaTemplate.send(topic, key, value) returns a
+        ListenableFuture. A whenComplete
         callback is used to process the SendResult (containing metadata like topic, partition, offset, timestamp) on
         success or handle exceptions on failure.</p>
 
-    <p>Synchronously: kafkaTemplate.send(topic, key, value).get() blocks until the message is sent and returns the
+    <p><strong>Sending Messages:Synchronously: </strong> kafkaTemplate.send(topic, key, value).get() blocks until the
+        message is sent and returns the
         SendResult.</p>
 
-    <p>Scheduling: Uses @ScheduleoffixedRate = 2000) to send transactions every 2 seconds.</p>
+    <p><strong>Scheduling: </strong> Uses @ScheduleoffixedRate = 2000) to send transactions every 2 seconds.</p>
 
-    <p>Specific Partition Sending: kafkaTemplate.send(topic, partition, key, value) allows explicitly specifying the
+    <p><strong>Specific Partition Sending: </strong> kafkaTemplate.send(topic, partition, key, value) allows explicitly
+        specifying the
         target partition.</p>
 
     <pre class="java-code">
@@ -480,10 +501,11 @@ props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 <span class="var">kafkaTemplate</span>.send(<span class="string">"payment-topic"</span>, <span class="string">"Rs 300 paid"</span>);
 </code>
 </pre>
-
+    <br>
+    <hr>
     <h3>6.3 Consumer Configuration and Service</h3>
 
-    <p>Dependencies: Similar to producer, Spring Web and Kafka are needed.</p>
+    <p><strong>Dependencies: </strong> Similar to producer, Spring Web and Kafka are needed.</p>
 
     <pre class="code-block">
 <code>
@@ -497,9 +519,12 @@ props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
     <p>ConsumerConfiguration Class:Defines two beans:</p>
 
     <ol>
-        <li>ConsumerFactory: Configured with bootstrap.servers, key.deserializer, and value.deserializer.</li>
+        <li><strong>ConsumerFactory: </strong> Configured with bootstrap.servers, key.deserializer, and
+            value.deserializer.
+        </li>
 
-        <li>ConcurrentKafkaListenerContainerFactory: Used to create KafkaMessageListenerContainer instances that manage
+        <li><strong>ConcurrentKafkaListenerContainerFactory: </strong> Used to create KafkaMessageListenerContainer
+            instances that manage
             Kafka consumers. It's configured with the ConsumerFactory.
         </li>
     </ol>
@@ -542,10 +567,11 @@ props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 }
 </code>
 </pre>
+    <br>
+    <p><strong>ConsumerService Class: </strong> Uses @KafkaListener annotation to listen for messages:</p>
 
-    <p>ConsumerService Class:Uses @KafkaListener annotation to listen for messages:</p>
-
-    <p>@KafkaListener(topics = "payment-topic", groupId = "group-id"): Basic listener for a topic within a consumer
+    <p><strong>@KafkaListener(topics = "payment-topic", groupId = "group-id"): </strong> Basic listener for a topic
+        within a consumer
         group.</p>
 
     <pre class="java-code">
@@ -573,10 +599,12 @@ props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 </code>
 </pre>
 
-    <p>Accessing Message Details: The listener method can accept ConsumerRecord&lt;String, String&gt; to access key,
+    <p><strong>Accessing Message Details: </strong>The listener method can accept ConsumerRecord&lt;String, String&gt;
+        to access key,
         value, partition, and offset.</p>
 
-    <p>Listening from Specific Partitions: @TopicPartition annotation within @KafkaListener allows specifying topic and
+    <p><strong>Listening from Specific Partitions: </strong>@TopicPartition annotation within @KafkaListener allows
+        specifying topic and
         a list of partitions to listen from (e.g., partitions = {"0", "1"}).</p>
 
     <pre class="java-code">
@@ -598,31 +626,36 @@ props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 </code>
 </pre>
 
-    <p>Concurrency: The concurrency property in @KafkaListener allows starting multiple consumer instances (containers)
+    <p><strong>Concurrency: </strong> The concurrency property in @KafkaListener allows starting multiple consumer
+        instances (containers)
         for parallel message consumption (e.g., concurrency = "3").</p>
 
-    <p>In Spring Kafka, concurrency defines the number of consumer threads (i.e., how many instances of your
-        @KafkaListener will run in parallel) within the same application.</p>
+    <p>In <strong>Spring Kafka,</strong> concurrency defines the number of <strong>consumer threads</strong> (i.e., how
+        many instances of your
+        @KafkaListener will run in parallel) <strong>within the same application.</strong></p>
 
     <p>This only works when the topic has multiple partitions.</p>
 
-    <p>Topic: payment-topic</p>
-    <p>Partitions: 6</p>
-    <p>Concurrency: 3</p>
+    <p><strong>Topic:</strong> payment-topic</p>
+    <p><strong>Partitions:</strong> 6</p>
+    <p><strong>Concurrency:</strong> 3</p>
 
     <p>Spring Kafka will start 3 threads:</p>
 
     <ul>
-        <li>Thread 1 → Partition 0, 1</li>
-        <li>Thread 2 → Partition 2, 3</li>
-        <li>Thread 3 → Partition 4, 5</li>
+        <li><strong>Thread 1</strong> → Partition 0, 1</li>
+        <li><strong>Thread 2</strong> → Partition 2, 3</li>
+        <li><strong>Thread 3</strong> → Partition 4, 5</li>
     </ul>
 
-    <p>All listeners use the same group ID, hence each thread handles exclusive partitions.</p>
-
+    <p>All listeners use the <strong>same group ID,</strong> hence each thread handles <strong>exclusive
+        partitions.</strong></p>
+    <br>
+    <hr>
     <h3>6.4 Producing and Consuming Custom Messages</h3>
 
-    <p>Custom Object Serialization/Deserialization: For custom object types (e.g., Location with id, locationName, and
+    <p><strong>Custom Object Serialization/Deserialization: </strong>For custom object types (e.g., Location with id,
+        locationName, and
         MessageMetadata), JsonSerializer (for producer value.serializer) and JsonDeserializer (for consumer
         value.deserializer) are used.</p>
 
@@ -648,17 +681,14 @@ props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 <span class="annotation">@Bean</span>
 <span class="keyword">public</span> <span class="class">KafkaTemplate</span>&lt;<span class="class">String</span>, <span
         class="class">Location</span>&gt; <span class="method">LocationKafkaTemplate</span>()
-</code>
-</pre>
-
-    <pre class="java-code">
-<code>
 {
     <span class="keyword">return</span> <span class="keyword">new</span> <span class="class">KafkaTemplate</span>&lt;&gt;(<span
         class="method">LocationProducerFactory</span>());
-
 }
-
+</code>
+</pre>
+    <pre class="java-code">
+<code>
 <span class="comment">//Consumer</span>
 <span class="annotation">@Bean</span>
 
@@ -711,7 +741,8 @@ props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
     <p><strong>Consumer Group ID:</strong> For custom message consumption, ensure a unique group.id is defined for each
         consumer group to correctly identify and coordinate consumers.</p>
-
+    <br>
+    <hr>
     <h3>6.5 Consumer Partition Rebalance</h3>
 
     <p>When a new consumer joins a consumer group (with the same group.id), the GroupCoordinator triggers a <strong>rebalance</strong>.
@@ -869,28 +900,28 @@ props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 </code>
 </pre>
 
-    <p>Spring will auto-create retry topics and the DLT unless you override naming and handling.</p>
+    <p>Spring will <strong>auto-create </strong>retry topics and the DLT unless you override naming and handling.</p>
 
     <p>Retry the message 2 times (after 3s and 6s delays)</p>
 
-    <p>Still fails? - Sent to payment-topic-dlt</p>
+    <p>Still fails? - <strong>Sent to payment-topic-dlt</strong></p>
 
-    <p>The @DltHandler method handles it</p>
+    <p>The <strong>@DltHandler</strong> method handles it</p>
 
-    <p>@DltHandler</p>
+    <p><strong>@DltHandler</strong></p>
 
-    <p>This method handles messages that failed even after retries.</p>
+    <p>This method handles messages that failed <strong>even after retries.</strong></p>
 
     <ul>
-        <li>Messages from the Dead Letter Topic will be sent to this method.</li>
+        <li>Messages from the <strong>Dead Letter Topic</strong> will be sent to this method.</li>
         <li>You can log them, alert teams, store in DB, etc.</li>
         <li>Spring Kafka (if not configured otherwise) will auto-create:
             <ul>
                 <li>Retry topics like:
-                    payment-topic-retry-0, payment-topic-retry-1, etc.
+                    <strong>payment-topic-retry-0, payment-topic-retry-1, etc.</strong>
                 </li>
                 <li>Dead-letter topic:
-                    payment-topic-dlt
+                    <strong>payment-topic-dlt</strong>
                 </li>
             </ul>
         </li>

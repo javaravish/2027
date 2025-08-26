@@ -40,17 +40,7 @@
         <li>Adds tracing information in HTTP headers (e.g., X-B3-TraceId)</li>
     </ul>
 
-    <div class="table-container">
-        <table class="basic-table">
-            <thead>
-            <tr>
-                <th>&lt;!-- Sleuth for tracing --&gt;</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>
-                    <pre class="code-block">
+    <pre class="code-block">
 <code>
 <span class="tag">&lt;dependency&gt;</span>
     <span class="tag">&lt;groupId&gt;</span>org.springframework.cloud<span class="tag">&lt;/groupId&gt;</span>
@@ -58,11 +48,6 @@
 <span class="tag">&lt;/dependency&gt;</span>
 </code>
                     </pre>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
 
     <pre class="code-block">
 <code>
@@ -72,7 +57,8 @@
 
   <span class="key">logging:</span>
     <span class="key">pattern:</span>
-      <span class="key">level:</span> <span class="value">"%Sp [${spring.application.name:},%X(traceId),%X(spanId)]"</span>
+      <span class="key">level:</span> <span
+        class="value">"%Sp [${spring.application.name:},%X(traceId),%X(spanId)]"</span>
 </code>
 </pre>
 
