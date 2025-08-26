@@ -68,7 +68,7 @@ const components = {
           <a data-href="/home.html" href="#">Home</a>
           <a data-href="/java/intro.html" href="#">Java</a>
           <a data-href="/spring/intro.html" href="#">Spring</a>
-          <a data-href="/springboot/intro.html" href="#">SpringBoot</a>
+          <a data-href="/sb/intro.html" href="#">SpringBoot</a>
           <a data-href="/ms/intro.html" href="#">Microservices</a>
           <a data-href="/kafka.html" href="#">Kafka</a>
           <a data-href="/interview/iqa.html" href="#">Interview Questions</a>

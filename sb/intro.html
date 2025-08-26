@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Introduction</title>
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../js/styles.css"/>
+</head>
+<body data-sidebar="sb">
+<nav>
+    <button class="mobile-sidebar-btn" id="mobileSidebarBtn">☰</button>
+    <div class="breadcrumbs">
+        <a href="../home.html">Home</a>
+        <span class="separator">/</span>
+        <a href="#">SpringBoot</a>
+        <span class="separator">/</span>
+        <a href="#">Introduction</a>
+    </div>
+</nav>
+<!-- Components will be inserted here by components.js -->
+
+<!-- Main Content Section -->
+<main id="content">
+    <h3 style="text-align: left;">What is the Spring Boot?</h3>
+    <div>
+        Spring Boot is basically an extension of the Spring framework
+        which eliminated the boilerplate configurations required for
+        setting up a Spring application.<br> <br> Spring Boot
+        is an opinionated framework that helps developers build
+        Spring-based applications quickly and easily. <b>The main
+        goal of Spring Boot is to quickly create Spring-based
+        applications without requiring developers to write the same
+        bodivrplate configuration again and again.</b>
+    </div>
+    <h3>Spring Boot Primary Goals</h3>
+    <ul>
+        <li>Provide a radically
+            faster and widely accessible getting-started experience for all
+            Spring development.
+        </li>
+        <li>Be
+            opinionated out of the box but get out of the way quickly as
+            requirements start to diverge from the defaults.
+        </li>
+        <li>Provide
+            a range of non-functional features that are common to large
+            classes of projects (such as embedded servers, security,
+            metrics, health checks, and externalized configuration).
+        </li>
+        <li>Absolutely
+            no code generation and no requirement for XML configuration.
+        </li>
+    </ul>
+    <div>
+        <h3>Key Spring Boot features</h3>
+        <div>Let me a list of a few key features of the Spring boot
+            and we will discuss each key feature briefly.
+        </div>
+        <ol>
+            <li>Spring Boot starters</li>
+            <li>Spring
+                Boot autoconfiguration
+            </li>
+            <li>Elegant
+                configuration management
+            </li>
+            <li>Spring
+                Boot Actuator
+            </li>
+            <li>Easy-to-use
+                embedded servlet container support
+            </li>
+        </ol>
+    </div>
+    <div>
+        <h3>1. Spring Boot Starters</h3>
+        <div>
+            Spring Boot offers many starter modules to get started quickly
+            with many of the commonly used technologies, like SpringMVC,
+            JPA, MongoDB, Spring Batch, SpringSecurity, Solr, ElasticSearch,
+            etc. These starters are pre-configured with the most commonly
+            used library dependencies so you don’t have to search for
+            compatible library versions and configure them manually.
+        </div>
+        <div>
+            For example, the <i>spring-boot-starter-data-jpa</i> starter
+            module includes all the dependencies required to use Spring
+            Data JPA, along with Hibernate library dependencies, as
+            Hibernate is the most commonly used JPA implementation.
+        </div>
+        <div>
+            <br>
+        </div>
+        <div>
+            One more example, when we add the&nbsp;<span
+                style="background-color: rgba(27, 31, 35, 0.05); color: #d73a49; font-family: &amp; amp; quot; consolas &amp;amp; quot; , &amp; amp; quot; liberation mono&amp;amp; quot; , &amp; amp; quot; courier &amp;amp; quot; , monospace; font-size: 14.4px; padding: 0.2em 0.4em;">spring-boot-starter-web</span>&nbsp;dependency,
+            it will by default pull all the commonly used libraries while
+            developing Spring MVC applications, such as&nbsp;<span
+                style="background-color: rgba(27, 31, 35, 0.05); color: #d73a49; font-family: &amp; amp; quot; consolas &amp;amp; quot; , &amp; amp; quot; liberation mono&amp;amp; quot; , &amp; amp; quot; courier &amp;amp; quot; , monospace; font-size: 14.4px; padding: 0.2em 0.4em;">spring-webmvc</span>,&nbsp;<span
+                style="background-color: rgba(27, 31, 35, 0.05); color: #d73a49; font-family: &amp; amp; quot; consolas &amp;amp; quot; , &amp; amp; quot; liberation mono&amp;amp; quot; , &amp; amp; quot; courier &amp;amp; quot; , monospace; font-size: 14.4px; padding: 0.2em 0.4em;">jackson-json</span>,&nbsp;<span
+                style="background-color: rgba(27, 31, 35, 0.05); color: #d73a49; font-family: &amp; amp; quot; consolas &amp;amp; quot; , &amp; amp; quot; liberation mono&amp;amp; quot; , &amp; amp; quot; courier &amp;amp; quot; , monospace; font-size: 14.4px; padding: 0.2em 0.4em;">validation-API</span>,
+            and&nbsp;<span
+                style="background-color: rgba(27, 31, 35, 0.05); color: #d73a49; font-family: &amp; amp; quot; consolas &amp;amp; quot; , &amp; amp; quot; liberation mono&amp;amp; quot; , &amp; amp; quot; courier &amp;amp; quot; , monospace; font-size: 14.4px; padding: 0.2em 0.4em;">tomcat</span>.
+        </div>
+        Not only does the spring-boot-starter-web add all these
+        libraries but it also configures the commonly registered beans
+        like <i>DispatcherServlet</i>, <i>ResourceHandlers</i>, <i>MessageSource</i>,
+        etc. with sensible defaults.
+    </div>
+    <div>
+        <h3>2. Spring Boot
+            Autoconfiguration</h3>
+        <div>
+            Spring Boot addresses the problem that Spring applications need
+            complex configuration by eliminating the need to manually set
+            up the boilerplate configuration.
+        </div>
+        <div>
+            Spring Boot takes an opinionated view of the application and
+            configures various components automatically, by registering
+            beans based on various criteria. The criteria can be:
+        </div>
+        <br>
+        <ul>
+            <li>Availability of a
+                particular class in a classpath
+            </li>
+            <li>Presence
+                or absence of a Spring bean
+            </li>
+            <li>Presence
+                of a system property
+            </li>
+            <li>An
+                absence of a configuration file
+            </li>
+        </ul>
+        <div>
+            For example, if you have the <i>spring-webmvc</i> dependency in
+            your classpath, Spring Boot assumes you are trying to build a
+            SpringMVC-based web application and automatically tries to
+            register <i>DispatcherServlet</i> if it is not already
+            registered. If you have any embedded database drivers in the
+            classpath, such as H2 or HSQL, and if you haven’t configured a
+            <i>DataSource</i> bean explicitly, then Spring Boot will
+            automatically register a <i>DataSource</i> bean using in-memory
+            database settings.
+        </div>
+        <h3>3. Elegant Configuration
+            Management</h3>
+        <div>
+            Spring supports externalizing configurable properties using the
+            @PropertySource configuration. Spring Boot takes it even
+            further by using sensible defaults and powerful type-safe
+            property binding to bean properties. Spring Boot supports
+            having separate configuration files for different profiles
+            without requiring many configurations.
+        </div>
+    </div>
+    <div>
+        Being able to get the various details of an application running
+        in production is crucial to many applications. The Spring Boot
+        actuator provides a wide variety of such production-ready
+        features without requiring developers to write much code. Some
+        of the Spring actuator features are:
+    </div>
+    <br>
+    <ul>
+        <li>Can view the
+            application bean configuration details
+        </li>
+        <li>Can
+            view the application URL mappings, environment details, and
+            configuration parameter values
+        </li>
+        <li>Can
+            view the registered health check metrics
+        </li>
+    </ul>
+    <div>
+        Traditionally, while building web applications, you need to
+        create <i>WAR-type</i>&nbsp;modules and then deploy them on
+        external servers like <i>Tomcat</i>, <i>WildFly</i>, etc. But
+        by using Spring Boot, you can create a <i>JAR-type</i>&nbsp;module
+        and embed the servlet container in the application very easily
+        so that the application will be a self-contained deployment
+        unit.&nbsp;
+    </div>
+    <div>
+        Also, during development, you can easily run the Spring Boot
+        JAR type module as a Java application from the IDE or from the
+        command line using a build tool like <a>Maven</a> or Gradle.
+    </div>
+    <br>
+    <hr>
+    <div class="card-footer">
+        <br>
+        <ul class="pagination justify-content-center">
+            <li class="page-item"><a class="page-link" href="../sb/config.html">Next
+                &rArr;</a></li>
+        </ul>
+    </div>
+</main>
+
+<!-- Scripts -->
+<script src="../js/sidebar.js"></script>
+<script src="../js/componentLoader.js"></script>
+</body>
+</html>

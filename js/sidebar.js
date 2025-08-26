@@ -7,7 +7,7 @@ const sidebars = {
         <h4>Tutorials</h4>
         <li class="nav-item"><a class="nav-link" data-href="/java/intro.html" href="#">Java</a></li>
         <li class="nav-item"><a class="nav-link" data-href="/spring/intro.html" href="#">Spring</a></li>
-        <li class="nav-item"><a class="nav-link" data-href="/springboot/intro.html" href="#">SpringBoot</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/sb/intro.html" href="#">SpringBoot</a></li>
         <li class="nav-item"><a class="nav-link" data-href="/ms/intro.html" href="#">Microservices</a></li>
         <li class="nav-item"><a class="nav-link" data-href="/kafka.html" href="#">Kafka</a></li>
         <li class="nav-item"><a class="nav-link" data-href="/java/java8/intro.html" href="#">Java 8 Features</a></li>
@@ -101,16 +101,17 @@ const sidebars = {
     <aside id="sidebar">
       <ul class="menu">
         <h4>Spring Framework</h4>
-        <li class="nav-item"><a class="nav-link" data-href="/spring/intro.html" href="#">Spring Introduction</a></li>
-        <li class="nav-item"><a class="nav-link" data-href="/spring/core.html" href="#">Spring Core</a></li>
-        <li class="nav-item"><a class="nav-link" data-href="/spring/beans.html" href="#">Spring Beans</a></li>
-        <li class="nav-item"><a class="nav-link" data-href="/spring/di.html" href="#">Dependency Injection</a></li>
-        <li class="nav-item"><a class="nav-link" data-href="/spring/aop.html" href="#">Aspect Oriented Programming</a></li>
-        <li class="nav-item"><a class="nav-link" data-href="/spring/mvc.html" href="#">Spring MVC</a></li>
-        <li class="nav-item"><a class="nav-link" data-href="/spring/security.html" href="#">Spring Security</a></li>
-        <li class="nav-item"><a class="nav-link" data-href="/spring/data.html" href="#">Spring Data</a></li>
-        <li class="nav-item"><a class="nav-link" data-href="/spring/boot.html" href="#">Spring Boot</a></li>
-        <li class="nav-item"><a class="nav-link" data-href="/spring/cloud.html" href="#">Spring Cloud</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/spring/intro.html" href="#">Introduction</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/spring/core.html" href="#">Core</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/spring/mvc.html" href="#">MVC</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/spring/aop.html" href="#">AOP</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/spring/transactions.html" href="#">Transactions</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/spring/jpa.html" href="#">Data JPA</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/spring/caching.html" href="#">Caching</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/spring/async.html" href="#">Asynchronous</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/spring/scheduling.html" href="#">Scheduling</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/spring/batch.html" href="#">Batch</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/spring/security.html" href="#">Security</a></li>
       </ul>
     </aside>
   `,
@@ -120,16 +121,13 @@ const sidebars = {
     <aside id="sidebar">
       <ul class="menu">
         <h4>Springboot Framework</h4>
-        <li class="nav-item"><a class="nav-link" data-href="/spring/intro.html" href="#">Spring Introduction</a></li>
-        <li class="nav-item"><a class="nav-link" data-href="/spring/core.html" href="#">Spring Core</a></li>
-        <li class="nav-item"><a class="nav-link" data-href="/spring/beans.html" href="#">Spring Beans</a></li>
-        <li class="nav-item"><a class="nav-link" data-href="/spring/di.html" href="#">Dependency Injection</a></li>
-        <li class="nav-item"><a class="nav-link" data-href="/spring/aop.html" href="#">Aspect Oriented Programming</a></li>
-        <li class="nav-item"><a class="nav-link" data-href="/spring/mvc.html" href="#">Spring MVC</a></li>
-        <li class="nav-item"><a class="nav-link" data-href="/spring/security.html" href="#">Spring Security</a></li>
-        <li class="nav-item"><a class="nav-link" data-href="/spring/data.html" href="#">Spring Data</a></li>
-        <li class="nav-item"><a class="nav-link" data-href="/spring/boot.html" href="#">Spring Boot</a></li>
-        <li class="nav-item"><a class="nav-link" data-href="/spring/cloud.html" href="#">Spring Cloud</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/sb/intro.html" href="#">Introduction</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/sb/config.html" href="#">Configuration</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/sb/actuator.html" href="#">Actuators</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/sb/profile.html" href="#">Profiles</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/sb/logging.html" href="#">Logging</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/sb/testing.html" href="#">Testing</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/sb/dynamic.html" href="#">Dynamic Binding</a></li>
       </ul>
     </aside>
   `,

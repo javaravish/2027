@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Actuator</title>
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../js/styles.css"/>
+</head>
+<body data-sidebar="sb">
+<nav>
+    <button class="mobile-sidebar-btn" id="mobileSidebarBtn">☰</button>
+    <div class="breadcrumbs">
+        <a href="../home.html">Home</a>
+        <span class="separator">/</span>
+        <a href="#">SpringBoot</a>
+        <span class="separator">/</span>
+        <a href="#">Actuator</a>
+    </div>
+</nav>
+<!-- Components will be inserted here by components.js -->
+
+<!-- Main Content Section -->
+<main id="content">
+    <h3>Actuator</h3>
+    <p>Spring Boot Actuator is a powerful module that provides production-ready features to help you monitor and manage
+        your Spring Boot application. It exposes various endpoints that give insight into your application's health,
+        metrics, info, and more.</p>
+
+    <h3>1. Introduction to Actuator</h3>
+    <p>Spring Boot Actuator provides:</p>
+    <ul>
+        <li>Built-in endpoints for monitoring application health and metrics</li>
+        <li>Ability to gather application metrics</li>
+        <li>HTTP tracing capabilities</li>
+        <li>Environment details</li>
+        <li>And much more</li>
+    </ul>
+    <p>These features are essential for running applications in production environments.</p>
+
+    <h3>2. Setting Up Actuator</h3>
+    <h3>Basic Setup</h3>
+    <p>Add the following dependency to your <code>pom.xml</code> :</p>
+    <pre class="code-block">
+  <code>
+    <span class="tag">&lt;dependency&gt;</span>
+      <span class="tag">&lt;groupId&gt;</span>org.springframework.boot<span class="tag">&lt;/groupId&gt;</span>
+      <span class="tag">&lt;artifactId&gt;</span>spring-boot-starter-actuator<span
+          class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;/dependency&gt;</span>
+  </code>
+</pre>
+
+    <h3>Configuration</h3>
+    <p>In your <code>application.properties</code> or <code>application.yml</code> :</p>
+    <pre class="code-block">
+  <code>
+    <span class="comment"># Enable all actuator endpoints</span>
+    <span class="key">management.endpoints.web.exposure.include</span>=<span class="value">*</span>
+
+    <span class="comment"># Enable specific actuator endpoint(info)</span>
+    <span class="key">management.endpoint.info.enabled</span>=<span class="value">true</span>
+
+    <span class="comment"># Change the base path for actuator endpoints</span>
+    <span class="key">management.endpoints.web.base-path</span>=<span class="value">/manage</span>
+
+    <span class="comment"># Show details for health endpoint</span>
+    <span class="key">management.endpoint.health.show-details</span>=<span class="value">always</span>
+  </code>
+</pre>
+
+    <p>By default, all endpoints (except /shutdown) are enabled. Only the /health and /info are exposed via Web APIs.
+        Rest are exposed via JMX.</p>
+    <p>To enable the /shutdown endpoint also, we can use the following property:</p>
+    <pre class="code-block">
+  <code>
+    <span class="key">management.endpoint.shutdown.enabled</span>=<span class="value">true</span>
+  </code>
+</pre>
+
+    <p>Also, we can use management.endpoints.web.exposure.include=* to expose all endpoints through the Web APIs</p>
+    <pre class="code-block">
+  <code>
+    <span class="key">management.endpoints.web.exposure.include</span>=<span class="value">*</span>
+
+    <span class="comment"># To expose only selected endpoints</span>
+    <span class="key">management.endpoints.jmx.exposure.include</span>=<span class="value">health,info,env,beans</span>
+  </code>
+</pre>
+
+    <p>An endpoint is considered to be available when it is both enabled and exposed.</p>
+
+    <h3>Enabling Only Specific Endpoints</h3>
+    <p>If we prefer to disable all endpoints, by default, and only expose certain endpoints then we can set the property
+        management.endpoints.enabled-by-default to false and then use the only required endpoints that the application
+        needs to expose using the pattern management.endpoint.enabled.</p>
+    <pre class="code-block">
+  <code>
+    <span class="key">management.endpoints.enabled-by-default</span>=<span class="value">false</span>
+    <span class="key">management.endpoint.info.enabled</span>=<span class="value">true</span>
+    <span class="key">management.endpoint.health.enabled</span>=<span class="value">true</span>
+    <span class="key">management.endpoint.loggers.enabled</span>=<span class="value">true</span>
+  </code>
+</pre>
+
+    <h3>3. Actuator Endpoints</h3>
+    <p>Here are some important built-in endpoints:</p>
+    <p>Some of the important and widely used actuator endpoints are given below:</p>
+
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Endpoint</th>
+                <th>Usage</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>/auditevents</td>
+                <td>Returns all auto-configuration candidates and the reason why they 'were' or 'were not' applied.</td>
+            </tr>
+            <tr>
+                <td>/beans</td>
+                <td>Returns a complete list of all the Spring beans in your application.</td>
+            </tr>
+            <tr>
+                <td>/mappings</td>
+                <td>Displays a collated list of all @RequestMapping paths.</td>
+            </tr>
+            <tr>
+                <td>/env</td>
+                <td>Exposes the application's environment properties and configuration. It's useful for inspecting the
+                    configuration values of your application.
+                </td>
+            </tr>
+            <tr>
+                <td>/info</td>
+                <td>Allows us to expose arbitrary application information. We can configure custom properties to be
+                    displayed here, providing metadata about the application.
+                </td>
+            </tr>
+            <tr>
+                <td>/health</td>
+                <td>Returns application health information. It checks various indicators, such as database connectivity,
+                    disk space, and custom health indicators, and presents the overall health status as "UP" or "DOWN."
+                </td>
+            </tr>
+            <tr>
+                <td>/caches</td>
+                <td>It exposes available caches.</td>
+            </tr>
+            <tr>
+                <td>/conditions</td>
+                <td>Shows the conditions that were evaluated on configuration and auto-configuration.</td>
+            </tr>
+            <tr>
+                <td>/configprops</td>
+                <td>It displays a collated list of all @ConfigurationProperties.</td>
+            </tr>
+            <tr>
+                <td>/integrationgraph</td>
+                <td>It shows the Spring Integration graph. Requires a dependency on spring-integration-core.</td>
+            </tr>
+            <tr>
+                <td>/loggers</td>
+                <td>The configuration of loggers in the application.</td>
+            </tr>
+            <tr>
+                <td>/logfile</td>
+                <td>Allows us to view and download the application's log file content.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>/scheduledtasks</h3>
+    <p>Displays the scheduled tasks in the application.</p>
+
+    <h3>/sessions</h3>
+    <p>Returns trace logs (by default the last 100 HTTP requests). Requires an HttpTraceRepository bean.</p>
+
+    <h3>/httptrace</h3>
+    <p>It allows retrieval and deletion of user sessions from a Spring Session-backed session store. Requires a
+        Servlet-based web application using Spring Session.</p>
+
+    <h3>/shutdown</h3>
+    <p>Allows the application to gracefully shut down. Disabled by default.</p>
+
+    <h3>/threaddump</h3>
+    <p>It performs a thread dump and returns a snapshot of the application's thread states, which can be valuable for
+        diagnosing thread-related issues.</p>
+
+    <h3>/metrics</h3>
+    <p>It shows several useful metrics information like JVM memory used, system CPU usage, open files, HTTP request
+        statistics and more.</p>
+
+    <h3>/httpexchanges</h3>
+    <p>Displays HTTP exchange information. Requires an HttpExchangeRepository bean.</p>
+
+    <p>The Spring web applications (Spring MVC, Spring WebFlux, or Jersey) provide the following additional
+        endpoints:</p>
+
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Endpoint</th>
+                <th>Usage</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>/heapdump</td>
+                <td>Returns an hprof heap dump file.</td>
+            </tr>
+            <tr>
+                <td>/logfile</td>
+                <td>Returns the contents of the logfile if logging.file.name or logging.file.path properties have been
+                    set.
+                </td>
+            </tr>
+            <tr>
+                <td>/prometheus</td>
+                <td>Exposes metrics in a format that can be scraped by a Prometheus server.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>4. Customizing Endpoints</h3>
+    <h3>4.1 Custom Health Indicators</h3>
+    <pre class="java-code">
+  <code>
+    <span class="keyword">import</span> org.springframework.boot.actuate.health.Health;
+    <span class="keyword">import</span> org.springframework.boot.actuate.health.HealthIndicator;
+    <span class="keyword">import</span> org.springframework.stereotype.Component;
+
+    <span class="annotation">@Component</span>
+    <span class="keyword">public class</span> <span class="class">CustomHealthIndicator</span> <span class="keyword">implements</span> <span
+          class="class">HealthIndicator</span> {
+        <span class="annotation">@Override</span>
+        <span class="keyword">public</span> <span class="class">Health</span> <span class="method">health</span>() {
+            <span class="comment">// Custom logic to check health</span>
+            <span class="class">boolean</span> <span class="var">isHealthy</span> = checkServiceHealth();
+            <span class="keyword">if</span> (!<span class="var">isHealthy</span>) {
+                <span class="keyword">return</span> <span class="class">Health</span>.down()
+                    .withDetail(<span class="string">"Error Code"</span>, <span class="number">503</span>)
+                    .withException(<span class="keyword">new</span> <span class="class">RuntimeException</span>(<span
+          class="string">"Service not available"</span>))
+                    .build();
+            }
+            <span class="keyword">return</span> <span class="class">Health</span>.up().build();
+        }
+
+        <span class="keyword">private</span> <span class="class">boolean</span> <span
+          class="method">checkServiceHealth</span>() {
+            <span class="comment">// Implement actual health check</span>
+            <span class="keyword">return</span> <span class="keyword">true</span>;
+        }
+    }
+  </code>
+</pre>
+
+    <h3>4.2 Custom Info Endpoint</h3>
+    <pre class="java-code">
+  <code>
+    <span class="keyword">import</span> org.springframework.boot.actuate.info.Info;
+    <span class="keyword">import</span> org.springframework.boot.actuate.info.InfoContributor;
+    <span class="keyword">import</span> org.springframework.stereotype.Component;
+
+    <span class="annotation">@Component</span>
+    <span class="keyword">public class</span> <span class="class">CustomInfoContributor</span> <span class="keyword">implements</span> <span
+          class="class">InfoContributor</span> {
+
+        <span class="annotation">@Override</span>
+        <span class="keyword">public</span> <span class="class">void</span> <span class="method">contribute</span>(<span
+          class="class">Info</span>.<span class="class">Builder</span> <span class="var">builder</span>) {
+            <span class="var">builder</span>.withDetail(<span class="string">"app"</span>,
+                <span class="class">Collections</span>.singletonMap(<span class="string">"description"</span>, <span
+          class="string">"My Spring Boot Application"</span>));
+            <span class="var">builder</span>.withDetail(<span class="string">"system"</span>,
+                <span class="class">Collections</span>.singletonMap(<span class="string">"time"</span>, <span
+          class="class">System</span>.currentTimeMillis()));
+        }
+    }
+  </code>
+</pre>
+
+    <h3>4.3 Custom Metrics</h3>
+    <pre class="java-code">
+  <code>
+    <span class="keyword">import</span> io.micrometer.core.instrument.Counter;
+    <span class="keyword">import</span> io.micrometer.core.instrument.MeterRegistry;
+    <span class="keyword">import</span> org.springframework.stereotype.Component;
+
+    <span class="annotation">@Component</span>
+    <span class="keyword">public class</span> <span class="class">MyService</span> {
+
+        <span class="keyword">private final</span> <span class="class">Counter</span> <span class="var">myCounter</span>;
+
+        <span class="keyword">public</span> <span class="method">MyService</span>(<span
+          class="class">MeterRegistry</span> <span class="var">meterRegistry</span>) {
+            <span class="var">myCounter</span> = <span class="var">meterRegistry</span>.counter(<span class="string">"my.counter"</span>, <span
+          class="string">"type"</span>, <span class="string">"demo"</span>);
+        }
+
+        <span class="keyword">public</span> <span class="class">void</span> <span class="method">doSomething</span>() {
+            <span class="comment">// Business logic</span>
+            <span class="var">myCounter</span>.increment();
+        }
+    }
+  </code>
+</pre>
+
+    <h3>5. Security Considerations</h3>
+    <p>It's important to secure your actuator endpoints:</p>
+    <pre class="java-code">
+  <code>
+    <span class="keyword">import</span> org.springframework.context.annotation.Configuration;
+    <span class="keyword">import</span> org.springframework.security.config.annotation.web.builders.HttpSecurity;
+    <span class="keyword">import</span> org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
+    <span class="annotation">@Configuration</span>
+    <span class="keyword">public class</span> <span class="class">SecurityConfig</span> <span
+          class="keyword">extends</span> <span class="class">WebSecurityConfigurerAdapter</span> {
+
+        <span class="annotation">@Override</span>
+        <span class="keyword">protected</span> <span class="class">void</span> <span
+          class="method">configure</span>(<span class="class">HttpSecurity</span> <span class="var">http</span>) <span
+          class="keyword">throws</span> <span class="class">Exception</span> {
+            <span class="var">http</span>
+                .authorizeRequests()
+                .antMatchers(<span class="string">"/actuator/health"</span>).permitAll()
+                .antMatchers(<span class="string">"/actuator/info"</span>).permitAll()
+                .antMatchers(<span class="string">"/actuator/**"</span>).hasRole(<span class="string">"ADMIN"</span>)
+                .and()
+                .httpBasic();
+        }
+    }
+  </code>
+</pre>
+    <div class="card-footer">
+        <br>
+        <ul class="pagination justify-content-center">
+            <li class="page-item"><a class="page-link btn-outline-primary"
+                                     href="../sb/config.html">&lArr; Previous</a></li>
+            <li class="page-item"><a class="page-link" href="../sb/profile.html">Next
+                &rArr;</a></li>
+        </ul>
+    </div>
+</main>
+<!-- Scripts -->
+<script src="../js/sidebar.js"></script>
+<script src="../js/componentLoader.js"></script>
+</body>
+</html>
