@@ -179,6 +179,16 @@ const sidebars = {
     </aside>
   `,
 
+    cs: `
+      <!-- Interview Sidebar -->
+      <aside id="sidebar">
+        <ul class="menu">
+          <h4>Cheat Sheets</h4>
+          <li class="nav-item"><a class="nav-link" data-href="/java/cheatsheets.html" href="#">Java Cheat Sheets</a></li>
+        </ul>
+      </aside>
+    `,
+
   db: `
       <!-- Interview Sidebar -->
       <aside id="sidebar">

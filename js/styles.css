@@ -24,13 +24,19 @@
     #scrollbar-color: #888 var(--sidebar-bg);
 }
 .responsive-img {
-  width: 60%;   /* or 50%, 300px, etc. */
+  width: 70%;   /* or 50%, 300px, etc. */
   max-width: 100%;
   height: auto;
   display: block;
   margin: 0 auto; /* center it */
 }
-
+.responsive-img1 {
+  width: 95%;   /* or 50%, 300px, etc. */
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto; /* center it */
+}
 
 /* Root Variables */
 :root {
