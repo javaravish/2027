@@ -32,7 +32,6 @@
         and uses SQL for database access.</p>
 
     <div class="table-container">
-        <br>
         <table class="basic-table">
             <thead>
             <tr>
@@ -80,7 +79,6 @@
 
     <h3>4. What are the types of SQL Commands?</h3>
     <div class="table-container">
-        <br>
         <table class="basic-table">
             <thead>
             <tr>
@@ -151,7 +149,6 @@
         integrity. The main normal forms are:</p>
 
     <div class="table-container">
-        <br>
         <table class="basic-table">
             <thead>
             <tr>
@@ -240,7 +237,6 @@
     </ul>
 
     <div class="table-container">
-        <br>
         <table class="basic-table">
             <thead>
             <tr>
@@ -291,7 +287,7 @@
   </code>
 </pre>
 
-    <h3>15. What is the difference between DELETE and TRUNCATE?</h3>
+    <h3>15. What is the difference between DELETE and TRUNCATE and DROP?</h3>
     <ul>
         <li><strong>DELETE</strong>: Removes rows from a table (can be rolled back, can have WHERE clause)</li>
         <li><strong>TRUNCATE</strong>: Removes all rows from a table (faster than DELETE, cannot be rolled back)
@@ -300,7 +296,6 @@
     </ul>
 
     <div class="table-container">
-        <br>
         <table class="basic-table">
             <thead>
             <tr>
@@ -334,7 +329,6 @@
         properties:</p>
 
     <div class="table-container">
-        <br>
         <table class="basic-table">
             <thead>
             <tr>
@@ -384,7 +378,6 @@
 
     <h3>18. Difference between SQL and NoSQL</h3>
     <div class="table-container">
-        <br>
         <table class="basic-table">
             <thead>
             <tr>
@@ -417,7 +410,6 @@
             </tbody>
         </table>
     </div>
-
     <h3>19. What is the difference between UNION and UNION ALL?</h3>
     <ul>
         <li>UNION combines results of two queries and removes duplicates</li>
@@ -449,7 +441,6 @@
 
     <h3>22. What is the difference between UNION and UNION ALL?</h3>
     <div class="table-container">
-        <br>
         <table class="basic-table">
             <thead>
             <tr>
@@ -472,7 +463,8 @@
             </tbody>
         </table>
     </div>
-
+    <br>
+    <hr>
     <h3>1. Write a query to fetch all columns from a table.</h3>
     <pre class="sql-code">
   <code>
@@ -634,15 +626,10 @@
   </code>
 </pre>
 
-    <h3>21. What is the difference between DELETE, TRUNCATE, and DROP?</h3>
-    <ul>
-        <li>DELETE: Removes rows (can be rolled back, can have WHERE clause)</li>
-        <li>TRUNCATE: Removes all rows (faster, can't be rolled back, resets auto-increment)</li>
-        <li>DROP: Removes entire table structure</li>
-    </ul>
-
+    <br>
+    <hr>
+    <h3>SQL Keywords with description</h3>
     <div class="table-container">
-        <br>
         <table class="basic-table">
             <thead>
             <tr>
@@ -836,6 +823,8 @@
             </tbody>
         </table>
     </div>
+    <br>
+    <hr>
     <div class="table-container">
         <h3>SQL vs MongoDB</h3>
         <p>Comprehensive comparison between Oracle SQL Database and MongoDB, covering architecture, features, usage,
@@ -983,13 +972,13 @@
         </table>
     </div>
     <br>
+    <hr>
     <h2>SQL JOINS</h2>
     <p>JOINS are used to combine rows from two or more tables based on a related column between them.</p>
 
-    <h3>■ Sample Tables Used</h3>
+    <h3>Sample Tables Used</h3>
     <p>employees Table</p>
     <div class="table-container">
-        <br>
         <table class="basic-table">
             <thead>
             <tr>
@@ -1023,10 +1012,8 @@
         </table>
     </div>
     <br>
-    <br>
     <p>departments Table</p>
     <div class="table-container">
-        <br>
         <table class="basic-table">
             <thead>
             <tr>
@@ -1065,10 +1052,9 @@
     <span class="keyword">INNER JOIN</span> departments d <span class="keyword">ON</span> e.dept_id = d.dept_id;
   </code>
 </pre>
-
+    <br>
     <p>✔ Output:</p>
     <div class="table-container">
-        <br>
         <table class="basic-table">
             <thead>
             <tr>
@@ -1106,10 +1092,9 @@
     <span class="keyword">LEFT JOIN</span> departments d <span class="keyword">ON</span> e.dept_id = d.dept_id;
   </code>
 </pre>
-
+    <br>
     <p>✔ Output:</p>
     <div class="table-container">
-        <br>
         <table class="basic-table">
             <thead>
             <tr>
@@ -1151,10 +1136,9 @@
     <span class="keyword">RIGHT JOIN</span> departments d <span class="keyword">ON</span> e.dept_id = d.dept_id;
   </code>
 </pre>
-
+    <br>
     <p>📌 Output:</p>
     <div class="table-container">
-        <br>
         <table class="basic-table">
             <thead>
             <tr>
@@ -1201,10 +1185,9 @@
     <span class="keyword">RIGHT JOIN</span> departments d <span class="keyword">ON</span> e.dept_id = d.dept_id;
   </code>
 </pre>
-
+    <br>
     <p>📌 Output:</p>
     <div class="table-container">
-        <br>
         <table class="basic-table">
             <thead>
             <tr>
@@ -1247,10 +1230,9 @@
     <span class="keyword">CROSS JOIN</span> departments d;
   </code>
 </pre>
-
+    <br>
     <p>📌 Output (4 employees x 4 departments = 16 rows):</p>
     <div class="table-container">
-        <br>
         <table class="basic-table">
             <thead>
             <tr>
@@ -1311,7 +1293,6 @@
 
     <h3>✅ Summary Table</h3>
     <div class="table-container">
-        <br>
         <table class="basic-table">
             <thead>
             <tr>
