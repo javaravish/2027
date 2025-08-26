@@ -54,13 +54,12 @@
             </tbody>
         </table>
     </div>
-
     <ul>
         <li>✅ It allows <strong>dynamic discovery</strong>, <strong>load balancing</strong>, and <strong>fault
             tolerance</strong></li>
         <li>✅ Helps avoid hardcoded URLs and enables <strong>service-to-service communication</strong></li>
     </ul>
-
+    <hr>
     <h3>1.1. Setting up Eureka Server</h3>
 
     <p>The process of setting up a Eureka Server involves:</p>
@@ -106,19 +105,17 @@
 </code>
 </pre>
 
-    <p><strong>Crucially, for the Eureka Server itself not to register with itself and fetch its own registry:</strong>
+    <p><strong>Crucially, for the Eureka Server itself not to register with itself and fetch its own registry</strong>
     </p>
-    <p>eureka.client.register-with-eureka: false</p>
-
-    <p>eureka.client.fetch-registry: false</p>
 
     <h3>1.2. Monitoring Eureka Server</h3>
 
-    <p>Once started, the Eureka Server provides a dashboard (accessible via its port, e.g., http://localhost:8761) that
+    <p>Once started, the Eureka Server provides a dashboard (accessible via its port, e.g., <strong>http://localhost:8761</strong>)
+        that
         displays:</p>
 
     <p>System status, Instances currently running and registered with Eureka.</p>
-
+    <hr>
     <h3>2. Eureka Client</h3>
 
     <p>Eureka Clients are individual microservices that register themselves with the Eureka Server and use it to
@@ -173,8 +170,8 @@
 }
 </code>
 </pre>
-
-    <h3>Service Instance Identification</h3>
+    <hr>
+    <h3>3. Service Instance Identification</h3>
 
     <p>By default, Eureka identifies instances by a combination of application name, IP address, and port number. The
         source demonstrates how to customize this instance ID for better readability and uniqueness, especially when
@@ -195,8 +192,8 @@
 
     <p>This changes the displayed instance ID to include the application name and a random value, making each instance's
         entry unique and easily distinguishable in the Eureka dashboard.</p>
-
-    <h3>3. Dynamic Service Discovery in Action</h3>
+    <hr>
+    <h3>4. Dynamic Service Discovery in Action</h3>
 
     <p>The core benefit of Eureka is demonstrated through running multiple instances of a service.</p>
 
@@ -211,8 +208,8 @@
         service would use Eureka to discover and call product-service, the setup clearly establishes the foundation for
         this. For example, a consumer service would query Eureka for "product-service" and receive the details (IP,
         port) of available instances to make requests.</p>
-
-    <h3>4. Key Takeaways and Benefits</h3>
+    <hr>
+    <h3>5. Key Takeaways and Benefits</h3>
 
     <p><strong>Centralized Registry:</strong> Eureka provides a single point of truth for all running microservices.</p>
 

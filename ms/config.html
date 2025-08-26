@@ -47,14 +47,14 @@
         provided, a Git repository is used. This repository contains:</p>
 
     <ul>
-        <li>application.yml: A default configuration file that applies to all environments.</li>
-        <li>dev.yml: Specific configurations for the development environment.</li>
-        <li>production.yml: Specific configurations for the production environment.</li>
+        <li><strong>application.yml: </strong>A default configuration file that applies to all environments.</li>
+        <li><strong>dev.yml: </strong>Specific configurations for the development environment.</li>
+        <li><strong>production.yml: </strong>Specific configurations for the production environment.</li>
     </ul>
 
     <p>This structure allows for environment-specific property overriding, providing flexibility in managing different
         deployment contexts.</p>
-
+    <hr>
     <h3>4. Setting up the Spring Cloud Config Server</h3>
 
     <h4>4.1. Project Creation:</h4>
@@ -96,13 +96,14 @@
 
     <h4>4.3. Configuration (application.yml):</h4>
 
-    <p>The application.yml file for the Config Server requires specific properties:</p>
+    <p>The <strong>application.yml </strong> file for the Config Server requires specific properties:</p>
 
-    <p>spring.application.name: E.g., config-server</p>
+    <p><strong>spring.application.name: </strong>E.g., config-server</p>
 
-    <p>server.port: E.g., 8888</p>
+    <p><strong>server.port: </strong>E.g., 8888</p>
 
-    <p>spring.cloud.config.server.git.url: This is crucial. It points to the Git repository containing the configuration
+    <p><strong>spring.cloud.config.server.git.url: </strong>This is crucial. It points to the Git repository containing
+        the configuration
         files. For example:</p>
 
     <pre class="code-block">
@@ -117,7 +118,7 @@
 </code>
 </pre>
 
-    <p>Enable refresh:</p>
+    <p><strong>Enable refresh:</strong></p>
 
     <pre class="code-block">
 <code>
@@ -140,10 +141,9 @@
 
     <p>Now you can run:</p>
 
-    <p>POST http://localhost:8888/actuator/refresh</p>
+    <p>POST <strong>http://localhost:8888/actuator/refresh</strong></p>
 
     <p>To reload latest config from Config Server without restarting the app.</p>
-
     <h4>4.4. Testing the Config Server:</h4>
 
     <p>The Config Server exposes configurations via HTTP endpoints following a specific pattern:
@@ -158,7 +158,7 @@
         </li>
         <li>http://localhost:8888/payment-service/default -- returns config JSON.</li>
     </ul>
-
+    <hr>
     <h3>2. Setting up the Spring Cloud Config Client</h3>
 
     <h3>1. Project Creation:</h3>
@@ -199,8 +199,8 @@
     <h3>3. Reading Properties in the Client:</h3>
 
     <ul>
-        <li>Properties from the Config Server are injected into client applications using the @Value annotation.</li>
-        <li>Example: @Value("${service.name}") private String serviceInfo; retrieves the value of service.name from the
+        <li>Properties from the Config Server are injected into client applications using the <strong>@Value </strong>annotation.</li>
+        <li>Example: <strong>@Value("${service.name}") </strong>private String serviceInfo; retrieves the value of service.name from the
             Config Server.
         </li>
     </ul>
@@ -211,7 +211,7 @@
         activated. This is typically done via JVM options:</p>
 
     <ul>
-        <li>-Dspring.profiles.active=dev</li>
+        <li><strong>-Dspring.profiles.active=dev</strong></li>
     </ul>
 
     <p>The source demonstrates how activating the dev profile results in the client receiving the service.name from

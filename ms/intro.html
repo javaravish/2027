@@ -21,6 +21,347 @@
 
 <!-- Main Content Section -->
 <main id="content">
+    <h3>1. Introduction to Microservices</h3>
+    <div>Microservices are a software architectural style in which a large
+        application is built as a collection of small, independent services that
+        communicate with each other over a network.&nbsp;
+    </div>
+    <br>
+    <div>Each service is a
+        self-contained unit of functionality that can be developed, tested, and
+        deployed independently of the other services. This allows for more
+        flexibility and scalability than a monolithic architecture, where all
+        the functionality is contained in a single, large codebase.&nbsp;
+    </div>
+    <br>
+    <div>Microservices can be written in different programming languages and use
+        different technologies, as long as they can communicate with each other
+        through a common API.&nbsp;
+    </div>
+    <br>
+    <div>They are designed to be loosely coupled, meaning
+        that changes to one service should not affect the other services. This
+        makes it easier to update, maintain, and scale the application.
+        Microservices architecture is best suited for large and complex
+        applications that need to handle a high volume of traffic and need to be
+        scaled horizontally.
+    </div>
+    <h3>2. Why Microservices</h3>
+    <ul><span>
+							</span>
+        <li><strong>Agility and speed:</strong><span>
+									Develop,</span><span> deploy,</span><span> and update individual services
+									independently,</span><span> increasing development speed and responsiveness to
+									changing needs.</span></li>
+        <span>
+							</span>
+        <li><strong>Scalability and resilience:</strong><span> Each
+									service can scale independently based on demand,</span><span> improving overall
+									application resilience and handling failures gracefully.</span></li>
+        <span>
+							</span>
+        <li><strong>Maintainability and flexibility:</strong><span>
+									Independent services make it easier to understand,</span><span>
+									debug,</span><span> and update code,</span><span> reducing complexity and
+									increasing collaboration.</span></li>
+        <span>
+							</span>
+        <li><strong>Technology choice freedom:</strong><span> Choose
+									different languages and technologies for different services based on their
+									specific needs.</span></li>
+        <span>
+							</span>
+    </ul>
+    <h3>3. When To Use</h3>
+    <ul><span>
+							</span>
+        <li><strong>Complex and evolving
+            applications:</strong><span> Microservices excel when large,</span><span>
+									intricate applications need continuous updates and flexibility.</span></li>
+        <span>
+							</span>
+        <li><strong>Need for fast deployment and
+            updates:</strong><span> Frequent releases and adaptations are easier with
+									independent services.</span></li>
+        <span>
+							</span>
+        <li><strong>High scalability and resilience:</strong><span>
+									When handling massive traffic or expecting failures,</span><span> microservices
+									provide better fault tolerance.</span></li>
+        <span>
+							</span>
+        <li><strong>Multilingual development team:</strong><span>
+									Different teams can work on separate services with their preferred
+									technologies.</span></li>
+        <span>
+							</span>
+    </ul>
+    <h3>4. Advantages of microservices</h3>
+    <ul><span>
+							</span>
+        <li><strong>Agility and speed:</strong><span>
+								</span>
+            <ul><span>
+									</span>
+                <li><span>Independent deployments and updates for
+											individual services.</span></li>
+                <span>
+									</span>
+                <li><span>Faster releases and adaptation to changing
+											needs.</span></li>
+                <span>
+									</span>
+                <li><span>Reduced risk of regressions and cascading
+											effects of changes.</span></li>
+                <span>
+									</span>
+            </ul>
+            <span>
+								</span>
+        </li>
+        <span>
+							</span>
+        <li><strong>Scalability and resilience:</strong><span>
+								</span>
+            <ul><span>
+									</span>
+                <li><span>Scale individual services based on demand
+											for efficient resource use.</span></li>
+                <span>
+									</span>
+                <li><span>Single service failure doesn't bring down
+											the entire application.</span></li>
+                <span>
+									</span>
+                <li><span>easier load balancing and fault tolerance
+											with Spring Cloud tools.</span></li>
+                <span>
+									</span>
+            </ul>
+            <span>
+								</span>
+        </li>
+        <span>
+							</span>
+        <li><strong>Maintainability and flexibility:</strong><span>
+								</span>
+            <ul><span>
+									</span>
+                <li><span>Smaller code bases for each service are
+											easier to understand and debug.</span></li>
+                <span>
+									</span>
+                <li><span>Different teams can work on their own
+											services with preferred technologies.</span></li>
+                <span>
+									</span>
+                <li><span>Easier to isolate and fix bugs within
+											specific services.</span></li>
+                <span>
+									</span>
+            </ul>
+            <span>
+								</span>
+        </li>
+        <span>
+							</span>
+        <li><span><strong>Technology choice freedom:</strong></span><span>
+								</span>
+            <ul><span>
+									</span>
+                <li><span>Use different languages and frameworks for
+											different services based on their needs.</span></li>
+                <span>
+									</span>
+                <li><span>Leverage Spring Boot's diverse starter
+											projects and integrations.</span></li>
+                <span>
+									</span>
+            </ul>
+            <span>
+								</span>
+        </li>
+        <span>
+							</span>
+        <li><strong>Cloud-native and modern:</strong><span>
+								</span>
+            <ul><span>
+									</span>
+                <li><span>Aligns with containerization and
+											orchestradaion strategies for efficient cloud deployments.</span></li>
+                <span>
+									</span>
+                <li><span>Integrates with Spring Cloud and other
+											cloud-native tools seamlessly.</span></li>
+                <span>
+									</span>
+            </ul>
+            <span>
+								</span>
+        </li>
+        <span>
+							</span>
+    </ul>
+    <h3>5. Disadvantages of microservices</h3>
+    <ul><span>
+							</span>
+        <li><strong>Increased complexity:</strong><span>
+								</span>
+            <ul><span>
+									</span>
+                <li><span>Distributed system introduces challenges
+											in debugging,</span><span> communication,</span><span> and
+											monitoring.</span></li>
+                <span>
+									</span>
+                <li><span>Requires additional infrastructure for
+											service discovery,</span><span> API gateways,</span><span> and
+											orchestradaion.</span></li>
+                <span>
+									</span>
+                <li><span>More moving parts can lead to increased
+											troubleshooting complexity.</span></li>
+                <span>
+									</span>
+            </ul>
+            <span>
+								</span>
+        </li>
+        <span>
+							</span>
+        <li><strong>Development and operational
+            overheads:</strong><span>
+								</span>
+            <ul><span>
+									</span>
+                <li><span>Setting up and managing numerous services
+											can be resource-intensive.</span></li>
+                <span>
+									</span>
+                <li><span>Requires expertise in distributed systems
+											and Spring Boot microservices frameworks.</span></li>
+                <span>
+									</span>
+                <li><span>Testing and debugging across services can
+											be more intricate.</span></li>
+                <span>
+									</span>
+            </ul>
+            <span>
+								</span>
+        </li>
+        <span>
+							</span>
+        <li><strong>Performance considerations:</strong><span>
+								</span>
+            <ul><span>
+									</span>
+                <li><span>Network latency between services can
+											impact overall application performance.</span></li>
+                <span>
+									</span>
+                <li><span>Additional layers of communication can add
+											overheads compared to monolithic approaches.</span></li>
+                <span>
+									</span>
+            </ul>
+            <span>
+								</span>
+        </li>
+        <span>
+							</span>
+        <li><strong>Microservices might not be the answer for every
+            project:</strong><span>
+								</span>
+            <ul><span>
+									</span>
+                <li><span>Simpler applications may not benefit as
+											much from the added complexity.</span></li>
+                <span>
+									</span>
+                <li><span>Consider project size,</span><span>
+											complexity,</span><span> and development/operation resource
+											availability.</span></li>
+                <span>
+									</span>
+            </ul>
+            <span>
+								</span>
+        </li>
+        <span>
+							</span>
+    </ul>
+    <h3>6. Key Components of a Microservices Architecture</h3>
+    <p>Key components of a microservices architecture include:</p>
+    <ol>
+        <li>
+            <p><b>Core Services</b>: Each service is a self-contained unit of functionality
+                that can be developed, tested, and deployed independently of the other
+                services.</p>
+        </li>
+        <li>
+            <p><b>Service registry</b>: A service registry is a database of all the services
+                in the system, along with their locations and capabilities. It allows
+                services to discover and communicate with each other.</p>
+        </li>
+        <li>
+            <p><b>API Gateway:</b> An API gateway is a single entry point for all incoming
+                requests to the microservices. It acts as a reverse proxy, routing requests
+                to the appropriate service and handling tasks such as authentication and
+                rate limiting.</p>
+        </li>
+        <li>
+            <p><b>Message bus:</b> A message bus is a messaging system that allows services
+                to communicate asynchronously with each other. This can be done through
+                protocols like HTTP, RabbitMQ, or Kafka.</p>
+        </li>
+        <li>
+            <p><b>Monitoring and logging:</b> Monitoring and logging are necessary to track
+                the health of the services and troubleshoot problems.</p>
+        </li>
+        <li>
+            <p><b>Service discovery and load balancing:</b> This component is responsible
+                for discovering service instances and directing traffic to the appropriate
+                service instances based on load and availability.</p>
+        </li>
+        <li>
+            <p><b>Continuous integration and continuous deployment (CI/CD): </b>To make the
+                development and deployment process of microservices as smooth as possible,
+                it is recommended to use a tool such as Jenkins, TravisCI, or CircleCI to
+                automate the process of building, testing, and deploying microservices.</p>
+        </li>
+    </ol>
+    <h3>7. Conclusion</h3>
+    <ul>
+        <li><strong>What are Microservices?</strong>
+            <ul>
+                <li>Breaking down the Monolith: Introducing the
+                    Microservice Architecture
+                </li>
+            </ul>
+        </li>
+        <li><strong>Why Choose Microservices?</strong>
+            <ul>
+                <li>Advantages of Microservices: Agility,
+                    Scalability, and Resilience
+                </li>
+                <li>Overcoming the Challenges of Monoliths:
+                    Maintainability, Deployment, and Fault Tolerance
+                </li>
+            </ul>
+        </li>
+        <li><strong>When are Microservices not the
+            Answer?</strong>
+            <ul>
+                <li>Disadvantages of Microservices:
+                    Complexity, Distributed System Challenges, and Overhead
+                </li>
+                <li>Evaluating Your Project's Suitability for
+                    Microservices
+                </li>
+            </ul>
+        </li>
+    </ul>
     <div class="card-footer">
         <br>
         <ul class="pagination justify-content-center">

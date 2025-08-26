@@ -20,15 +20,9 @@
 <!-- Components will be inserted here by components.js -->
 <main id="content">
     <!-- Main Content Section -->
-    <h3>1. Circuit Breaker with Resilience4j</h3>
-
-    <p><strong>Core Theme:</strong> Ensuring the stability and reliability of microservices by implementing resilience
-        patterns to handle failures gracefully and prevent cascading system outages.</p>
-
-    <p><strong>Key Concepts and Patterns:</strong></p>
-
     <h3>1. Circuit Breaker Pattern</h3>
-
+    <p>protects services from cascading failures by cutting off calls to a failing service after a threshold, allowing
+        the system to recover gracefully.</p>
     <p><strong>Problem:</strong> When a service calls a remote service, failures (e.g., slow responses, timeouts,
         errors) can exhaust network resources and degrade performance, potentially leading to a cascade of failures
         across the entire application. As the source states, "The failure of one service can be potential cascade to
@@ -53,7 +47,8 @@
             Open state.
         </li>
     </ul>
-
+    <hr>
+    <br>
     <p><strong>Resilience4j Implementation (Circuit Breaker):</strong></p>
 
     <ul>
@@ -85,7 +80,8 @@
 
     <p><strong>Monitoring:</strong> Resilience4j integrates with Spring Boot Actuator and Prometheus to provide health
         indicators and metrics (e.g., resilience4j_circuitbreaker_calls_total, resilience4j_circuitbreaker_state).</p>
-
+    <hr>
+    <br>
     <h3>2. Retry Pattern</h3>
 
     <p><strong>Problem:</strong> Transient failures (e.g., network glitches, temporary service unavailability) can lead
@@ -109,7 +105,8 @@
 
     <p><strong>Monitoring:</strong> Similar to Circuit Breaker, retry metrics are exposed via Actuator and Prometheus.
     </p>
-
+    <hr>
+    <br>
     <h3>3. Bulkhead Pattern</h3>
 
     <p><strong>Problem:</strong> Unbounded resource consumption by one failing or slow component can exhaust shared
@@ -153,7 +150,8 @@
 
     <p><strong>Monitoring:</strong> Bulkhead metrics (e.g., available_concurrent_calls, max_allowed_concurrent_calls)
         are exposed.</p>
-
+    <hr>
+    <br>
     <h3>4. Rate Limiter Pattern</h3>
 
     <p><strong>Problem:</strong> A service can be overwhelmed by a high volume of requests, leading to resource
@@ -192,7 +190,8 @@
     </ul>
 
     <p><strong>Monitoring:</strong> Rate Limiter metrics (e.g., available_permissions, waiting_threads) are exposed.</p>
-
+    <hr>
+    <br>
     <h3>5. Time Limiter Pattern</h3>
 
     <p><strong>Problem:</strong> Slow-running operations or external service calls that take too long can tie up
@@ -225,7 +224,8 @@
     </ul>
 
     <p><strong>Monitoring:</strong> Time Limiter metrics are exposed via Actuator and Prometheus.</p>
-
+    <hr>
+    <br>
     <h3>Practical Implementation Notes:</h3>
 
     <ul>

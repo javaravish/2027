@@ -40,7 +40,6 @@
         <li>✅ Caching</li>
     </ul>
 
-    <hr>
     <pre class="code-block">
 <code>
     <span class="tag">Client --> API Gateway --> Microservice A / B / C</span>
@@ -51,7 +50,8 @@
 
     <p><strong>Routing Requests:</strong> The Gateway "routes the request to various micro services and response to that
         clients."</p>
-
+    <hr>
+    <br>
     <h2>2. Key Features of Spring Cloud Gateway:</h2>
 
     <p><strong>Routing:</strong> Directing incoming requests to the appropriate microservice.</p>
@@ -64,13 +64,12 @@
 
     <p><strong>Circuit Breaking:</strong> Preventing cascading failures in a distributed system by stopping requests to
         a service that is failing or unresponsive.</p>
-
+    <hr>
+    <br>
     <h2>3. Setting up Spring Cloud API Gateway:</h2>
     <p>The source demonstrates the practical steps to set up the Gateway:</p>
 
     <p><strong>Spring Initialize:</strong> Creating a new Spring Boot project with specific dependencies.</p>
-
-    <hr>
 
     <pre class="code-block">
 <code>
@@ -104,7 +103,8 @@
             <span class="key">- AddRequestHeader=X-Request-Gateway, API-GW</span>
 </code>
 </pre>
-
+    <br>
+    <br>
     <p><strong>Discovery Locator:</strong> An alternative declarative approach where
         spring.cloud.gateway.discovery.locator.enabled=true automatically creates routes for services registered with
         Eureka. This approach might require handling case sensitivity of service names (e.g., using
