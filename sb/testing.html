@@ -21,7 +21,336 @@
 
 <!-- Main Content Section -->
 <main id="content">
+    <h2>Testing in Spring Boot & Microservices – Complete Tutorial</h2>
+    <h3>1. Types of Testing in Spring Boot</h3>
+    <p>Spring Boot applications (and microservices) typically require:</p>
+    <ol>
+        <li><strong>Unit Testing</strong> → Testing individual classes (service, repository, controller logic).</li>
+        <li><strong>Integration Testing</strong> → Testing how different layers work together (controller → service →
+            repository → DB).
+        </li>
+        <li><strong>End-to-End Testing</strong> → Full flow across services, often with mock APIs.</li>
+        <li><strong>Contract Testing</strong> → Ensures APIs between microservices follow agreed contracts.</li>
+        <li><strong>Testcontainers</strong> → For running real DBs or message brokers in Docker during tests.</li>
+        <li><strong>Resilience Testing</strong> → Retry, Circuit Breaker, Rate Limiter scenarios.</li>
+    </ol>
+    <hr>
+    <h3>2. Dependencies for Testing</h3>
+    <p>Add to [ ] . XmL :</p>
+    <pre class="code-block">
+<code><span class="tag">&lt;dependencies&gt;</span>
+  <span class="comment">&lt;!-- Spring Boot Starter Test (JUnit 5, Mockito, AssertJ, JSONPath) --&gt;</span>
+  <span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>org.springframework.boot<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>spring-boot-starter-test<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;scope&gt;</span>test<span class="tag">&lt;/scope&gt;</span>
+  <span class="tag">&lt;/dependency&gt;</span>
 
+  <span class="comment">&lt;!-- For Testcontainers (DB, Kafka, etc.) --&gt;</span>
+  <span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>org.testcontainers<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>junit-jupiters<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;scope&gt;</span>test<span class="tag">&lt;/scope&gt;</span>
+  <span class="tag">&lt;/dependency&gt;</span>
+
+  <span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>org.testcontainers<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>mysql<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;scope&gt;</span>test<span class="tag">&lt;/scope&gt;</span>
+  <span class="tag">&lt;/dependency&gt;</span>
+
+  <span class="comment">&lt;!-- For Contract Testing --&gt;</span>
+  <span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>org.springframework.cloud<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>spring-cloud-starter-contract-verifiers<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;scope&gt;</span>test<span class="tag">&lt;/scope&gt;</span>
+    <span class="tag">&lt;/dependency&gt;</span>
+  <span class="tag">&lt;/dependencies&gt;</span></code>
+    </pre>
+    <h3>3. Unit Testing in Spring Boot</h3>
+    <p>Example: Service Layer Test with Mockito</p>
+    <pre class="java-code">
+  <code>
+    <span class="comment">// Unit Test for UserService using Mockito & AssertJ</span>
+    <span class="keyword">import static</span> org.mockito.Mockito.*;
+    <span class="keyword">import static</span> org.assertj.core.api.Assertions.*;
+
+    <span class="keyword">import</span> org.junit.jupiter.api.Test;
+    <span class="keyword">import</span> org.mockito.InjectMocks;
+    <span class="keyword">import</span> org.mockito.Mock;
+    <span class="keyword">import</span> org.mockito.MockitoAnnotations;
+
+    <span class="keyword">class</span> <span class="class">UserServiceTest</span> {
+
+        <span class="annotation">@Mock</span>
+        <span class="keyword">private</span> <span class="class">UserRepository</span> <span
+          class="var">userRepository</span>;
+
+        <span class="annotation">@InjectMocks</span>
+        <span class="keyword">private</span> <span class="class">UserService</span> <span class="var">userService</span>;
+
+        <span class="comment">// Constructor to initialize mocks</span>
+        <span class="keyword">public</span> <span class="class">UserServiceTest</span>() {
+            <span class="class">MockitoAnnotations</span>.<span class="method">openMocks</span>(<span class="keyword">this</span>);
+        }
+
+        <span class="annotation">@Test</span>
+        <span class="keyword">void</span> <span class="method">testCreateUser</span>() {
+            <span class="class">User</span> <span class="var">user</span> = <span class="keyword">new</span> <span
+          class="class">User</span>(1L, <span class="string">"Ravi"</span>);
+            <span class="class">when</span>(<span class="var">userRepository</span>.<span
+          class="method">save</span>(<span class="class">any</span>(<span class="class">User</span>.<span
+          class="keyword">class</span>)))
+                .<span class="method">thenReturn</span>(<span class="var">user</span>);
+
+            <span class="class">User</span> <span class="var">saved</span> = <span class="var">userService</span>.<span
+          class="method">createUser</span>(<span class="string">"Ravi"</span>);
+
+            <span class="class">assertThat</span>(<span class="var">saved</span>.<span class="method">getName</span>())
+                .<span class="method">isEqualTo</span>(<span class="string">"Ravi"</span>);
+
+            <span class="class">verify</span>(<span class="var">userRepository</span>, <span class="class">times</span>(1))
+                .<span class="method">save</span>(<span class="class">any</span>(<span class="class">User</span>.<span
+          class="keyword">class</span>));
+        }
+    }
+  </code>
+</pre>
+
+    <h3>4. Testing REST Controllers</h3>
+    <p>Spring Boot provides @WebMycTest for controller testing.</p>
+    <pre class="java-code">
+  <code>
+    <span class="comment">// Unit Test for UserController using MockMvc</span>
+    <span class="keyword">import static</span> org.springframework.test.web.servlet.request.<span class="class">MockMvcRequestBuilders</span>.*;
+    <span class="keyword">import static</span> org.springframework.test.web.servlet.result.<span class="class">MockMvcResultMatchers</span>.*;
+
+    <span class="keyword">import</span> org.junit.jupiter.api.Test;
+    <span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;
+    <span class="keyword">import</span> org.springframework.boot.test.autoconfigure.web.servlet.<span class="class">WebMvcTest</span>;
+    <span class="keyword">import</span> org.springframework.test.web.servlet.<span class="class">MockMvc</span>;
+
+    <span class="annotation">@WebMvcTest</span>(<span class="class">UserController</span>.<span
+          class="keyword">class</span>)
+    <span class="keyword">class</span> <span class="class">UserControllerTest</span> {
+
+        <span class="annotation">@Autowired</span>
+        <span class="keyword">private</span> <span class="class">MockMvc</span> <span class="var">mockMvc</span>;
+
+        <span class="annotation">@Test</span>
+        <span class="keyword">void</span> <span class="method">testGetUser</span>() <span class="keyword">throws</span> <span
+          class="class">Exception</span> {
+            <span class="var">mockMvc</span>.<span class="method">perform</span>(<span class="method">get</span>(<span
+          class="string">"/users/1"</span>))
+                   .<span class="method">andExpect</span>(<span class="class">status</span>().<span
+          class="method">isOk</span>())
+                   .<span class="method">andExpect</span>(<span class="class">content</span>().<span class="method">string</span>(<span
+          class="string">"User-1"</span>));
+        }
+    }
+  </code>
+</pre>
+
+    <h3>5. Integration Testing with DB</h3>
+    <p>For testing repository and DB interactions, use @SpringBootTest + Testcontainers.</p>
+    <pre class="java-code">
+  <code>
+    <span class="comment">// Integration Test with Testcontainers (MySQL)</span>
+    <span class="keyword">import</span> org.junit.jupiter.api.Test;
+    <span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;
+    <span class="keyword">import</span> org.springframework.boot.test.context.<span class="class">SpringBootTest</span>;
+    <span class="keyword">import</span> org.testcontainers.containers.<span class="class">MySQLContainer</span>;
+    <span class="keyword">import</span> org.testcontainers.junit.jupiter.<span class="class">Container</span>;
+    <span class="keyword">import</span> org.testcontainers.junit.jupiter.<span class="class">Testcontainers</span>;
+
+    <span class="annotation">@SpringBootTest</span>
+    <span class="annotation">@Testcontainers</span>
+    <span class="keyword">class</span> <span class="class">UserRepositoryTest</span> {
+
+        <span class="annotation">@Container</span>
+        <span class="keyword">private static final</span> <span class="class">MySQLContainer</span>&lt;?&gt; <span
+          class="var">mysql</span> =
+            <span class="keyword">new</span> <span class="class">MySQLContainer</span>&lt;&gt;(<span class="string">"mysql:8.0"</span>)
+                .<span class="method">withDatabaseName</span>(<span class="string">"testdb"</span>)
+                .<span class="method">withUsername</span>(<span class="string">"user"</span>)
+                .<span class="method">withPassword</span>(<span class="string">"pass"</span>);
+
+        <span class="annotation">@Autowired</span>
+        <span class="keyword">private</span> <span class="class">UserRepository</span> <span
+          class="var">userRepository</span>;
+
+        <span class="annotation">@Test</span>
+        <span class="keyword">void</span> <span class="method">testSaveUser</span>() {
+            <span class="class">User</span> <span class="var">user</span> = <span class="keyword">new</span> <span
+          class="class">User</span>(<span class="keyword">null</span>, <span class="string">"Ravi"</span>);
+            <span class="class">User</span> <span class="var">saved</span> = <span
+          class="var">userRepository</span>.<span class="method">save</span>(<span class="var">user</span>);
+            <span class="keyword">assert</span> <span class="var">saved</span>.<span
+          class="method">getId</span>() != <span class="keyword">null</span>;
+        }
+    }
+  </code>
+</pre>
+
+    <p>Here Testcontainers runs a real MySQL in Docker during the test.</p>
+    <h3>6. Testing Microservices Communication</h3>
+    <p>Mocking REST Calls with @RestClientTest</p>
+    <pre class="java-code">
+  <code>
+    <span class="comment">// Testing External REST API Calls with MockRestServiceServer</span>
+    <span class="keyword">import</span> org.junit.jupiter.api.Test;
+    <span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;
+    <span class="keyword">import</span> org.springframework.boot.test.autoconfigure.web.client.<span class="class">RestClientTest</span>;
+    <span class="keyword">import</span> org.springframework.http.<span class="class">HttpMethod</span>;
+    <span class="keyword">import</span> org.springframework.http.<span class="class">MediaType</span>;
+    <span class="keyword">import</span> org.springframework.test.web.client.<span
+          class="class">MockRestServiceServer</span>;
+    <span class="keyword">import</span> org.springframework.web.client.<span class="class">RestTemplate</span>;
+
+    <span class="keyword">import static</span> org.springframework.test.web.client.match.<span class="class">MockRestRequestMatchers</span>.*;
+    <span class="keyword">import static</span> org.springframework.test.web.client.response.<span class="class">MockRestResponseCreators</span>.*;
+
+    <span class="annotation">@RestClientTest</span>
+    <span class="keyword">class</span> <span class="class">ExternalServiceTest</span> {
+
+        <span class="annotation">@Autowired</span>
+        <span class="keyword">private</span> <span class="class">RestTemplate</span> <span
+          class="var">restTemplate</span>;
+
+        <span class="annotation">@Autowired</span>
+        <span class="keyword">private</span> <span class="class">MockRestServiceServer</span> <span
+          class="var">server</span>;
+
+        <span class="annotation">@Test</span>
+        <span class="keyword">void</span> <span class="method">testCallExternalService</span>() {
+            <span class="var">server</span>.<span class="method">expect</span>(<span
+          class="method">requestTo</span>(<span class="string">"http://external-service/api/data"</span>))
+                  .<span class="method">andExpect</span>(<span class="method">method</span>(<span class="class">HttpMethod</span>.<span
+          class="constant">GET</span>))
+                  .<span class="method">andRespond</span>(<span class="method">withSuccess</span>(<span class="string">"{\"status\":\"ok\"}"</span>, <span
+          class="class">MediaType</span>.<span class="constant">APPLICATION_JSON</span>));
+
+            <span class="class">String</span> <span class="var">response</span> = <span class="var">restTemplate</span>.<span
+          class="method">getForObject</span>(<span class="string">"http://external-service/api/data"</span>, <span
+          class="class">String</span>.<span class="keyword">class</span>);
+
+            <span class="keyword">assert</span> <span class="var">response</span>.<span
+          class="method">contains</span>(<span class="string">"ok"</span>);
+        }
+    }
+  </code>
+</pre>
+
+    <h3>7. Contract Testing (Consumer-Driven Contracts)</h3>
+    <p>With Spring Cloud Contract:</p>
+    <ul>
+        <li>Producer defines the contract.</li>
+        <li>Consumer verifies against stub server.</li>
+    </ul>
+    <p>Contract Example ( src/test/resources/contracts/getUser.groovy ):</p>
+    <pre class="java-code">
+  <code>
+    <span class="comment">// Contract definition for GET /users/1</span>
+    <span class="class">Contract</span>.<span class="method">make</span> {
+        <span class="keyword">request</span> {
+            <span class="method">method</span> <span class="string">'GET'</span>
+            <span class="method">url</span> <span class="string">'/users/1'</span>
+        }
+        <span class="keyword">response</span> {
+            <span class="method">status</span> <span class="number">200</span>
+            <span class="method">body</span>([
+                <span class="var">id</span>: <span class="number">1</span>,
+                <span class="var">name</span>: <span class="string">'Ravi'</span>
+            ])
+            <span class="method">headers</span> {
+                <span class="method">contentType</span>(<span class="method">applicationJson</span>())
+            }
+        }
+    }
+  </code>
+</pre>
+
+    <p>This generates tests + stubs for consumers.</p>
+    <h3>8. Resilience & Fault Tolerance Testing</h3>
+    <p>When using Resilience4j (Retry, Circuit Breaker, Bulkhead):</p>
+    <pre class="java-code">
+  <code>
+    <span class="annotation">@Test</span>
+    <span class="keyword">void</span> <span class="method">testRetryMechanism</span>() {
+        <span class="class">AtomicInteger</span> <span class="var">counter</span> = <span
+          class="keyword">new</span> <span class="class">AtomicInteger</span>(0);
+
+        <span class="class">CheckedFunction0</span>&lt;<span class="class">String</span>&gt; <span
+          class="var">supplier</span> =
+            Retry.decorateCheckedSupplier(
+                Retry.ofDefaults(<span class="string">"testRetry"</span>),
+                () -&gt; {
+                    <span class="keyword">if</span> (<span class="var">counter</span>.incrementAndGet() &lt; 3)
+                        <span class="keyword">throw new</span> <span class="class">RuntimeException</span>(<span
+          class="string">"#fail"</span>);
+                    <span class="keyword">return</span> <span class="string">"success"</span>;
+                }
+            );
+
+        <span class="class">String</span> <span class="var">result</span> = Try.of(<span class="var">supplier</span>).get();
+        assertThat(<span class="var">result</span>).isEqualTo(<span class="string">"success"</span>);
+        assertThat(<span class="var">counter</span>.get()).isEqualTo(3); <span class="comment">// retried 2 times</span>
+    }
+  </code>
+</pre>
+
+    <h3>9. Best Practices for Testing Microservices</h3>
+    <p>✔ Unit Tests for business logic (fast feedback).</p>
+    <p>✔ Integration Tests with Testcontainers for DB/message broker.</p>
+    <p>✔ Mock external dependencies (don't call real services in CI).</p>
+    <p>✔ Contract Testing for inter-service compatibility.</p>
+    <p>✔ Use RestAssured for API Testing in E2E scenarios.</p>
+    <p>✔ CI/CD integration → Run tests automatically in pipelines.</p>
+    <p>✔ Don't overuse @SpringBootTest (it loads full context → slow). Use @WebMvcTest, @DataJpaTest , etc. where
+        possible.</p>
+    <h3>10. Example: E2E Test for Microservice</h3>
+    <pre class="java-code">
+  <code>
+    <span class="keyword">import</span> io.restassured.RestAssured;
+    <span class="keyword">import</span> org.junit.jupiter.api.Test;
+    <span class="keyword">import</span> org.springframework.boot.test.context.SpringBootTest;
+
+    <span class="keyword">import static</span> io.restassured.RestAssured.*;
+    <span class="keyword">import static</span> org.hamcrest.Matchers.*;
+
+    <span class="annotation">@SpringBootTest</span>(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+    <span class="keyword">class</span> <span class="class">UserE2ETest</span> {
+
+        <span class="annotation">@Test</span>
+        <span class="keyword">void</span> <span class="method">testUserApi</span>() {
+            RestAssured.baseURI = <span class="string">"http://localhost:8080"</span>;
+
+            given()
+                .when().get(<span class="string">"/users/1"</span>)
+                .then()
+                .statusCode(200)
+                .body(<span class="string">"id"</span>, equalTo(1))
+                .body(<span class="string">"name"</span>, equalTo(<span class="string">"Ravi"</span>));
+        }
+    }
+  </code>
+</pre>
+
+    <hr>
+    <h3>Summary</h3>
+    <p>✔ Unit Tests → Mockito + JUnit</p>
+    <p>✔ Controller Tests → @WebMvcTest + MockMvc</p>
+    <p>✔ Repository Tests → @DataJpaTest + Testcontainers</p>
+    <p>✔ Integration Tests → @SpringBootTest</p>
+    <p>✔ Microservices → RestClientTest, Contract Testing, Testcontainers</p>
+    <p>✔ E2E → RestAssured</p>
+    <p>✔ Resilience Testing → Resilience4j Retry, Circuit Breaker tests</p>
+    <hr>
+    <p>This covers <strong>Spring Boot & Microservices testing end-to-end</strong>.</p>
+    <p>Do you want me to prepare a <strong>step-by-step roadmap with example code for each testing type (Unit →
+        Integration → Contract → E2E)</strong> so you can <strong>practice in order</strong> like a learning plan?</p>
+    <br>
+    <hr>
     <div class="card-footer">
         <br>
         <ul class="pagination justify-content-center">
