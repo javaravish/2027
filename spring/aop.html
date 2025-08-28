@@ -21,7 +21,764 @@
 
 <!-- Main Content Section -->
 <main id="content">
+    <h3>1. Spring AOP (Aspect-Oriented Programming)</h3>
+    <p>Spring AOP (Aspect-Oriented Programming) is a powerful framework feature that allows developers to decouple
+        cross-cutting concerns from the main business logic. Such as logging, security, and transaction management. It
+        works by intercepting method executions and applying additional behaviour through aspects to existing code
+        without modifying the code itself.</p>
+    <ul>
+        <li><strong>Separation of Concerns</strong>: AOP allows you to separate cross-cutting concerns (like logging,
+            security, and transactions) from the core business logic of your application.
+        </li>
+        <li><strong>Code Reusability</strong>: You can apply the same aspect to multiple methods or classes without
+            duplicating code.
+        </li>
+        <li><strong>Declarative Configuration</strong>: AOP configurations can be done through annotations or XML, which
+            keeps your code clean and maintainable.
+        </li>
+    </ul>
 
+    <h3>1. Core Concepts of AOP</h3>
+
+    <h3>1.1 Aspect</h3>
+    <p>An aspect is a module that encapsulates behaviours affecting multiple classes into reusable modules. In spring,
+        aspects are implemented using regular classes annotated with @Aspect .</p>
+    <p><strong>Encapsulation</strong>: Aspects encapsulate cross-cutting concerns.</p>
+    <p><strong>Modularity</strong>: Improved modularity by separating cross-cutting concerns.</p>
+    <pre class="java-code">
+<code>
+<span class="keyword">import</span> org.aspectj.lang.annotation.Aspect;
+<span class="keyword">import</span> org.aspectj.lang.annotation.Before;
+
+<span class="annotation">@Aspect</span>
+<span class="keyword">public class</span> <span class="class">LoggingAspect</span> {
+    <span class="annotation">@Before</span>(<span class="string">"execution(* com.example.service.*.*(...))"</span>)
+    <span class="keyword">public</span> <span class="class">void</span> <span class="method">logBefore</span>() {
+    <span class="class">System</span>.out.println(<span class="string">"Logging before method execution"</span>);
+}
+</code>
+</pre>
+
+    <h3>1.2 Advice</h3>
+    <p>Advice is the action taken by an aspect at a particular join point. Spring AOP supports different types of
+        advice: @Before, @After, @AfterReturning, @AfterThrowing, and @Around.</p>
+    <ul>
+        <li><strong>Types of Advice</strong>: Different advice types for different use cases.</li>
+        <li><strong>Flexible</strong>: Can execute before, after, or around the method execution.</li>
+    </ul>
+    <p><strong>Types of Advice</strong>:</p>
+    <ul>
+        <li><strong>Before Advice</strong>: Runs before the join point (method execution).</li>
+        <li><strong>After Advice</strong>: Runs after the join point, regardless of the outcome.</li>
+        <li><strong>After Returning Advice</strong>: Runs after the join point only if the method returns successfully.
+        </li>
+        <li><strong>After Throwing Advice</strong>: Runs after the join point only if the method throws an exception.
+        </li>
+        <li><strong>Around Advice</strong>: Wraps the join point, allowing you to modify or prevent the execution of the
+            method.
+        </li>
+    </ul>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@Before</span>(<span class="string">"execution(* com.example.service.*.*(..))"</span>)
+<span class="keyword">public</span> <span class="class">void</span> <span class="method">logBefore</span>(<span
+        class="class">JoinPoint</span> joinPoint) {
+<span class="class">System</span>.out.println(<span class="string">"Before method: "</span> + joinPoint.getSignature());
+}
+</code>
+</pre>
+
+    <h3>1.3 Pointcut</h3>
+    <p>A pointcut is an expression that matches join points. It defines where the advice should be applied. Pointcuts
+        can be declared using expressions or annotations.</p>
+    <ul>
+        <li><strong>Definition</strong>: An expression that specifies where the advice should be applied. It defines the
+            join points where the advice code should run.
+        </li>
+        <li>Defined using expressions to match join points.</li>
+        <li><strong>Types of Pointcuts</strong>:
+            <ul>
+                <li>Execution Pointcut: Matches method execution.</li>
+                <li>Within Pointcut: Matches all join points within a specified type.</li>
+                <li>Args Pointcut: Matches join points where the method arguments are of specified types.</li>
+                <li>Annotation Pointcut: Matches methods with specific annotations.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h4>Example Code:</h4>
+    <pre class="java-code">
+<code>
+<span class="keyword">import</span> org.aspectj.lang.annotation.Aspect;
+<span class="keyword">import</span> org.aspectj.lang.annotation.Pointcut;
+
+<span class="annotation">@Aspect</span>
+<span class="keyword">public class</span> <span class="class">LoggingAspect</span> {
+    <span class="annotation">@Pointcut</span>(<span class="string">"execution(* com.example.service.*.*(..))"</span>)
+    <span class="keyword">public</span> <span class="class">void</span> <span class="method">serviceLayer</span>() {
+    <span class="comment">// Pointcut expression</span>
+    }
+    <span class="annotation">@Before</span>(<span class="string">"serviceLayer()"</span>)
+    <span class="keyword">public</span> <span class="class">void</span> <span class="method">logBefore</span>() {
+    <span class="class">System</span>.out.println(<span class="string">"Logging before method execution"</span>);
+}
+</code>
+</pre>
+
+    <h3>1.4 Join Point</h3>
+    <p>A join point is a point in the execution of the program, such as a method call or an exception thrown. In Spring
+        AOP, join points are always method executions.</p>
+    <ul>
+        <li><strong>Definition</strong>: A point during the execution of the application where advice can be applied.
+            Common join points include method calls and object instantiations.
+        </li>
+        <li><strong>Example</strong>: Calling a method from a service class.</li>
+    </ul>
+
+    <h3>1.5 Weaving</h3>
+    <ul>
+        <li><strong>Definition</strong>: Weaving is the process of linking aspects with other application types or
+            objects to create an advised object. Spring AOP performs weaving at runtime.
+        </li>
+        <li><strong>Types of Weaving</strong>:
+            <ul>
+                <li>Compile-time Weaving: Weaving done during the compilation of classes.</li>
+                <li>Load-time Weaving: Weaving done when classes are loaded by the class loader.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <ul>
+        <li><strong>Runtime Weaving:</strong> Weaving done at runtime using proxies.</li>
+        <li><strong>Runtime:</strong> Spring AOP performs runtime weaving using proxies.</li>
+        <li><strong>Proxy-based:</strong> Uses dynamic proxies for weaving aspects.</li>
+    </ul>
+
+    <h3>1.6. Proxy</h3>
+    <p>Spring AOP creates proxies for the target objects where the aspects are applied. These proxies are responsible
+        for weaving the advices at the join points.</p>
+    <ul>
+        <li><strong>Dynamic Proxies:</strong> Spring uses JDK dynamic proxies or CGLIB proxies.</li>
+        <li><strong>Transparent:</strong> Proxies are transparent to the client objects.</li>
+    </ul>
+    <br>
+    <hr>
+    <br>
+    <h3>2. Advice</h3>
+
+    <h3>2.1. @Before</h3>
+    <p>The @Before advice runs before the method execution.</p>
+
+    <h4>Example:</h4>
+    <pre class="java-code">
+<code>
+<span class="keyword">import</span> org.aspectj.lang.JoinPoint;
+<span class="keyword">import</span> org.aspectj.lang.annotation.Aspect;
+<span class="keyword">import</span> org.aspectj.lang.annotation.Before;
+<span class="keyword">import</span> org.springframework.stereotype.Component;
+
+<span class="annotation">@Aspect</span>
+<span class="annotation">@Component</span>
+<span class="keyword">public class</span> <span class="class">LoggingAspect</span> {
+    <span class="annotation">@Before</span>(<span class="string">"execution(* com.example.service.*.*(..))"</span>)
+    <span class="keyword">public</span> <span class="class">void</span> <span class="method">logBefore</span>(<span
+        class="class">JoinPoint</span> joinPoint) {
+    <span class="class">System</span>.out.println(<span class="string">"Before method: "</span> + joinPoint.getSignature().getName());
+}
+</code>
+</pre>
+
+    <h4>Key Points:</h4>
+    <ul>
+        <li>Executes before the target method starts.</li>
+        <li>Cannot prevent the execution of the target method.</li>
+        <li>Can be used to perform tasks like logging, security checks, etc.</li>
+    </ul>
+
+    <h3>2.2. @After</h3>
+    <p>The @After advice runs after the method execution, regardless of its outcome (success or exception).</p>
+
+    <h4>Example:</h4>
+    <pre class="java-code">
+<code>
+<span class="keyword">import</span> org.aspectj.lang.annotation.After;
+<span class="keyword">import</span> org.aspectj.lang.annotation.Aspect;
+<span class="keyword">import</span> org.springframework.stereotype.Component;
+
+<span class="annotation">@Aspect</span>
+<span class="annotation">@Component</span>
+<span class="keyword">public class</span> <span class="class">LoggingAspect</span> {
+    <span class="annotation">@After</span>(<span class="string">"execution(* com.example.service.*.*(..))"</span>)
+    <span class="keyword">public</span> <span class="class">void</span> <span class="method">logAfter</span>(<span
+        class="class">JoinPoint</span> joinPoint) {
+    <span class="class">System</span>.out.println(<span class="string">"After method: "</span> + joinPoint.getSignature().getName());
+}
+</code>
+</pre>
+
+    <h4>Key Points:</h4>
+    <ul>
+        <li>Executes after the target method completes.</li>
+        <li>Runs whether the method exits normally or throws an exception.</li>
+        <li>Suitable for tasks like resource cleanup.</li>
+    </ul>
+
+    <h3>2.3. @AfterReturning</h3>
+    <p>The @AfterReturning advice runs after the method execution only if the method completes successfully (i.e., does
+        not throw an exception).</p>
+
+    <h4>Example:</h4>
+    <pre class="java-code">
+<code>
+<span class="keyword">import</span> org.aspectj.lang.annotation.AfterReturning;
+<span class="keyword">import</span> org.aspectj.lang.annotation.Aspect;
+<span class="keyword">import</span> org.springframework.stereotype.Component;
+
+<span class="annotation">@Aspect</span>
+<span class="annotation">@Component</span>
+<span class="keyword">public class</span> <span class="class">LoggingAspect</span> {
+    <span class="annotation">@AfterReturning</span>(pointcut = <span class="string">"execution(* com.example.service.*.*(. .))"</span>, returning = <span
+        class="string">"result"</span>)
+    <span class="keyword">public</span> <span class="class">void</span> <span
+        class="method">logAfterReturning</span>(<span class="class">JoinPoint</span> joinPoint, <span class="class">Object</span> result) {
+    <span class="class">System</span>.out.println(<span class="string">"After returning from method: "</span> + joinPoint.getSignature().getName());
+    <span class="class">System</span>.out.println(<span class="string">"Method returned value is : "</span> + result);
+    }
+}
+</code>
+</pre>
+
+    <h4>Key Points:</h4>
+    <ul>
+        <li>Executes only if the target method returns normally.</li>
+        <li>Can access the return value of the method.</li>
+        <li>Useful for tasks like logging return values, post-processing results.</li>
+    </ul>
+
+    <h3>2.4. @AfterThrowing</h3>
+    <p>The @AfterThrowing advice runs if the target method throws an exception.</p>
+
+    <h4>Example:</h4>
+    <pre class="java-code">
+<code>
+<span class="keyword">import</span> org.aspectj.lang.annotation.AfterThrowing;
+<span class="keyword">import</span> org.aspectj.lang.annotation.Aspect;
+<span class="keyword">import</span> org.springframework.stereotype.Component;
+
+<span class="annotation">@Aspect</span>
+<span class="annotation">@Component</span>
+<span class="keyword">public class</span> <span class="class">LoggingAspect</span> {
+    <span class="annotation">@AfterThrowing</span>(pointcut = <span class="string">"execution(* com.example.service.*.*(. .))"</span>, throwing = <span
+        class="string">"error"</span>)
+    <span class="keyword">public</span> <span class="class">void</span> <span
+        class="method">logAfterThrowing</span>(<span class="class">JoinPoint</span> joinPoint, <span class="class">Throwable</span> error) {
+    <span class="class">System</span>.out.println(<span class="string">"An exception has been thrown in "</span> + joinPoint.getSignature().getName() + <span
+        class="string">"</span>
+    });
+    <span class="class">System</span>.out.println(<span class="string">"Cause: "</span> + error.getMessage());
+    }
+}
+</code>
+</pre>
+
+    <h4>Key Points:</h4>
+    <ul>
+        <li>Executes only if the target method throws an exception.</li>
+        <li>Can access the exception thrown by the method.</li>
+        <li>Useful for error handling, logging exceptions, or triggering alerts.</li>
+    </ul>
+
+    <h3>2.5. @Around</h3>
+    <p>The @Around advice surrounds a join point, allowing you to perform custom behavior before and after the method
+        invocation. It is the most powerful advice type.</p>
+
+    <h4>Example:</h4>
+    <pre class="java-code">
+<code>
+<span class="keyword">import</span> org.aspectj.lang.ProceedingJoinPoint;
+<span class="keyword">import</span> org.aspectj.lang.annotation.Around;
+<span class="keyword">import</span> org.aspectj.lang.annotation.Aspect;
+<span class="keyword">import</span> org.springframework.stereotype.Component;
+
+<span class="annotation">@Aspect</span>
+<span class="annotation">@Component</span>
+<span class="keyword">public class</span> <span class="class">LoggingAspect</span> {
+    <span class="annotation">@Around</span>(<span class="string">"execution(* com.example.service.*.*(..))"</span>)
+    <span class="keyword">public</span> <span class="class">Object</span> <span class="method">logAround</span>(<span
+        class="class">ProceedingJoinPoint</span> joinPoint) <span class="keyword">throws</span> <span class="class">Throwable</span> {
+    <span class="class">System</span>.out.println(<span class="string">"Before method: "</span> + joinPoint.getSignature().getName());
+    <span class="class">Object</span> result;
+    <span class="keyword">try</span> {
+    result = joinPoint.proceed(); <span class="comment">// Proceed with the method call</span>
+    } <span class="keyword">catch</span> (<span class="class">Throwable</span> e) {
+    <span class="class">System</span>.out.println(<span class="string">"Exception in method: "</span> + joinPoint.getSignature().getName());
+    <span class="keyword">throw</span> e; <span class="comment">// Retthrow the exception</span>
+    }
+    <span class="class">System</span>.out.println(<span class="string">"After method: "</span> + joinPoint.getSignature().getName());
+    <span class="keyword">return</span> result;
+}
+</code>
+</pre>
+
+    <h4>Key Points:</h4>
+    <ul>
+        <li>Can control when (or if) the target method gets executed.</li>
+        <li>Can modify the return value or handle exceptions.</li>
+        <li>Useful for performance monitoring, transaction management, security, and logging.</li>
+        <li>Allows complete control over the method execution flow.</li>
+    </ul>
+
+    <h3>Advice Annotations and Methods</h3>
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Advice Type</th>
+                <th>Annotation</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Before Advice</td>
+                <td>@Before</td>
+                <td>Executes before the join point. Executes before the method execution, suitable for pre-processing
+                    tasks like logging.
+                </td>
+            </tr>
+            <tr>
+                <td>After Advice</td>
+                <td>@After</td>
+                <td>Executes after the join point. Executes after the method completes, regardless of its outcome,
+                    useful for clean-up activities.
+                </td>
+            </tr>
+            <tr>
+                <td>After Returning</td>
+                <td>@AfterReturning</td>
+                <td>Executes after successful method completion, can access the return value, ideal for logging
+                    results.
+                </td>
+            </tr>
+            <tr>
+                <td>After Throwing</td>
+                <td>@AfterThrowing</td>
+                <td>Executes if the method throws an exception, useful for error handling and logging.</td>
+            </tr>
+            <tr>
+                <td>Around Advice</td>
+                <td>@Around</td>
+                <td>Wrops the join point, allows modification of method execution. Most powerful advice, surrounds the
+                    method execution, can control the execution, useful for advanced scenarios like transaction
+                    management
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h4>Example of Multiple Advice Types:</h4>
+    <pre class="java-code">
+<code>
+<span class="keyword">import</span> org.aspectj.lang.annotation.After;
+<span class="keyword">import</span> org.aspectj.lang.annotation.AfterReturning;
+<span class="keyword">import</span> org.aspectj.lang.annotation.AfterThrowing;
+<span class="keyword">import</span> org.aspectj.lang.annotation.Around;
+<span class="keyword">import</span> org.aspectj.lang.annotation.Aspect;
+<span class="keyword">import</span> org.aspectj.lang.annotation.Before;
+<span class="keyword">import</span> org.aspectj.lang.ProceedingJoinPoint;
+
+<span class="annotation">@Aspect</span>
+<span class="keyword">public class</span> <span class="class">LoggingAspect</span> {
+    <span class="annotation">@Before</span>(<span class="string">"execution(* com.example.service.*.*(..))"</span>)
+    <span class="keyword">public</span> <span class="class">void</span> <span class="method">logBefore</span>() {
+    <span class="class">System</span>.out.println(<span class="string">"Logging before method execution"</span>);
+    }
+    <span class="annotation">@After</span>(<span class="string">"execution(* com.example.service.*.*(..))"</span>)
+    <span class="keyword">public</span> <span class="class">void</span> <span class="method">logAfter</span>() {
+    <span class="class">System</span>.out.println(<span class="string">"Logging after method execution"</span>);
+    }
+    <span class="annotation">@AfterReturning</span>(<span
+        class="string">"execution(* com.example.service.*.*(..))"</span>)
+    <span class="keyword">public</span> <span class="class">void</span> <span class="method">logAfterReturning</span>() {
+    <span class="class">System</span>.out.println(<span class="string">"Logging after method returns"</span>);
+    }
+    <span class="annotation">@AfterThrowing</span>(<span
+        class="string">"execution(* com.example.service.*.*(..))"</span>)
+    <span class="keyword">public</span> <span class="class">void</span> <span class="method">logAfterThrowing</span>() {
+    <span class="class">System</span>.out.println(<span class="string">"Logging after method throws an exception"</span>);
+    }
+    <span class="annotation">@Around</span>(<span class="string">"execution(* com.example.service.*.*(..))"</span>)
+    <span class="keyword">public</span> <span class="class">Object</span> <span class="method">logAround</span>(<span
+        class="class">ProceedingJoinPoint</span> joinPoint) <span class="keyword">throws</span> <span class="class">Throwable</span> {
+    <span class="class">System</span>.out.println(<span class="string">"Logging around method execution"</span>);
+    <span class="class">Object</span> result = joinPoint.proceed();
+    <span class="class">System</span>.out.println(<span class="string">"Logging around method execution complete"</span>);
+    <span class="keyword">return</span> result;
+    }
+}
+</code>
+</pre>
+    <br>
+    <hr>
+    <br>
+    <h3>3. AOP Expressions</h3>
+
+    <h3>3.1 Execution Expression</h3>
+    <p>Definition: Specifies the join points for method executions.</p>
+    <h4>Example:</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Pointcut</span>(<span class="string">"execution(* com.example.service.*.*"</span>)
+<span class="keyword">public</span> <span class="class">void</span> <span class="method">allMethods</span>() {}
+</code>
+</pre>
+
+    <h3>3.2 Within Expression</h3>
+    <p>Definition: Matches all methods within a particular type.</p>
+    <h4>Example:</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Pointcut</span>(<span class="string">"within(com.example.service.MyService)"</span>)
+<span class="keyword">public</span> <span class="class">void</span> <span class="method">serviceLayer</span>() {}
+</code>
+</pre>
+
+    <h3>3.3 Args Expression</h3>
+    <p>Definition: Matches join points with specific arguments.</p>
+    <h4>Example:</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Pointcut</span>(<span class="string">"args(String)"</span>)
+<span class="keyword">public</span> <span class="class">void</span> <span class="method">stringArguments</span>() {}
+</code>
+</pre>
+
+    <h3>3.4 Annotation Expression</h3>
+    <p>Definition: Matches methods annotated with a specific annotation.</p>
+    <h4>Example:</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Pointcut</span>(<span class="string">"@annotation(com.example.annotation.Loggable)"</span>)
+<span class="keyword">public</span> <span class="class">void</span> <span class="method">annotateWithLoggable</span>() {
+}
+</code>
+</pre>
+
+    <h3>3.5 Bean Name Expression</h3>
+    <p>Definition: Matches beans by their name.</p>
+    <h4>Example:</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Pointcut</span>(<span class="string">"bean(myBean)"</span>)
+<span class="keyword">public</span> <span class="class">void</span> <span class="method">myBean</span>() {
+}
+</code>
+</pre>
+
+    <h3>3.6 Combining Pointcuts</h3>
+    <p>Definition: Combining multiple pointcuts using logical operators.</p>
+    <h4>Example:</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Pointcut</span>(<span class="string">"execution(* com.example.service.*.*"</span>)
+<span class="keyword">public</span> <span class="class">void</span> <span class="method">loggableMethods</span>() {}
+</code>
+</pre>
+    <br>
+    <hr>
+    <br>
+    <h3>4. Configuration of AOP</h3>
+
+    <h3>4.1 Java Configuration</h3>
+    <h4>Example:</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Configuration</span>
+<span class="annotation">@EnableAspectJAutoProxy</span>
+<span class="keyword">public class</span> <span class="class">AppConfig</span> {
+    <span class="annotation">@Bean</span>
+    <span class="keyword">public</span> <span class="class">LoggingAspect</span> <span
+        class="method">loggingAspect</span>() {
+    <span class="keyword">return</span> <span class="keyword">new</span> <span class="class">LoggingAspect</span>();
+    }
+}
+</code>
+</pre>
+
+    <h3>4.2 Aspect Class</h3>
+    <h4>Example:</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Aspect</span>
+<span class="annotation">@Component</span>
+<span class="keyword">public class</span> <span class="class">LoggingAspect</span> {
+    <span class="annotation">@Before</span>(<span class="string">"execution(* com.example.service.*.*(...))"</span>)
+    <span class="keyword">public</span> <span class="class">void</span> <span class="method">logBefore</span>(<span
+        class="class">JoinPoint</span> joinPoint) {
+    <span class="class">System</span>.out.println(<span class="string">"Before method: "</span> + joinPoint.getSignature());
+    }
+}
+</code>
+</pre>
+    <br>
+    <hr>
+    <br>
+    <h3>5. Practical Use Cases</h3>
+
+    <h3>5.1 Logging</h3>
+    <ul>
+        <li><strong>Purpose:</strong> To automatically log method calls and results.</li>
+    </ul>
+    <h4>Example Code:</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Aspect</span>
+<span class="annotation">@Component</span>
+<span class="keyword">public class</span> <span class="class">LoggingAspect</span> {
+    <span class="annotation">@Before</span>(<span class="string">"execution(* com.example.service.*.*(...))"</span>)
+    <span class="keyword">public</span> <span class="class">void</span> <span class="method">logBefore</span>(<span
+        class="class">JoinPoint</span> joinPoint) {
+    <span class="class">System</span>.out.println(<span class="string">"Before method: "</span> + joinPoint.getSignature());
+    }
+}
+</code>
+</pre>
+
+    <h3>5.2 Transaction Management</h3>
+    <ul>
+        <li><strong>Purpose:</strong> To manage transactions around method calls.</li>
+    </ul>
+    <h4>Example Code:</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Aspect</span>
+<span class="annotation">@Component</span>
+<span class="keyword">public class</span> <span class="class">TransactionAspect</span> {
+    <span class="annotation">@Around</span>(<span class="string">"execution(* com.example.service.*.*(...))"</span>)
+    <span class="keyword">public</span> <span class="class">Object</span> <span class="method">manageTransaction</span>(<span
+        class="class">ProceedingJoinPoint</span> joinPoint) <span class="keyword">throws</span> <span class="class">Throwable</span> {
+    <span class="comment">// Begin transaction</span>
+    <span class="class">Object</span> result = joinPoint.proceed();
+    <span class="comment">// Commit transaction</span>
+    <span class="keyword">return</span> result;
+    }
+}
+</code>
+</pre>
+
+    <h3>5.3 Security</h3>
+    <ul>
+        <li><strong>Purpose:</strong> To enforce security checks before method execution.</li>
+    </ul>
+    <h4>Example Code:</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Aspect</span>
+<span class="annotation">@Component</span>
+<span class="keyword">public class</span> <span class="class">SecurityAspect</span> {
+    <span class="annotation">@Before</span>(<span class="string">"execution(* com.example.service.*.*(...))"</span>)
+    <span class="keyword">public</span> <span class="class">void</span> <span class="method">checkSecurity</span>(<span
+        class="class">JoinPoint</span> joinPoint) {
+    <span class="comment">// Security checks</span>
+    }
+}
+</code>
+</pre>
+
+    <h3>5.4 Caching</h3>
+    <ul>
+        <li><strong>Purpose:</strong> To cache method results for performance improvement.</li>
+    </ul>
+    <h4>Example Code:</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Aspect</span>
+<span class="annotation">@Component</span>
+<span class="keyword">public class</span> <span class="class">CachingAspect</span> {
+    <span class="annotation">@Around</span>(<span class="string">"execution(* com.example.service.*.*(...))"</span>)
+    <span class="keyword">public</span> <span class="class">Object</span> <span class="method">cacheResult</span>(<span
+        class="class">ProceedingJoinPoint</span> joinPoint) <span class="keyword">throws</span> <span class="class">Throwable</span> {
+    <span class="comment">// Check cache, proceed to method, cache result</span>
+    <span class="keyword">return</span> joinPoint.proceed();
+    }
+}
+</code>
+</pre>
+    <br>
+    <hr>
+    <br>
+    <h3>6. Advanced Topics</h3>
+
+    <h3>6.1 AspectJ Integration</h3>
+    <ul>
+        <li>AspectJ is a more advanced AOP framework for compile-time or load-time weaving.</li>
+    </ul>
+    <h4>Dependency:</h4>
+    <pre class="code-block">
+<code>
+<span class="tag">&lt;dependency&gt;</span>
+<span class="tag">&lt;groupId&gt;</span>org.aspectj<span class="tag">&lt;/groupId&gt;</span>
+<span class="tag">&lt;artifactId&gt;</span>aspectjrt<span class="tag">&lt;/artifactId&gt;</span>
+<span class="tag">&lt;version&gt;</span>1.9.9<span class="tag">&lt;/version&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span>
+</code>
+</pre>
+
+    <h3>6.2 Performance Considerations</h3>
+    <ul>
+        <li><strong>Impact:</strong> AOP can introduce some overhead due to proxy creation and advice execution.</li>
+        <li><strong>Optimization:</strong> Measure the impact and optimize AOP usage.</li>
+    </ul>
+
+    <h3>6.3 Creating Custom Annotations</h3>
+    <ul>
+        <li><strong>Purpose:</strong> To create specific annotations for your own AOP concerns.</li>
+    </ul>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Retention</span>(<span class="class">RetentionPolicy</span>.RUNTIME)
+<span class="annotation">@Target</span>(<span class="class">ElementType</span>.METHOD)
+<span class="keyword">public</span> <span class="annotation">@interface</span> <span class="class">Loggable</span> {}
+</code>
+</pre>
+
+    <h4>Aspect Implementation:</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Aspect</span>
+<span class="annotation">@Component</span>
+<span class="keyword">public class</span> <span class="class">CustomAnnotationAspect</span> {
+    <span class="annotation">@Before</span>(<span class="string">"@annotation(com.example.annotation.Loggable)"</span>)
+    <span class="keyword">public</span> <span class="class">void</span> <span class="method">logBefore</span>(<span
+        class="class">JoinPoint</span> joinPoint) {
+    <span class="class">System</span>.out.println(<span class="string">"Loggable annotation applied to: "</span> + joinPoint.getSignature());
+    }
+}
+</code>
+</pre>
+
+    <h3>6.4 Advice Order</h3>
+    <ul>
+        <li><strong>Definition:</strong> Specifies the order of execution of multiple advices.</li>
+    </ul>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Order</span>(1)
+<span class="annotation">@Aspect</span>
+<span class="keyword">public class</span> <span class="class">FirstAdvice</span> {
+
+}
+<span class="annotation">@Order</span>(2)
+<span class="annotation">@Aspect</span>
+<span class="keyword">public class</span> <span class="class">SecondAdvice</span> {
+
+}
+</code>
+</pre>
+    <br>
+    <hr>
+    <br>
+    <h3>7. Comparison with Other Techniques</h3>
+
+    <h3>7.1 AOP vs. OOP</h3>
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Aspect-Oriented Programming (AOP)</th>
+                <th>Object-Oriented Programming (OOP)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Focuses on cross-cutting concerns</td>
+                <td>Focuses on objects and their interactions</td>
+            </tr>
+            <tr>
+                <td>Separates concerns into aspects</td>
+                <td>Encapsulates data and behavior in objects</td>
+            </tr>
+            <tr>
+                <td>Uses weaving to integrate aspects</td>
+                <td>Uses inheritance and composition</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>7.2 AOP vs. Interceptors</h3>
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>AOP</th>
+                <th>Interceptors</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>More powerful and flexible</td>
+                <td>Simpler, but less flexible</td>
+            </tr>
+            <tr>
+                <td>Supports various advice types</td>
+                <td>Typically used for pre/post-processing</td>
+            </tr>
+            <tr>
+                <td>Can be applied declaratively</td>
+                <td>Often requires manual configuration</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <hr>
+    <br>
+    <h3>8. Best Practices</h3>
+
+    <h3>8.1 Keep Aspects Simple</h3>
+    <ul>
+        <li>Avoid complex logic in aspects to maintain readability and performance.</li>
+    </ul>
+
+    <h3>8.2 Use Pointcut Expressions Wisely</h3>
+    <ul>
+        <li>Define precise pointcuts to avoid unintended method interceptions.</li>
+    </ul>
+
+    <h3>8.3 Test Aspects Thoroughly</h3>
+    <ul>
+        <li>Ensure aspects work correctly in different scenarios.</li>
+    </ul>
+
+    <h3>8.4 Avoid Circular Dependencies</h3>
+    <ul>
+        <li>Be cautious of aspects that might create circular dependencies.</li>
+    </ul>
+
+    <h3>9. Common Pitfalls</h3>
+
+    <h3>9.1 Incorrect Pointcut Expressions</h3>
+    <ul>
+        <li>Incorrect expressions can lead to advice not being applied or applied incorrectly.</li>
+    </ul>
+
+    <h3>9.2 Performance Overhead</h3>
+    <ul>
+        <li>Excessive use of AOP can impact performance.</li>
+    </ul>
+
+    <h3>9.3 Complex Debugging</h3>
+    <ul>
+        <li>Debugging can be challenging due to the dynamic nature of AOP.</li>
+    </ul>
+
+    <h3>10. Conclusion</h3>
+    <p>Spring AOP is a powerful tool for managing cross-cutting concerns in your application. By using aspects, advices,
+        and pointcuts, you can keep your code clean, modular, and maintainable. Understanding the core concepts and best
+        practices will help you leverage AOP effectively in your projects.</p>
     <br>
     <hr>
     <br>

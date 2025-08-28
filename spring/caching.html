@@ -21,7 +21,414 @@
 
 <!-- Main Content Section -->
 <main id="content">
+    <h3>Spring Caching</h3>
+    <p>Caching is a critical performance optimization technique, and Spring provides a powerful abstraction layer for
+        caching. This guide covers everything from basic setup to advanced configurations.</p>
 
+    <h3>1. Core Concepts</h3>
+
+    <h4>Cache Abstraction</h4>
+    <p>Spring's caching abstraction:</p>
+    <ul>
+        <li>Provides a consistent API across different cache providers</li>
+        <li>Uses annotations to demarcate cacheable methods</li>
+        <li>Supports multiple cache managers</li>
+    </ul>
+
+    <h4>Key Annotations</h4>
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Annotation</th>
+                <th>Purpose</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>@Cacheable</td>
+                <td>Marks methods whose results are cacheable</td>
+            </tr>
+            <tr>
+                <td>@CacheEvict</td>
+                <td>Triggers cache removal</td>
+            </tr>
+            <tr>
+                <td>@CachePut</td>
+                <td>Updates cache without interfering method execution</td>
+            </tr>
+            <tr>
+                <td>@Caching</td>
+                <td>Groups multiple cache operations</td>
+            </tr>
+            <tr>
+                <td>@CacheConfig</td>
+                <td>Shared cache settings at class level</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>2. Basic Setup</h3>
+
+    <h4>Step 1: Enable Caching</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@SpringBootApplication</span>
+<span class="annotation">@EnableCaching</span>
+<span class="keyword">public class</span> <span class="class">MyApp</span> {
+    <span class="keyword">public static</span> <span class="class">void</span> <span class="method">main</span>(<span
+        class="class">String</span>[] <span class="var">args</span>) {
+    <span class="class">SpringApplication</span>.<span class="method">run</span>(<span class="class">MyApp</span>.<span
+        class="keyword">class</span>, <span class="var">args</span>);
+    }
+}
+</code>
+</pre>
+
+    <h4>Step 2: Configure Cache Provider</h4>
+    <p>In-memory (Default):</p>
+    <p>No extra dependencies needed</p>
+
+    <p>Redis (Example):</p>
+    <pre class="code-block">
+<code>
+<span class="comment"># application.properties</span>
+<span class="key">spring.cache.type</span>=<span class="value">redis</span>
+<span class="key">spring.redis.host</span>=<span class="value">localhost</span>
+<span class="key">spring.redis.port</span>=<span class="number">6379</span>
+</code>
+</pre>
+
+    <h3>3. Cache Annotations In-Depth</h3>
+
+    <h4>@Cacheable</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Service</span>
+<span class="keyword">public class</span> <span class="class">ProductService</span> {
+    <span class="annotation">@Cacheable</span>(<span class="string">"products"</span>) <span class="comment">// Cache name</span>
+    <span class="keyword">public</span> <span class="class">Product</span> <span
+        class="method">getProductById</span>(<span class="keyword">long</span> <span class="var">id</span>) {
+    <span class="comment">// Expensive operation</span>
+</code>
+</pre>
+
+    <pre class="java-code">
+<code>
+<span class="keyword">return</span> <span class="var">productRepository</span>.<span
+        class="method">findById</span>(<span class="var">id</span>);
+}
+
+<span class="annotation">@Cacheable</span>(
+    <span class="key">value</span> = <span class="string">"products"</span>,
+    <span class="key">key</span> = <span class="string">"#productId"</span>, <span class="comment">// Custom key</span>
+    <span class="key">condition</span> = <span class="string">"#productId > 10"</span>, <span class="comment">// Conditional caching</span>
+    <span class="key">unless</span> = <span class="string">"#result:price < 100"</span> <span class="comment">// Don't cache cheap products</span>
+)
+<span class="keyword">public</span> <span class="class">Product</span> <span class="method">getProduct</span>(<span
+        class="keyword">long</span> <span class="var">productId</span>, <span class="keyword">boolean</span> <span
+        class="var">includeDetails</span>) {
+    <span class="comment">// ...</span>
+}
+</code>
+</pre>
+
+    <h4>@CacheEvict</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@CacheEvict</span>(
+    <span class="key">value</span> = <span class="string">"products"</span>,
+    <span class="key">key</span> = <span class="string">"#product.id"</span>, <span class="comment">// Remove specific entry</span>
+    <span class="key">allEntries</span> = <span class="keyword">true</span>, <span class="comment">// Optional: clear entire cache</span>
+    <span class="key">beforeInvocation</span> = <span class="keyword">true</span> <span class="comment">// Clear cache before method executes</span>
+)
+<span class="keyword">public</span> <span class="class">void</span> <span class="method">updateProduct</span>(<span
+        class="class">Product</span> <span class="var">product</span>) {
+    <span class="var">productRepository</span>.<span class="method">save</span>(<span class="var">product</span>);
+}
+</code>
+</pre>
+
+    <h4>@CachePut</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@CachePut</span>(<span class="key">value</span> = <span class="string">"products"</span>, <span
+        class="key">key</span> = <span class="string">"#product.id"</span>)
+<span class="keyword">public</span> <span class="class">Product</span> <span
+        class="method">updateProductCache</span>(<span class="class">Product</span> <span class="var">product</span>) {
+    <span class="keyword">return</span> <span class="var">productRepository</span>.<span
+        class="method">save</span>(<span class="var">product</span>);
+}
+</code>
+</pre>
+
+    <h4>@Caching</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Caching</span>(
+    <span class="key">evict</span> = {
+    <span class="annotation">@CacheEvict</span>(<span class="key">value</span> = <span class="string">"primary"</span>, <span
+        class="key">key</span> = <span class="string">"#product.id"</span>),
+    <span class="annotation">@CacheEvict</span>(<span class="key">value</span> = <span class="string">"secondary"</span>, <span
+        class="key">allEntries</span> = <span class="keyword">true</span>)
+    },
+    <span class="key">put</span> = {
+    <span class="annotation">@CachePut</span>(<span class="key">value</span> = <span
+        class="string">"products"</span>, <span class="key">key</span> = <span class="string">"#product.id"</span>)
+    }
+    }
+}
+<span class="keyword">public</span> <span class="class">Product</span> <span class="method">complexUpdate</span>(<span
+        class="class">Product</span> <span class="var">product</span>) {
+    <span class="comment">// ...</span>
+}
+</code>
+</pre>
+
+    <h3>4. Cache Providers</h3>
+
+    <h4>Simple (ConcurrentMap) - Default</h4>
+    <p>Optional configuration</p>
+    <pre class="code-block">
+<code>
+<span class="key">spring.cache.cache-names</span>=<span class="value">products,users</span>
+<span class="key">spring.cache.caffeine.spec</span>=<span class="value">maximumSize=500,evolveAfterWrite=5m</span>
+</code>
+</pre>
+
+    <h4>Redis</h4>
+    <pre class="code-block">
+<code>
+<span class="comment">&lt;!-- pom.xml --&gt;</span>
+<span class="tag">&lt;dependency&gt;</span>
+<span class="tag">&lt;groupId&gt;</span>org.springframework.boot<span class="tag">&lt;/groupId&gt;</span>
+<span class="tag">&lt;artifactId&gt;</span>spring-boot-starter-data-redis<span class="tag">&lt;/artifactId&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span>
+</code>
+</pre>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@Configuration</span>
+<span class="keyword">public class</span> <span class="class">RedisCacheConfig</span> {
+    <span class="annotation">@Bean</span>
+    <span class="keyword">public</span> <span class="class">RedisCacheManager</span> <span
+        class="method">cacheManager</span>(<span class="class">RedisConnectionFactory</span> <span
+        class="var">factory</span>) {
+    <span class="class">RedisCacheConfiguration</span> <span class="var">config</span> = <span class="class">RedisCacheConfiguration</span>.<span
+        class="method">defaultCacheConfig</span>()
+    .<span class="method">entryTtl</span>(<span class="class">Duration</span>.<span
+        class="method">ofMinutes</span>(<span class="number">10</span>))
+    .<span class="method">disableCachingMullyalues</span>();
+    }
+    <span class="keyword">return</span> <span class="class">RedisCacheManager</span>.<span class="method">builder</span>(<span
+        class="var">factory</span>)
+    .<span class="method">cacheDefaults</span>(<span class="var">config</span>)
+    .<span class="method">build</span>();
+}
+</code>
+</pre>
+
+    <pre class="code-block">
+<code>
+<span class="tag">&lt;dependency&gt;</span>
+<span class="tag">&lt;groupId&gt;</span>com.github.ben-mames.caffeine<span class="tag">&lt;/groupId&gt;</span>
+<span class="tag">&lt;artifactId&gt;</span>caffeine<span class="tag">&lt;/artifactId&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span>
+</code>
+</pre>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@Bean</span>
+<span class="keyword">public</span> <span class="class">CaffeineCacheManager</span> <span
+        class="method">cacheManager</span>() {
+<span class="class">Caffeine</span><<span class="class">Object</span>, <span class="class">Object</span>> <span
+        class="var">caffeine</span> = <span class="class">Caffeine</span>.<span class="method">newBuilder</span>()
+.<span class="method">maximunSize</span>(<span class="number">1000</span>)
+.<span class="method">expizeMfewWrite</span>(<span class="number">10</span>, <span class="class">TimeUnit</span>.<span
+        class="var">NINUTES</span>);
+}
+<span class="keyword">return</span> <span class="keyword">new</span> <span
+        class="class">CaffeineCacheManager</span>(<span class="string">"products"</span>, <span
+        class="string">"users"</span>);
+}
+</code>
+</pre>
+
+    <h3>5. Advanced Techniques</h3>
+
+    <h3>Custom Key Generation</h3>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Bean</span>
+<span class="keyword">public</span> <span class="class">KeyGenerator</span> <span
+        class="method">customKeyGenerator</span>() {
+<span class="keyword">return</span> (<span class="var">target</span>, <span class="var">method</span>, <span
+        class="var">params</span>) -> {
+<span class="keyword">return</span> <span class="class">String</span>.<span class="method">format</span>(<span
+        class="string">"%s_%s_%s"</span>,
+<span class="var">target</span>.<span class="method">getClass</span>().<span class="method">getSimpleName</span>(),
+<span class="var">method</span>.<span class="method">getName</span>(),
+<span class="class">Arrays</span>.<span class="method">deepHashCode</span>(<span class="var">params</span>));
+};
+}
+
+<span class="annotation">@Cacheable</span>(<span class="key">value</span>=<span class="string">"products"</span>, <span
+        class="key">keyGenerator</span>=<span class="string">"customKeyGenerator"</span>)
+<span class="keyword">public</span> <span class="class">Product</span> <span class="method">getProduct</span>(<span
+        class="keyword">long</span> <span class="var">id</span>) { ... }
+</code>
+</pre>
+
+    <h3>Conditional Caching</h3>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Cacheable</span>(
+<span class="key">value</span> = <span class="string">"products"</span>,
+<span class="key">condition</span> = <span class="string">"#productId > 1000"</span>,
+<span class="key">unless</span> = <span class="string">"#result == null || #result.price < 50"</span>
+)
+<span class="keyword">public</span> <span class="class">Product</span> <span class="method">getProduct</span>(<span
+        class="keyword">long</span> <span class="var">productId</span>) { ... }
+</code>
+</pre>
+
+    <h3>Cache Synchronization</h3>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Cacheable</span>(<span class="key">value</span> = <span
+        class="string">"products"</span>, <span class="key">sync</span> = <span class="keyword">true</span>)
+<span class="keyword">public</span> <span class="class">Product</span> <span class="method">getProduct</span>(<span
+        class="keyword">long</span> <span class="var">id</span>) {
+<span class="comment">// Only one thread will compute, others wait</span>
+}
+</code>
+</pre>
+
+    <h3>6. Monitoring & Metrics</h3>
+
+    <h3>Spring Boot Actuator</h3>
+    <pre class="code-block">
+<code>
+<span class="key">management.endpoints.web.exposure.includescaches</span>
+<span class="key">management.endpoint.caches.enabled</span>=<span class="value">true</span>
+</code>
+</pre>
+
+    <h3>Access via: /actuator/caches</h3>
+
+    <h3>Custom Cache Statistics</h3>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Autowired</span>
+<span class="keyword">private</span> <span class="class">CacheManager</span> <span class="var">cacheManager</span>;
+
+<span class="keyword">public</span> <span class="class">void</span> <span class="method">logiccheStats</span>() {
+<span class="var">cacheManager</span>.<span class="method">getCacheNames</span>().<span
+        class="method">forEach</span>(<span class="var">name</span> -> {
+<span class="class">Cache</span> <span class="var">cache</span> = <span class="var">cacheManager</span>.<span
+        class="method">getCache</span>(<span class="var">name</span>);
+<span class="keyword">if</span> (<span class="var">cache</span>.<span class="method">getNativeCache</span>() <span
+        class="keyword">instanceof</span> com.github.bennames.caffeine.cache.Cache) {
+com.github.bennames.caffeine.cache.Cache <span class="var">nativeCache</span> =
+(com.github.bennames.caffeine.cache.Cache) <span class="var">cache</span>.<span class="method">getNativeCache</span>();
+<span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span class="string">"Cache "</span> + <span
+        class="var">name</span> + <span class="string">" stats: "</span> + <span class="var">nativeCache</span>.<span
+        class="method">stats</span>());
+}
+});
+</code>
+</pre>
+
+    <p>Here's a detailed comparison table of Spring's caching annotations, including their attributes and usage
+        scenarios:</p>
+
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Annotation</th>
+                <th>Purpose</th>
+                <th>Key Attributes</th>
+                <th>Example</th>
+                <th>When to Use</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>@Cacheable</td>
+                <td>Marks methods whose results should be cached</td>
+                <td>value / cacheName s, key, condition, unless, keyGenerator, sync</td>
+                <td>@Cacheable("pro ducts", key="#id")</td>
+                <td>For read-heavy operations where results don't change frequently</td>
+            </tr>
+            <tr>
+                <td>@CachePut</td>
+                <td>Updates cache without preventing method execution</td>
+                <td>value, key, condition, unless, keyGenerator</td>
+                <td>@CachePut(value="products", key="#product.id")</td>
+                <td>When you need to update cache after method execution</td>
+            </tr>
+            <tr>
+                <td>@CacheExict</td>
+                <td>Removes entries from cache</td>
+                <td>value, key, allEntries, beforeInvocation, condition</td>
+                <td>@CacheExict("pro ducts", key="#id")</td>
+                <td>After create/update/delete operations</td>
+            </tr>
+            <tr>
+                <td>@Caching</td>
+                <td>Groups multiple cache operations</td>
+                <td>cacheable, put, evict</td>
+                <td>@Caching(evict={@CacheEvict("primary"), @CacheEvict(value="secondary", allEntries=true)})</td>
+                <td>When needing multiple cache operations in one method</td>
+            </tr>
+            <tr>
+                <td>@CacheConfig</td>
+                <td>Shared cache configuration at class level</td>
+                <td>cacheNames, keyGenerator, cacheManager, cacheResolver</td>
+                <td>@CacheConfig(cacheNames="products")</td>
+                <td>When multiple methods in a class use the same cache configuration</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h4>Detailed Attribute Explanations:</h4>
+
+    <p>Common Attributes (for @Cacheable, @CachePut, @CacheEvict):</p>
+
+    <p>1. value/cacheNames</p>
+    <ul>
+        <li>Specifies cache names (e.g., "products")</li>
+        <li>Multiple caches: @Cacheable({"products", "promotions"})</li>
+    </ul>
+
+    <p>2. key</p>
+    <ul>
+        <li>SpEL expression for custom cache key</li>
+        <li>Examples:
+            <ul>
+                <li>#id (method parameter)</li>
+                <li>#product.id (nested property)</li>
+                <li>T(java.lang.Math).random() * 100 (static method)</li>
+            </ul>
+        </li>
+    </ul>
+
+    <p>3. condition</p>
+    <ul>
+        <li>SpEL condition to determine if caching should occur</li>
+        <li>Example: condition="#id > 10"</li>
+    </ul>
+
+    <p>4. unless</p>
+    <ul>
+        <li>SpEL to veto caching based on method result</li>
+    </ul>
+    <p>• Example: unless="#result == null || #result.price < 100"</p>
     <br>
     <hr>
     <br>

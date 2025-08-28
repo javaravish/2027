@@ -21,6 +21,432 @@
 
 <!-- Main Content Section -->
 <main id="content">
+    <h3>Spring Security</h3>
+
+    <p>In <strong>Spring Boot</strong>, <strong>Authentication</strong> and <strong>Authorization</strong> are two distinct but complementary concepts that are essential to securing applications. Let's understand them one by one in the context of Spring Boot and Spring Security.</p>
+
+    <h3>1. Authentication Vs Authorization</h3>
+
+    <h3>● Authentication</h3>
+    <p><strong>Definition</strong>: Verifying <strong>who the user is</strong> (i.e., identity verification).</p>
+
+    <p>Parse JWT token, verify signature and user details.</p>
+
+    <p><strong>In Spring Boot:</strong></p>
+
+    <ul>
+        <li>Authentication checks <strong>credentials</strong> (like username/password, JWT token, OAuth token).</li>
+        <li>Once authenticated, the user's identity is stored in a <code>SecurityContext</code>.</li>
+    </ul>
+
+    <p><strong>Example Flow:</strong></p>
+
+    <pre class="java-code">
+  <code>
+    <span class="annotation">[@Override]</span>
+    <span class="keyword">protected void</span> <span class="method">configure</span>(<span class="class">AuthenticationManagerBuilder</span> <span class="var">auth</span>) <span class="keyword">throws</span> <span class="class">Exception</span> {
+        <span class="var">auth</span>.<span class="method">inMemoryAuthentication</span>()
+        .<span class="method">withUser</span>(<span class="string">"user"</span>)
+        .<span class="method">password</span>(<span class="string">"/noopPassword"</span>)
+        .<span class="method">roles</span>(<span class="string">"USER"</span>);
+    }
+  </code>
+</pre>
+
+    <h3>● Authorization</h3>
+    <p><strong>Definition</strong>: Determining <strong>what a user is allowed to do</strong> (i.e., access control).</p>
+
+    <p>Check roles/claims in token to allow access to endpoints.</p>
+
+    <p><strong>In Spring Boot:</strong></p>
+
+    <ul>
+        <li>Based on <strong>roles or permissions</strong>, it restricts or allows access to resources.</li>
+        <li>Happens <strong>after authentication</strong>.</li>
+    </ul>
+
+    <p><strong>Common Usage:</strong></p>
+
+    <ul>
+        <li>Role-based access to endpoints or methods</li>
+        <li>URL-based security</li>
+        <li>Method-level security (e.g., @PreAuthorize, @Secured)</li>
+    </ul>
+
+    <p><strong>Example:</strong></p>
+
+    <pre class="java-code">
+  <code>
+    <span class="annotation">[@Override]</span>
+    <span class="keyword">protected void</span> <span class="method">configure</span>(<span class="class">HttpSecurity</span> <span class="var">http</span>) <span class="keyword">throws</span> <span class="class">Exception</span> {
+        <span class="var">http</span>
+        .<span class="method">authorizeRequests</span>()
+        .<span class="method">antMatchers</span>(<span class="string">"/admin/**"</span>).<span class="method">hasRole</span>(<span class="string">"ADMIN"</span>)
+        .<span class="method">antMatchers</span>(<span class="string">"/user/**"</span>).<span class="method">hasAnyRole</span>(<span class="string">"USER"</span>, <span class="string">"ADMIN"</span>)
+        .<span class="method">anyRequest</span>().<span class="method">authenticated</span>()
+        .<span class="method">and</span>()
+        .<span class="method">formLogin</span>();
+    }
+  </code>
+</pre>
+
+    <p>Tabular Difference</p>
+
+    <div class="table-container">
+        <br>
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Feature</th>
+                <th>Authentication</th>
+                <th>Authorization</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Purpose</td>
+                <td>Validate user identity</td>
+                <td>Grant or deny access to resources</td>
+            </tr>
+            <tr>
+                <td>Question</td>
+                <td>"Who are you?"</td>
+                <td>"What are you allowed to do?"</td>
+            </tr>
+            <tr>
+                <td>When</td>
+                <td>First</td>
+                <td>After authentication</td>
+            </tr>
+            <tr>
+                <td>Data checked</td>
+                <td>Username, password, token, etc.</td>
+                <td>User roles, permissions</td>
+            </tr>
+            <tr>
+                <td>Spring Tool</td>
+                <td>AuthenticationManager, UserDetails</td>
+                <td>AccessDecisionManager, @PreAuthorize</td>
+            </tr>
+            <tr>
+                <td>Outcome</td>
+                <td>Establishes user identity ( SecurityContext )</td>
+                <td>Allows/denies access to certain paths/methods</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>2. What is Password Hashing?</h3>
+
+    <p>Hashing is a one-way encryption technique that converts data (like passwords) into a fixed-length string, and you can't reverse it.</p>
+
+    <p>Spring Security never stores or compares raw passwords directly.</p>
+
+    <pre class="java-code">
+  <code>
+    <span class="annotation">@Configuration</span>
+    <span class="keyword">public class</span> <span class="class">SecurityConfig</span> {
+        <span class="annotation">@Bean</span>
+        <span class="keyword">public</span> <span class="class">PasswordEncoder</span> <span class="method">passwordEncoder</span>() {
+            <span class="keyword">return new</span> <span class="class">BCryptPasswordEncoder</span>();
+        }
+        <span class="comment">// Or use Argon2 / PBKDF2 / SCrypt</span>
+    }
+  </code>
+</pre>
+
+    <h3>3. JWT (JSON Web Token) Authentication Flow</h3>
+
+    <ol>
+        <li>Authentication: User logs in with credentials</li>
+        <li>Token Generation: Server validates credentials and issues JWT</li>
+        <li>Token Storage: Client stores the token (typically in localStorage or cookies)</li>
+        <li>Authorization: Client sends token with subsequent requests</li>
+        <li>Token Validation: Server validates token for each protected request</li>
+    </ol>
+
+    <p>Token Types</p>
+
+    <ol>
+        <li>Access Token: Short-lived (minutes/hours) for API access</li>
+        <li>Refresh Token: Longer-lived (days/weeks) to obtain new access tokens</li>
+    </ol>
+
+    <h3>1. Implementation in Spring Boot 3</h3>
+
+    <h4>1. Dependencies (pom.xml)</h4>
+
+    <pre class="code-block">
+  <code>
+    <span class="tag">&lt;dependencies&gt;</span>
+        <span class="comment">&lt;!-- Spring Boot Starter Security --&gt;</span>
+        <span class="tag">&lt;dependency&gt;</span>
+        <span class="tag">&lt;groupId&gt;</span>org.springframework.boot<span class="tag">&lt;/groupId&gt;</span>
+        <span class="tag">&lt;artifactId&gt;</span>spring-boot-starter-security<span class="tag">&lt;/artifactId&gt;</span>
+        <span class="tag">&lt;/dependency&gt;</span>
+        <span class="comment">&lt;!-- JWT Support --&gt;</span>
+        <span class="tag">&lt;dependency&gt;</span>
+        <span class="tag">&lt;groupId&gt;</span>io.jsonwebtoken<span class="tag">&lt;/groupId&gt;</span>
+        <span class="tag">&lt;artifactId&gt;</span>jwt-api<span class="tag">&lt;/artifactId&gt;</span>
+        <span class="tag">&lt;version&gt;</span>0.11.5<span class="tag">&lt;/version&gt;</span>
+        <span class="tag">&lt;/dependency&gt;</span>
+        <span class="tag">&lt;dependency&gt;</span>
+        <span class="tag">&lt;groupId&gt;</span>io.jsonwebtoken<span class="tag">&lt;/groupId&gt;</span>
+        <span class="tag">&lt;artifactId&gt;</span>jwt-impl<span class="tag">&lt;/artifactId&gt;</span>
+        <span class="tag">&lt;version&gt;</span>0.11.5<span class="tag">&lt;/version&gt;</span>
+        <span class="tag">&lt;scope&gt;</span>runtime<span class="tag">&lt;/scope&gt;</span>
+        <span class="tag">&lt;/dependency&gt;</span>
+        <span class="tag">&lt;dependency&gt;</span>
+        <span class="tag">&lt;groupId&gt;</span>io.jsonwebtoken<span class="tag">&lt;/groupId&gt;</span>
+        <span class="tag">&lt;artifactId&gt;</span>jwt-jackson<span class="tag">&lt;/artifactId&gt;</span>
+        <span class="tag">&lt;version&gt;</span>0.11.5<span class="tag">&lt;/version&gt;</span>
+        <span class="tag">&lt;scope&gt;</span>runtime<span class="tag">&lt;/scope&gt;</span>
+        <span class="tag">&lt;/dependency&gt;</span>
+    <span class="tag">&lt;/dependencies&gt;</span>
+  </code>
+</pre>
+
+    <h4>2. JWT Utility Class</h4>
+
+    <pre class="java-code">
+  <code>
+    <span class="keyword">import</span> io.jsonwebtoken.*;
+    <span class="keyword">import</span> io.jsonwebtoken.io.Decoders;
+    <span class="keyword">import</span> io.jsonwebtoken.security.keys;
+    <span class="keyword">import</span> org.springframework.beans.factory.annotation.Value;
+    <span class="keyword">import</span> org.springframework.security.core.userdetails.UserDetails;
+    <span class="keyword">import</span> org.springframework.stereotype.Service;
+    <span class="keyword">import</span> java.security.key;
+    <span class="keyword">import</span> java.util.Date;
+    <span class="keyword">import</span> java.util.HashMap;
+    <span class="keyword">import</span> java.util.Map;
+    <span class="keyword">import</span> java.util.function.Function;
+    <span class="annotation">@Service</span>
+    <span class="keyword">public class</span> <span class="class">JwtService</span> {
+        <span class="annotation">@Value</span>(<span class="string">"${application.security.jwt.secret-key}"</span>)
+        <span class="keyword">private</span> <span class="class">String</span> <span class="var">secretKey</span>;
+        <span class="annotation">@Value</span>(<span class="string">"${application.security.jwt.expliration}"</span>)
+        <span class="keyword">private</span> <span class="class">long</span> <span class="var">jwtExpiration</span>;
+        <span class="annotation">@Value</span>(<span class="string">"${application.security.jwt.refresh-token.expliration}"</span>)
+        <span class="keyword">private</span> <span class="class">long</span> <span class="var">refreshExpiration</span>;
+
+        <span class="keyword">public</span> <span class="class">String</span> <span class="method">extractUsername</span>(<span class="class">String</span> <span class="var">token</span>) {
+            <span class="keyword">return</span> <span class="method">extractClaim</span>(<span class="var">token</span>, <span class="class">Claims</span>::getSubject);
+        }
+
+        <span class="keyword">public</span> &lt;l&gt; <span class="class">T</span> <span class="method">extractClaim</span>(<span class="class">String</span> <span class="var">token</span>, <span class="class">Function</span>&lt;<span class="class">Claims</span>, l&gt; <span class="var">claimsResolver</span>) {
+            <span class="keyword">final</span> <span class="class">Claims</span> <span class="var">claims</span> = <span class="method">extractAllClaims</span>(<span class="var">token</span>);
+            <span class="keyword">return</span> <span class="var">claimsResolver</span>.<span class="method">apply</span>(<span class="var">claims</span>);
+        }
+
+        <span class="keyword">public</span> <span class="class">String</span> <span class="method">generateToken</span>(<span class="class">UserDetails</span> <span class="var">userDetails</span>) {
+            <span class="keyword">return</span> <span class="method">generateToken</span>(<span class="keyword">new</span> <span class="class">HashMap</span>&lt;&gt;(), <span class="var">userDetails</span>);
+        }
+
+        <span class="keyword">public</span> <span class="class">String</span> <span class="method">generateToken</span>(<span class="class">Nap</span>&lt;<span class="class">String</span>, <span class="class">Object</span>&gt; <span class="var">extraClaims</span>,
+            <span class="class">UserDetails</span> <span class="var">userDetails</span>) {
+            <span class="keyword">return</span> <span class="method">buildToken</span>(<span class="var">extraClaims</span>, <span class="var">userDetails</span>, <span class="var">jwtExpiration</span>);
+        }
+
+        <span class="keyword">public</span> <span class="class">String</span> <span class="method">generateRefreshToken</span>(<span class="class">UserDetails</span> <span class="var">userDetails</span>) {
+            <span class="keyword">return</span> <span class="method">buildToken</span>(<span class="keyword">new</span> <span class="class">HashMap</span>&lt;&gt;(), <span class="var">userDetails</span>, <span class="var">refreshExpiration</span>);
+        }
+
+        <span class="keyword">private</span> <span class="class">String</span> <span class="method">buildToken</span>(
+            <span class="class">Map</span>&lt;<span class="class">String</span>, <span class="class">Object</span>&gt; <span class="var">extraClaims</span>,
+            <span class="class">UserDetails</span> <span class="var">userDetails</span>,
+            <span class="class">long</span> <span class="var">expiration</span>) {
+            <span class="keyword">return</span> <span class="class">Jwt$</span>
+            .<span class="method">builder</span>()
+            .<span class="method">setClaims</span>(<span class="var">extraClaims</span>)
+            .<span class="method">setSubject</span>(<span class="var">userDetails</span>.<span class="method">getUsername</span>())
+            .<span class="method">setIssueAt</span>(<span class="keyword">new</span> <span class="class">Date</span>(<span class="class">System</span>.<span class="method">currentTimeMillis</span>())
+            .<span class="method">setExpiration</span>(<span class="keyword">new</span> <span class="class">Date</span>(<span class="class">System</span>.<span class="method">currentTimeMillis</span>() + <span class="var">expiration</span>))
+            .<span class="method">signWith</span>(<span class="method">getSignInKey</span>(), <span class="class">SignatureAlgorithm</span>.<span class="var">HS256</span>)
+            .<span class="method">compact</span>();
+        }
+
+        <span class="keyword">public</span> <span class="class">boolean</span> <span class="method">isTokenValid</span>(<span class="class">String</span> <span class="var">token</span>, <span class="class">UserDetails</span> <span class="var">userDetails</span>) {
+            <span class="keyword">final</span> <span class="class">String</span> <span class="var">username</span> = <span class="method">extractUsername</span>(<span class="var">token</span>);
+            <span class="keyword">return</span> (<span class="var">username</span>.<span class="method">equals</span>(<span class="var">userDetails</span>.<span class="method">getUsername</span>()));
+            && !<span class="method">isTokenExpired</span>(<span class="var">token</span>);
+        }
+
+        <span class="keyword">private</span> <span class="class">boolean</span> <span class="method">isTokenExpired</span>(<span class="class">String</span> <span class="var">token</span>) {
+            <span class="keyword">return</span> <span class="method">extractExpiration</span>(<span class="var">token</span>).<span class="method">before</span>(<span class="keyword">new</span> <span class="class">Date</span>());
+        }
+
+        <span class="keyword">private</span> <span class="class">Date</span> <span class="method">extractExpiration</span>(<span class="class">String</span> <span class="var">token</span>) {
+            <span class="keyword">return</span> <span class="method">extractClaim</span>(<span class="var">token</span>, <span class="class">Claims</span>::getExpiration);
+        }
+
+        <span class="keyword">private</span> <span class="class">Claims</span> <span class="method">extractAllClaims</span>(<span class="class">String</span> <span class="var">token</span>) {
+            <span class="keyword">return</span> <span class="class">Jwt$</span>
+            .<span class="method">parserBuilder</span>()
+            .<span class="method">setSigningKey</span>(<span class="method">getSignInKey</span>())
+            .<span class="method">build</span>()
+            .<span class="method">parseClaimsJws</span>(<span class="var">token</span>)
+            .<span class="method">getBody</span>();
+        }
+
+        <span class="keyword">private</span> <span class="class">Key</span> <span class="method">getSignInKey</span>() {
+            <span class="class">byte</span>[] <span class="var">keyBytes</span> = <span class="class">Decoders</span>.<span class="var">BASE64</span>.<span class="method">decode</span>(<span class="var">secretKey</span>);
+            <span class="keyword">return</span> <span class="class">Keys</span>.<span class="method">hmacShakeyFor</span>(<span class="var">keyBytes</span>);
+        }
+    }
+  </code>
+</pre>
+
+    <h4>3. Security Configuration</h4>
+
+    <pre class="java-code">
+  <code>
+    <span class="keyword">import</span> org.springframework.context.annotation.Bean;
+    <span class="keyword">import</span> org.springframework.context.annotation.Configuration;
+    <span class="keyword">import</span> org.springframework.security.authentication.AuthenticationProvider;
+    <span class="keyword">import</span> org.springframework.security.config.annotation.web.builders.HttpSecurity;
+    <span class="keyword">import</span> org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+    <span class="keyword">import</span> org.springframework.security.config.http.SessionCreationPolicy;
+    <span class="keyword">import</span> org.springframework.security.web.SecurityFilterChain;
+    <span class="keyword">import</span> org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+    <span class="annotation">@Configuration</span>
+    <span class="annotation">@EnableWebSecurity</span>
+    <span class="keyword">public class</span> <span class="class">SecurityConfiguration</span> {
+        <span class="keyword">private final_butAuthenticationFilter</span> <span class="var">jwtAuthFilter</span>;
+        <span class="keyword">private final_AuthenticationProvider</span> <span class="var">authenticationProvider</span>;
+
+        <span class="keyword">public</span> <span class="method">SecurityConfiguration</span>(
+            <span class="class">JwtAuthenticationFilter</span> <span class="var">jwtAuthFilter</span>,
+            <span class="class">AuthenticationProvider</span> <span class="var">authenticationProvider</span>) {
+            <span class="keyword">this</span>.<span class="var">jwtAuthFilter</span> = <span class="var">jwtAuthFilter</span>;
+            <span class="keyword">this</span>.<span class="var">authenticationProvider</span> = <span class="var">authenticationProvider</span>;
+        }
+        <span class="annotation">@Bean</span>
+        <span class="keyword">public</span> <span class="class">SecurityFilterChain</span> <span class="method">securityFilterChain</span>(<span class="class">HttpSecurity</span> <span class="var">http</span>) <span class="keyword">throws</span> <span class="class">Exception</span> {
+            <span class="var">http</span>
+            .<span class="method">csrf</span>(csrf -> csrf.<span class="method">disable</span>())
+            .<span class="method">authorizeHttpRequests</span>(auth -> auth
+            .<span class="method">requestMatchers</span>(<span class="string">"/api/v1/auth/**"</span>).<span class="method">permitAll</span>()
+            .<span class="method">requestMatchers</span>(<span class="string">"/api/v1/demo-controller"</span>).<span class="method">hasAnyRole</span>(<span class="string">"USER"</span>, <span class="string">"ADMIN"</span>)
+            .<span class="method">anyRequest</span>().<span class="method">authenticated</span>()
+            )
+            .<span class="method">sessionManagement</span>(sess -> sess.<span class="method">sessionCreationPolicy</span>(<span class="class">SessionCreationPolicy</span>.<span class="var">STATELESS</span>))
+            .<span class="method">authenticationProvider</span>(<span class="var">authenticationProvider</span>)
+            .<span class="method">addFilterBefore</span>(<span class="var">jwtAuthFilter</span>, <span class="class">UsernamePasswordAuthenticationFilter</span>.<span class="keyword">class</span>);
+            <span class="keyword">return</span> <span class="var">http</span>.<span class="method">build</span>();
+        }
+    }
+  </code>
+</pre>
+
+    <h4>4. Authentication Controller</h4>
+
+    <pre class="java-code">
+  <code>
+    <span class="keyword">import</span> lombok.RequiredArgsConstructor;
+    <span class="keyword">import</span> org.springframework.http.ResponseEntity;
+    <span class="keyword">import</span> org.springframework.web.bind.annotation.*;
+    <span class="annotation">@RestController</span>
+    <span class="annotation">@RequestMapping</span>(<span class="string">"/api/v1/auth"</span>)
+    <span class="annotation">@RequiredArgsConstructor</span>
+    <span class="keyword">public class</span> <span class="class">AuthenticationController</span> {
+        <span class="keyword">private final_AuthenticationService</span> <span class="var">service</span>;
+
+        <span class="annotation">@PostMapping</span>(<span class="string">"/register"</span>)
+        <span class="keyword">public</span> <span class="class">ResponseEntity</span>&lt;<span class="class">AuthenticationResponse</span>&gt; <span class="method">register</span>(
+            <span class="annotation">@RequestBody</span> <span class="class">RegisterRequest</span> <span class="var">request</span>
+        ) {
+            <span class="keyword">return</span> <span class="class">ResponseEntity</span>.<span class="method">ok</span>(<span class="var">service</span>.<span class="method">register</span>(<span class="var">request</span>));
+        }
+
+        <span class="annotation">@PostMapping</span>(<span class="string">"/authenticate"</span>)
+        <span class="keyword">public</span> <span class="class">ResponseEntity</span>&lt;<span class="class">AuthenticationResponse</span>&gt; <span class="method">authenticate</span>(
+            <span class="annotation">@RequestBody</span> <span class="class">AuthenticationRequest</span> <span class="var">request</span>
+        ) {
+            <span class="keyword">return</span> <span class="class">ResponseEntity</span>.<span class="method">ok</span>(<span class="var">service</span>.<span class="method">authenticate</span>(<span class="var">request</span>));
+        }
+        <span class="annotation">@PostMapping</span>(<span class="string">"/refresh-token"</span>)
+        <span class="keyword">public</span> <span class="class">ResponseEntity</span>&lt;<span class="class">AuthenticationResponse</span>&gt; <span class="method">refreshToken</span>(
+            <span class="annotation">@RequestBody</span> <span class="class">RefreshTokenRequest</span> <span class="var">request</span>
+        ) {
+            <span class="keyword">return</span> <span class="class">ResponseEntity</span>.<span class="method">ok</span>(<span class="var">service</span>.<span class="method">refreshToken</span>(<span class="var">request</span>));
+        }
+    }
+  </code>
+</pre>
+
+    <h4>5. Authentication Service</h4>
+
+    <pre class="java-code">
+  <code>
+    <span class="keyword">import</span> lombok.RequiredArgsConstructor;
+    <span class="keyword">import</span> org.springframework.security.authentication.AuthenticationManager;
+    <span class="keyword">import</span> org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+    <span class="keyword">import</span> org.springframework.security.crypto.password.PasswordEncoder;
+    <span class="keyword">import</span> org.springframework.stereotype.Service;
+    <span class="annotation">@Service</span>
+    <span class="annotation">@RequiredArgsConstructor</span>
+    <span class="keyword">public class</span> <span class="class">AuthenticationService</span> {
+        <span class="keyword">private final</span> <span class="class">UserRepository</span> <span class="var">repository</span>;
+        <span class="keyword">private final</span> <span class="class">PasswordEncoder</span> <span class="var">passwordEncoder</span>;
+        <span class="keyword">private final</span> <span class="class">JwtService</span> <span class="var">jwtService</span>;
+        <span class="keyword">private final</span> <span class="class">AuthenticationManager</span> <span class="var">authenticationManager</span>;
+
+        <span class="keyword">public</span> <span class="class">AuthenticationResponse</span> <span class="method">register</span>(<span class="class">Request</span> <span class="var">request</span>) {
+            <span class="class">var</span> <span class="var">user</span> = <span class="class">User</span>.<span class="method">builder</span>()
+            .<span class="method">firstname</span>(<span class="var">request</span>.<span class="method">getFirstname</span>())
+            .<span class="method">lastname</span>(<span class="var">request</span>.<span class="method">getLastname</span>())
+            .<span class="method">email</span>(<span class="var">request</span>.<span class="method">getEmail</span>())
+            .<span class="method">password</span>(<span class="var">passwordEncoder</span>.<span class="method">encode</span>(<span class="var">request</span>.<span class="method">getPassword</span>())
+            .<span class="method">role</span>(<span class="class">Role</span>.<span class="var">USER</span>)
+            .<span class="method">build</span>();
+            <span class="var">repository</span>.<span class="method">save</span>(<span class="var">user</span>);
+            <span class="class">var</span> <span class="var">jwtToken</span> = <span class="var">jwtService</span>.<span class="method">generateToken</span>(<span class="var">user</span>);
+            <span class="class">var</span> <span class="var">refreshToken</span> = <span class="var">jwtService</span>.<span class="method">generateRefreshToken</span>(<span class="var">user</span>);
+            <span class="keyword">return</span> <span class="class">AuthenticationResponse</span>.<span class="method">builder</span>()
+            .<span class="method">accessToken</span>(<span class="var">jwtToken</span>)
+            .<span class="method">refreshToken</span>(<span class="var">refreshToken</span>)
+            .<span class="method">build</span>();
+        }
+
+        <span class="keyword">public</span> <span class="class">AuthenticationResponse</span> <span class="method">authenticate</span>(<span class="class">AuthenticationRequest</span> <span class="var">request</span>) {
+            <span class="var">authenticationManager</span>.<span class="method">authenticate</span>(
+                <span class="keyword">new</span> <span class="class">UsernamePasswordAuthenticationToken</span>(
+                    <span class="var">request</span>.<span class="method">getEmail</span>(),
+                    <span class="var">request</span>.<span class="method">getPassword</span>()
+                )
+            );
+            <span class="class">var</span> <span class="var">user</span> = <span class="var">repository</span>.<span class="method">findByEmail</span>(<span class="var">request</span>.<span class="method">getEmail</span>())
+            .<span class="method">orElseThrow</span>();
+
+            <span class="class">var</span> <span class="var">jwtToken</span> = <span class="var">jwtService</span>.<span class="method">generateToken</span>(<span class="var">user</span>);
+            <span class="class">var</span> <span class="var">refreshToken</span> = <span class="var">jwtService</span>.<span class="method">generateRefreshToken</span>(<span class="var">user</span>);
+            <span class="keyword">return</span> <span class="class">AuthenticationResponse</span>.<span class="method">builder</span>()
+            .<span class="method">accessToken</span>(<span class="var">jwtToken</span>)
+            .<span class="method">refreshToken</span>(<span class="var">refreshToken</span>)
+            .<span class="method">build</span>();
+        }
+
+        <span class="keyword">public</span> <span class="class">AuthenticationResponse</span> <span class="method">refreshToken</span>(<span class="class">RefreshTokenRequest</span> <span class="var">request</span>) {
+            <span class="class">String</span> <span class="var">refreshToken</span> = <span class="var">request</span>.<span class="method">getRefreshToken</span>();
+            <span class="class">String</span> <span class="var">userEmail</span> = <span class="var">jwtService</span>.<span class="method">extractUsername</span>(<span class="var">refreshToken</span>);
+            <span class="keyword">if</span> (<span class="var">userEmail</span> != <span class="keyword">null</span>) {
+                <span class="class">var</span> <span class="var">user</span> = <span class="var">repository</span>.<span class="method">findByEmail</span>(<span class="var">userEmail</span>)
+                .<span class="method">orElseThrow</span>();
+                <span class="keyword">if</span> (<span class="var">jwtService</span>.<span class="method">isTokenValid</span>(<span class="var">refreshToken</span>, <span class="var">user</span>)) {
+                    <span class="class">var</span> <span class="var">accessToken</span> = <span class="var">jwtService</span>.<span class="method">generateToken</span>(<span class="var">user</span>);
+                    <span class="keyword">return</span> <span class="class">AuthenticationResponse</span>.<span class="method">builder</span>()
+                    .<span class="method">accessToken</span>(<span class="var">accessToken</span>)
+                    .<span class="method">refreshToken</span>(<span class="var">refreshToken</span>)
+                    .<span class="method">build</span>();
+                }
+            }
+            <span class="keyword">throw new</span> <span class="class">RuntimeException</span>(<span class="string">"Invalid refresh token"</span>);
+        }
+    }
+  </code>
+</pre>
 
     <br>
     <hr>

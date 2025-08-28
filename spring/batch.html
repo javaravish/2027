@@ -22,6 +22,493 @@
 <!-- Main Content Section -->
 <main id="content">
 
+    <h3>1. Spring Batch : </h3>
+
+    <p>Spring Batch is a lightweight framework for batch processing in Spring applications. This guide covers Spring Batch 5 (the latest version as of Spring Boot 3.x) with practical examples and best practices.</p>
+
+    <h3>1. Core Concepts</h3>
+
+    <div class="table-container">
+        <br>
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Component</th>
+                <th>Purpose</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Job</td>
+                <td>The batch process to execute (contains steps)</td>
+            </tr>
+            <tr>
+                <td>Step</td>
+                <td>A phase of job execution (chunk or tasklet)</td>
+            </tr>
+            <tr>
+                <td>ItemReader</td>
+                <td>Reads input data</td>
+            </tr>
+            <tr>
+                <td>ItemProcessor</td>
+                <td>Processes business logic</td>
+            </tr>
+            <tr>
+                <td>ItemWriter</td>
+                <td>Writes output data</td>
+            </tr>
+            <tr>
+                <td>JobRepository</td>
+                <td>Stores job metadata</td>
+            </tr>
+            <tr>
+                <td>JobLauncher</td>
+                <td>Starts job execution</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p><strong>Batch Processing Types</strong></p>
+
+    <ol>
+        <li><strong>Chunk-oriented</strong> - Process items in chunks (read-process-write)</li>
+        <li><strong>Tasklet</strong> - Single operation (file cleanup, etc.)</li>
+    </ol>
+    <br>
+    <hr>
+    <h3>2. Setup Spring Batch</h3>
+
+    <p><strong>Dependencies (Maven)</strong></p>
+
+    <pre class="code-block">
+  <code>
+    <span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>org.springframework.boot<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>spring-boot-starter-batch<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;/dependency&gt;</span>
+    <span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>com.h2database<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>h2<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;scope&gt;</span>runtime<span class="tag">&lt;/scope&gt;</span>
+    <span class="tag">&lt;/dependency&gt;</span>
+  </code>
+</pre>
+
+    <p>Enable Batch Processing</p>
+
+    <pre class="java-code">
+  <code>
+    <span class="annotation">@SpringBootApplication</span>
+    <span class="annotation">@EnableBatchProcessing</span>
+    <span class="keyword">public class</span> <span class="class">BatchApplication</span> {
+        <span class="keyword">public static</span> <span class="class">void</span> <span class="method">main</span>(<span class="class">String</span>[] <span class="var">args</span>) {
+        <span class="class">SpringApplication</span>.<span class="method">run</span>(<span class="class">BatchApplication</span>.<span class="keyword">class</span>, <span class="var">args</span>);
+    }
+  </code>
+</pre>
+    <br>
+    <hr>
+    <h3>3. Creating a Basic Job</h3>
+
+    <p>Job Configuration</p>
+
+    <pre class="java-code">
+  <code>
+    <span class="annotation">@Configuration</span>
+    <span class="keyword">public class</span> <span class="class">BatchConfig</span> {
+
+    <span class="annotation">@Autowired</span>
+    <span class="keyword">private</span> <span class="class">JobBuilderFactory</span> <span class="var">jobBuilderFactory</span>;
+
+    <span class="annotation">@Autowired</span>
+    <span class="keyword">private</span> <span class="class">StepBuilderFactory</span> <span class="var">stepBuilderFactory</span>;
+
+    <span class="annotation">@Bean</span>
+    <span class="keyword">public</span> <span class="class">Job</span> <span class="method">importUserJob</span>(<span class="class">Step</span> <span class="var">step1</span>) {
+        <span class="keyword">return</span> <span class="var">jobBuilderFactory</span>.<span class="method">get</span>(<span class="string">"importUserJob"</span>)
+        .<span class="method">incrementer</span>(<span class="keyword">new</span> <span class="class">RunIdIncrementer</span>())
+        .<span class="method">flow</span>(<span class="var">step1</span>)
+        .<span class="method">end</span>()
+        .<span class="method">build</span>();
+    }
+
+    <span class="annotation">@Bean</span>
+    <span class="keyword">public</span> <span class="class">Step</span> <span class="method">step1</span>(<span class="class">ItemReader</span>&lt;<span class="class">User</span>&gt; <span class="var">reader</span>,
+    <span class="class">ItemProcessor</span>&lt;<span class="class">User</span>, <span class="class">User</span>&gt; <span class="var">processor</span>,
+    <span class="class">ItemWriter</span>&lt;<span class="class">User</span>&gt; <span class="var">writer</span>) {
+        <span class="keyword">return</span> <span class="var">stepBuilderFactory</span>.<span class="method">get</span>(<span class="string">"step1"</span>)
+        .&lt;<span class="class">User</span>, <span class="class">User</span>&gt;<span class="method">chunk</span>(<span class="number">10</span>) <span class="comment">// Process 10 items at a time</span>
+        .<span class="method">reader</span>(<span class="var">reader</span>)
+        .<span class="method">processor</span>(<span class="var">processor</span>)
+        .<span class="method">writer</span>(<span class="var">writer</span>)
+        .<span class="method">build</span>();
+    }
+    }
+  </code>
+</pre>
+    <br>
+    <hr>
+    <h3>4. Implementing Reader, Processor, Writer</h3>
+
+    <p>ItemReader (Flat File Example)</p>
+
+    <pre class="java-code">
+  <code>
+    <span class="annotation">@Bean</span>
+    <span class="keyword">public</span> <span class="class">FlatFileItemReader</span>&lt;<span class="class">User</span>&gt; <span class="method">reader</span>() {
+        <span class="keyword">return new</span> <span class="class">FlatFileItemReaderBuilder</span>&lt;<span class="class">User</span>&gt;()
+        .<span class="method">name</span>(<span class="string">"userItemReader"</span>)
+        .<span class="method">resource</span>(<span class="keyword">new</span> <span class="class">ClassPathResource</span>(<span class="string">"users.csv"</span>))
+        .<span class="method">delimited</span>()
+        .<span class="method">names</span>(<span class="string">"id"</span>, <span class="string">"firstName"</span>, <span class="string">"lastName"</span>)
+        .<span class="method">fieldSetMapper</span>(<span class="keyword">new</span> <span class="class">BeamWrapperFieldSetMapper</span>&lt;<span class="class">User</span>&gt;() {
+            <span class="method">setTargetType</span>(<span class="class">User</span>.<span class="keyword">class</span>);
+        })
+        .<span class="method">build</span>();
+    }
+  </code>
+</pre>
+
+    <p>ItemProcessor</p>
+
+    <pre class="java-code">
+  <code>
+    <span class="keyword">public class</span> <span class="class">UserProcessor</span> <span class="keyword">implements</span> <span class="class">ItemProcessor</span>&lt;<span class="class">User</span>, <span class="class">User</span>&gt; {
+        <span class="annotation">@Override</span>
+        <span class="keyword">public</span> <span class="class">User</span> <span class="method">process</span>(<span class="class">User</span> <span class="var">user</span>) {
+            <span class="comment">// Transform data</span>
+            <span class="class">String</span> <span class="var">fullName</span> = <span class="var">user</span>.<span class="method">getFirstName</span>() + <span class="string">" "</span> + <span class="var">user</span>.<span class="method">getLastName</span>();
+            <span class="var">user</span>.<span class="method">setFullName</span>(<span class="var">fullName</span>);
+            <span class="keyword">return</span> <span class="var">user</span>;
+        }
+    }
+  </code>
+</pre>
+
+    <p>ItemWriter (JPA Example)</p>
+
+    <pre class="java-code">
+  <code>
+    <span class="annotation">@Bean</span>
+    <span class="keyword">public</span> <span class="class">JpaItemWriter</span>&lt;<span class="class">User</span>&gt; <span class="method">writer</span>(<span class="class">EntityManagerFactory</span> <span class="var">entityManagerFactory</span>) {
+        <span class="keyword">return new</span> <span class="class">JpaItemWriterBuilder</span>&lt;<span class="class">User</span>&gt;()
+        .<span class="method">entityManagerFactory</span>(<span class="var">entityManagerFactory</span>)
+        .<span class="method">build</span>();
+    }
+  </code>
+</pre>
+    <br>
+    <hr>
+    <h3>5. Job Parameters & Execution</h3>
+
+    <p>Launching Jobs</p>
+
+    <pre class="java-code">
+  <code>
+    <span class="annotation">@RestController</span>
+    <span class="keyword">public class</span> <span class="class">JobController</span> {
+
+        <span class="annotation">@Autowired</span>
+        <span class="keyword">private</span> <span class="class">JobLauncher</span> <span class="var">jobLauncher</span>;
+
+        <span class="annotation">@Autowired</span>
+        <span class="keyword">private</span> <span class="class">Job</span> <span class="var">importUserJob</span>;
+
+        <span class="annotation">@GetMapping</span>(<span class="string">"/run-job"</span>)
+        <span class="keyword">public</span> <span class="class">String</span> <span class="method">runJob</span>() <span class="keyword">throws</span> <span class="class">Exception</span> {
+            <span class="class">JobParameters</span> <span class="var">params</span> = <span class="keyword">new</span> <span class="class">JobParametersBuilder</span>()
+            .<span class="method">addString</span>(<span class="string">"JobID"</span>, <span class="class">String</span>.<span class="method">valueOf</span>(<span class="class">System</span>.<span class="method">currentTimeMillis</span>()))
+            .<span class="method">toJobParameters</span>();
+
+            <span class="var">jobLauncher</span>.<span class="method">run</span>(<span class="var">importUserJob</span>, <span class="var">params</span>);
+            <span class="keyword">return</span> <span class="string">"Job started"</span>;
+        }
+    }
+  </code>
+</pre>
+    <br>
+    <hr>
+    <h3>6. Advanced Features</h3>
+
+    <p>Conditional Flow</p>
+
+    <pre class="java-code">
+  <code>
+    <span class="annotation">@Bean</span>
+    <span class="keyword">public</span> <span class="class">Job</span> <span class="method">conditionalJob</span>(<span class="class">Step</span> <span class="var">step1</span>, <span class="class">Step</span> <span class="var">step2</span>, <span class="class">Step</span> <span class="var">step3</span>) {
+        <span class="keyword">return</span> <span class="var">jobBuilderFactory</span>.<span class="method">get</span>(<span class="string">"conditionalJob"</span>)
+        .<span class="method">start</span>(<span class="var">step1</span>)
+        .<span class="method">next</span>(<span class="var">step2</span>).<span class="method">on</span>(<span class="string">"FAILED"</span>).<span class="method">to</span>(<span class="var">step3</span>)
+        .<span class="method">from</span>(<span class="var">step2</span>).<span class="method">on</span>(<span class="string">"*"</span>).<span class="method">to</span>(<span class="var">step1</span>)
+        .<span class="method">end</span>()
+        .<span class="method">build</span>();
+    }
+  </code>
+</pre>
+
+    <p>Tasklet Steps</p>
+
+    <pre class="java-code">
+  <code>
+    <span class="annotation">@Bean</span>
+    <span class="keyword">public</span> <span class="class">Step</span> <span class="method">cleanupStep</span>() {
+        <span class="keyword">return</span> <span class="var">stepBuilderFactory</span>.<span class="method">get</span>(<span class="string">"cleanupStep"</span>)
+        .<span class="method">tasklet</span>((<span class="var">contribution</span>, <span class="var">chunkContext</span>) -&gt; {
+            <span class="comment">// Cleanup logic</span>
+            <span class="keyword">return</span> <span class="class">RepeatStatus</span>.<span class="var">FINISHED</span>;
+        })
+        .<span class="method">build</span>();
+    }
+  </code>
+</pre>
+
+    <p>Listeners</p>
+
+    <pre class="java-code">
+  <code>
+    <span class="keyword">public class</span> <span class="class">JobCompletionListener</span> <span class="keyword">extends</span> <span class="class">JobExecutionListenerSupport</span> {
+        <span class="annotation">@Override</span>
+        <span class="keyword">public</span> <span class="class">void</span> <span class="method">afterJob</span>(<span class="class">JobExecution</span> <span class="var">jobExecution</span>) {
+            <span class="keyword">if</span> (<span class="var">jobExecution</span>.<span class="method">getStatus</span>() == <span class="class">BatchStatus</span>.<span class="var">COMPLETED</span>) {
+                <span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span class="string">"Job completed successfully"</span>);
+            }
+        }
+    }
+
+    <span class="comment">// Register listener</span>
+    <span class="annotation">@Bean</span>
+    <span class="keyword">public</span> <span class="class">JobExecutionListener</span> <span class="method">listener</span>() {
+        <span class="keyword">return new</span> <span class="class">JobCompletionListener</span>();
+    }
+
+    <span class="comment">// Add to job</span>
+    <span class="annotation">@Bean</span>
+    <span class="keyword">public</span> <span class="class">Job</span> <span class="method">jobWithListener</span>(<span class="class">Step</span> <span class="var">step</span>, <span class="class">JobExecutionListener</span> <span class="var">listener</span>) {
+        <span class="keyword">return</span> <span class="var">jobBuilderFactory</span>.<span class="method">get</span>(<span class="string">"jobWithListener"</span>)
+        .<span class="method">listener</span>(<span class="var">listener</span>)
+        .<span class="method">flow</span>(<span class="var">step</span>)
+        .<span class="method">end</span>()
+        .<span class="method">build</span>();
+    }
+  </code>
+</pre>
+
+    <p>Transaction & Retry</p>
+
+    <p>Transaction Configuration</p>
+
+    <pre class="java-code">
+  <code>
+    <span class="annotation">@Bean</span>
+    <span class="keyword">public</span> <span class="class">Step</span> <span class="method">step1</span>(<span class="class">PlatformTransactionManager</span> <span class="var">transactionManager</span>) {
+        <span class="keyword">return</span> <span class="var">stepBuilderFactory</span>.<span class="method">get</span>(<span class="string">"step1"</span>)
+        .&lt;<span class="class">User</span>, <span class="class">User</span>&gt;<span class="method">chunk</span>(<span class="number">10</span>)
+        .<span class="method">reader</span>(<span class="method">reader</span>())
+        .<span class="method">processor</span>(<span class="method">processor</span>())
+        .<span class="method">writer</span>(<span class="method">writer</span>())
+        .<span class="method">transactionManager</span>(<span class="var">transactionManager</span>)
+        .<span class="method">build</span>();
+    }
+  </code>
+</pre>
+
+    <p>Retry & Skip Logic</p>
+
+    <pre class="java-code">
+  <code>
+    <span class="annotation">@Bean</span>
+    <span class="keyword">public</span> <span class="class">Step</span> <span class="method">faultTolerantStep</span>() {
+        <span class="keyword">return</span> <span class="var">stepBuilderFactory</span>.<span class="method">get</span>(<span class="string">"faultTolerantStep"</span>)
+        .&lt;<span class="class">User</span>, <span class="class">User</span>&gt;<span class="method">chunk</span>(<span class="number">10</span>)
+        .<span class="method">reader</span>(<span class="method">reader</span>())
+        .<span class="method">processor</span>(<span class="method">processor</span>())
+        .<span class="method">writer</span>(<span class="method">writer</span>())
+        .<span class="method">faultTolerant</span>()
+        .<span class="method">skipLimit</span>(<span class="number">10</span>)
+        .<span class="method">skip</span>(<span class="class">FlatFileParseException</span>.<span class="keyword">class</span>)
+        .<span class="method">retryLimit</span>(<span class="number">3</span>)
+        .<span class="method">retry</span>(<span class="class">DecalLockLoserDataAccessException</span>.<span class="keyword">class</span>)
+        .<span class="method">build</span>();
+    }
+  </code>
+</pre>
+    <br>
+    <hr>
+    <h3>7. Scaling Strategies</h3>
+
+    <p>Parallel Steps</p>
+
+    <pre class="java-code">
+  <code>
+    <span class="annotation">@Bean</span>
+    <span class="keyword">public</span> <span class="class">Job</span> <span class="method">parallelStepsJob</span>(<span class="class">Step</span> <span class="var">step1</span>, <span class="class">Step</span> <span class="var">step2</span>) {
+        <span class="keyword">return</span> <span class="var">jobBuilderFactory</span>.<span class="method">get</span>(<span class="string">"parallelStepsJob"</span>)
+        .<span class="method">start</span>(<span class="method">splitFlow</span>(<span class="var">step1</span>, <span class="var">step2</span>))
+        .<span class="method">build</span>()
+        .<span class="method">build</span>();
+    }
+
+    <span class="annotation">@Bean</span>
+    <span class="keyword">public</span> <span class="class">Flow</span> <span class="method">splitFlow</span>(<span class="class">Step</span> <span class="var">step1</span>, <span class="class">Step</span> <span class="var">step2</span>) {
+        <span class="keyword">return new</span> <span class="class">FlowBuilder</span>&lt;<span class="class">String</span>&gt;<span class="method">flow</span>&gt;(<span class="string">"splitFlow"</span>)
+        .<span class="method">split</span>(<span class="keyword">new</span> <span class="class">SimpleAsyncTaskExecutor</span>())
+        .<span class="method">add</span>(<span class="method">flow1</span>(<span class="var">step1</span>), <span class="method">flow2</span>(<span class="var">step2</span>))
+        .<span class="method">build</span>();
+    }
+  </code>
+</pre>
+
+    <p>Partitioning</p>
+
+    <pre class="java-code">
+  <code>
+    <span class="annotation">@Bean</span>
+    <span class="keyword">public</span> <span class="class">Step</span> <span class="method">masterStep</span>() {
+        <span class="keyword">return</span> <span class="var">stepBuilderFactory</span>.<span class="method">get</span>(<span class="string">"masterStep"</span>)
+        .<span class="method">partitioner</span>(<span class="string">"slaveStep"</span>, <span class="method">partitioner</span>())
+        .<span class="method">step</span>(<span class="method">slaveStep</span>())
+        .<span class="method">gridSize</span>(<span class="number">10</span>)
+        .<span class="method">taskExecutor</span>(<span class="method">taskExecutor</span>())
+        .<span class="method">build</span>();
+    }
+  </code>
+</pre>
+    <br>
+    <hr>
+    <h3>8. Monitoring & Management</h3>
+
+    <p>Spring Batch Admin (Deprecated)</p>
+
+    <pre class="code-block">
+  <code>
+    <span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>org.springframework.batch<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>spring-batch-admin-manager<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;version&gt;</span>1.3.1.RELEASE<span class="tag">&lt;/version&gt;</span>
+    <span class="tag">&lt;/dependency&gt;</span>
+  </code>
+</pre>
+
+    <p>Custom Monitoring</p>
+
+    <pre class="java-code">
+  <code>
+    <span class="annotation">@Autowired</span>
+    <span class="keyword">private</span> <span class="class">JobExplorer</span> <span class="var">jobExplorer</span>;
+
+    <span class="keyword">public</span> <span class="class">List</span>&lt;<span class="class">JobInstance</span>&gt; <span class="method">getJobInstances</span>(<span class="class">String</span> <span class="var">jobName</span>) {
+        <span class="keyword">return</span> <span class="var">jobExplorer</span>.<span class="method">getJobInstances</span>(<span class="var">jobName</span>, <span class="number">0</span>, <span class="number">100</span>);
+    }
+  </code>
+</pre>
+    <br>
+    <hr>
+    <h3>9. Best Practices</h3>
+
+    <ol>
+        <li>Use chunk processing for large datasets</li>
+        <li>Externalize job parameters for flexibility</li>
+        <li>Implement proper error handling (skip/retry)</li>
+        <li>Monitor job execution (JobExplorer)</li>
+        <li>Consider restartability (incrementers)</li>
+        <li>Test with in-memory databases during development</li>
+        <li>Use Spring Boot's batch auto-configuration</li>
+        <li>Document job flows for maintenance</li>
+    </ol>
+
+    <hr>
+
+    <h3>Complete Example: CSV to Database Job</h3>
+
+    <h4>Job Configuration</h4>
+
+    <pre class="java-code">
+  <code>
+    <span class="annotation">@Configuration</span>
+    <span class="keyword">public class</span> <span class="class">CsvToDbJobConfig</span> {
+
+        <span class="annotation">@Autowired</span>
+        <span class="keyword">private</span> <span class="class">JobBuilderFactory</span> <span class="var">jobBuilderFactory</span>;
+
+        <span class="annotation">@Autowired</span>
+        <span class="keyword">private</span> <span class="class">StepBuilderFactory</span> <span class="var">stepBuilderFactory</span>;
+
+        <span class="annotation">@Bean</span>
+        <span class="keyword">public</span> <span class="class">Job</span> <span class="method">csvToDbJob</span>(<span class="class">Step</span> <span class="var">csvToDbStep</span>, <span class="class">JobCompletionListener</span> <span class="var">listener</span>) {
+            <span class="keyword">return</span> <span class="var">jobBuilderFactory</span>.<span class="method">get</span>(<span class="string">"csvToDbJob"</span>)
+            .<span class="method">incrementer</span>(<span class="keyword">new</span> <span class="class">RunIdIncrementer</span>())
+            .<span class="method">listener</span>(<span class="var">listener</span>)
+            .<span class="method">flow</span>(<span class="var">csvToDbStep</span>)
+            .<span class="method">end</span>()
+            .<span class="method">build</span>();
+        }
+
+        <span class="annotation">@Bean</span>
+        <span class="keyword">public</span> <span class="class">Step</span> <span class="method">csvToDbStep</span>(<span class="class">ItemReader</span>&lt;<span class="class">User</span>&gt; <span class="var">reader</span>,
+        <span class="class">ItemProcessor</span>&lt;<span class="class">User</span>, <span class="class">User</span>&gt; <span class="var">processor</span>,
+        <span class="class">ItemWriter</span>&lt;<span class="class">User</span>&gt; <span class="var">writer</span>) {
+            <span class="keyword">return</span> <span class="var">stepBuilderFactory</span>.<span class="method">get</span>(<span class="string">"csvToDbStep"</span>)
+            .&lt;<span class="class">User</span>, <span class="class">User</span>&gt;<span class="method">chunk</span>(<span class="number">100</span>)
+            .<span class="method">reader</span>(<span class="var">reader</span>)
+            .<span class="method">processor</span>(<span class="var">processor</span>)
+            .<span class="method">writer</span>(<span class="var">writer</span>)
+            .<span class="method">faultTolerant</span>()
+            .<span class="method">skipLimit</span>(<span class="number">10</span>)
+            .<span class="method">skip</span>(<span class="class">Exception</span>.<span class="keyword">class</span>)
+            .<span class="method">build</span>();
+        }
+
+        <span class="annotation">@Bean</span>
+        <span class="keyword">public</span> <span class="class">FlatFileItemReader</span>&lt;<span class="class">User</span>&gt; <span class="method">reader</span>() {
+            <span class="keyword">return new</span> <span class="class">FlatFileItemReaderBuilder</span>&lt;<span class="class">User</span>&gt;()
+            .<span class="method">name</span>(<span class="string">"userItemReader"</span>)
+            .<span class="method">resource</span>(<span class="keyword">new</span> <span class="class">ClassPathResource</span>(<span class="string">"users.csv"</span>))
+            .<span class="method">delimited</span>()
+            .<span class="method">names</span>(<span class="string">"id"</span>, <span class="string">"firstName"</span>, <span class="string">"lastName"</span>)
+            .<span class="method">fieldSetMapper</span>(<span class="keyword">new</span> <span class="class">BeamWrapperFieldSetMapper</span>&lt;<span class="class">User</span>&gt;() {{
+                <span class="method">setTargetType</span>(<span class="class">User</span>.<span class="keyword">class</span>);
+            }})
+            .<span class="method">build</span>();
+        }
+
+        <span class="annotation">@Bean</span>
+        <span class="keyword">public</span> <span class="class">JpaItemWriter</span>&lt;<span class="class">User</span>&gt; <span class="method">writer</span>(<span class="class">EntityManagerFactory</span> <span class="var">emf</span>) {
+            <span class="keyword">return new</span> <span class="class">JpaItemWriterBuilder</span>&lt;<span class="class">User</span>&gt;()
+            .<span class="method">entityManagerFactory</span>(<span class="var">emf</span>)
+            .<span class="method">build</span>();
+        }
+    }
+  </code>
+</pre>
+
+    <p>Launching the Job</p>
+
+    <pre class="java-code">
+  <code>
+    <span class="annotation">@RestController</span>
+    <span class="keyword">public class</span> <span class="class">JobLauncherController</span> {
+
+        <span class="annotation">@Autowired</span>
+        <span class="keyword">private</span> <span class="class">JobLauncher</span> <span class="var">jobLauncher</span>;
+
+        <span class="annotation">@Autowired</span>
+        <span class="keyword">private</span> <span class="class">Job</span> <span class="var">csvToDbJob</span>;
+
+        <span class="annotation">@PostMapping</span>(<span class="string">"/launch-job"</span>)
+        <span class="keyword">public</span> <span class="class">ResponseEntity</span>&lt;<span class="class">String</span>&gt; <span class="method">launchJob</span>() <span class="keyword">throws</span> <span class="class">Exception</span> {
+            <span class="class">JobParameters</span> <span class="var">jobParameters</span> = <span class="keyword">new</span> <span class="class">JobParametersBuilder</span>()
+            .<span class="method">addString</span>(<span class="string">"JobID"</span>, <span class="class">UUID</span>.<span class="method">randomUUID</span>().<span class="method">toString</span>())
+            .<span class="method">toJobParameters</span>();
+
+            <span class="var">jobLauncher</span>.<span class="method">run</span>(<span class="var">csvToDbJob</span>, <span class="var">jobParameters</span>);
+
+            <span class="keyword">return</span> <span class="class">ResponseEntity</span>.<span class="method">ok</span>(<span class="string">"Batch job started"</span>);
+        }
+    }
+  </code>
+</pre>
     <br>
     <hr>
     <br>

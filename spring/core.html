@@ -21,6 +21,1221 @@
 
 <!-- Main Content Section -->
 <main id="content">
+    <h3>1. What is Spring Framework?</h3>
+
+    <p>Spring is a <strong>lightweight, open-source framework</strong> used to build <strong>Java-based enterprise
+        applications</strong>. It promotes <strong>loose coupling</strong> through <strong>Dependency Injection
+        (DI)</strong> and supports <strong>Aspect-Oriented Programming (AOP)</strong>.</p>
+    <br>
+    <hr>
+    <br>
+    <h3>2. Inversion of Control (IoC) in Spring</h3>
+
+    <p><strong>Inversion of Control (IoC)</strong> in Spring is a <strong>design principle</strong> where the control of
+        object creation and dependency management is <strong>transferred</strong> from the programmer to the <strong>Spring
+            IoC container</strong>.</p>
+
+    <ul>
+        <li>The <strong>Spring container creates the objects</strong> (beans), manages their lifecycle, and <strong>injects
+            dependencies</strong> automatically.
+        </li>
+    </ul>
+
+    <h3>Key Concepts of IoC in Spring</h3>
+
+    <ol>
+        <li><strong>Traditional Approach</strong>: Normally, objects create and manage their own dependencies</li>
+        <li><strong>IoC Approach</strong>: The Spring container creates and injects dependencies when needed</li>
+    </ol>
+
+    <h3>How IoC Works in Spring</h3>
+
+    <ul>
+        <li>The Spring container (ApplicationContext) manages Java objects called "beans"</li>
+        <li>Instead of your code creating objects, the container creates them</li>
+        <li>Dependencies are "injected" into objects rather than objects creating them</li>
+    </ul>
+
+    <h3>Types of Dependency Injection in Spring IoC</h3>
+
+    <ol>
+        <li><strong>Constructor Injection</strong>: Dependencies provided through class constructors</li>
+        <li><strong>Setter Injection</strong>: Dependencies injected through setter methods</li>
+        <li><strong>Field Injection</strong>: Dependencies injected directly into fields (using @Autowired)</li>
+    </ol>
+
+    <h3>Benefits of IoC in Spring</h3>
+
+    <ul>
+        <li><strong>Loose coupling</strong>: Components are less dependent on each other</li>
+        <li><strong>Easier testing</strong>: Dependencies can be easily mocked</li>
+        <li><strong>Better modularity</strong>: Components are more reusable</li>
+        <li><strong>Simplified configuration</strong>: Centralized management of components</li>
+        <li><strong>Lifecycle management</strong>: Container handles object creation and destruction</li>
+    </ul>
+    <br>
+    <hr>
+    <br>
+    <h3>3. Dependency Injection (DI)</h3>
+
+    <p>Dependency Injection is the concrete implementation of the Inversion of Control (IoC) principle in Spring, where
+        the framework provides dependencies to objects rather than having objects create their own dependencies.</p>
+
+    <p>Dependency Injection is what makes Spring so powerful, enabling loose coupling, easier testing, and more
+        maintainable code architecture.</p>
+
+    <h3>How Dependency Injection Works in Spring</h3>
+
+    <ol>
+        <li>Component Scanning and Bean Definition
+            <ul>
+                <li>@ComponentScan: Spring scans specified packages for classes annotated with @Component, @Service,
+                    @Repository, @Controller, etc.
+                </li>
+                <li>Bean Definition: For each found class, Spring creates a bean definition in the BeanFactory (the core
+                    container)
+                </li>
+            </ul>
+        </li>
+        <li>Bean Instantiation
+            <ul>
+                <li>When the application starts, Spring creates an instance of the ApplicationContext</li>
+                <li>The context reads configuration metadata (annotations or XML) and creates bean definitions</li>
+                <li>Beans are instantiated either eagerly (at startup) or lazily (when first requested)</li>
+            </ul>
+        </li>
+        <li>Dependency Resolution
+            <ul>
+                <li>Spring analyzes dependencies through:
+                    <ul>
+                        <li>Constructor parameters (@Autowired on constructor)</li>
+                        <li>Setter methods (@Autowired on setter methods)</li>
+                        <li>Fields directly (@Autowired on fields)</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>Dependency Injection Process
+            <ol>
+                <li>Autowiring: Spring identifies dependencies that need to be injected</li>
+                <li>Dependency Lookup: The container looks for matching beans in its context</li>
+                <li>Injection: The container injects the dependencies before the bean is fully initialized.</li>
+            </ol>
+        </li>
+    </ol>
+
+    <h3>Internal Workflow</h3>
+
+    <p>Here's what happens under the hood:</p>
+
+    <ol>
+        <li>Startup Phase:
+            <ul>
+                <li>ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);</li>
+                <li>Spring parses configuration</li>
+                <li>Creates BeanDefinition objects for each bean</li>
+                <li>Stores them in a bean definition registry</li>
+            </ul>
+        </li>
+        <li>Bean Creation:
+            <ul>
+                <li>When a bean is needed, Spring calls AbstractAutowireCapableBeanFactory.createBean()</li>
+                <li>This triggers doCreateBean() which:
+                    <ul>
+                        <li>Instantiates the bean (via constructor or factory method)</li>
+                        <li>Populates bean properties (dependency injection)</li>
+                        <li>Initializes the bean (calls @PostConstruct methods)</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>Dependency Injection:
+            <ul>
+                <li>Handled by AutowiredAnnotationBeanPostProcessor</li>
+                <li>Uses reflection to inspect fields/methods marked with @Autowired</li>
+                <li>Resolves dependencies from the application context</li>
+                <li>Injects them via reflection (Field.set() or Method.invoke())</li>
+            </ul>
+        </li>
+    </ol>
+    <br>
+    <hr>
+    <br>
+    <h3>4. Types of Dependency Injection in Spring</h3>
+
+    <p>Spring Framework supports three main types of dependency injection, each with its own use cases and
+        advantages:</p>
+
+    <ol>
+        <li><strong>Constructor-Based Injection (Recommended)</strong>
+
+            <h4>How it works:</h4>
+            <ul>
+                <li>Dependencies are provided through a class constructor</li>
+                <li>Spring automatically wires dependencies when creating the bean</li>
+                <li>Bean Detection
+                    <ul>
+                        <li>Spring scans classes annotated with @Component, @Service, @Repository, etc.</li>
+                        <li>If a class has a constructor with @Autowired (optional in Spring 4.3+ for single
+                            constructor), Spring identifies it for Constructor Injection.
+                        </li>
+                    </ul>
+                </li>
+                <li>Dependency Resolution
+                    <ul>
+                        <li>The DefaultistableBeanFactory checks the dependencies needed for the constructor.</li>
+                        <li>If multiple beans of the same type exist, Spring uses:
+                            <ul>
+                                <li>@Qualifier to specify which bean to inject.</li>
+                                <li>Parameter name matching (if -parameters compiler flag is enabled).</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>Instantiation & Injection
+                    <ul>
+                        <li>Spring uses Java Reflection (Constructor.newInstance() ) to create the bean.</li>
+                        <li>Dependencies are resolved and injected before the object is fully constructed.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4>Implementation:</h4>
+            <pre class="java-code">
+<code>
+<span class="annotation">@Service</span>
+<span class="keyword">public class</span> <span class="class">OrderService</span> {
+    <span class="keyword">private final</span> <span class="class">PaymentProcessor</span> <span class="var">paymentProcessor</span>;
+    <span class="keyword">private final</span> <span class="class">InventoryService</span> <span class="var">inventoryService</span>;
+
+    <span class="comment">// @Autowired optional in Spring 4.3+ for single constructor</span>
+    <span class="keyword">public</span> <span class="class">OrderService</span>(<span
+        class="class">PaymentProcessor</span> <span class="var">paymentProcessor</span>,
+    <span class="class">InventoryService</span> <span class="var">inventoryService</span>) {
+    <span class="keyword">this</span>.<span class="var">paymentProcessor</span> = <span
+        class="var">paymentProcessor</span>;
+    <span class="keyword">this</span>.<span class="var">inventoryService</span> = <span
+        class="var">inventoryService</span>;
+    }
+}
+</code>
+</pre>
+
+            <h4>Advantages:</h4>
+            <ul>
+                <li>Immutable dependencies (fields can be final)</li>
+                <li>Clearly defines mandatory dependencies</li>
+                <li>Easier testing (no need for Spring context in unit tests)</li>
+                <li>Prevents circular dependencies</li>
+                <li>Recommended by Spring team</li>
+            </ul>
+        </li>
+
+        <li><strong>Setter-Based Injection</strong>
+
+            <h4>How it works:</h4>
+            <ul>
+                <li>Dependencies are injected through setter methods</li>
+                <li>Useful for optional dependencies or when reconfiguration is needed</li>
+                <li>Allows reconfiguration (dependencies can be changed later)</li>
+                <li>Not immutable (fields cannot be final )</li>
+                <li>Good for optional dependencies</li>
+                <li>Bean Instantiation
+                    <ul>
+                        <li>Spring first creates the bean using the default constructor (no-args constructor must
+                            exist).
+                        </li>
+                    </ul>
+                </li>
+                <li>Dependency Injection via Setters
+                    <ul>
+                        <li>The AutowiredAnnotationBeanPostProcessor processes methods annotated with @Autowired .</li>
+                        <li>Uses reflection (Method.invoke() ) to call the setter method and inject the dependency.</li>
+                    </ul>
+                </li>
+                <li>Optional Dependencies
+                    <ul>
+                        <li>If @Autowired(required = false), Spring skips injection if the bean is missing.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4>Implementation:</h4>
+            <pre class="java-code">
+<code>
+<span class="annotation">@Service</span>
+<span class="keyword">public class</span> <span class="class">UserService</span> {
+    <span class="keyword">private</span> <span class="class">UserRepository</span> <span
+        class="var">userRepository</span>;
+    <span class="keyword">private</span> <span class="class">EmailService</span> <span class="var">emailService</span>;
+
+    <span class="annotation">@Autowired</span>
+    <span class="keyword">public void</span> <span class="method">setUserRepository</span>(<span class="class">UserRepository</span> <span
+        class="var">userRepository</span>) {
+    <span class="keyword">this</span>.<span class="var">userRepository</span> = <span class="var">userRepository</span>;
+    }
+
+    <span class="annotation">@Autowired</span>(required = false) <span class="comment">// Optional dependency</span>
+    <span class="keyword">public void</span> <span class="method">setEmailService</span>(<span class="class">EmailService</span> <span
+        class="var">emailService</span>) {
+    <span class="keyword">this</span>.<span class="var">emailService</span> = <span class="var">emailService</span>;
+    }
+}
+</code>
+</pre>
+
+            <h4>Advantages:</h4>
+            <ul>
+                <li>Allows for optional dependencies</li>
+                <li>Enables dependency changes at runtime</li>
+                <li>Works well with JavaBean convention</li>
+            </ul>
+        </li>
+
+        <li><strong>Field-Based Injection</strong>
+
+            <h4>How it works:</h4>
+            <ul>
+                <li>Dependencies are injected directly into fields</li>
+                <li>Uses reflection to set private fields</li>
+                <li>Avoid in production code (hard to test, violates encapsulation)</li>
+                <li>Fast to write (but problematic in long-term)</li>
+                <li>Works with @Qualifier for disambiguation</li>
+                <li>Bean Instantiation
+                    <ul>
+                        <li>Spring creates the bean using the default constructor (must exist).</li>
+                    </ul>
+                </li>
+                <li>Field Injection via Reflection
+                    <ul>
+                        <li>The AutowiredAnnotationBeanPostProcessor scans fields with @Autowired.</li>
+                        <li>Uses reflection (Field.set() ) to directly inject dependencies into private fields
+                            (bypassing encapsulation).
+                        </li>
+                    </ul>
+                </li>
+                <li>Circular Dependency Handling
+                    <ul>
+                        <li>If a circular dependency exists, Spring may use proxy objects (if @Lazy is used).</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4>Implementation:</h4>
+            <pre class="java-code">
+<code>
+<span class="annotation">@Service</span>
+<span class="keyword">public class</span> <span class="class">ProductService</span> {
+    <span class="annotation">@Autowired</span>
+    <span class="keyword">private</span> <span class="class">ProductRepository</span> <span class="var">productRepository</span>;
+
+    <span class="annotation">@Autowired</span>
+    <span class="annotation">@Qualifier</span>(<span class="string">"discountCalculator"</span>)
+    <span class="keyword">private</span> <span class="class">DiscountStrategy</span> <span
+        class="var">discountStrategy</span>;
+}
+</code>
+</pre>
+
+            <h4>Advantages:</h4>
+            <ul>
+                <li>Concise (less boilerplate code)</li>
+                <li>Easy to add new dependencies</li>
+            </ul>
+
+            <h4>Disadvantages:</h4>
+            <ul>
+                <li>Harder to test without Spring container</li>
+                <li>Violates encapsulation (direct field access)</li>
+                <li>Can hide design problems (too many dependencies)</li>
+                <li>Not recommended for production code</li>
+            </ul>
+        </li>
+    </ol>
+
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Type</th>
+                <th>Immutable</th>
+                <th>Testability</th>
+                <th>Circular Deps</th>
+                <th>Recommended</th>
+                <th>Use Case</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Constructor</td>
+                <td>Yes</td>
+                <td>Excellent</td>
+                <td>Prevented</td>
+                <td>★★★★★★</td>
+                <td>Mandatory deps</td>
+            </tr>
+            <tr>
+                <td>Setter</td>
+                <td>No</td>
+                <td>Good</td>
+                <td>Supported</td>
+                <td>★★★☆☆</td>
+                <td>Optional/mutable deps</td>
+            </tr>
+            <tr>
+                <td>Field</td>
+                <td>No</td>
+                <td>Poor</td>
+                <td>Supported</td>
+                <td>★☆☆☆☆</td>
+                <td>Quick prototypes</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Lifecycle Flow of Dependency Injection</h3>
+
+    <ol>
+        <li>@ComponentScan -- BeanDefinition creation -- Dependency Resolution</li>
+        <li>-- Object Instantiation -- Injection (Constructor/Setter/Field)</li>
+        <li>-- Bean Initialization -- Ready for use</li>
+    </ol>
+    <br>
+    <hr>
+    <br>
+    <h3>5. Spring Dependency Resolution Strategies</h3>
+
+    <p>Spring Framework provides multiple strategies for resolving dependencies when injecting beans. Here's a detailed
+        explanation of each approach:</p>
+
+    <h3>1. By Name Resolution</h3>
+
+    <p><strong>How it works:</strong></p>
+
+    <ul>
+        <li>Spring matches the variable name with the bean name in the container</li>
+        <li>Case-sensitive matching is performed</li>
+    </ul>
+
+    <p><strong>Example:</strong></p>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@Component</span>(<span class="string">"mySpecialService"</span>)
+<span class="keyword">public class</span> <span class="class">SpecialServiceImpl</span> <span
+        class="keyword">implements</span> <span class="class">MyService</span> {
+    <span class="comment">// implementation</span>
+}
+
+<span class="annotation">@Service</span>
+<span class="keyword">public class</span> <span class="class">ClientService</span> {
+    <span class="annotation">@Autowired</span>
+    <span class="keyword">private</span> <span class="class">MyService</span> <span class="var">mySpecialService</span>; <span
+        class="comment">// matches bean named "mySpecialService"</span>
+}
+</code>
+</pre>
+
+    <p><strong>When to use:</strong></p>
+
+    <ul>
+        <li>When you want explicit naming of dependencies</li>
+        <li>When working with multiple implementations of the same interface</li>
+    </ul>
+
+    <h3>2. By Type Resolution (Default)</h3>
+
+    <p><strong>How it works:</strong></p>
+
+    <ul>
+        <li>Spring looks for a bean that matches the required type exactly</li>
+        <li>Most common and straightforward approach</li>
+    </ul>
+
+    <p><strong>Example:</strong></p>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@Repository</span>
+<span class="keyword">public class</span> <span class="class">JpaUserRepository</span> <span
+        class="keyword">implements</span> <span class="class">UserRepository</span> {
+    <span class="comment">// implementation</span>
+}
+
+<span class="annotation">@Service</span>
+<span class="keyword">public class</span> <span class="class">UserService</span> {
+    <span class="annotation">@Autowired</span>
+    <span class="keyword">private</span> <span class="class">UserRepository</span> <span
+        class="var">userRepository</span>; <span class="comment">// matches by type</span>
+}
+</code>
+</pre>
+
+    <p><strong>When to use:</strong></p>
+
+    <ul>
+        <li>For simple applications with one implementation per interface</li>
+        <li>When type safety is a priority</li>
+    </ul>
+
+    <h3>3. By Qualifier Resolution</h3>
+
+    <p><strong>How it works:</strong></p>
+
+    <ul>
+        <li>Uses @Qualifier annotation to specify exact bean</li>
+        <li>Works with both explicit bean names and custom qualifiers</li>
+    </ul>
+
+    <p><strong>Example:</strong></p>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@Repository</span>(<span class="string">"jpaUserRepo"</span>)
+<span class="keyword">public class</span> <span class="class">JpaUserRepository</span> <span
+        class="keyword">implements</span> <span class="class">UserRepository</span> {
+    <span class="comment">// implementation</span>
+}
+
+<span class="annotation">@Repository</span>(<span class="string">"mongoUserRepo"</span>)
+<span class="keyword">public class</span> <span class="class">MongoUserRepository</span> <span class="keyword">implements</span> <span
+        class="class">UserRepository</span> {
+    <span class="comment">// implementation</span>
+}
+
+<span class="annotation">@Service</span>
+<span class="keyword">public class</span> <span class="class">UserService</span> {
+    <span class="annotation">@Autowired</span>
+    <span class="annotation">@Qualifier</span>(<span class="string">"jpaUserRepo"</span>)
+    <span class="keyword">private</span> <span class="class">UserRepository</span> <span
+        class="var">userRepository</span>;
+}
+</code>
+</pre>
+
+    <p><strong>When to use:</strong></p>
+
+    <ul>
+        <li>When multiple implementations exist and you need to specify which one to use</li>
+        <li>For more explicit wiring than name matching alone</li>
+    </ul>
+
+    <h3>4. By Primary Resolution</h3>
+
+    <p><strong>How it works:</strong></p>
+
+    <ul>
+        <li>@Primary marks a bean as the default choice</li>
+        <li>Used when no other qualifier is specified</li>
+    </ul>
+
+    <p><strong>Example:</strong></p>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@Repository</span>
+<span class="annotation">@Primary</span>
+<span class="keyword">public class</span> <span class="class">JpaUserRepository</span> <span
+        class="keyword">implements</span> <span class="class">UserRepository</span> {
+    <span class="comment">// implementation</span>
+}
+
+<span class="annotation">@Repository</span>
+<span class="keyword">public class</span> <span class="class">MongoUserRepository</span> <span class="keyword">implements</span> <span
+        class="class">UserRepository</span> {
+    <span class="comment">// implementation</span>
+}
+
+<span class="annotation">@Service</span>
+<span class="keyword">public class</span> <span class="class">UserService</span> {
+    <span class="annotation">@Autowired</span>
+    <span class="keyword">private</span> <span class="class">UserRepository</span> <span
+        class="var">userRepository</span>; <span class="comment">// will inject JpaUserRepository</span>
+}
+</code>
+</pre>
+
+    <p><strong>When to use:</strong></p>
+
+    <ul>
+        <li>When you have a default implementation among several options</li>
+        <li>To simplify configuration in most common cases</li>
+    </ul>
+
+    <h3>5. Custom Qualifier Resolution</h3>
+
+    <p><strong>How it works:</strong></p>
+
+    <ul>
+        <li>Create custom annotation meta-annotated with @Qualifier</li>
+        <li>Provides type-safe way to qualify beans</li>
+    </ul>
+
+    <p><strong>Example:</strong></p>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@Target</span>({<span class="class">ElementType</span>.<span class="var">FIELD</span>, <span
+        class="class">ElementType</span>.<span class="var">PARAMETER</span>, <span
+        class="class">ElementType</span>.<span class="var">TYPE</span>})
+<span class="annotation">@Retention</span>(<span class="class">RetentionPolicy</span>.<span class="var">RUNTIME</span>)
+<span class="annotation">@Qualifier</span>
+<span class="keyword">public @interface</span> <span class="class">DatabaseType</span> {
+    <span class="class">String</span> <span class="method">value</span>();
+}
+
+<span class="annotation">@Repository</span>
+<span class="annotation">@DatabaseType</span>(<span class="string">"jpa"</span>)
+<span class="keyword">public class</span> <span class="class">JpaUserRepository</span> <span
+        class="keyword">implements</span> <span class="class">UserRepository</span> {
+    <span class="comment">// implementation</span>
+}
+
+<span class="annotation">@Service</span>
+<span class="keyword">public class</span> <span class="class">UserService</span> {
+    <span class="annotation">@Autowired</span>
+    <span class="annotation">@DatabaseType</span>(<span class="string">"jpa"</span>)
+    <span class="keyword">private</span> <span class="class">UserRepository</span> <span
+        class="var">userRepository</span>;
+}
+</code>
+</pre>
+
+    <p><strong>When to use:</strong></p>
+
+    <ul>
+        <li>When you need more semantic qualification than simple strings</li>
+        <li>For better compile-time safety</li>
+        <li>When building larger systems with complex dependency requirements</li>
+    </ul>
+
+    <h3>Resolution Order of Precedence</h3>
+
+    <p>When multiple strategies could apply, Spring uses this order:</p>
+
+    <ol>
+        <li>@Qualifier annotation (explicit or custom)</li>
+        <li>By name matching (variable name to bean name)</li>
+        <li>@Primary designated bean</li>
+        <li>By type matching (if only one matching bean exists)</li>
+    </ol>
+
+    <br>
+    <hr>
+    <br>
+
+    <h3>6. BeanFactory vs. ApplicationContext in Spring</h3>
+
+    <p>Both BeanFactory and ApplicationContext are core containers in Spring, but they serve different purposes and have
+        distinct capabilities. Below is a detailed comparison:</p>
+
+    <h3>1. BeanFactory</h3>
+
+    <h3>What It Is</h3>
+
+    <ul>
+        <li>The basic container that provides the fundamental DI (Dependency Injection) support.</li>
+        <li>Defined in the org.springframework.beans package.</li>
+        <li>Lazily initializes beans (only when getBean() is called).</li>
+    </ul>
+
+    <h3>Key Features</h3>
+
+    <ul>
+        <li>✔ Core DI support (manages bean lifecycle)</li>
+        <li>✔ Lazy loading (beans are created only when requested)</li>
+        <li>✔ Lightweight (minimal memory footprint)</li>
+        <li>✔ No built-in AOP, event handling, or enterprise features</li>
+    </ul>
+
+    <h3>Example Usage</h3>
+
+    <pre class="java-code">
+<code>
+<span class="class">Resource</span> <span class="var">resource</span> = <span class="keyword">new</span> <span
+        class="class">ClassPathResource</span>(<span class="string">"beans.xml"</span>);
+<span class="class">BeanFactory</span> <span class="var">factory</span> = <span class="keyword">new</span> <span
+        class="class">XmlBeanFactory</span>(<span class="var">resource</span>);
+<span class="class">MyBean</span> <span class="var">bean</span> = <span class="var">factory</span>.<span class="method">getBean</span>(<span
+        class="class">MyBean</span>.<span class="keyword">class</span>);
+</code>
+</pre>
+
+    <h3>When to Use</h3>
+
+    <ul>
+        <li>Memory-constrained environments (where lazy loading is beneficial).</li>
+        <li>Simple applications that only need basic DI.</li>
+    </ul>
+
+    <h3>2. ApplicationContext</h3>
+
+    <h3>What It Is</h3>
+
+    <ul>
+        <li>An advanced container that extends BeanFactory with additional features.</li>
+        <li>Defined in the org.springframework.context package.</li>
+        <li>Eagerly initializes singleton beans by default (at startup).</li>
+    </ul>
+
+    <h3>Key Features (Beyond BeanFactory)</h3>
+
+    <ul>
+        <li>✔ All BeanFactory features (DI, lifecycle management)</li>
+        <li>✔ Automatic @Component scanning (@Service, @Repository, etc.)</li>
+        <li>✔ AOP support (proxying, @Transactional, etc.)</li>
+        <li>✔ Event handling (ApplicationEvent and ApplicationListener )</li>
+        <li>✔ Internationalization (I18n) (MessageSource support)</li>
+        <li>✔ Environment & Profile management (@Profile, Environment )</li>
+        <li>✔ Integration with web frameworks (WebApplicationContext)</li>
+    </ul>
+
+    <h3>Example Usage</h3>
+
+    <pre class="java-code">
+<code>
+<span class="class">ApplicationContext</span> <span class="var">context</span> = <span class="keyword">new</span> <span
+        class="class">AnnotationConfigApplicationContext</span>(<span class="class">AppConfig</span>.<span
+        class="keyword">class</span>);
+<span class="class">MyService</span> <span class="var">service</span> = <span class="var">context</span>.<span
+        class="method">getBean</span>(<span class="class">MyService</span>.<span class="keyword">class</span>);
+</code>
+</pre>
+
+    <h3>Common Implementations</h3>
+
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Implementation</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>AnnotationConfigApplicationContext</td>
+                <td>Java annotation-based config</td>
+            </tr>
+            <tr>
+                <td>ClassPathXmlApplicationContext</td>
+                <td>XML config in classpath</td>
+            </tr>
+            <tr>
+                <td>FileSystemXmlApplicationContext</td>
+                <td>XML config in file system</td>
+            </tr>
+            <tr>
+                <td>WebApplicationContext</td>
+                <td>For web applications</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>When to Use</h3>
+
+    <ul>
+        <li>Most Spring applications (default choice).</li>
+        <li>Enterprise applications needing AOP, events, I18n, etc.</li>
+        <li>Web applications (Spring MVC, Spring Boot).</li>
+    </ul>
+    <br>
+    <hr>
+    <br>
+    <h3>7. Spring Bean Scopes: A Complete Guide</h3>
+
+    <p>Spring Framework provides several bean scopes that determine the lifecycle and visibility of beans in the
+        container. Understanding these scopes is crucial for proper bean management in Spring applications.</p>
+
+    <ol>
+        <li><strong>Singleton Scope (Default)</strong>
+
+            <ul>
+                <li>Definition: Only one instance per Spring IoC container</li>
+                <li>Usage: Default scope if none specified</li>
+                <li>Lifecycle: Created at container startup (if eager) or first request</li>
+                <li>Thread Safety: Not thread-safe by default (must handle synchronization)</li>
+            </ul>
+
+            <pre class="java-code">
+<code>
+<span class="annotation">@Component</span>
+<span class="annotation">@Scope</span>(<span class="string">"singleton"</span>) <span class="comment">// or @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)</span>
+<span class="keyword">public class</span> <span class="class">SingletonBean</span> {
+    <span class="comment">// Only one instance in the entire application context</span>
+}
+</code>
+</pre>
+        </li>
+
+        <li><strong>Prototype Scope</strong>
+
+            <ul>
+                <li>Definition: New instance created for each request</li>
+                <li>Usage: For stateful beans where each caller needs a fresh instance</li>
+                <li>Lifecycle: Spring doesn't manage complete lifecycle (no destroy callbacks)</li>
+            </ul>
+
+            <pre class="java-code">
+<code>
+<span class="annotation">@Component</span>
+<span class="annotation">@Scope</span>(<span class="string">"prototype"</span>) <span class="comment">// or @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)</span>
+<span class="keyword">public class</span> <span class="class">PrototypeBean</span> {
+    <span class="comment">// New instance for every getBean() call or injection</span>
+}
+</code>
+</pre>
+        </li>
+
+        <li><strong>Web-Aware Scopes</strong>
+
+            <p>Available only in web-aware Spring applications (Spring MVC, Spring Boot Web)</p>
+        </li>
+
+        <li><strong>Request Scope</strong>
+
+            <ul>
+                <li>Definition: One instance per HTTP request</li>
+                <li>Usage: For request-specific data (e.g., user form submissions)</li>
+            </ul>
+
+            <pre class="java-code">
+<code>
+<span class="annotation">@Component</span>
+<span class="annotation">@Scope</span>(value = <span class="class">WebApplicationContext</span>.<span class="var">SCOPE_REQUEST</span>, proxyMode = <span
+        class="class">ScopedProxyMode</span>.<span class="var">TARGET_CLASS</span>)
+<span class="keyword">public class</span> <span class="class">RequestScopedBean</span> {
+    <span class="comment">// New instance per HTTP request</span>
+}
+</code>
+</pre>
+        </li>
+
+        <li><strong>Session Scope</strong>
+
+            <ul>
+                <li>Definition: One instance per HTTP session</li>
+                <li>Usage: For user-specific data (e.g., shopping carts, user preferences)</li>
+            </ul>
+
+            <pre class="java-code">
+<code>
+<span class="annotation">@Component</span>
+<span class="annotation">@Scope</span>(value = <span class="class">WebApplicationContext</span>.<span class="var">SCOPE_SESSION</span>, proxyMode = <span
+        class="class">ScopedProxyMode</span>.<span class="var">TARGET_CLASS</span>)
+<span class="keyword">public class</span> <span class="class">SessionScopedBean</span> {
+    <span class="comment">// Same instance throughout a user's session</span>
+}
+</code>
+</pre>
+        </li>
+
+        <li><strong>Application Scope</strong>
+
+            <ul>
+                <li>Definition: One instance per ServletContext (similar to singleton but servlet-aware)</li>
+                <li>Usage: For application-wide web components</li>
+            </ul>
+
+            <pre class="java-code">
+<code>
+<span class="annotation">@Component</span>
+<span class="annotation">@Scope</span>(value = <span class="class">WebApplicationContext</span>.<span class="var">SCOPE_APPLICATION</span>, proxyMode = <span
+        class="class">ScopedProxyMode</span>.<span class="var">TARGET_CLASS</span>)
+<span class="keyword">public class</span> <span class="class">ApplicationScopedBean</span> {
+    <span class="comment">// Similar to singleton but web-aware</span>
+}
+</code>
+</pre>
+        </li>
+
+        <li><strong>WebSocket Scope</strong>
+
+            <ul>
+                <li>Definition: One instance per WebSocket session</li>
+                <li>Usage: In WebSocket applications for session-specific data</li>
+            </ul>
+
+            <pre class="java-code">
+<code>
+<span class="annotation">@Component</span>
+<span class="annotation">@Scope</span>(scopeName = <span class="string">"websocket"</span>, proxyMode = <span
+        class="class">ScopedProxyMode</span>.<span class="var">TARGET_CLASS</span>)
+<span class="keyword">public class</span> <span class="class">WebSocketScopedBean</span> {
+    <span class="comment">// New instance per WebSocket session</span>
+}
+</code>
+</pre>
+        </li>
+
+        <li><strong>Custom Scopes</strong>
+
+            <p>Spring allows creating custom scopes by implementing org.springframework.beans.factory.config.Scope</p>
+
+            <p>Example: Creating a Thread Scope</p>
+
+            <pre class="java-code">
+<code>
+<span class="keyword">public class</span> <span class="class">ThreadScope</span> <span class="keyword">implements</span> <span
+        class="class">Scope</span> {
+    <span class="keyword">private final</span> <span class="class">ThreadLocal</span>&lt;<span class="class">Map</span>&lt;<span
+        class="class">String</span>, <span class="class">Object</span>&gt;&gt; <span class="var">threadScope</span> =
+        <span class="class">ThreadLocal</span>.<span class="method">withInitial</span>(() -> <span
+        class="keyword">new</span> <span class="class">HashMap</span>&lt;&gt;());
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="class">Object</span> <span class="method">get</span>(<span
+        class="class">String</span> <span class="var">name</span>, <span
+        class="class">ObjectFactory</span>&lt;?&gt; <span class="var">objectFactory</span>) {
+        <span class="class">Map</span>&lt;<span class="class">String</span>, <span class="class">Object</span>&gt; <span
+        class="var">scope</span> = <span class="var">threadScope</span>.<span class="method">get</span>();
+        <span class="keyword">return</span> <span class="var">scope</span>.<span
+        class="method">computeIfAbsent</span>(<span class="var">name</span>, k -> <span class="var">objectFactory</span>.<span
+        class="method">getObject</span>());
+    }
+    <span class="comment">// Implement other required methods (remove, registerDestructionCallback, etc.)</span>
+}
+
+<span class="comment">// Registering the custom scope</span>
+<span class="annotation">@Configuration</span>
+<span class="keyword">public class</span> <span class="class">AppConfig</span> {
+    <span class="annotation">@Bean</span>
+    <span class="keyword">public</span> <span class="class">CustomScopeConfigurer</span> <span class="method">customScopeConfigurer</span>() {
+        <span class="class">CustomScopeConfigurer</span> <span class="var">configurer</span> = <span
+        class="keyword">new</span> <span class="class">CustomScopeConfigurer</span>();
+        <span class="var">configurer</span>.<span class="method">addScope</span>(<span
+        class="string">"thread"</span>, <span class="keyword">new</span> <span class="class">ThreadScope</span>());
+        <span class="keyword">return</span> <span class="var">configurer</span>;
+    }
+}
+
+<span class="comment">// Using the custom scope</span>
+<span class="annotation">@Component</span>
+<span class="annotation">@Scope</span>(<span class="string">"thread"</span>)
+<span class="keyword">public class</span> <span class="class">ThreadScopedBean</span> {
+    <span class="comment">// New instance per thread</span>
+}
+</code>
+</pre>
+        </li>
+    </ol>
+
+    <h3>Scope Comparison Table</h3>
+
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Scope</th>
+                <th>Description</th>
+                <th>Use Case</th>
+                <th>Thread Safety</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Singleton</td>
+                <td>One instance per container</td>
+                <td>Stateless services, repositories</td>
+                <td>Not thread-safe</td>
+            </tr>
+            <tr>
+                <td>Prototype</td>
+                <td>New instance each time</td>
+                <td>Stateful objects, user-specific data</td>
+                <td>Depends on usage</td>
+            </tr>
+            <tr>
+                <td>Request</td>
+                <td>Per HTTP request</td>
+                <td>Request processing, form data</td>
+                <td>Thread-confined</td>
+            </tr>
+            <tr>
+                <td>Session</td>
+                <td>Per HTTP session</td>
+                <td>User sessions, shopping carts</td>
+                <td>Thread-confined</td>
+            </tr>
+            <tr>
+                <td>Application</td>
+                <td>Per ServletContext</td>
+                <td>Web application components</td>
+                <td>Requires synchronization</td>
+            </tr>
+            <tr>
+                <td>WebSocket</td>
+                <td>Per WebSocket session</td>
+                <td>Real-time messaging apps</td>
+                <td>Thread-confined</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Important Considerations</h3>
+
+    <ul>
+        <li><strong>Scope Inheritance</strong>: Beans inherit the scope of their configuration (unless overridden)</li>
+        <li><strong>Proxy Mode</strong>: Web scopes often require proxies (ScopedProxyMode.TARGET_CLASS)</li>
+        <li><strong>Memory Management</strong>: Be careful with long-lived scopes (session, application) holding large
+            data
+        </li>
+        <li><strong>Thread Safety</strong>: Singleton beans must be designed for concurrent access</li>
+    </ul>
+    <br>
+    <hr>
+    <br>
+    <h3>8. Bean Lifecycle in Spring Framework</h3>
+
+    <p>The Spring bean lifecycle consists of several phases from instantiation to destruction. Understanding this
+        lifecycle is crucial for proper bean management and customization.</p>
+
+    <h3>Complete Bean Lifecycle Phases</h3>
+
+    <ol>
+        <li><strong>Instantiation</strong>
+            <ul>
+                <li>Bean instance created via constructor or factory method</li>
+                <li>If constructor injection used, dependencies are resolved and injected</li>
+            </ul>
+        </li>
+        <li><strong>Population of Properties</strong>
+            <ul>
+                <li>Setter injection occurs (if used)</li>
+                <li>Field injection via reflection (if used)</li>
+            </ul>
+        </li>
+        <li><strong>BeanNameAware.setBeanName()</strong>
+            <ul>
+                <li>If bean implements BeanNameAware, Spring calls setBeanName()</li>
+            </ul>
+        </li>
+        <li><strong>BeanClassLoaderAware.setBeanClassLoader()</strong>
+            <ul>
+                <li>If bean implements BeanClassLoaderAware, Spring calls setBeanClassLoader()</li>
+            </ul>
+        </li>
+        <li><strong>BeanFactoryAware.setBeanFactory()</strong>
+            <ul>
+                <li>If bean implements BeanFactoryAware, Spring calls setBeanFactory()</li>
+            </ul>
+        </li>
+        <li><strong>EnvironmentAware.setEnvironment()</strong>
+            <ul>
+                <li>If bean implements EnvironmentAware, Spring calls setEnvironment()</li>
+            </ul>
+        </li>
+        <li><strong>EmbeddedValueResolverAware.setEmbeddedValueResolver()</strong>
+            <ul>
+                <li>If bean implements this interface, Spring calls setEmbeddedValueResolver()</li>
+            </ul>
+        </li>
+        <li><strong>ResourceLoaderAware.setResourceLoader()</strong>
+            <ul>
+                <li>If bean implements ResourceLoaderAware, Spring calls setResourceLoader()</li>
+            </ul>
+        </li>
+        <li><strong>ApplicationEventPublisherAware.setApplicationEventPublisher()</strong>
+            <ul>
+                <li>If bean implements this interface, Spring calls setApplicationEventPublisher()</li>
+            </ul>
+        </li>
+        <li><strong>MessageSourceAware.setMessageSource()</strong>
+            <ul>
+                <li>If bean implements MessageSourceAware, Spring calls setMessageSource()</li>
+            </ul>
+        </li>
+        <li><strong>ApplicationContextAware.setApplicationContext()</strong>
+            <ul>
+                <li>If bean implements ApplicationContextAware, Spring calls setApplicationContext()</li>
+            </ul>
+        </li>
+        <li><strong>ServletContextAware.setServletContext()</strong>
+            <ul>
+                <li>If bean implements ServletContextAware (in web apps), Spring calls setServletContext()</li>
+            </ul>
+        </li>
+        <li><strong>@PostConstruct Annotation</strong>
+            <ul>
+                <li>Methods annotated with @PostConstruct are called</li>
+            </ul>
+        </li>
+        <li><strong>InitializingBean.afterPropertiesSet()</strong>
+            <ul>
+                <li>If bean implements InitializingBean, Spring calls afterPropertiesSet()</li>
+            </ul>
+        </li>
+        <li><strong>Custom init() method</strong>
+            <ul>
+                <li>Custom initialization method specified via @Bean(initMethod = "...") or XML</li>
+            </ul>
+        </li>
+        <li><strong>Bean is ready for use</strong>
+            <ul>
+                <li>Bean is fully initialized and available in the container</li>
+            </ul>
+        </li>
+        <li><strong>@PreDestroy Annotation</strong>
+            <ul>
+                <li>Methods annotated with @PreDestroy are called during shutdown</li>
+            </ul>
+        </li>
+        <li><strong>DisposableBean.destroy()</strong>
+            <ul>
+                <li>If bean implements DisposableBean, Spring calls destroy()</li>
+            </ul>
+        </li>
+        <li><strong>Custom destroy() method</strong>
+            <ul>
+                <li>Custom destruction method specified via @Bean(destroyMethod = "...") or XML</li>
+            </ul>
+        </li>
+    </ol>
+
+    <h3>Lifecycle Example with Code</h3>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@Component</span>
+<span class="keyword">public class</span> <span class="class">LifecycleDemoBean</span> <span
+        class="keyword">implements</span>
+    <span class="class">BeanNameAware</span>, <span class="class">BeanFactoryAware</span>, <span class="class">ApplicationContextAware</span>,
+    <span class="class">InitializingBean</span>, <span class="class">DisposableBean</span> {
+
+    <span class="keyword">private</span> <span class="class">String</span> <span class="var">beanName</span>;
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> <span class="method">setBeanName</span>(<span
+        class="class">String</span> <span class="var">name</span>) {
+        <span class="keyword">this</span>.<span class="var">beanName</span> = <span class="var">name</span>;
+        <span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span
+        class="string">"4. BeanNameAware.setBeanName(): "</span> + <span class="var">name</span>);
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> <span class="method">setBeanFactory</span>(<span
+        class="class">BeanFactory</span> <span class="var">beanFactory</span>) {
+        <span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span
+        class="string">"5. BeanFactoryAware.setBeanFactory()"</span>);
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> <span class="method">setApplicationContext</span>(<span class="class">ApplicationContext</span> <span
+        class="var">applicationContext</span>) {
+        <span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span
+        class="string">"11. ApplicationContextAware.setApplicationContext()"</span>);
+    }
+
+    <span class="annotation">@PostConstruct</span>
+    <span class="keyword">public void</span> <span class="method">postConstruct</span>() {
+        <span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span
+        class="string">"13. @PostConstruct method"</span>);
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> <span class="method">afterPropertiesSet</span>() {
+        <span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span
+        class="string">"14. InitializingBean.afterPropertiesSet()"</span>);
+    }
+
+    <span class="keyword">public void</span> <span class="method">customInit</span>() {
+        <span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span
+        class="string">"15. Custom init method"</span>);
+    }
+
+    <span class="annotation">@PreDestroy</span>
+    <span class="keyword">public void</span> <span class="method">preDestroy</span>() {
+        <span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span
+        class="string">"17. @PreDestroy method"</span>);
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> <span class="method">destroy</span>() {
+        <span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span
+        class="string">"18. DisposableBean.destroy()"</span>);
+    }
+
+    <span class="keyword">public void</span> <span class="method">customDestroy</span>() {
+        <span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span
+        class="string">"19. Custom destroy method"</span>);
+    }
+}
+
+<span class="annotation">@Configuration</span>
+<span class="keyword">public class</span> <span class="class">AppConfig</span> {
+    <span class="annotation">@Bean</span>(initMethod = <span class="string">"customInit"</span>, destroyMethod = <span
+        class="string">"customDestroy"</span>)
+    <span class="keyword">public</span> <span class="class">LifecycleDemoBean</span> <span class="method">lifecycleDemoBean</span>() {
+        <span class="keyword">return new</span> <span class="class">LifecycleDemoBean</span>();
+    }
+}
+</code>
+</pre>
+
+    <h3>Lifecycle Callback Order Summary</h3>
+
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Phase</th>
+                <th>Callback Method</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Initialization</td>
+                <td>Aware interfaces (BeanNameAware, etc.)</td>
+                <td>Injection of container infrastructure</td>
+            </tr>
+            <tr>
+                <td>Initialization</td>
+                <td>@PostConstruct</td>
+                <td>JSR-250 annotation-based initialization</td>
+            </tr>
+            <tr>
+                <td>Initialization</td>
+                <td>afterPropertiesSet()</td>
+                <td>Spring's InitializingBean interface</td>
+            </tr>
+            <tr>
+                <td>Initialization</td>
+                <td>Custom init method</td>
+                <td>Programmatically specified initialization</td>
+            </tr>
+            <tr>
+                <td>Destruction</td>
+                <td>@PreDestroy</td>
+                <td>JSR-250 annotation-based destruction</td>
+            </tr>
+            <tr>
+                <td>Destruction</td>
+                <td>destroy()</td>
+                <td>Spring's DisposableBean interface</td>
+            </tr>
+            <tr>
+                <td>Destruction</td>
+                <td>Custom destroy method</td>
+                <td>Programmatically specified destruction</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Important Notes</h3>
+
+    <ul>
+        <li><strong>Prototype Beans</strong>: Destruction callbacks are not called for prototype-scoped beans</li>
+        <li><strong>Callback Order</strong>: Within each phase, callbacks execute in the order listed above</li>
+        <li><strong>Best Practice</strong>: Prefer @PostConstruct and @PreDestroy over Spring-specific interfaces for
+            better portability
+        </li>
+        <li><strong>Circular Dependencies</strong>: Can interfere with normal lifecycle processing</li>
+    </ul>
 
     <br>
     <hr>

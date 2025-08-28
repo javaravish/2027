@@ -22,6 +22,363 @@
 <!-- Main Content Section -->
 <main id="content">
 
+    <h3>Spring Scheduling</h3>
+    <p>Spring provides powerful scheduling capabilities through the @Scheduled annotation and TaskScheduler abstraction. This comprehensive guide covers all aspects from basic cron jobs to advanced distributed scheduling.</p>
+    <p>Spring's scheduling capabilities to run tasks at specific intervals or times. Spring provides support for scheduling tasks via the @Scheduled annotation, which can be used to execute tasks at fixed rates, with fixed delays, or using cron expressions</p>
+
+    <h3>1. Core Concepts</h3>
+
+    <h4>Key Features</h4>
+    <ul>
+        <li>Fixed-rate execution</li>
+        <li>Fixed-delay execution</li>
+        <li>Cron expression support</li>
+        <li>Asynchronous scheduling</li>
+        <li>Distributed scheduling (with extensions)</li>
+    </ul>
+
+    <h4>Main Components</h4>
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Component</th>
+                <th>Purpose</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>@Scheduled</td>
+                <td>Marks methods for scheduled execution</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>TaskScheduler</h3>
+    <h4>@EnableScheduling</h4>
+    <h4>CronTrigger</h4>
+
+    <h4>Scheduling infrastructure</h4>
+    <h4>Enables scheduling support</h4>
+    <h4>Cron expression implementation</h4>
+
+    <h3>2. Basic Setup</h3>
+
+    <pre class="code-block">
+<code>
+<span class="tag">&lt;dependency&gt;</span>
+<span class="tag">&lt;groupId&gt;</span>org.springframework.boot<span class="tag">&lt;/groupId&gt;</span>
+<span class="tag">&lt;artifactId&gt;</span>spring-boot-starter-task/artifactId>
+<span class="tag">&lt;/dependency&gt;</span>
+</code>
+</pre>
+
+    <h4>Enable Scheduling</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Configuration</span>
+<span class="annotation">@EnableScheduling</span>
+<span class="keyword">public class</span> <span class="class">SchedulingConfig</span> {
+<span class="comment">// Optional configuration</span>
+}
+</code>
+</pre>
+
+    <h4>Simple Scheduled Task</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Service</span>
+<span class="keyword">public class</span> <span class="class">ReportGenerator</span> {
+    }
+    <span class="annotation">@Scheduled</span>(<span class="key">fixedRate</span> = <span class="number">5000</span>) <span class="comment">// Every 5 seconds</span>
+    <span class="keyword">public</span> <span class="class">void</span> <span class="method">generateDailyReport</span>() {
+    <span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span class="string">"Generating report: "</span> + <span class="keyword">new</span> <span class="class">Date</span>());
+    }
+}
+</code>
+</pre>
+
+    <h3>3. Scheduling Options</h3>
+
+    <h4>1.Fixed Rate</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Scheduled</span>(<span class="key">fixedRate</span> = <span class="number">5000</span>) <span class="comment">// Runs every 5 seconds</span>
+<span class="keyword">public</span> <span class="class">void</span> <span class="method">task</span>() {
+<span class="comment">// Executes regardless of previous execution completion</span>
+}
+</code>
+</pre>
+
+    <h4>2.Fixed Delay</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Scheduled</span>(<span class="key">fixedDelay</span> = <span class="number">5000</span>) <span class="comment">// 5 sec after previous completion</span>
+<span class="keyword">public</span> <span class="class">void</span> <span class="method">task</span>() {
+<span class="comment">// Waits for previous execution to finish</span>
+}
+</code>
+</pre>
+
+    <h4>3.Initial Delay</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Scheduled</span>(<span class="key">initialDelay</span> = <span class="number">10000</span>, <span class="key">fixedRate</span> = <span class="number">5000</span>)
+<span class="keyword">public</span> <span class="class">void</span> <span class="method">task</span>() {
+<span class="comment">// Starts after 10 sec, then runs every 5 sec</span>
+}
+</code>
+</pre>
+
+    <h4>4.Cron Expressions</h4>
+    <ul>
+        <li><strong>second (0-59)</strong></li>
+        <li>minute (0-59)</li>
+        <li>hour (0-23)</li>
+        <li>day of month (1-31)</li>
+        <li>month (1-12 or JAN-DEC)</li>
+        <li>day of week (0-6 or SUN-SAT, 0=Sunday)</li>
+    </ul>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@Scheduled</span>(<span class="key">cron</span> = <span class="string">"0 0 9 * * MON-FRI"</span>) <span class="comment">// 9 AM on weekdays</span>
+<span class="keyword">public</span> <span class="class">void</span> <span class="method">morningReport</span>() {
+<span class="comment">// Business logic</span>
+}
+</code>
+</pre>
+
+    <h4>5.Zone Support</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Scheduled</span>(<span class="key">cron</span> = <span class="string">"0 0 12 * * ?"</span>, <span class="key">zone</span> = <span class="string">"America/New_York"</span>)
+<span class="keyword">public</span> <span class="class">void</span> <span class="method">noonTask</span>() {
+<span class="comment">// Executes at noon New York time</span>
+}
+</code>
+</pre>
+
+    <h3>4. Advanced Scheduling</h3>
+
+    <h4>Parameterized Scheduling</h4>
+    <pre class="code-block">
+<code>
+<span class="key">report.interval</span>=<span class="number">300000</span>
+<span class="key">report.cron</span>=<span class="value">0 0 1 * * *</span>
+</code>
+</pre>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@Scheduled</span>(<span class="key">fixedRateString</span> = <span class="string">"${report.interval}"</span>)
+<span class="keyword">public</span> <span class="class">void</span> <span class="method">scheduledReport</span>() {
+<span class="comment">// Uses interval from properties</span>
+}
+
+<span class="annotation">@Scheduled</span>(<span class="key">cron</span> = <span class="string">"${report.cron}"</span>)
+<span class="keyword">public</span> <span class="class">void</span> <span class="method">dailyReport</span>() {
+<span class="comment">// Uses cron expression from properties</span>
+}
+</code>
+</pre>
+
+    <h4>Conditional Scheduling</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@ConditionalOnProperty</span>(<span class="key">name</span> = <span class="string">"scheduling.enabled"</span>, <span class="key">havingValue</span> = <span class="string">"true"</span>)
+<span class="annotation">@Scheduled</span>(<span class="key">fixedRate</span> = <span class="number">5000</span>)
+<span class="keyword">public</span> <span class="class">void</span> <span class="method">conditionalTask</span>() {
+<span class="comment">// Only runs if scheduling.enabled=true</span>
+}
+</code>
+</pre>
+
+    <h4>Dynamic Scheduling</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Component</span>
+<span class="keyword">public class</span> <span class="class">DynamicScheduler</span> {
+
+<span class="annotation">@Autowired</span>
+<span class="keyword">private</span> <span class="class">TaskScheduler</span> <span class="var">scheduler</span>;
+
+<span class="keyword">public</span> <span class="class">void</span> <span class="method">scheduleTask</span>(<span class="class">Runnable</span> <span class="var">task</span>, <span class="class">String</span> <span class="var">cronExpression</span>) {
+<span class="var">scheduler</span>.<span class="method">schedule</span>(<span class="var">task</span>, <span class="keyword">new</span> <span class="class">CronTrigger</span>(<span class="var">cronExpression</span>));
+}
+}
+</code>
+</pre>
+
+    <h3>5. TaskScheduler Configuration</h3>
+
+    <h4>Custom TaskScheduler</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Configuration</span>
+<span class="keyword">public class</span> <span class="class">SchedulerConfig</span> {
+
+<span class="annotation">@Bean</span>
+<span class="keyword">public</span> <span class="class">TaskScheduler</span> <span class="method">taskScheduler</span>() {
+<span class="class">ThreadPoolTaskScheduler</span> <span class="var">scheduler</span> = <span class="keyword">new</span> <span class="class">ThreadPoolTaskScheduler</span>();
+<span class="var">scheduler</span>.<span class="method">setPoolSize</span>(<span class="number">10</span>);
+<span class="var">scheduler</span>.<span class="method">setThreadNamePrefix</span>(<span class="string">"scheduled-task-"</span>);
+<span class="var">scheduler</span>.<span class="method">setAwaitTerminationSeconds</span>(<span class="number">60</span>);
+<span class="var">scheduler</span>.<span class="method">setWaitForTasksToCompleteOnShutdown</span>(<span class="keyword">true</span>);
+<span class="var">scheduler</span>.<span class="method">initialize</span>();
+<span class="keyword">return</span> <span class="var">scheduler</span>;
+}
+}
+</code>
+</pre>
+
+    <h4>Spring Boot Auto-Configuration</h4>
+    <p>Spring Boot automatically configures a ThreadPoolTaskScheduler with these defaults:</p>
+    <pre class="code-block">
+<code>
+<span class="number">1</span> Pool size: <span class="number">1</span>
+<span class="number">2</span> Thread name prefix: <span class="string">"scheduling-"</span>
+<span class="number">3</span> Await termination: <span class="keyword">false</span>
+<span class="number">4</span> Wait for tasks: <span class="keyword">false</span>
+</code>
+</pre>
+
+    <p>Override in application.properties:</p>
+    <pre class="code-block">
+<code>
+<span class="key">spring.task.scheduling.pool.size</span>=<span class="number">5</span>
+<span class="key">spring.task.scheduling.Thread-name-prefix</span>=<span class="value">MyScheduler-</span>
+</code>
+</pre>
+
+    <h3>6. Best Practices</h3>
+
+    <h4>1. Error Handling</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Scheduled</span>(<span class="key">fixedRate</span> = <span class="number">5000</span>)
+<span class="keyword">public</span> <span class="class">void</span> <span class="method">scheduledTask</span>() {
+<span class="keyword">try</span> {
+<span class="comment">// Task logic</span>
+} <span class="keyword">catch</span> (<span class="class">Exception</span> <span class="var">e</span>) {
+<span class="class">log</span>.<span class="method">error</span>(<span class="string">"Scheduled task failed"</span>, <span class="var">e</span>);
+<span class="comment">// Consider retry logic or notification</span>
+}
+}
+</code>
+</pre>
+
+    <h4>2. Idempotency</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Scheduled</span>(<span class="key">cron</span> = <span class="string">"0 0 2 * * *"</span>)
+<span class="keyword">public</span> <span class="class">void</span> <span class="method">nightlyCleanup</span>() {
+<span class="keyword">if</span> (<span class="var">cleanupAlreadyDone</span>()) {
+<span class="keyword">return</span>; <span class="comment">// Skip if already completed</span>
+}
+<span class="comment">// Perform cleanup</span>
+}
+</code>
+</pre>
+
+    <h4>3. Distributed Scheduling</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Scheduled</span>(<span class="key">cron</span> = <span class="string">"0 0 * * * *"</span>)
+<span class="annotation">@SchedulerLock</span>(<span class="key">name</span> = <span class="string">"hourlyTask"</span>, <span class="key">lockAtMostFor</span> = <span class="string">"55m"</span>)
+<span class="keyword">public</span> <span class="class">void</span> <span class="method">distributedTask</span>() {
+<span class="comment">// Only runs on one instance in cluster</span>
+}
+</code>
+</pre>
+
+    <h4>4. Monitoring</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Scheduled</span>(<span class="key">fixedRate</span> = <span class="number">300000</span>) <span class="comment">// 5 minutes</span>
+<span class="keyword">public</span> <span class="class">void</span> <span class="method">monitoredTask</span>() {
+<span class="class">Instant</span> <span class="var">start</span> = <span class="class">Instant</span>.<span class="method">now</span>();
+<span class="keyword">try</span> {
+<span class="comment">// Task logic</span>
+} <span class="keyword">finally</span> {
+<span class="class">Duration</span> <span class="var">duration</span> = <span class="class">Duration</span>.<span class="method">between</span>(<span class="var">start</span>, <span class="class">Instant</span>.<span class="method">now</span>());
+<span class="class">metrics</span>.<span class="method">recordExecutionTime</span>(<span class="var">duration</span>);
+}
+}
+</code>
+</pre>
+
+    <h3>7. Common Cron Examples</h3>
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Expression</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>0 0 * * * *</td>
+                <td>Top of every hour</td>
+            </tr>
+            <tr>
+                <td>*/10 * * * * *</td>
+                <td>Every 10 seconds</td>
+            </tr>
+            <tr>
+                <td>0 0 8-18 * * MON-FRI</td>
+                <td>Business hours on weekdays</td>
+            </tr>
+            <tr>
+                <td>0 0 0 1 * *</td>
+                <td>Midnight on first day of month</td>
+            </tr>
+            <tr>
+                <td>0 0 6,18 * * *</td>
+                <td>6 AM and 6 PM daily</td>
+            </tr>
+            <tr>
+                <td>0 0 12 * * WED</td>
+                <td>Noon every Wednesday</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>8. Troubleshooting</h3>
+
+    <h4>Common Issues</h4>
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Issue</th>
+                <th>Solution</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Tasks not running</td>
+                <td>Check @EnableScheduling, component scanning</td>
+            </tr>
+            <tr>
+                <td>Tasks overlapping</td>
+                <td>Use fixedDelay instead of fixedRate</td>
+            </tr>
+            <tr>
+                <td>Timezone issues</td>
+                <td>Specify zone in @Scheduled annotation</td>
+            </tr>
+            <tr>
+                <td>Memory leaks</td>
+                <td>Configure proper pool size and shutdown</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
     <br>
     <hr>
     <br>

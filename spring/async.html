@@ -21,7 +21,163 @@
 
 <!-- Main Content Section -->
 <main id="content">
+    <h3>Asynchronous Programming in Spring</h3>
+    <p>Spring provides powerful abstractions for asynchronous execution, allowing you to improve application performance by running tasks concurrently. This guide covers all aspects from basic setup to advanced patterns.</p>
 
+    <h3>1. Core Concepts</h3>
+
+    <h4>Key Benefits</h4>
+    <ul>
+        <li>Improved throughput for I/O-bound operations</li>
+        <li>Better resource utilization</li>
+        <li>Non-blocking request handling</li>
+        <li>Simplified parallel processing</li>
+    </ul>
+
+    <h4>Main Components</h4>
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Component</th>
+                <th>Purpose</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>@Async</td>
+                <td>Marks methods as asynchronous</td>
+            </tr>
+            <tr>
+                <td>TaskExecutor</td>
+                <td>Abstraction for thread pool management</td>
+            </tr>
+            <tr>
+                <td>CompletableFuture</td>
+                <td>Modern async programming API</td>
+            </tr>
+            <tr>
+                <td>@EnableAsync</td>
+                <td>Enables async processing</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>2. Basic Setup</h3>
+
+    <h4>Enable Async Support</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Configuration</span>
+<span class="annotation">@EnableAsync</span>
+<span class="keyword">public class</span> <span class="class">AsyncConfig</span> {
+<span class="comment">// Optional executor configuration</span>
+}
+</code>
+</pre>
+
+    <h4>Simple Async Method</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Service</span>
+<span class="keyword">public class</span> <span class="class">NotificationService</span> {
+
+<span class="annotation">@Async</span>
+<span class="keyword">public</span> <span class="class">void</span> <span class="method">sendEmail</span>(<span class="class">String</span> <span class="var">to</span>, <span class="class">String</span> <span class="var">content</span>) {
+<span class="comment">// Simulate delay</span>
+<span class="class">Thread</span>.<span class="method">sleep</span>(<span class="number">1000</span>);
+<span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span class="string">"Email sent to: "</span> + <span class="var">to</span>);
+}
+}
+</code>
+</pre>
+
+    <h3>3. Thread Pool Configuration</h3>
+
+    <h4>Custom Thread Pool</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Configuration</span>
+<span class="annotation">@EnableAsync</span>
+<span class="keyword">public class</span> <span class="class">AsyncConfig</span> {
+
+<span class="annotation">@Bean</span>(<span class="key">name</span> = <span class="string">"taskExecutor"</span>)
+<span class="keyword">public</span> <span class="class">Executor</span> <span class="method">taskExecutor</span>() {
+<span class="class">ThreadPoolTaskExecutor</span> <span class="var">executor</span> = <span class="keyword">new</span> <span class="class">ThreadPoolTaskExecutor</span>();
+<span class="var">executor</span>.<span class="method">setCorePoolSize</span>(<span class="number">5</span>);
+<span class="var">executor</span>.<span class="method">setMaxPoolSize</span>(<span class="number">10</span>);
+<span class="var">executor</span>.<span class="method">setQueueCapacity</span>(<span class="number">100</span>);
+<span class="var">executor</span>.<span class="method">setThreadNamePrefix</span>(<span class="string">"Async-"</span>);
+<span class="var">executor</span>.<span class="method">Initialize</span>();
+<span class="keyword">return</span> <span class="var">executor</span>;
+}
+}
+</code>
+</pre>
+
+    <h4>Using Specific Executor</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Async</span>(<span class="string">"taskExecutor"</span>)
+<span class="keyword">public</span> <span class="class">void</span> <span class="method">processData</span>(<span class="class">List</span><<span class="class">Data</span>> <span class="var">items</span>) {
+<span class="comment">// Processing logic</span>
+}
+</code>
+</pre>
+
+    <h3>4. Return Types</h3>
+
+    <h4>Void Return</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Async</span>
+<span class="keyword">public</span> <span class="class">void</span> <span class="method">logActivity</span>(<span class="class">String</span> <span class="var">message</span>) {
+<span class="comment">// No return value needed</span>
+}
+</code>
+</pre>
+
+    <h4>Future (Deprecated in favor of CompletableFuture)</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Async</span>
+<span class="keyword">public</span> <span class="class">Future</span><<span class="class">String</span>> <span class="method">processWithResult</span>() {
+<span class="keyword">return</span> <span class="keyword">new</span> <span class="class">AsyncResult</span><>(<span class="string">"Processing complete"</span>);
+}
+</code>
+</pre>
+
+    <h4>CompletableFuture (Recommended)</h4>
+    <pre class="java-code">
+<code>
+<span class="annotation">@Async</span>
+<span class="keyword">public</span> <span class="class">CompletableFuture</span><<span class="class">String</span>> <span class="method">fetchDataAsync</span>() {
+<span class="keyword">return</span> <span class="class">CompletableFuture</span>.<span class="method">completeFuture</span>(<span class="string">"Data loaded"</span>);
+}
+</code>
+</pre>
+
+    <h4>Spring Boot Auto-Configuration</h4>
+    <p>Spring Boot automatically configures a ThreadPoolTaskExecutor with these default</p>
+    <pre class="code-block">
+<code>
+<span class="number">1</span> Core pool size: <span class="number">8</span>
+<span class="number">2</span> Max pool size: <span class="class">Integer</span>.<span class="var">MAX_VALUE</span>
+<span class="number">3</span> Queue capacity: <span class="class">Integer</span>.<span class="var">MAX_VALUE</span>
+<span class="number">4</span> Thread name prefix: <span class="string">"task-"</span>
+</code>
+</pre>
+
+    <p>Override in application.properties:</p>
+    <pre class="code-block">
+<code>
+<span class="key">spring.task.execution.pool.core-size</span>=<span class="number">10</span>
+<span class="key">spring.task.execution.pool.max-size</span>=<span class="number">20</span>
+<span class="key">spring.task.execution.pool_queue-capacity</span>=<span class="number">50</span>
+<span class="key">spring.task.execution.Thread-name-prefix</span>=<span class="value">Async-</span>
+</code>
+</pre>
 
     <br>
     <hr>

@@ -21,7 +21,1200 @@
 
 <!-- Main Content Section -->
 <main id="content">
+    <h3>1. Core Spring MVC Architecture</h3>
 
+    <h3>Request Lifecycle</h3>
+    <p>1. <strong>DispatcherServlet</strong> (Front Controller) receives HTTP request</p>
+    <p>2. <strong>HandlerMapping</strong> determines which controller should handle the request</p>
+    <p>3. <strong>Controller</strong> processes request and returns model + view name</p>
+    <p>4. <strong>ViewResolver</strong> maps view name to actual view template</p>
+    <p>5. <strong>View</strong> renders response (HTML, JSON, XML, etc.)</p>
+
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Client</th>
+                <th>DispatcherServlet</th>
+                <th>HandlerMapping</th>
+                <th>Controller</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>ViewResolver</td>
+                <td>View</td>
+                <td>ModelAndView</td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Key Components</h3>
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Component</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>DispatcherServlet</td>
+                <td>Central servlet that delegates requests</td>
+            </tr>
+            <tr>
+                <td>@Controller</td>
+                <td>Classes handling web requests</td>
+            </tr>
+            <tr>
+                <td>@RequestMapping</td>
+                <td>Maps URLs to handler methods</td>
+            </tr>
+            <tr>
+                <td>HandlerInterceptor</td>
+                <td>Pre/post-processing of requests</td>
+            </tr>
+            <tr>
+                <td>ViewResolver</td>
+                <td>Resolves view names to templates</td>
+            </tr>
+            <tr>
+                <td>HandlerExceptionResolver</td>
+                <td>Handles exceptions during request processing</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <hr>
+    <br>
+    <h3>2. Annotation-Based Controllers</h3>
+
+    <h3>Core Annotations</h3>
+    <pre class="java-code">
+<code><span class="annotation">@Controller</span>
+<span class="annotation">@RequestMapping</span>(<span class="string">"/users"</span>)
+<span class="keyword">public class</span> <span class="class">UserController</span> {
+    <span class="annotation">@GetMapping</span>(<span class="string">"/{id}"</span>)
+    <span class="keyword">public</span> <span class="class">String</span> <span class="method">getUser</span>(<span
+            class="annotation">@PathVariable</span> <span class="class">Long</span> <span class="var">id</span>, <span
+            class="class">Model</span> <span class="var">model</span>) {
+        <span class="var">model</span>.addAttribute(<span class="string">"user"</span>, <span
+            class="var">userService</span>.findById(<span class="var">id</span>));
+        <span class="keyword">return</span> <span class="string">"userProfile"</span>;
+    }
+    <span class="annotation">@PostMapping</span>
+</code></pre>
+
+    <pre class="java-code">
+<code><span class="annotation">@ResponseStatus</span>(<span class="class">HttpStatus</span>.CREATED)
+<span class="keyword">public</span> <span class="class">ResponseEntity</span>&lt;<span
+            class="class">User</span>&gt; <span class="method">createUser</span>(<span
+            class="annotation">@RequestBody</span> <span class="class">User</span> <span class="var">user</span>) {
+    <span class="class">User</span> <span class="var">savedUser</span> = <span class="var">userService</span>.save(<span
+            class="var">user</span>);
+    <span class="keyword">return</span> <span class="class">ResponseEntity</span>.created(<span class="class">URI</span>.create(<span
+            class="string">"/users/"</span> + <span class="var">savedUser</span>.getId())
+    .body(<span class="var">savedUser</span>);
+}
+}</code></pre>
+
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Annotation</th>
+                <th>Purpose</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>@Controller</td>
+                <td>Marks class as web controller</td>
+            </tr>
+            <tr>
+                <td>@RestController</td>
+                <td>@Controller + @ResponseBody</td>
+            </tr>
+            <tr>
+                <td>@RequestMapping</td>
+                <td>Base URL mapping</td>
+            </tr>
+            <tr>
+                <td>@GetMapping, @PostMapping etc.</td>
+                <td>HTTP method-specific mappings</td>
+            </tr>
+            <tr>
+                <td>@PathVariable</td>
+                <td>Extracts URI template variables</td>
+            </tr>
+            <tr>
+                <td>@RequestParam</td>
+                <td>Binds query parameters</td>
+            </tr>
+            <tr>
+                <td>@RequestBody</td>
+                <td>Binds HTTP request body</td>
+            </tr>
+            <tr>
+                <td>@ResponseBody</td>
+                <td>Returns result directly as response body</td>
+            </tr>
+            <tr>
+                <td>@ModelAttribute</td>
+                <td>Binds form data or adds model attributes</td>
+            </tr>
+            <tr>
+                <td>@ResponseStatus</td>
+                <td>Configures HTTP response status</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>1. @Controller</h3>
+    <p><strong>Purpose:</strong> Marks a class as a Spring MVC controller</p>
+    <p><strong>Behavior:</strong></p>
+    <p>• Indicates the class contains request handling methods</p>
+    <p>• Works with view resolution (returns view names)</p>
+    <p>• Part of the component scanning (@Component stereotype)</p>
+    <p>• Typically used with traditional MVC (JSP, Thymeleaf templates)</p>
+    <p><strong>Example:</strong></p>
+
+    <pre class="java-code">
+<code><span class="annotation">@Controller</span>
+<span class="annotation">@RequestMapping</span>(<span class="string">"/products"</span>)
+<span class="keyword">public class</span> <span class="class">ProductController</span> {
+
+    <span class="annotation">@GetMapping</span>
+    <span class="keyword">public</span> <span class="class">String</span> <span class="method">listProducts</span>(<span
+            class="class">Model</span> <span class="var">model</span>) {
+        <span class="var">model</span>.addAttribute(<span class="string">"products"</span>, <span class="var">productService</span>.findAll());
+        <span class="keyword">return</span> <span class="string">"products/list"</span>; <span class="comment">// Resolves to products/list.html</span>
+    }
+}</code></pre>
+
+    <h3>2. @RestController</h3>
+    <p><strong>Purpose:</strong> Combines @Controller + @ResponseBody</p>
+    <p><strong>Behavior:</strong></p>
+    <p>- Every method return value is written directly to the HTTP response body</p>
+    <p>- No view resolution occurs</p>
+    <p>- Default for REST APIs</p>
+    <p>- Automatically converts return objects to JSON/XML</p>
+    <p><strong>Example:</strong></p>
+
+    <pre class="java-code">
+<code><span class="annotation">@RestController</span>
+<span class="annotation">@RequestMapping</span>(<span class="string">"/api/products"</span>)
+<span class="keyword">public class</span> <span class="class">ProductApiController</span> {
+
+    <span class="annotation">@GetMapping</span>
+    <span class="keyword">public</span> <span class="class">List</span>&lt;<span class="class">Product</span>&gt; <span
+            class="method">getAllProducts</span>() {
+        <span class="keyword">return</span> <span class="var">productService</span>.findAll(); <span class="comment">// Auto-converted to JSON</span>
+    }
+}</code></pre>
+
+    <h3>3. @RequestMapping</h3>
+    <p><strong>Purpose:</strong> Maps web requests to handler methods/classes</p>
+    <p><strong>Attributes:</strong></p>
+    <p>- value/path : URL path patterns</p>
+    <p>- method : HTTP methods (GET, POST etc.)</p>
+    <p>- produces/consumes : Media types</p>
+    <p>- headers/params : Request conditions</p>
+    <p><strong>Example:</strong></p>
+
+    <pre class="java-code">
+<code><span class="annotation">@Controller</span>
+<span class="annotation">@RequestMapping</span>(value = <span class="string">"/orders"</span>,
+    produces = <span class="class">MediaType</span>.APPLICATION_JSON_VALUE)
+<span class="keyword">public class</span> <span class="class">OrderController</span> {
+
+    <span class="annotation">@RequestMapping</span>(method = <span class="class">RequestMethod</span>.GET)
+    <span class="keyword">public</span> <span class="class">String</span> <span class="method">listOrders</span>(<span
+            class="class">Model</span> <span class="var">model</span>) { ... }
+}</code></pre>
+
+    <h3>4. HTTP Method Shortcuts (@GetMapping , @PostMapping , etc.)</h3>
+    <p><strong>Variants:</strong></p>
+
+    <h4>1. @GetMapping</h4>
+    <p><strong>Purpose:</strong> Maps HTTP GET requests to handler methods</p>
+    <p><strong>Equivalent to:</strong> @RequestMapping(method = RequestMethod.GET)</p>
+    <p><strong>Typical Use:</strong> Retrieving resources</p>
+    <p><strong>Characteristics:</strong></p>
+    <p>- Idempotent (multiple identical requests = same effect as single request)</p>
+    <p>- Safe (no server-side modifications)</p>
+    <p>- Parameters typically passed via URL (path variables or query params)</p>
+    <p><strong>Example:</strong></p>
+
+    <pre class="java-code">
+<code><span class="annotation">@GetMapping</span>(<span class="string">"/products/{id}"</span>)
+<span class="keyword">public</span> <span class="class">ResponseEntity</span>&lt;<span class="class">Product</span>&gt; <span
+            class="method">getProduct</span>(<span class="annotation">@PathVariable</span> <span
+            class="class">Long</span> <span class="var">id</span>) {
+    <span class="class">Product</span> <span class="var">product</span> = <span class="var">productService</span>.findById(<span
+            class="var">id</span>);
+    <span class="keyword">return</span> <span class="class">ResponseEntity</span>.ok(<span class="var">product</span>);
+}
+
+<span class="annotation">@GetMapping</span>(<span class="string">"/search"</span>)
+<span class="keyword">public</span> <span class="class">List</span>&lt;<span class="class">Product</span>&gt; <span
+            class="method">searchProducts</span>(<span class="annotation">@RequestParam</span> <span class="class">String</span> <span
+            class="var">query</span>) {
+    <span class="keyword">return</span> <span class="var">productService</span>.search(<span class="var">query</span>);
+}</code></pre>
+
+    <h4>2. @PostMapping</h4>
+    <p><strong>Purpose:</strong> Maps HTTP POST requests to handler methods</p>
+    <p><strong>Equivalent to:</strong> @RequestMapping(method = RequestMethod.POST)</p>
+    <p><strong>Typical Use:</strong></p>
+    <p>- Creating new resources</p>
+    <p>- Submitting form data</p>
+    <p>- Operations that aren't idempotent</p>
+    <p><strong>Characteristics:</strong></p>
+    <p>- Not idempotent (multiple identical requests may create multiple resources)</p>
+    <p>- Request body typically contains payload (JSON/XML/form data)</p>
+    <p>- Returns 201 Created with Location header for REST APIs</p>
+    <p><strong>Example:</strong></p>
+
+    <pre class="java-code">
+<code><span class="annotation">@PostMapping</span>(<span class="string">"/products"</span>)
+<span class="keyword">public</span> <span class="class">ResponseEntity</span>&lt;<span class="class">Product</span>&gt; <span
+            class="method">createProduct</span>(<span class="annotation">@RequestBody</span> <span
+            class="class">Product</span> <span class="var">product</span>) {
+    <span class="class">Product</span> <span class="var">savedProduct</span> = <span class="var">productService</span>.save(<span
+            class="var">product</span>);
+    <span class="class">URL</span> <span class="var">location</span> = <span
+            class="class">ServletUriComponentsBuilder</span>.fromCurrentRequest()
+    .path(<span class="string">"/{id}"</span>)
+    .buildAndExpand(<span class="var">savedProduct</span>.getId())
+    .toUri();
+    <span class="keyword">return</span> <span class="class">ResponseEntity</span>.created(<span
+            class="var">location</span>).body(<span class="var">savedProduct</span>);
+}</code></pre>
+
+    <h4>3. @PutMapping</h4>
+    <p><strong>Purpose:</strong> Maps HTTP PUT requests to handler methods</p>
+    <p><strong>Equivalent to:</strong> @RequestMapping(method = RequestMethod.PUT)</p>
+    <p><strong>Typical Use:</strong></p>
+    <p>- Full updates of existing resources</p>
+    <p>- Idempotent replacements</p>
+    <p><strong>Characteristics:</strong></p>
+    <p>- Idempotent (multiple identical requests = same effect as single request)</p>
+    <p>- Typically requires full resource representation in request body</p>
+    <p>- Returns 200 OK or 204 No Content</p>
+    <p><strong>Example:</strong></p>
+
+    <pre class="java-code">
+<code><span class="annotation">@PutMapping</span>(<span class="string">"/products/{id}"</span>)
+<span class="keyword">public</span> <span class="class">ResponseEntity</span>&lt;<span class="class">Product</span>&gt; <span
+            class="method">updateProduct</span>(
+    <span class="annotation">@PathVariable</span> <span class="class">Long</span> <span class="var">id</span>,
+    <span class="annotation">@RequestBody</span> <span class="class">Product</span> <span class="var">product</span>) {
+    <span class="class">Product</span> <span class="var">updated</span> = <span class="var">productService</span>.update(<span
+            class="var">id</span>, <span class="var">product</span>);
+    <span class="keyword">return</span> <span class="class">ResponseEntity</span>.ok(<span class="var">updated</span>);
+}</code></pre>
+
+    <h4>4. @DeleteMapping</h4>
+    <p><strong>Purpose:</strong> Maps HTTP DELETE requests to handler methods</p>
+    <p><strong>Equivalent to:</strong> @RequestMapping(method = RequestMethod.DELETE)</p>
+    <p><strong>Typical Use:</strong> Deleting resources</p>
+    <p><strong>Characteristics:</strong></p>
+    <p>- Idempotent (deleting already deleted resource = same effect)</p>
+    <p>- May return:</p>
+    <p>- 200 OK with response body</p>
+    <p>- 204 No Content without body</p>
+    <p>- 202 Accepted for async deletion</p>
+    <p><strong>Example:</strong></p>
+
+    <pre class="java-code">
+<code><span class="annotation">@DeleteMapping</span>(<span class="string">"/products/{id}"</span>)
+<span class="annotation">@ResponseStatus</span>(<span class="class">HttpStatus</span>.NO_CONTENT)
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="method">deleteProduct</span>(<span
+            class="annotation">@PathVariable</span> <span class="class">Long</span> <span class="var">id</span>) {
+    <span class="var">productService</span>.delete(<span class="var">id</span>);
+}</code></pre>
+
+    <h4>5. @PatchMapping</h4>
+    <p><strong>Purpose:</strong> Maps HTTP PATCH requests to handler methods</p>
+    <p><strong>Equivalent to:</strong> @RequestMapping(method = RequestMethod.PATCH)</p>
+    <p><strong>Typical Use:</strong> Partial updates of resources</p>
+    <p><strong>Characteristics:</strong></p>
+    <p>- Not necessarily idempotent (depends on implementation)</p>
+    <p>- Accepts partial resource representations</p>
+    <p>- Often uses JSON Patch or JSON Merge Patch formats</p>
+    <p>- Returns 200 OK with updated resource</p>
+    <p><strong>Example:</strong></p>
+
+    <pre class="java-code">
+<code><span class="annotation">@PatchMapping</span>(<span class="string">"/products/{id}"</span>)
+<span class="keyword">public</span> <span class="class">ResponseEntity</span>&lt;<span class="class">Product</span>&gt; <span
+            class="method">patchProduct</span>(
+    <span class="annotation">@PathVariable</span> <span class="class">Long</span> <span class="var">id</span>,
+    <span class="annotation">@RequestBody</span> <span class="class">Map</span>&lt;<span
+            class="class">String</span>, <span class="class">Object</span>&gt; <span class="var">updates</span>) {
+    <span class="class">Product</span> <span class="var">patched</span> = <span class="var">productService</span>.patch(<span
+            class="var">id</span>, <span class="var">updates</span>);
+    <span class="keyword">return</span> <span class="class">ResponseEntity</span>.ok(<span class="var">patched</span>);
+}</code></pre>
+
+    <h3>Key Differences Table</h3>
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Annotation</th>
+                <th>HTTP Method</th>
+                <th>Idempotent</th>
+                <th>Safe</th>
+                <th>Typical Status Codes</th>
+                <th>Request Body</th>
+                <th>Response Body</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>@GetMapping</td>
+                <td>GET</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>200 OK</td>
+                <td>No</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <td>@PostMapping</td>
+                <td>POST</td>
+                <td>No</td>
+                <td>No</td>
+                <td>201 Created</td>
+                <td>Yes</td>
+                <td>Optional</td>
+            </tr>
+            <tr>
+                <td>@PutMapping</td>
+                <td>PUT</td>
+                <td>Yes</td>
+                <td>No</td>
+                <td>200 OK / 204 No Content</td>
+                <td>Yes</td>
+                <td>Optional</td>
+            </tr>
+            <tr>
+                <td>@DeleteMapping</td>
+                <td>DELETE</td>
+                <td>Yes</td>
+                <td>No</td>
+                <td>200 OK / 204 No Content</td>
+                <td>No</td>
+                <td>Optional</td>
+            </tr>
+            <tr>
+                <td>@PatchMapping</td>
+                <td>PATCH</td>
+                <td>Depends</td>
+                <td>No</td>
+                <td>200 OK</td>
+                <td>Yes (partial)</td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>5. @PathVariable</h3>
+    <p><strong>Purpose:</strong> Binds URL template variables to method parameters</p>
+    <p><strong>Features:</strong></p>
+    <p>• Extracts values from URL patterns like /users/{id}</p>
+    <p>• Can specify regex patterns: @PathVariable("id: \d+")</p>
+    <p>• Optional in Spring 4.3+ (if parameter name matches)</p>
+    <p><strong>Example:</strong></p>
+
+    <pre class="java-code">
+<code><span class="annotation">@GetMapping</span>(<span class="string">"/products/{productId}/items/{itemId}"</span>)
+<span class="keyword">public</span> <span class="class">String</span> <span class="method">getItem</span>(
+    <span class="annotation">@PathVariable</span> <span class="class">Long</span> <span class="var">productId</span>,
+    <span class="annotation">@PathVariable</span> <span class="class">String</span> <span class="var">itemId</span>) { ... }</code></pre>
+
+    <h3>6. @RequestParam</h3>
+    <p><strong>Purpose:</strong> Binds query parameters/form data to method parameters</p>
+    <p><strong>Attributes:</strong></p>
+    <p>• value/name : Parameter name</p>
+    <p>- required : Whether parameter is mandatory (default: true)</p>
+    <p>- defaultValue : Default value if missing</p>
+    <p><strong>Example:</strong></p>
+
+    <pre class="java-code">
+<code><span class="annotation">@GetMapping</span>(<span class="string">"/search"</span>)
+<span class="keyword">public</span> <span class="class">List</span>&lt;<span class="class">Product</span>&gt; <span
+            class="method">search</span>(
+    <span class="annotation">@RequestParam</span> <span class="class">String</span> <span class="var">query</span>,
+    <span class="annotation">@RequestParam</span>(defaultValue = <span class="string">"1"</span>) <span class="keyword">int</span> <span
+            class="var">page</span>) { ... }</code></pre>
+
+    <h3>7. @RequestBody</h3>
+    <p><strong>Purpose:</strong> Binds HTTP request body to Java object</p>
+    <p><strong>Behavior:</strong></p>
+    <p>- Uses HttpMessageConverters (JSON → Object)</p>
+    <p>- Typically used with POST/PUT requests</p>
+    <p>- Often combined with @Valid for validation</p>
+    <p><strong>Example:</strong></p>
+
+    <pre class="java-code">
+<code><span class="annotation">@PostMapping</span>(<span class="string">"/users"</span>)
+<span class="keyword">public</span> <span class="class">ResponseEntity</span>&lt;<span
+            class="class">User</span>&gt; <span class="method">createUser</span>(
+    <span class="annotation">@Valid</span> <span class="annotation">@RequestBody</span> <span
+            class="class">UserDto</span> <span class="var">userDto</span>) { ... }</code></pre>
+
+    <h3>8. @ResponseBody</h3>
+    <p><strong>Purpose:</strong> Indicates return value should be written directly to response body</p>
+    <p><strong>Behavior:</strong></p>
+    <p>- Bypasses view resolution</p>
+    <p>- Uses HttpMessageConverters for serialization</p>
+    <p>- Automatically applied in @RestController</p>
+    <p><strong>Example:</strong></p>
+
+    <pre class="java-code">
+<code><span class="annotation">@Controller</span>
+<span class="keyword">public class</span> <span class="class">ApiController</span> {
+    <span class="annotation">@ResponseBody</span>
+    <span class="annotation">@GetMapping</span>(<span class="string">"/status"</span>)
+    <span class="keyword">public</span> <span class="class">ApiStatus</span> <span class="method">getStatus</span>() { ... }
+}</code></pre>
+
+    <h3>9. @ModelAttribute</h3>
+    <p><strong>Purpose (Two uses):</strong></p>
+    <p>1. Method-level: Adds attributes to model before controller methods</p>
+    <p>2. Parameter-level: Binds form data to object</p>
+    <p><strong>Examples:</strong></p>
+
+    <pre class="java-code">
+<code><span class="comment">// Method-level</span>
+<span class="annotation">@ModelAttribute</span>(<span class="string">"categories"</span>)
+<span class="keyword">public</span> <span class="class">List</span>&lt;<span class="class">Category</span>&gt; <span
+            class="method">loadCategories</span>() {
+    <span class="keyword">return</span> <span class="var">categoryService</span>.findAll();
+}
+
+<span class="comment">// Parameter-level</span>
+<span class="annotation">@PostMapping</span>(<span class="string">"/products"</span>)
+<span class="keyword">public</span> <span class="class">String</span> <span class="method">saveProduct</span>(<span
+            class="annotation">@ModelAttribute</span> <span class="class">Product</span> <span
+            class="var">product</span>) { ... }</code></pre>
+
+    <h3>10. @ResponseStatus</h3>
+    <p><strong>Purpose</strong>: Configures HTTP response status code</p>
+    <p><strong>Usage</strong>:</p>
+    <p>- On exception classes (for global error handling)</p>
+    <p>- On handler methods (to override default 200 OK)</p>
+    <p><strong>Examples</strong>:</p>
+
+    <pre class="java-code">
+<code><span class="annotation">@ResponseStatus</span>(<span class="class">HttpStatus</span>.NOT_FOUND)
+<span class="keyword">public class</span> <span class="class">ResourceNotFoundException</span> <span class="keyword">extends</span> <span
+            class="class">RuntimeException</span> { ... }
+
+<span class="annotation">@PostMapping</span>
+<span class="annotation">@ResponseStatus</span>(<span class="class">HttpStatus</span>.CREATED)
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="method">createResource</span>(<span
+            class="annotation">@RequestBody</span> <span class="class">Resource</span> <span class="var">resource</span>) { ... }</code></pre>
+
+    <h3>3. Key Differences Table</h3>
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Annotation</th>
+                <th>Scope</th>
+                <th>Typical Use Case</th>
+                <th>HTTP Impact</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>@Controller</td>
+                <td>Class</td>
+                <td>Traditional MVC with views</td>
+                <td>Returns view names</td>
+            </tr>
+            <tr>
+                <td>@RestController</td>
+                <td>Class</td>
+                <td>REST APIs</td>
+                <td>Direct response writing</td>
+            </tr>
+            <tr>
+                <td>@RequestMapping</td>
+                <td>Both</td>
+                <td>General request mapping</td>
+                <td>Configures URL/method</td>
+            </tr>
+            <tr>
+                <td>HTTP Method Shortcuts</td>
+                <td>Method</td>
+                <td>Specific HTTP operations</td>
+                <td>Clear intent</td>
+            </tr>
+            <tr>
+                <td>@PathVariable</td>
+                <td>Parameter</td>
+                <td>URL template variables</td>
+                <td>Extracts path segments</td>
+            </tr>
+            <tr>
+                <td>@RequestParam</td>
+                <td>Parameter</td>
+                <td>Query parameters/form data</td>
+                <td>URL?param=value</td>
+            </tr>
+            <tr>
+                <td>@RequestBody</td>
+                <td>Parameter</td>
+                <td>Request payload (JSON/XML)</td>
+                <td>POST/PUT bodies</td>
+            </tr>
+            <tr>
+                <td>@ResponseBody</td>
+                <td>Method</td>
+                <td>Direct response writing</td>
+                <td>Bypasses views</td>
+            </tr>
+            <tr>
+                <td>@ModelAttribute</td>
+                <td>Both</td>
+                <td>Form handling/model prep</td>
+                <td>Traditional form submits</td>
+            </tr>
+            <tr>
+                <td>@ResponseStatus</td>
+                <td>Method/Exception</td>
+                <td>HTTP status control</td>
+                <td>Overrides default 200</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p>These annotations form the foundation of Spring MVC's declarative programming model, enabling clean separation of
+        concerns while handling HTTP requests and responses.</p>
+
+    <pre class="java-code">
+<code><span class="annotation">@RestController</span>
+<span class="keyword">public class</span> <span class="class">ProductController</span> {
+    <span class="annotation">@GetMapping</span>(<span class="string">"/products/{id}"</span>)
+    <span class="keyword">public</span> <span class="class">Product</span> <span class="method">getProduct</span>(<span
+            class="annotation">@PathVariable</span> <span class="class">String</span> <span class="var">id</span>) {
+        <span class="keyword">return</span> <span class="var">productService</span>.findById(<span class="var">id</span>);
+    }
+
+    <span class="annotation">@PostMapping</span>(<span class="string">"/products"</span>)
+    <span class="keyword">public</span> <span class="class">ResponseEntity</span>&lt;<span class="class">Product</span>&gt; <span
+            class="method">createProduct</span>(<span class="annotation">@Valid</span> <span class="annotation">@RequestBody</span> <span
+            class="class">Product</span> <span class="var">product</span>) {
+        <span class="class">Product</span> <span class="var">saved</span> = <span class="var">productService</span>.save(<span
+            class="var">product</span>);
+        <span class="class">URI</span> <span class="var">location</span> = <span class="class">ServletUriComponentsBuilder</span>
+            .fromCurrentRequest()
+            .path(<span class="string">"/{id}"</span>)
+            .buildAndExpand(<span class="var">saved</span>.getId())
+            .toUri();
+        <span class="keyword">return</span> <span class="class">ResponseEntity</span>.created(<span
+            class="var">location</span>).body(<span class="var">saved</span>);
+    }
+}</code></pre>
+    <br>
+    <hr>
+    <br>
+    <h3>4. Exception Handling</h3>
+
+    <h3>Global Exception Handling</h3>
+    <p>@ControllerAdvice is a global exception handling mechanism in spring. It allows you to define a central place for
+        handling exceptions that occur in your application.</p>
+    <p>When an exception is thrown from any controller method (e.g., a REST endpoint), it is caught by the
+        @ControllerAdvice annotated class.</p>
+    <p>The @ExceptionHandler methods within the @ControllerAdvice class handle specific exception types and return
+        appropriate responses.</p>
+
+    <h3>Implementation</h3>
+
+    <pre class="java-code">
+<code><span class="annotation">@ControllerAdvice</span>
+<span class="keyword">public class</span> <span class="class">GlobalExceptionHandler</span> {
+    <span class="comment">// Handle specific exception</span>
+    <span class="annotation">@ExceptionHandler</span>(<span class="class">ResourceNotFoundException</span>.<span
+            class="keyword">class</span>)
+    <span class="keyword">public</span> <span class="class">ResponseEntity</span>&lt;<span
+            class="class">ErrorResponse</span>&gt; <span class="method">handleResourceNotFound</span>(
+        <span class="class">ResourceNotFoundException</span> <span class="var">ex</span>) {
+        <span class="class">ErrorResponse</span> <span class="var">error</span> = <span class="keyword">new</span> <span
+            class="class">ErrorResponse</span>(
+            <span class="class">HttpStatus</span>.NOT_FOUND.value(),
+            <span class="var">ex</span>.getMessage(),
+            <span class="class">System</span>.currentTimeMillis());
+        <span class="keyword">return</span> <span class="keyword">new</span> <span class="class">ResponseEntity</span>&lt;&gt;(<span
+            class="var">error</span>, <span class="class">HttpStatus</span>.NOT_FOUND);
+    }</code></pre>
+
+    <pre class="java-code">
+<code><span class="comment">// Handle validation exceptions</span>
+<span class="annotation">@ExceptionHandler</span>(<span class="class">MethodArgumentNotValidException</span>.<span
+            class="keyword">class</span>)
+<span class="keyword">public</span> <span class="class">ResponseEntity</span>&lt;<span
+            class="class">ErrorResponse</span>&gt; <span class="method">handleValidationErrors</span>(
+    <span class="class">MethodArgumentNotValidException</span> <span class="var">ex</span>) {
+    <span class="class">List</span>&lt;<span class="class">String</span>&gt; <span class="var">errors</span> = <span
+            class="var">ex</span>.getBindingResult()
+        .getFieldErrors()
+        .stream()
+        .map(<span class="class">FieldError</span>::getDefaultMessage)
+        .collect(<span class="class">Collectors</span>.toList());
+    <span class="class">ErrorResponse</span> <span class="var">error</span> = <span class="keyword">new</span> <span
+            class="class">ErrorResponse</span>(
+        <span class="class">HttpStatus</span>.BAD_REQUEST.value(),
+        <span class="string">"Validation failed"</span>,
+        <span class="class">System</span>.currentTimeMillis(),
+        <span class="var">errors</span>);
+    <span class="keyword">return</span> <span class="keyword">new</span> <span class="class">ResponseEntity</span>&lt;&gt;(<span
+            class="var">error</span>, <span class="class">HttpStatus</span>.BAD_REQUEST);
+}</code></pre>
+
+    <pre class="java-code">
+<code><span class="comment">// Handle all other exceptions</span>
+<span class="annotation">@ExceptionHandler</span>(<span class="class">Exception</span>.<span
+            class="keyword">class</span>)
+<span class="keyword">public</span> <span class="class">ResponseEntity</span>&lt;<span
+            class="class">ErrorResponse</span>&gt; <span class="method">handleGenericException</span>(<span
+            class="class">Exception</span> <span class="var">ex</span>) {
+    <span class="class">ErrorResponse</span> <span class="var">error</span> = <span class="keyword">new</span> <span
+            class="class">ErrorResponse</span>(
+        <span class="class">HttpStatus</span>.INTERNAL_SERVER_ERROR.value(),
+        <span class="string">"An unexpected error occurred"</span>,
+        <span class="class">System</span>.currentTimeMillis());
+    <span class="keyword">return</span> <span class="keyword">new</span> <span class="class">ResponseEntity</span>&lt;&gt;(<span
+            class="var">error</span>, <span class="class">HttpStatus</span>.INTERNAL_SERVER_ERROR);
+}
+}</code></pre>
+
+    <h3>Custom Exception Class</h3>
+
+    <pre class="java-code">
+<code><span class="keyword">public class</span> <span class="class">ResourceNotFoundException</span> <span
+        class="keyword">extends</span> <span class="class">RuntimeException</span> {
+    <span class="keyword">public</span> <span class="class">ResourceNotFoundException</span>(<span
+            class="class">String</span> <span class="var">message</span>) {
+        <span class="keyword">super</span>(<span class="var">message</span>);
+    }
+}</code></pre>
+
+    <h3>Error Response DTO</h3>
+
+    <pre class="java-code">
+<code><span class="keyword">public class</span> <span class="class">ErrorResponse</span> {
+    <span class="keyword">private</span> <span class="keyword">int</span> <span class="var">status</span>;
+    <span class="keyword">private</span> <span class="class">String</span> <span class="var">message</span>;
+    <span class="keyword">private</span> <span class="keyword">long</span> <span class="var">timestamp</span>;
+    <span class="keyword">private</span> <span class="class">List</span>&lt;<span class="class">String</span>&gt; <span
+            class="var">details</span>;
+
+    <span class="comment">// Constructors, getters, setters</span>
+}</code></pre>
+
+    <h3>Usage in Controller</h3>
+
+    <pre class="java-code">
+<code><span class="annotation">@RestController</span>
+<span class="annotation">@RequestMapping</span>(<span class="string">"/api/products"</span>)
+<span class="keyword">public class</span> <span class="class">ProductController</span> {
+    <span class="annotation">@GetMapping</span>(<span class="string">"/{id}"</span>)
+    <span class="keyword">public</span> <span class="class">Product</span> <span class="method">getProduct</span>(<span
+            class="annotation">@PathVariable</span> <span class="class">Long</span> <span class="var">id</span>) {
+        <span class="keyword">return</span> <span class="var">productService</span>.findById(<span class="var">id</span>)
+            .orElseThrow(() -> <span class="keyword">new</span> <span
+            class="class">ResourceNotFoundException</span>(<span class="string">"Product not found"</span>));
+    }
+}</code></pre>
+
+    <h3>Key Benefits</h3>
+    <p>• Centralized exception handling</p>
+    <p>• Consistent error responses</p>
+    <p>• Separation of concerns</p>
+    <p>• Customizable error formats</p>
+    <p>• Support for multiple content types (JSON, XML)</p>
+    <br>
+    <hr>
+    <br>
+    <h3>5. REST API Best Practices</h3>
+
+    <h3>1. Resource Naming</h3>
+    <p>• Use nouns (not verbs) for resource names</p>
+    <p>• Use plural nouns for collections</p>
+    <p>• Use hyphens for multi-word names</p>
+    <p>• Use lowercase letters</p>
+    <p>• Examples:</p>
+    <p>- /users (not /getUsers)</p>
+    <p>- /orders/{id}/items (not /orders/{id}/getItems)</p>
+    <p>- /product-categories (not /productCategories)</p>
+
+    <h3>2. HTTP Methods Usage</h3>
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>HTTP Method</th>
+                <th>Operation</th>
+                <th>Idempotent</th>
+                <th>Safe</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>GET</td>
+                <td>Retrieve resource(s)</td>
+                <td>Yes</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <td>POST</td>
+                <td>Create new resource</td>
+                <td>No</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <td>PUT</td>
+                <td>Replace resource (full update)</td>
+                <td>Yes</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <td>PATCH</td>
+                <td>Partial update</td>
+                <td>No</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <td>DELETE</td>
+                <td>Delete resource</td>
+                <td>Yes</td>
+                <td>No</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>3. HTTP Status Codes</h3>
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Status Code</th>
+                <th>Meaning</th>
+                <th>Typical Use</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>200 OK</td>
+                <td>Successful operation</td>
+                <td>GET, PUT, PATCH</td>
+            </tr>
+            <tr>
+                <td>201 Created</td>
+                <td>Resource created</td>
+                <td>POST (with Location header)</td>
+            </tr>
+            <tr>
+                <td>204 No Content</td>
+                <td>Successful but no content</td>
+                <td>DELETE, sometimes PUT/PATCH</td>
+            </tr>
+            <tr>
+                <td>400 Bad Request</td>
+                <td>Invalid request</td>
+                <td>Validation errors</td>
+            </tr>
+            <tr>
+                <td>401 Unauthorized</td>
+                <td>Authentication required</td>
+                <td>Missing/invalid credentials</td>
+            </tr>
+            <tr>
+                <td>403 Forbidden</td>
+                <td>Access denied</td>
+                <td>Authenticated but not authorized</td>
+            </tr>
+            <tr>
+                <td>404 Not Found</td>
+                <td>Resource doesn't exist</td>
+                <td>Invalid URL or ID</td>
+            </tr>
+            <tr>
+                <td>409 Conflict</td>
+                <td>Resource conflict</td>
+                <td>Duplicate creation, version conflicts</td>
+            </tr>
+            <tr>
+                <td>500 Internal Server Error</td>
+                <td>Server-side error</td>
+                <td>Unexpected server errors</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>4. Response Envelopes</h3>
+    <p>Consider using standardized response formats:</p>
+
+    <pre class="java-code">
+<code><span class="comment">// Success response</span>
+{
+  <span class="string">"status"</span>: <span class="string">"success"</span>,
+  <span class="string">"data"</span>: { ... },
+  <span class="string">"message"</span>: <span class="string">"Operation completed"</span>,
+  <span class="string">"timestamp"</span>: <span class="string">"2023-12-07T10:30:00Z"</span>
+}
+
+<span class="comment">// Error response</span>
+{
+  <span class="string">"status"</span>: <span class="string">"error"</span>,
+  <span class="string">"message"</span>: <span class="string">"Resource not found"</span>,
+  <span class="string">"code"</span>: <span class="string">"NOT_FOUND"</span>,
+  <span class="string">"timestamp"</span>: <span class="string">"2023-12-07T10:30:00Z"</span>,
+  <span class="string">"details"</span>: [ ... ]
+}</code></pre>
+
+    <h3>5. Versioning Strategies</h3>
+    <p>• URI Versioning: /api/v1/users</p>
+    <p>• Query Parameter: /api/users?version=1</p>
+    <p>• Header Versioning: Accept: application/vnd.api.v1+json</p>
+    <p>• Media Type: Accept: application/json; version=1</p>
+
+    <h3>6. Pagination and Filtering</h3>
+    <p>• Use query parameters: ?page=2&size=20&sort=name,desc</p>
+    <p>• Include pagination metadata in responses:</p>
+
+    <pre class="java-code">
+<code>{
+  <span class="string">"content"</span>: [ ... ],
+  <span class="string">"page"</span>: {
+    <span class="string">"number"</span>: 2,
+    <span class="string">"size"</span>: 20,
+    <span class="string">"totalElements"</span>: 150,
+    <span class="string">"totalPages"</span>: 8
+  }
+}</code></pre>
+
+    <h3>7. HATEOAS (Hypermedia as the Engine of Application State)</h3>
+    <p>Include links for resource navigation:</p>
+
+    <pre class="java-code">
+<code>{
+  <span class="string">"id"</span>: 123,
+  <span class="string">"name"</span>: <span class="string">"John Doe"</span>,
+  <span class="string">"email"</span>: <span class="string">"john@example.com"</span>,
+  <span class="string">"_links"</span>: {
+    <span class="string">"self"</span>: { <span class="string">"href"</span>: <span
+            class="string">"/api/users/123"</span> },
+    <span class="string">"orders"</span>: { <span class="string">"href"</span>: <span class="string">"/api/users/123/orders"</span> },
+    <span class="string">"update"</span>: { <span class="string">"href"</span>: <span
+            class="string">"/api/users/123"</span>, <span class="string">"method"</span>: <span
+            class="string">"PUT"</span> },
+    <span class="string">"delete"</span>: { <span class="string">"href"</span>: <span
+            class="string">"/api/users/123"</span>, <span class="string">"method"</span>: <span
+            class="string">"DELETE"</span> }
+  }
+}</code></pre>
+
+    <h3>8. Security Best Practices</h3>
+    <p>• Use HTTPS</p>
+    <p>• Implement proper authentication (JWT, OAuth2)</p>
+    <p>• Validate and sanitize all inputs</p>
+    <p>• Implement rate limiting</p>
+    <p>• Use CORS appropriately</p>
+    <p>• Sanitize error messages</p>
+
+    <h3>9. Documentation</h3>
+    <p>• Use OpenAPI/Swagger</p>
+    <p>• Keep documentation updated</p>
+    <p>• Include examples</p>
+    <p>• Document error responses</p>
+
+    <h3>10. Performance Considerations</h3>
+    <p>• Implement caching (ETag, Last-Modified)</p>
+    <p>• Support compression (gzip)</p>
+    <p>• Consider partial responses (?fields=name,email)</p>
+    <p>• Implement proper logging and monitoring</p>
+
+    <h3>6. Configuration</h3>
+
+    <h3>Basic Spring Boot Configuration</h3>
+
+    <pre class="code-block">
+<code><span class="key">server:</span>
+  <span class="key">port:</span> <span class="number">8080</span>
+  <span class="key">servlet:</span>
+    <span class="key">context-path:</span> <span class="value">/api</span>
+
+<span class="key">spring:</span>
+  <span class="key">mvc:</span>
+    <span class="key">throw-exception-if-no-handler-found:</span> <span class="value">true</span>
+    <span class="key">format:</span>
+      <span class="key">date:</span> <span class="value">yyyy-MM-dd</span>
+  <span class="key">web:</span>
+    <span class="key">resources:</span>
+      <span class="key">add-mappings:</span> <span class="value">false</span></code></pre>
+
+    <h3>CORS Configuration</h3>
+
+    <pre class="java-code">
+<code><span class="annotation">@Configuration</span>
+<span class="keyword">public class</span> <span class="class">WebConfig</span> <span
+            class="keyword">implements</span> <span class="class">WebMvcConfigurer</span> {
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> <span
+            class="method">addCorsMappings</span>(<span class="class">CorsRegistry</span> <span
+            class="var">registry</span>) {
+        <span class="var">registry</span>.addMapping(<span class="string">"/api/**"</span>)
+            .allowedOrigins(<span class="string">"https://example.com"</span>)
+            .allowedMethods(<span class="string">"GET"</span>, <span class="string">"POST"</span>, <span class="string">"PUT"</span>, <span
+            class="string">"DELETE"</span>)
+            .allowedHeaders(<span class="string">"*"</span>)
+            .allowCredentials(<span class="keyword">true</span>);
+    }
+}</code></pre>
+
+    <h3>Custom Message Converters</h3>
+
+    <pre class="java-code">
+<code><span class="annotation">@Configuration</span>
+<span class="keyword">public class</span> <span class="class">WebConfig</span> <span
+            class="keyword">implements</span> <span class="class">WebMvcConfigurer</span> {
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="method">configureMessageConverters</span>(<span
+            class="class">List</span>&lt;<span class="class">HttpMessageConverter</span>&lt;?&gt;&gt; <span class="var">converters</span>) {
+        <span class="class">MappingJackson2HttpMessageConverter</span> <span class="var">converter</span> = <span
+            class="keyword">new</span> <span class="class">MappingJackson2HttpMessageConverter</span>();
+        <span class="var">converter</span>.getObjectMapper().registerModule(<span class="keyword">new</span> <span
+            class="class">JavaTimeModule</span>());
+        <span class="var">converter</span>.getObjectMapper().disable(<span class="class">SerializationFeature</span>.WRITE_DATES_AS_TIMESTAMPS);
+        <span class="var">converters</span>.add(<span class="number">0</span>, <span class="var">converter</span>);
+    }
+}</code></pre>
+
+    <h3>Static Resource Configuration</h3>
+
+    <pre class="java-code">
+<code><span class="annotation">@Configuration</span>
+<span class="keyword">public class</span> <span class="class">WebConfig</span> <span
+            class="keyword">implements</span> <span class="class">WebMvcConfigurer</span> {
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> <span
+            class="method">addResourceHandlers</span>(<span class="class">ResourceHandlerRegistry</span> <span
+            class="var">registry</span>) {
+        <span class="var">registry</span>.addResourceHandler(<span class="string">"/static/**"</span>)
+            .addResourceLocations(<span class="string">"classpath:/static/"</span>)
+            .setCachePeriod(<span class="number">3600</span>)
+            .resourceChain(<span class="keyword">true</span>);
+    }
+}</code></pre>
+
+    <h3>Servlet Configuration</h3>
+
+    <pre class="java-code">
+<code><span class="annotation">@Configuration</span>
+<span class="keyword">public class</span> <span class="class">ServletConfig</span> {
+    <span class="annotation">@Bean</span>
+    <span class="keyword">public</span> <span class="class">ServletRegistrationBean</span>&lt;<span class="class">DispatcherServlet</span>&gt; <span
+            class="method">dispatcherServlet</span>() {
+        <span class="class">DispatcherServlet</span> <span class="var">servlet</span> = <span class="keyword">new</span> <span
+            class="class">DispatcherServlet</span>();
+        <span class="class">ServletRegistrationBean</span>&lt;<span class="class">DispatcherServlet</span>&gt; <span
+            class="var">registration</span> =
+            <span class="keyword">new</span> <span class="class">ServletRegistrationBean</span>&lt;&gt;(<span
+            class="var">servlet</span>, <span class="string">"/api/*"</span>);
+        <span class="var">registration</span>.setName(<span class="string">"dispatcherServlet"</span>);
+        <span class="var">registration</span>.setLoadOnStartup(<span class="number">1</span>);
+        <span class="keyword">return</span> <span class="var">registration</span>;
+    }
+}</code></pre>
+
+    <h3>Async Configuration</h3>
+
+    <pre class="java-code">
+<code><span class="annotation">@Configuration</span>
+<span class="annotation">@EnableAsync</span>
+<span class="keyword">public class</span> <span class="class">AsyncConfig</span> <span class="keyword">implements</span> <span
+            class="class">AsyncConfigurer</span> {
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="class">Executor</span> <span class="method">getAsyncExecutor</span>() {
+        <span class="class">ThreadPoolTaskExecutor</span> <span class="var">executor</span> = <span
+            class="keyword">new</span> <span class="class">ThreadPoolTaskExecutor</span>();
+        <span class="var">executor</span>.setCorePoolSize(<span class="number">5</span>);
+        <span class="var">executor</span>.setMaxPoolSize(<span class="number">10</span>);
+        <span class="var">executor</span>.setQueueCapacity(<span class="number">25</span>);
+        <span class="var">executor</span>.setThreadNamePrefix(<span class="string">"Async-"</span>);
+        <span class="var">executor</span>.initialize();
+        <span class="keyword">return</span> <span class="var">executor</span>;
+    }
+}</code></pre>
+
+    <h3>7. Testing</h3>
+
+    <h3>Controller Unit Tests</h3>
+
+    <pre class="java-code">
+<code><span class="annotation">@WebMvcTest</span>(<span class="class">UserController</span>.<span
+        class="keyword">class</span>)
+<span class="keyword">class</span> <span class="class">UserControllerTest</span> {
+    <span class="annotation">@MockBean</span>
+    <span class="keyword">private</span> <span class="class">UserService</span> <span class="var">userService</span>;
+    <span class="annotation">@Autowired</span>
+    <span class="keyword">private</span> <span class="class">MockMvc</span> <span class="var">mockMvc</span>;
+    <span class="annotation">@Test</span>
+    <span class="keyword">void</span> <span class="method">getUser_ShouldReturnUser</span>() <span class="keyword">throws</span> <span
+            class="class">Exception</span> {
+        <span class="class">User</span> <span class="var">user</span> = <span class="keyword">new</span> <span
+            class="class">User</span>(<span class="number">1L</span>, <span class="string">"john@example.com"</span>);
+        <span class="class">given</span>(<span class="var">userService</span>.findById(<span class="number">1L</span>)).willReturn(<span
+            class="class">Optional</span>.of(<span class="var">user</span>));
+        <span class="var">mockMvc</span>.perform(<span class="class">MockMvcRequestBuilders</span>.get(<span
+            class="string">"/api/users/1"</span>))
+            .andExpect(<span class="class">MockMvcResultMatchers</span>.status().isOk())
+            .andExpect(<span class="class">MockMvcResultMatchers</span>.jsonPath(<span class="string">"$.id"</span>).value(<span
+            class="number">1</span>))
+            .andExpect(<span class="class">MockMvcResultMatchers</span>.jsonPath(<span class="string">"$.email"</span>).value(<span
+            class="string">"john@example.com"</span>));
+    }
+}</code></pre>
+
+    <h3>Integration Tests</h3>
+
+    <pre class="java-code">
+<code><span class="annotation">@SpringBootTest</span>
+<span class="annotation">@AutoConfigureMockMvc</span>
+<span class="keyword">class</span> <span class="class">UserIntegrationTest</span> {
+    <span class="annotation">@Autowired</span>
+    <span class="keyword">private</span> <span class="class">MockMvc</span> <span class="var">mockMvc</span>;
+    <span class="annotation">@Autowired</span>
+    <span class="keyword">private</span> <span class="class">ObjectMapper</span> <span class="var">objectMapper</span>;
+    <span class="annotation">@Test</span>
+    <span class="keyword">void</span> <span class="method">createUser_ShouldReturnCreated</span>() <span
+            class="keyword">throws</span> <span class="class">Exception</span> {
+        <span class="class">UserDto</span> <span class="var">userDto</span> = <span class="keyword">new</span> <span
+            class="class">UserDto</span>(<span class="string">"john@example.com"</span>, <span
+            class="string">"password"</span>);
+        <span class="var">mockMvc</span>.perform(<span class="class">MockMvcRequestBuilders</span>.post(<span
+            class="string">"/api/users"</span>)
+                .contentType(<span class="class">MediaType</span>.APPLICATION_JSON)
+                .content(<span class="var">objectMapper</span>.writeValueAsString(<span class="var">userDto</span>)))
+            .andExpect(<span class="class">MockMvcResultMatchers</span>.status().isCreated())
+            .andExpect(<span class="class">MockMvcResultMatchers</span>.header().exists(<span
+            class="string">"Location"</span>));
+    }
+}</code></pre>
+
+    <h3>REST Client Tests</h3>
+
+    <pre class="java-code">
+<code><span class="annotation">@SpringBootTest</span>(webEnvironment = <span class="class">SpringBootTest</span>.<span
+        class="class">WebEnvironment</span>.RANDOM_PORT)
+<span class="keyword">class</span> <span class="class">UserRestTemplateTest</span> {
+    <span class="annotation">@LocalServerPort</span>
+    <span class="keyword">private</span> <span class="keyword">int</span> <span class="var">port</span>;
+    <span class="annotation">@Autowired</span>
+    <span class="keyword">private</span> <span class="class">TestRestTemplate</span> <span
+            class="var">restTemplate</span>;
+    <span class="annotation">@Test</span>
+    <span class="keyword">void</span> <span class="method">getUser_ShouldReturnUser</span>() {
+        <span class="class">ResponseEntity</span>&lt;<span class="class">User</span>&gt; <span
+            class="var">response</span> = <span class="var">restTemplate</span>.getForEntity(
+            <span class="string">"http://localhost:"</span> + <span class="var">port</span> + <span class="string">"/api/users/1"</span>, <span
+            class="class">User</span>.<span class="keyword">class</span>);
+        <span class="class">assertThat</span>(<span class="var">response</span>.getStatusCode()).isEqualTo(<span
+            class="class">HttpStatus</span>.OK);
+        <span class="class">assertThat</span>(<span class="var">response</span>.getBody()).isNotNull();
+        <span class="class">assertThat</span>(<span class="var">response</span>.getBody().getId()).isEqualTo(<span
+            class="number">1L</span>);
+    }
+}</code></pre>
+
+    <h3>WebTestClient Tests</h3>
+
+    <pre class="java-code">
+<code><span class="annotation">@SpringBootTest</span>(webEnvironment = <span class="class">SpringBootTest</span>.<span
+        class="class">WebEnvironment</span>.RANDOM_PORT)
+<span class="keyword">class</span> <span class="class">UserWebTestClientTest</span> {
+    <span class="annotation">@Autowired</span>
+    <span class="keyword">private</span> <span class="class">WebTestClient</span> <span class="var">webTestClient</span>;
+    <span class="annotation">@Test</span>
+    <span class="keyword">void</span> <span class="method">getUser_ShouldReturnUser</span>() {
+        <span class="var">webTestClient</span>.get().uri(<span class="string">"/api/users/1"</span>)
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody(<span class="class">User</span>.<span class="keyword">class</span>)
+            .value(<span class="var">user</span> -> {
+                <span class="class">assertThat</span>(<span class="var">user</span>.getId()).isEqualTo(<span
+            class="number">1L</span>);
+                <span class="class">assertThat</span>(<span class="var">user</span>.getEmail()).isEqualTo(<span
+            class="string">"john@example.com"</span>);
+            });
+    }
+}</code></pre>
+
+    <h3>8. Spring WebFlux (Reactive Web)</h3>
+
+    <h3>Reactive Controllers</h3>
+
+    <pre class="java-code">
+<code><span class="annotation">@RestController</span>
+<span class="keyword">public class</span> <span class="class">ReactiveUserController</span> {
+    <span class="annotation">@GetMapping</span>(<span class="string">"/users/{id}"</span>)
+    <span class="keyword">public</span> <span class="class">Mono</span>&lt;<span class="class">User</span>&gt; <span
+            class="method">getUser</span>(<span class="annotation">@PathVariable</span> <span
+            class="class">String</span> <span class="var">id</span>) {
+        <span class="keyword">return</span> <span class="var">userService</span>.findById(<span class="var">id</span>);
+    }
+    <span class="annotation">@GetMapping</span>(<span class="string">"/users"</span>)
+    <span class="keyword">public</span> <span class="class">Flux</span>&lt;<span class="class">User</span>&gt; <span
+            class="method">getUsers</span>() {
+        <span class="keyword">return</span> <span class="var">userService</span>.findAll();
+    }
+    <span class="annotation">@PostMapping</span>(<span class="string">"/users"</span>)
+    <span class="keyword">public</span> <span class="class">Mono</span>&lt;<span class="class">ResponseEntity</span>&lt;<span
+            class="class">User</span>&gt;&gt; <span class="method">createUser</span>(<span class="annotation">@RequestBody</span> <span
+            class="class">Mono</span>&lt;<span class="class">User</span>&gt; <span class="var">userMono</span>) {
+        <span class="keyword">return</span> <span class="var">userMono</span>
+            .flatMap(<span class="var">userService</span>::save)
+            .map(<span class="var">savedUser</span> -> <span class="class">ResponseEntity</span>
+                .created(<span class="class">URI</span>.create(<span class="string">"/users/"</span> + <span
+            class="var">savedUser</span>.getId()))
+                .body(<span class="var">savedUser</span>));
+    }
+}</code></pre>
+
+    <h3>Reactive Exception Handling</h3>
+
+    <pre class="java-code">
+<code><span class="annotation">@ControllerAdvice</span>
+<span class="keyword">public class</span> <span class="class">ReactiveExceptionHandler</span> {
+    <span class="annotation">@ExceptionHandler</span>(<span class="class">ResourceNotFoundException</span>.<span
+            class="keyword">class</span>)
+    <span class="keyword">public</span> <span class="class">Mono</span>&lt;<span class="class">ResponseEntity</span>&lt;<span
+            class="class">ErrorResponse</span>&gt;&gt; <span class="method">handleNotFound</span>(
+        <span class="class">ResourceNotFoundException</span> <span class="var">ex</span>) {
+        <span class="class">ErrorResponse</span> <span class="var">error</span> = <span class="keyword">new</span> <span
+            class="class">ErrorResponse</span>(
+            <span class="class">HttpStatus</span>.NOT_FOUND.value(), <span class="var">ex</span>.getMessage());
+        <span class="keyword">return</span> <span class="class">Mono</span>.just(<span
+            class="class">ResponseEntity</span>.status(<span class="class">HttpStatus</span>.NOT_FOUND).body(<span
+            class="var">error</span>));
+    }
+}</code></pre>
     <br>
     <hr>
     <br>
