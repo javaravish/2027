@@ -52,110 +52,110 @@
         </li>
     </ul>
     <p>
-        <h3>Key Spring Boot features</h3>
-        <p>Let me a list of a few key features of the Spring boot
-            and we will discuss each key feature briefly.
-        </p>
-        <ol>
-            <li>Spring Boot starters</li>
-            <li>Spring
-                Boot autoconfiguration
-            </li>
-            <li>Elegant
-                configuration management
-            </li>
-            <li>Spring
-                Boot Actuator
-            </li>
-            <li>Easy-to-use
-                embedded servlet container support
-            </li>
-        </ol>
+    <h3>Key Spring Boot features</h3>
+    <p>Let me a list of a few key features of the Spring boot
+        and we will discuss each key feature briefly.
+    </p>
+    <ol>
+        <li>Spring Boot starters</li>
+        <li>Spring
+            Boot autoconfiguration
+        </li>
+        <li>Elegant
+            configuration management
+        </li>
+        <li>Spring
+            Boot Actuator
+        </li>
+        <li>Easy-to-use
+            embedded servlet container support
+        </li>
+    </ol>
     </p>
     <p>
-        <h3>1. Spring Boot Starters</h3>
-        <p>
-            Spring Boot offers many starter modules to get started quickly
-            with many of the commonly used technologies, like SpringMVC,
-            JPA, MongoDB, Spring Batch, SpringSecurity, Solr, ElasticSearch,
-            etc. These starters are pre-configured with the most commonly
-            used library dependencies so you don’t have to search for
-            compatible library versions and configure them manually.
-        </p>
-        <p>
-            For example, the <i>spring-boot-starter-data-jpa</i> starter
-            module includes all the dependencies required to use Spring
-            Data JPA, along with Hibernate library dependencies, as
-            Hibernate is the most commonly used JPA implementation.
-        </p>
-        <p>
-            <br>
-        </p>
-        <p>
-            One more example, when we add the&nbsp;<span
-                style="background-color: rgba(27, 31, 35, 0.05); color: #d73a49; font-family: &amp; amp; quot; consolas &amp;amp; quot; , &amp; amp; quot; liberation mono&amp;amp; quot; , &amp; amp; quot; courier &amp;amp; quot; , monospace; font-size: 14.4px; padding: 0.2em 0.4em;">spring-boot-starter-web</span>&nbsp;dependency,
-            it will by default pull all the commonly used libraries while
-            developing Spring MVC applications, such as&nbsp;<span
-                style="background-color: rgba(27, 31, 35, 0.05); color: #d73a49; font-family: &amp; amp; quot; consolas &amp;amp; quot; , &amp; amp; quot; liberation mono&amp;amp; quot; , &amp; amp; quot; courier &amp;amp; quot; , monospace; font-size: 14.4px; padding: 0.2em 0.4em;">spring-webmvc</span>,&nbsp;<span
-                style="background-color: rgba(27, 31, 35, 0.05); color: #d73a49; font-family: &amp; amp; quot; consolas &amp;amp; quot; , &amp; amp; quot; liberation mono&amp;amp; quot; , &amp; amp; quot; courier &amp;amp; quot; , monospace; font-size: 14.4px; padding: 0.2em 0.4em;">jackson-json</span>,&nbsp;<span
-                style="background-color: rgba(27, 31, 35, 0.05); color: #d73a49; font-family: &amp; amp; quot; consolas &amp;amp; quot; , &amp; amp; quot; liberation mono&amp;amp; quot; , &amp; amp; quot; courier &amp;amp; quot; , monospace; font-size: 14.4px; padding: 0.2em 0.4em;">validation-API</span>,
-            and&nbsp;<span
-                style="background-color: rgba(27, 31, 35, 0.05); color: #d73a49; font-family: &amp; amp; quot; consolas &amp;amp; quot; , &amp; amp; quot; liberation mono&amp;amp; quot; , &amp; amp; quot; courier &amp;amp; quot; , monospace; font-size: 14.4px; padding: 0.2em 0.4em;">tomcat</span>.
-        </p>
-        Not only does the spring-boot-starter-web add all these
-        libraries but it also configures the commonly registered beans
-        like <i>DispatcherServlet</i>, <i>ResourceHandlers</i>, <i>MessageSource</i>,
-        etc. with sensible defaults.
+    <h3>1. Spring Boot Starters</h3>
+    <p>
+        Spring Boot offers many starter modules to get started quickly
+        with many of the commonly used technologies, like SpringMVC,
+        JPA, MongoDB, Spring Batch, SpringSecurity, Solr, ElasticSearch,
+        etc. These starters are pre-configured with the most commonly
+        used library dependencies so you don’t have to search for
+        compatible library versions and configure them manually.
     </p>
     <p>
-        <h3>2. Spring Boot
-            Autoconfiguration</h3>
-        <p>
-            Spring Boot addresses the problem that Spring applications need
-            complex configuration by eliminating the need to manually set
-            up the boilerplate configuration.
-        </p>
-        <p>
-            Spring Boot takes an opinionated view of the application and
-            configures various components automatically, by registering
-            beans based on various criteria. The criteria can be:
-        </p>
+        For example, the <i>spring-boot-starter-data-jpa</i> starter
+        module includes all the dependencies required to use Spring
+        Data JPA, along with Hibernate library dependencies, as
+        Hibernate is the most commonly used JPA implementation.
+    </p>
+    <p>
         <br>
-        <ul>
-            <li>Availability of a
-                particular class in a classpath
-            </li>
-            <li>Presence
-                or absence of a Spring bean
-            </li>
-            <li>Presence
-                of a system property
-            </li>
-            <li>An
-                absence of a configuration file
-            </li>
-        </ul>
-        <p>
-            For example, if you have the <i>spring-webmvc</i> dependency in
-            your classpath, Spring Boot assumes you are trying to build a
-            SpringMVC-based web application and automatically tries to
-            register <i>DispatcherServlet</i> if it is not already
-            registered. If you have any embedded database drivers in the
-            classpath, such as H2 or HSQL, and if you haven’t configured a
-            <i>DataSource</i> bean explicitly, then Spring Boot will
-            automatically register a <i>DataSource</i> bean using in-memory
-            database settings.
-        </p>
-        <h3>3. Elegant Configuration
-            Management</h3>
-        <p>
-            Spring supports externalizing configurable properties using the
-            @PropertySource configuration. Spring Boot takes it even
-            further by using sensible defaults and powerful type-safe
-            property binding to bean properties. Spring Boot supports
-            having separate configuration files for different profiles
-            without requiring many configurations.
-        </p>
+    </p>
+    <p>
+        One more example, when we add the&nbsp;<span
+            style="background-color: rgba(27, 31, 35, 0.05); color: #d73a49; font-family: &amp; amp; quot; consolas &amp;amp; quot; , &amp; amp; quot; liberation mono&amp;amp; quot; , &amp; amp; quot; courier &amp;amp; quot; , monospace; font-size: 14.4px; padding: 0.2em 0.4em;">spring-boot-starter-web</span>&nbsp;dependency,
+        it will by default pull all the commonly used libraries while
+        developing Spring MVC applications, such as&nbsp;<span
+            style="background-color: rgba(27, 31, 35, 0.05); color: #d73a49; font-family: &amp; amp; quot; consolas &amp;amp; quot; , &amp; amp; quot; liberation mono&amp;amp; quot; , &amp; amp; quot; courier &amp;amp; quot; , monospace; font-size: 14.4px; padding: 0.2em 0.4em;">spring-webmvc</span>,&nbsp;<span
+            style="background-color: rgba(27, 31, 35, 0.05); color: #d73a49; font-family: &amp; amp; quot; consolas &amp;amp; quot; , &amp; amp; quot; liberation mono&amp;amp; quot; , &amp; amp; quot; courier &amp;amp; quot; , monospace; font-size: 14.4px; padding: 0.2em 0.4em;">jackson-json</span>,&nbsp;<span
+            style="background-color: rgba(27, 31, 35, 0.05); color: #d73a49; font-family: &amp; amp; quot; consolas &amp;amp; quot; , &amp; amp; quot; liberation mono&amp;amp; quot; , &amp; amp; quot; courier &amp;amp; quot; , monospace; font-size: 14.4px; padding: 0.2em 0.4em;">validation-API</span>,
+        and&nbsp;<span
+            style="background-color: rgba(27, 31, 35, 0.05); color: #d73a49; font-family: &amp; amp; quot; consolas &amp;amp; quot; , &amp; amp; quot; liberation mono&amp;amp; quot; , &amp; amp; quot; courier &amp;amp; quot; , monospace; font-size: 14.4px; padding: 0.2em 0.4em;">tomcat</span>.
+    </p>
+    Not only does the spring-boot-starter-web add all these
+    libraries but it also configures the commonly registered beans
+    like <i>DispatcherServlet</i>, <i>ResourceHandlers</i>, <i>MessageSource</i>,
+    etc. with sensible defaults.
+    </p>
+    <p>
+    <h3>2. Spring Boot
+        Autoconfiguration</h3>
+    <p>
+        Spring Boot addresses the problem that Spring applications need
+        complex configuration by eliminating the need to manually set
+        up the boilerplate configuration.
+    </p>
+    <p>
+        Spring Boot takes an opinionated view of the application and
+        configures various components automatically, by registering
+        beans based on various criteria. The criteria can be:
+    </p>
+    <br>
+    <ul>
+        <li>Availability of a
+            particular class in a classpath
+        </li>
+        <li>Presence
+            or absence of a Spring bean
+        </li>
+        <li>Presence
+            of a system property
+        </li>
+        <li>An
+            absence of a configuration file
+        </li>
+    </ul>
+    <p>
+        For example, if you have the <i>spring-webmvc</i> dependency in
+        your classpath, Spring Boot assumes you are trying to build a
+        SpringMVC-based web application and automatically tries to
+        register <i>DispatcherServlet</i> if it is not already
+        registered. If you have any embedded database drivers in the
+        classpath, such as H2 or HSQL, and if you haven’t configured a
+        <i>DataSource</i> bean explicitly, then Spring Boot will
+        automatically register a <i>DataSource</i> bean using in-memory
+        database settings.
+    </p>
+    <h3>3. Elegant Configuration
+        Management</h3>
+    <p>
+        Spring supports externalizing configurable properties using the
+        @PropertySource configuration. Spring Boot takes it even
+        further by using sensible defaults and powerful type-safe
+        property binding to bean properties. Spring Boot supports
+        having separate configuration files for different profiles
+        without requiring many configurations.
+    </p>
     </p>
     <p>
         Being able to get the various details of an application running
@@ -193,8 +193,8 @@
     </p>
     <br>
     <hr>
+    <br>
     <div class="card-footer">
-        <br>
         <ul class="pagination justify-content-center">
             <li class="page-item"><a class="page-link" href="../sb/config.html">Next
                 &rArr;</a></li>

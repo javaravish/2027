@@ -35,31 +35,31 @@
     <p>Example console log (default format):</p>
     <pre class="java-code">
   <code>
-    <span class="keyword">2025-08-27 18:25:43.123 INFO 13200 --- [ restartedMain] com.example.DemoApplication : Starting DemoApplication
+<span class="keyword">2025-08-27 18:25:43.123 INFO 13200 --- [ restartedMain] com.example.DemoApplication : Starting DemoApplication
     </span></code></pre>
     <h4>Example: Using Logger in a Class</h4>
     <pre class="java-code">
   <code>
-    <span class="keyword">import</span> org.slf4j.Logger;
-    <span class="keyword">import</span> org.slf4j.LoggerFactory;
-    <span class="keyword">import</span> org.springframework.stereotype.Service;
+<span class="keyword">import</span> org.slf4j.Logger;
+<span class="keyword">import</span> org.slf4j.LoggerFactory;
+<span class="keyword">import</span> org.springframework.stereotype.Service;
 
-    <span class="annotation">@Service</span>
-    <span class="keyword">public class</span> <span class="class">UserService</span> {
+<span class="annotation">@Service</span>
+<span class="keyword">public class</span> <span class="class">UserService</span> {
 
-        <span class="keyword">private static final</span> Logger <span class="var">logger</span> = LoggerFactory.getLogger(UserService.class);
+    <span class="keyword">private static final</span> Logger <span class="var">logger</span> = LoggerFactory.getLogger(UserService.class);
 
-        <span class="keyword">public void</span> <span class="method">createUser</span>(<span
-          class="class">String</span> <span class="var">username</span>) {
-            <span class="var">logger</span>.info(<span class="string">"Creating user: {}"</span>, <span class="var">username</span>);
-            <span class="var">logger</span>.debug(<span
-          class="string">"Debugging user creation with username: {}"</span>, <span class="var">username</span>);
-            <span class="var">logger</span>.warn(<span class="string">"This is just a warning log for {}"</span>, <span
-          class="var">username</span>);
-            <span class="var">logger</span>.error(<span class="string">"Error occurred while creating user: {}"</span>, <span
-          class="var">username</span>);
-        }
+    <span class="keyword">public void</span> <span class="method">createUser</span>(<span
+      class="class">String</span> <span class="var">username</span>) {
+        <span class="var">logger</span>.info(<span class="string">"Creating user: {}"</span>, <span class="var">username</span>);
+        <span class="var">logger</span>.debug(<span
+      class="string">"Debugging user creation with username: {}"</span>, <span class="var">username</span>);
+        <span class="var">logger</span>.warn(<span class="string">"This is just a warning log for {}"</span>, <span
+      class="var">username</span>);
+        <span class="var">logger</span>.error(<span class="string">"Error occurred while creating user: {}"</span>, <span
+      class="var">username</span>);
     }
+}
   </code>
 </pre>
 
@@ -77,20 +77,20 @@
     <p>Default level: INFO</p>
     <pre class="java-code">
   <code>
-    <span class="keyword">private static final</span> Logger <span class="var">log</span> = LoggerFactory.getLogger(UserService.class);
+<span class="keyword">private static final</span> Logger <span class="var">log</span> = LoggerFactory.getLogger(UserService.class);
 
-    <span class="keyword">public void</span> <span class="method">createUser</span>(<span
-          class="class">String</span> <span class="var">name</span>) {
-        <span class="var">log</span>.trace(<span class="string">"Entering createUser()"</span>);
-        <span class="var">log</span>.debug(<span class="string">"Creating user with name {}"</span>, <span class="var">name</span>);
-        <span class="var">log</span>.info(<span class="string">"User {} created successfully"</span>, <span class="var">name</span>);
-        <span class="var">log</span>.warn(<span class="string">"User {} created without email"</span>, <span
-          class="var">name</span>);
-        <span class="var">log</span>.error(<span class="string">"Error creating user {}"</span>, <span
-          class="var">name</span>,
-            <span class="keyword">new</span> <span class="class">RuntimeException</span>(<span
-          class="string">"DB down"</span>));
-    }
+<span class="keyword">public void</span> <span class="method">createUser</span>(<span
+      class="class">String</span> <span class="var">name</span>) {
+    <span class="var">log</span>.trace(<span class="string">"Entering createUser()"</span>);
+    <span class="var">log</span>.debug(<span class="string">"Creating user with name {}"</span>, <span class="var">name</span>);
+    <span class="var">log</span>.info(<span class="string">"User {} created successfully"</span>, <span class="var">name</span>);
+    <span class="var">log</span>.warn(<span class="string">"User {} created without email"</span>, <span
+      class="var">name</span>);
+    <span class="var">log</span>.error(<span class="string">"Error creating user {}"</span>, <span
+      class="var">name</span>,
+        <span class="keyword">new</span> <span class="class">RuntimeException</span>(<span
+      class="string">"DB down"</span>));
+}
   </code>
 </pre>
 
@@ -100,7 +100,8 @@
     <p>logback-spring.xml / log4j2-spring.xml for advanced cases</p>
     <p>Example: application.properties</p>
     <pre class="code-block">
-<code><span class="key"># Root log level</span>
+<code>
+<span class="key"># Root log level</span>
 <span class="key">logging.level.root</span>=<span class="value">INFO</span>
 <span class="key"># Package-specific log levels</span>
 <span class="key">logging.level.com.example.demo</span>=<span class="value">DEBUG</span>
@@ -109,17 +110,19 @@
     </pre>
     <p>Example: application.yml</p>
     <pre class="code-block">
-<code><span class="key">logging:</span>
-  <span class="key">level:</span>
-    <span class="key">root:</span> <span class="value">INFO</span>
-    <span class="key">com.example.demo:</span> <span class="value">DEBUG</span>
-    <span class="key">org.springframework.web:</span> <span class="value">INFO</span>
-    <span class="key">org.hibernate:</span> <span class="value">ERROR</span></code>
-    </pre>
-    <h3>4. Custom Loggers</h3>
-    <p>You can define package-level or class-level loggers.</p>
-    <pre class="code-block">
-<code><span class="key"># Only log debug for service package</span>
+<code>
+<span class="key">logging:</span>
+<span class="key">level:</span>
+  <span class="key">root:</span> <span class="value">INFO</span>
+  <span class="key">com.example.demo:</span> <span class="value">DEBUG</span>
+  <span class="key">org.springframework.web:</span> <span class="value">INFO</span>
+  <span class="key">org.hibernate:</span> <span class="value">ERROR</span></code>
+  </pre>
+  <h3>4. Custom Loggers</h3>
+  <p>You can define package-level or class-level loggers.</p>
+  <pre class="code-block">
+<code>
+<span class="key"># Only log debug for service package</span>
 <span class="key">logging.level.com.example.service</span>=<span class="value">DEBUG</span>
 
 <span class="key"># Restrict controller logs to INFO</span>
@@ -127,14 +130,16 @@
     </pre>
     <p>You can also create separate loggers in <code>logback-spring.xml</code>:</p>
     <pre class="code-block">
-<code><span class="tag">&lt;logger name="com.example.service" level="DEBUG"/&gt;</span>
+<code>
+<span class="tag">&lt;logger name="com.example.service" level="DEBUG"/&gt;</span>
 <span class="tag">&lt;logger name="com.example.repository" level="ERROR"/&gt;</span></code>
     </pre>
     <h3>5. Logging to File</h3>
     <p>By default, Spring Boot logs only to the console.</p>
     <p>To enable file logging, add this in <code>application.properties</code>:</p>
     <pre class="code-block">
-<code><span class="key"># Log file name</span>
+<code>
+<span class="key"># Log file name</span>
 <span class="key">logging.file.name</span>=<span class="value">app.log</span>
 
 <span class="key"># OR log directory (Spring Boot will create spring.log inside)</span>
@@ -144,7 +149,8 @@
     <h3>6. Logging Patterns</h3>
     <p>You can customize log output format:</p>
     <pre class="code-block">
-<code><span class="key"># Custom console pattern</span>
+<code>
+<span class="key"># Custom console pattern</span>
 <span class="key">logging.pattern.console</span>=<span
             class="value">%d{yyyy-MM-dd HH:mm:ss} - %logger{36} - %msg%n</span>
 
@@ -153,13 +159,15 @@
     </pre>
     <p>🔍 Example log after applying:</p>
     <pre class="code-block">
-<code><span class="value">2025-08-27 19:10:00 - com.example.UserService - User Ravi created successfully</span></code>
+<code>
+<span class="value">2025-08-27 19:10:00 - com.example.UserService - User Ravi created successfully</span></code>
     </pre>
     <h3>7. Profile-Specific Logging</h3>
     <p>You can define different logging configs for different environments (dev, test, prod).</p>
     <p>Using application.yml</p>
     <pre class="code-block">
-<code><span class="key">logging:</span>
+<code>
+<span class="key">logging:</span>
   <span class="key">level:</span>
     <span class="key">root:</span> <span class="value">INFO</span>
     <span class="key">com.example:</span> <span class="value">DEBUG</span>
@@ -191,7 +199,8 @@
     <p>If you need custom patterns, rotation, or multiple appenders, create src/main/resources/logback-spring.xml .</p>
     <p>Example: logback-spring.xml</p>
     <pre class="code-block">
-<code><span class="tag">&lt;configuration&gt;</span>
+<code>
+<span class="tag">&lt;configuration&gt;</span>
 
   <span class="comment">&lt;!-- Console Appender --&gt;</span>
   <span class="tag">&lt;appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender"&gt;</span>
@@ -231,7 +240,8 @@
     <p>If you prefer Log4j2, exclude Logback and add Log4j2 dependency.</p>
     <p>In pom.xml</p>
     <pre class="code-block">
-<code><span class="tag">&lt;dependencies&gt;</span>
+<code>
+<span class="tag">&lt;dependencies&gt;</span>
   <span class="comment">&lt;!-- Exclude default logback --&gt;</span>
   <span class="tag">&lt;dependency&gt;</span>
     <span class="tag">&lt;groupId&gt;</span>org.springframework.boot<span class="tag">&lt;/groupId&gt;</span>
@@ -263,14 +273,16 @@
     </ul>
     <p>Example: Log JSON format for centralized logging:</p>
     <pre class="code-block">
-<code><span class="tag">&lt;encoder class="net.logstash.logback.encoder.LogstashEncoder"/&gt;</span></code>
+<code>
+<span class="tag">&lt;encoder class="net.logstash.logback.encoder.LogstashEncoder"/&gt;</span></code>
     </pre>
     <p>✔ This outputs logs in JSON, which can be shipped to Elasticsearch.</p>
     <hr>
     <h3>11. Best Practices for Logging</h3>
     <p>✅ Use placeholders { } instead of string concatenation:</p>
     <pre class="code-block">
-<code><span class="value">logger.info("User {} logged in at {}", username, LocalDateTime.now());</span></code>
+<code>
+<span class="value">logger.info("User {} logged in at {}", username, LocalDateTime.now());</span></code>
     </pre>
     <p>✅ Log meaningful information (don't log sensitive data like passwords).</p>
     <p>✅ Use different log levels appropriately.</p>
@@ -279,7 +291,8 @@
     <hr>
     <h3>12. Real-World Example</h3>
     <pre class="java-code">
-<code><span class="annotation">@RestController</span>
+<code>
+<span class="annotation">@RestController</span>
 <span class="annotation">@RequestMapping</span>(<span class="string">"/users"</span>)
 <span class="keyword">public class</span> <span class="class">UserController</span> {
     <span class="keyword">private static final</span> <span class="class">Logger</span> <span
@@ -314,8 +327,8 @@
     <p>Do you want me to also create a comparison of Logback vs Log4j2 (with pros & cons) for interview perspective?</p>
     <br>
     <hr>
+    <br>
     <div class="card-footer">
-        <br>
         <ul class="pagination justify-content-center">
             <li class="page-item"><a class="page-link btn-outline-primary"
                                      href="../sb/profile.html">&lArr; Previous</a></li>

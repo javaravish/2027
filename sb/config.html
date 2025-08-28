@@ -22,7 +22,6 @@
 <!-- Main Content Section -->
 <main id="content">
     <h3>Configurations</h3>
-
     <h3>1. @Value Annotation in Spring</h3>
     <p>The @Value annotation is a core Spring feature that provides a simple way to inject property values into your
         Spring-managed beans. It's part of Spring's dependency injection system and works with both Spring Framework and
@@ -30,21 +29,21 @@
 
     <h3>1.1 Basic Property Injection</h3>
     <p>Inject values from property sources (like application.properties) directly into fields:</p>
-    <pre class="code-block">
-  <code>
-    <span class="key">app.name</span>=<span class="value">MyApplication</span>
-    <span class="key">app.version</span>=<span class="value">1.0.0</span>
-  </code>
-</pre>
+  <pre class="code-block">
+<code>
+<span class="key">app.name</span>=<span class="value">MyApplication</span>
+<span class="key">app.version</span>=<span class="value">1.0.0</span>
+</code>
+  </pre>
     <pre class="java-code">
   <code>
-    <span class="annotation">@Component</span>
-    <span class="keyword">public class</span> <span class="class">AppInfo</span> {
-        <span class="annotation">@Value</span>(<span class="string">"${app.name}"</span>)
-        <span class="keyword">private</span> <span class="class">String</span> <span class="var">applicationName</span>;
-        <span class="annotation">@Value</span>(<span class="string">"${app.version}"</span>)
-        <span class="keyword">private</span> <span class="class">String</span> <span class="var">version</span>;
-    }
+<span class="annotation">@Component</span>
+<span class="keyword">public class</span> <span class="class">AppInfo</span> {
+    <span class="annotation">@Value</span>(<span class="string">"${app.name}"</span>)
+    <span class="keyword">private</span> <span class="class">String</span> <span class="var">applicationName</span>;
+    <span class="annotation">@Value</span>(<span class="string">"${app.version}"</span>)
+    <span class="keyword">private</span> <span class="class">String</span> <span class="var">version</span>;
+}
   </code>
 </pre>
 
@@ -52,9 +51,9 @@
     <p>Provide fallback values if the property doesn't exist:</p>
     <pre class="java-code">
   <code>
-    <span class="annotation">@Value</span>(<span class="string">"${app.timeout:30}"</span>)
-    <span class="comment">// Default: 30 if property missing</span>
-    <span class="keyword">private</span> <span class="class">int</span> <span class="var">timeout</span>;
+<span class="annotation">@Value</span>(<span class="string">"${app.timeout:30}"</span>)
+<span class="comment">// Default: 30 if property missing</span>
+<span class="keyword">private</span> <span class="class">int</span> <span class="var">timeout</span>;
   </code>
 </pre>
 
@@ -62,12 +61,12 @@
     <p>Access OS environment variables and Java system properties:</p>
     <pre class="java-code">
   <code>
-    <span class="annotation">@Value</span>(<span class="string">"${JAVA_HOME}"</span>) <span class="comment">// Environment variable</span>
-    <span class="keyword">private</span> <span class="class">String</span> <span class="var">javahome</span>;
+<span class="annotation">@Value</span>(<span class="string">"${JAVA_HOME}"</span>) <span class="comment">// Environment variable</span>
+<span class="keyword">private</span> <span class="class">String</span> <span class="var">javahome</span>;
 
-    <span class="annotation">@Value</span>(<span class="string">"#{systemProperties['user.timezone']}"</span>) <span
-          class="comment">// System property</span>
-    <span class="keyword">private</span> <span class="class">String</span> <span class="var">timezone</span>;
+<span class="annotation">@Value</span>(<span class="string">"#{systemProperties['user.timezone']}"</span>) <span
+      class="comment">// System property</span>
+<span class="keyword">private</span> <span class="class">String</span> <span class="var">timezone</span>;
   </code>
 </pre>
 
@@ -75,11 +74,11 @@
     <p>Advanced expressions for dynamic values:</p>
     <pre class="java-code">
   <code>
-    <span class="annotation">@Value</span>(<span class="string">"#{T(java.lang.Math).random() * 100}"</span>)
-    <span class="keyword">private</span> <span class="class">double</span> <span class="var">randomPercentage</span>;
+<span class="annotation">@Value</span>(<span class="string">"#{T(java.lang.Math).random() * 100}"</span>)
+<span class="keyword">private</span> <span class="class">double</span> <span class="var">randomPercentage</span>;
 
-    <span class="annotation">@Value</span>(<span class="string">"#{systemEnvironment['PORT'] ?: 8080}"</span>)
-    <span class="keyword">private</span> <span class="class">int</span> <span class="var">serverPort</span>;
+<span class="annotation">@Value</span>(<span class="string">"#{systemEnvironment['PORT'] ?: 8080}"</span>)
+<span class="keyword">private</span> <span class="class">int</span> <span class="var">serverPort</span>;
   </code>
 </pre>
 
@@ -97,40 +96,40 @@
     <h4>1. Injecting Simple Values</h4>
     <pre class="java-code">
   <code>
-    <span class="annotation">@Value</span>(<span class="string">"${database.url}"</span>)
-    <span class="keyword">private</span> <span class="class">String</span> <span class="var">dbUrl</span>;
+<span class="annotation">@Value</span>(<span class="string">"${database.url}"</span>)
+<span class="keyword">private</span> <span class="class">String</span> <span class="var">dbUrl</span>;
   </code>
 </pre>
 
     <h4>2. Lists & Arrays</h4>
     <pre class="code-block">
   <code>
-    <span class="key">app.servers</span>=<span class="value">server1,server2,server3</span>
+<span class="key">app.servers</span>=<span class="value">server1,server2,server3</span>
   </code>
 </pre>
     <pre class="java-code">
   <code>
-    <span class="annotation">@Value</span>(<span class="string">"${app.servers}"</span>)
-    <span class="keyword">private</span> <span class="class">String</span>[] <span class="var">servers</span>;
+<span class="annotation">@Value</span>(<span class="string">"${app.servers}"</span>)
+<span class="keyword">private</span> <span class="class">String</span>[] <span class="var">servers</span>;
 
-    <span class="comment">// Or with SpEL:</span>
-    <span class="annotation">@Value</span>(<span class="string">"#{'${app.servers}'.split(',')}"</span>)
-    <span class="keyword">private</span> <span class="class">List</span>&lt;<span class="class">String</span>&gt; <span
-          class="var">serverList</span>;
+<span class="comment">// Or with SpEL:</span>
+<span class="annotation">@Value</span>(<span class="string">"#{'${app.servers}'.split(',')}"</span>)
+<span class="keyword">private</span> <span class="class">List</span>&lt;<span class="class">String</span>&gt; <span
+      class="var">serverList</span>;
   </code>
 </pre>
 
     <h4>3. Maps (Advanced)</h4>
     <pre class="code-block">
   <code>
-    <span class="key">app.ratios</span>=<span class="value">gold=0.2,silver=0.5,bronze=0.3</span>
+<span class="key">app.ratios</span>=<span class="value">gold=0.2,silver=0.5,bronze=0.3</span>
   </code>
 </pre>
     <pre class="java-code">
   <code>
-    <span class="annotation">@Value</span>(<span class="string">"#{${app.ratios}}"</span>)
-    <span class="keyword">private</span> <span class="class">Map</span>&lt;<span class="class">String</span>, <span
-          class="class">Double</span>&gt; <span class="var">ratios</span>;
+<span class="annotation">@Value</span>(<span class="string">"#{${app.ratios}}"</span>)
+<span class="keyword">private</span> <span class="class">Map</span>&lt;<span class="class">String</span>, <span
+      class="class">Double</span>&gt; <span class="var">ratios</span>;
   </code>
 </pre>
 
@@ -150,65 +149,65 @@
     <h3>Step 1: Define Properties Class</h3>
     <pre class="java-code">
   <code>
-    <span class="annotation">@ConfigurationProperties</span>(prefix = <span class="string">"app"</span>)
-    <span class="keyword">public class</span> <span class="class">AppProperties</span> {
-        <span class="keyword">private</span> <span class="class">String</span> <span class="var">name</span>;
-        <span class="keyword">private</span> <span class="class">String</span> <span class="var">version</span>;
-        <span class="keyword">private</span> <span class="class">List</span>&lt;<span
-          class="class">String</span>&gt; <span class="var">servers</span> = <span class="keyword">new</span> <span
-          class="class">ArrayList</span>&lt;&gt;();
-        <span class="keyword">private</span> <span class="class">Database</span> <span class="var">database</span>;
+<span class="annotation">@ConfigurationProperties</span>(prefix = <span class="string">"app"</span>)
+<span class="keyword">public class</span> <span class="class">AppProperties</span> {
+    <span class="keyword">private</span> <span class="class">String</span> <span class="var">name</span>;
+    <span class="keyword">private</span> <span class="class">String</span> <span class="var">version</span>;
+    <span class="keyword">private</span> <span class="class">List</span>&lt;<span
+      class="class">String</span>&gt; <span class="var">servers</span> = <span class="keyword">new</span> <span
+      class="class">ArrayList</span>&lt;&gt;();
+    <span class="keyword">private</span> <span class="class">Database</span> <span class="var">database</span>;
 
-        <span class="comment">// Nested class</span>
-        <span class="keyword">public static class</span> <span class="class">Database</span> {
-            <span class="keyword">private</span> <span class="class">String</span> <span class="var">url</span>;
-            <span class="keyword">private</span> <span class="class">String</span> <span class="var">username</span>;
-            <span class="keyword">private</span> <span class="class">String</span> <span class="var">password</span>;
-            <span class="comment">// getters/setters</span>
-        }
-
-        <span class="comment">// Standard getters and setters</span>
-        <span class="keyword">public</span> <span class="class">String</span> <span
-          class="method">getName</span>() {
-                <span class="keyword">return</span> <span class="var">name</span>;
-            }
-        <span class="keyword">public</span> <span class="class">void</span> <span class="method">setName</span>(<span
-          class="class">String</span> <span class="var">name</span>) {
-             <span class="keyword">this</span>.<span
-                    class="var">name</span> = <span class="var">name</span>;
-            }
-        <span class="comment">// ... other getters/setters</span>
+    <span class="comment">// Nested class</span>
+    <span class="keyword">public static class</span> <span class="class">Database</span> {
+        <span class="keyword">private</span> <span class="class">String</span> <span class="var">url</span>;
+        <span class="keyword">private</span> <span class="class">String</span> <span class="var">username</span>;
+        <span class="keyword">private</span> <span class="class">String</span> <span class="var">password</span>;
+        <span class="comment">// getters/setters</span>
     }
+
+    <span class="comment">// Standard getters and setters</span>
+    <span class="keyword">public</span> <span class="class">String</span> <span
+      class="method">getName</span>() {
+            <span class="keyword">return</span> <span class="var">name</span>;
+        }
+    <span class="keyword">public</span> <span class="class">void</span> <span class="method">setName</span>(<span
+      class="class">String</span> <span class="var">name</span>) {
+         <span class="keyword">this</span>.<span
+      class="var">name</span> = <span class="var">name</span>;
+        }
+    <span class="comment">// ... other getters/setters</span>
+}
   </code>
 </pre>
 
     <h3>Step 2: Enable Configuration Properties</h3>
     <pre class="java-code">
   <code>
-    <span class="annotation">@SpringBootApplication</span>
-    <span class="annotation">@EnableConfigurationProperties</span>(AppProperties.class)
-    <span class="keyword">public class</span> <span class="class">MyApplication</span> {
-        <span class="keyword">public static</span> <span class="class">void</span> <span
-          class="method">main</span>(<span class="class">String</span>[] <span class="var">args</span>) {
-            <span class="class">SpringApplication</span>.run(MyApplication.class, <span class="var">args</span>);
-        }
+<span class="annotation">@SpringBootApplication</span>
+<span class="annotation">@EnableConfigurationProperties</span>(AppProperties.class)
+<span class="keyword">public class</span> <span class="class">MyApplication</span> {
+    <span class="keyword">public static</span> <span class="class">void</span> <span
+      class="method">main</span>(<span class="class">String</span>[] <span class="var">args</span>) {
+        <span class="class">SpringApplication</span>.run(MyApplication.class, <span class="var">args</span>);
     }
+}
   </code>
 </pre>
 
     <h3>Step 3: Define Properties in application.yml</h3>
     <pre class="code-block">
   <code>
-    <span class="key">app:</span>
-      <span class="key">name:</span> <span class="string">"MyApp"</span>
-      <span class="key">version:</span> <span class="string">"1.0.0"</span>
-      <span class="key">servers:</span>
-        - <span class="string">"server1"</span>
-        - <span class="string">"server2"</span>
-      <span class="key">database:</span>
-        <span class="key">url:</span> <span class="string">"jdbc:mysql://localhost:3306/mydb"</span>
-        <span class="key">username:</span> <span class="string">"admin"</span>
-        <span class="key">password:</span> <span class="string">"secret"</span>
+<span class="key">app:</span>
+  <span class="key">name:</span> <span class="string">"MyApp"</span>
+  <span class="key">version:</span> <span class="string">"1.0.0"</span>
+  <span class="key">servers:</span>
+    - <span class="string">"server1"</span>
+    - <span class="string">"server2"</span>
+  <span class="key">database:</span>
+    <span class="key">url:</span> <span class="string">"jdbc:mysql://localhost:3306/mydb"</span>
+    <span class="key">username:</span> <span class="string">"admin"</span>
+    <span class="key">password:</span> <span class="string">"secret"</span>
   </code>
 </pre>
 
@@ -223,19 +222,19 @@
     <h3>3. Validation Support</h3>
     <pre class="java-code">
   <code>
-    <span class="annotation">@Validated</span>
-    <span class="annotation">@ConfigurationProperties</span>(prefix = <span class="string">"app"</span>)
-    <span class="keyword">public class</span> <span class="class">AppProperties</span> {
-        <span class="annotation">@NotBlank</span>
-        <span class="keyword">private</span> <span class="class">String</span> <span class="var">name</span>;
+<span class="annotation">@Validated</span>
+<span class="annotation">@ConfigurationProperties</span>(prefix = <span class="string">"app"</span>)
+<span class="keyword">public class</span> <span class="class">AppProperties</span> {
+    <span class="annotation">@NotBlank</span>
+    <span class="keyword">private</span> <span class="class">String</span> <span class="var">name</span>;
 
-        <span class="annotation">@Min</span>(1)
-        <span class="annotation">@Max</span>(10)
-        <span class="keyword">private</span> <span class="class">int</span> <span class="var">maxConnections</span>;
+    <span class="annotation">@Min</span>(1)
+    <span class="annotation">@Max</span>(10)
+    <span class="keyword">private</span> <span class="class">int</span> <span class="var">maxConnections</span>;
 
-        <span class="annotation">@Valid</span> <span class="comment">// Validate nested properties</span>
-        <span class="keyword">private</span> <span class="class">Database</span> <span class="var">database</span>;
-    }
+    <span class="annotation">@Valid</span> <span class="comment">// Validate nested properties</span>
+    <span class="keyword">private</span> <span class="class">Database</span> <span class="var">database</span>;
+}
   </code>
 </pre>
 
@@ -243,12 +242,12 @@
     <p>Spring Boot supports flexible property naming:</p>
     <pre class="code-block">
   <code>
-    <span class="comment"># All these map to the same field</span>
-    <span class="key">app.database-url</span>=<span class="value">...</span>
-    <span class="key">app.databaseUrl</span>=<span class="value">...</span>
-    <span class="key">app.database_url</span>=<span class="value">...</span>
-    <span class="key">APP_DATABASEURL</span>=<span class="value">...</span> <span
-          class="comment">(environment variable)</span>
+<span class="comment"># All these map to the same field</span>
+<span class="key">app.database-url</span>=<span class="value">...</span>
+<span class="key">app.databaseUrl</span>=<span class="value">...</span>
+<span class="key">app.database_url</span>=<span class="value">...</span>
+<span class="key">APP_DATABASEURL</span>=<span class="value">...</span> <span
+      class="comment">(environment variable)</span>
   </code>
 </pre>
 
@@ -263,23 +262,23 @@
     <h4>Loading a Single Properties File</h4>
     <pre class="java-code">
   <code>
-    <span class="annotation">@Configuration</span>
-    <span class="annotation">@PropertySource</span>(<span class="string">"classpath:custom.properties"</span>)
-    <span class="keyword">public class</span> <span class="class">AppConfig</span> {
-        <span class="comment">// Configuration beans</span>
-    }
+<span class="annotation">@Configuration</span>
+<span class="annotation">@PropertySource</span>(<span class="string">"classpath:custom.properties"</span>)
+<span class="keyword">public class</span> <span class="class">AppConfig</span> {
+    <span class="comment">// Configuration beans</span>
+}
   </code>
 </pre>
 
     <h4>Loading Multiple Files</h4>
     <pre class="java-code">
   <code>
-    <span class="annotation">@Configuration</span>
-    <span class="annotation">@PropertySource</span>({<span class="string">"classpath:db.properties"</span>, <span
-          class="string">"classpath:aws.properties"</span>})
-    <span class="keyword">public class</span> <span class="class">AppConfig</span> {
-        <span class="comment">// Configuration beans</span>
-    }
+<span class="annotation">@Configuration</span>
+<span class="annotation">@PropertySource</span>({<span class="string">"classpath:db.properties"</span>, <span
+      class="string">"classpath:aws.properties"</span>})
+<span class="keyword">public class</span> <span class="class">AppConfig</span> {
+    <span class="comment">// Configuration beans</span>
+}
   </code>
 </pre>
 
@@ -317,46 +316,46 @@
     <h4>Ignoring Missing Files</h4>
     <pre class="java-code">
   <code>
-    <span class="annotation">@PropertySource</span>(
-        value = <span class="string">"classpath:optional.properties"</span>,
-        ignoreResourceNotFound = <span class="keyword">true</span>
-    )
+<span class="annotation">@PropertySource</span>(
+    value = <span class="string">"classpath:optional.properties"</span>,
+    ignoreResourceNotFound = <span class="keyword">true</span>
+)
   </code>
 </pre>
 
     <h4>Environment-Specific Properties</h4>
     <pre class="java-code">
   <code>
-    <span class="annotation">@Profile</span>(<span class="string">"dev"</span>)
-    <span class="annotation">@PropertySource</span>(<span class="string">"classpath:dev.properties"</span>)
-    <span class="keyword">public class</span> <span class="class">DevConfig</span> { <span
-          class="comment">/*....*/</span> }
+ <span class="annotation">@Profile</span>(<span class="string">"dev"</span>)
+ <span class="annotation">@PropertySource</span>(<span class="string">"classpath:dev.properties"</span>)
+ <span class="keyword">public class</span> <span class="class">DevConfig</span> { <span
+       class="comment">/*....*/</span> }
 
-    <span class="annotation">@Profile</span>(<span class="string">"prod"</span>)
-    <span class="annotation">@PropertySource</span>(<span class="string">"classpath:prod.properties"</span>)
-    <span class="keyword">public class</span> <span class="class">ProdConfig</span> { <span
-          class="comment">/*....*/</span> }
+ <span class="annotation">@Profile</span>(<span class="string">"prod"</span>)
+ <span class="annotation">@PropertySource</span>(<span class="string">"classpath:prod.properties"</span>)
+ <span class="keyword">public class</span> <span class="class">ProdConfig</span> { <span
+       class="comment">/*....*/</span> }
   </code>
 </pre>
 
     <h4>Using with @Value</h4>
     <pre class="code-block">
   <code>
-    <span class="comment"># custom.properties</span>
-    <span class="key">app.name</span>=<span class="value">MyCustomApp</span>
-    <span class="key">app.timeout</span>=<span class="value">5000</span>
+<span class="comment"># custom.properties</span>
+<span class="key">app.name</span>=<span class="value">MyCustomApp</span>
+<span class="key">app.timeout</span>=<span class="value">5000</span>
   </code>
 </pre>
     <pre class="java-code">
   <code>
-    <span class="annotation">@Component</span>
-    <span class="keyword">public class</span> <span class="class">MyService</span> {
-        <span class="annotation">@Value</span>(<span class="string">"${app.name}"</span>)
-        <span class="keyword">private</span> <span class="class">String</span> <span class="var">appName</span>;
+<span class="annotation">@Component</span>
+<span class="keyword">public class</span> <span class="class">MyService</span> {
+    <span class="annotation">@Value</span>(<span class="string">"${app.name}"</span>)
+    <span class="keyword">private</span> <span class="class">String</span> <span class="var">appName</span>;
 
-        <span class="annotation">@Value</span>(<span class="string">"${app.timeout}"</span>)
-        <span class="keyword">private</span> <span class="class">int</span> <span class="var">timeout</span>;
-    }
+    <span class="annotation">@Value</span>(<span class="string">"${app.timeout}"</span>)
+    <span class="keyword">private</span> <span class="class">int</span> <span class="var">timeout</span>;
+}
   </code>
 </pre>
 
@@ -365,49 +364,49 @@
     <h4>Option 1: Custom PropertySourceFactory</h4>
     <pre class="java-code">
   <code>
-    <span class="keyword">public class</span> <span class="class">YamlPropertySourceFactory</span> <span
-          class="keyword">implements</span> <span class="class">PropertySourceFactory</span> {
-        <span class="annotation">@Override</span>
-        <span class="keyword">public</span> <span class="class">PropertySource</span>&lt;?&gt; <span class="method">createPropertySource</span>(<span
-          class="class">String</span> <span class="var">name</span>, <span class="class">EncodedResource</span> <span
-          class="var">resource</span>) <span class="keyword">throws</span> <span class="class">IOException</span> {
-            <span class="class">YamlPropertiesFactoryBean</span> <span class="var">factory</span> = <span
-          class="keyword">new</span> <span class="class">YamlPropertiesFactoryBean</span>();
-            <span class="var">factory</span>.setResources(<span class="var">resource</span>.getResource());
-            <span class="class">Properties</span> <span class="var">properties</span> = <span class="var">factory</span>.getObject();
-            <span class="keyword">return</span> <span class="keyword">new</span> <span class="class">PropertiesPropertySource</span>(
-                <span class="var">name</span> != <span class="keyword">null</span> ? <span
-          class="var">name</span> : <span class="var">resource</span>.getResource().getFilename(),
-                <span class="var">properties</span>
-            );
-        }
+<span class="keyword">public class</span> <span class="class">YamlPropertySourceFactory</span> <span
+      class="keyword">implements</span> <span class="class">PropertySourceFactory</span> {
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="class">PropertySource</span>&lt;?&gt; <span class="method">createPropertySource</span>(<span
+      class="class">String</span> <span class="var">name</span>, <span class="class">EncodedResource</span> <span
+      class="var">resource</span>) <span class="keyword">throws</span> <span class="class">IOException</span> {
+        <span class="class">YamlPropertiesFactoryBean</span> <span class="var">factory</span> = <span
+      class="keyword">new</span> <span class="class">YamlPropertiesFactoryBean</span>();
+        <span class="var">factory</span>.setResources(<span class="var">resource</span>.getResource());
+        <span class="class">Properties</span> <span class="var">properties</span> = <span class="var">factory</span>.getObject();
+        <span class="keyword">return</span> <span class="keyword">new</span> <span class="class">PropertiesPropertySource</span>(
+            <span class="var">name</span> != <span class="keyword">null</span> ? <span
+      class="var">name</span> : <span class="var">resource</span>.getResource().getFilename(),
+            <span class="var">properties</span>
+        );
     }
+}
 
-    <span class="annotation">@PropertySource</span>(
-        value = <span class="string">"classpath:custom.yml"</span>,
-        factory = YamlPropertySourceFactory.class
-    )
+<span class="annotation">@PropertySource</span>(
+    value = <span class="string">"classpath:custom.yml"</span>,
+    factory = YamlPropertySourceFactory.class
+)
   </code>
 </pre>
 
     <h4>Option 2: Use @ConfigurationProperties with YAML</h4>
     <pre class="code-block">
   <code>
-    <span class="comment"># application.yml</span>
-    <span class="key">app:</span>
-      <span class="key">custom:</span>
-        <span class="key">name:</span> <span class="string">"MyApp"</span>
-        <span class="key">timeout:</span> <span class="number">5000</span>
+<span class="comment"># application.yml</span>
+<span class="key">app:</span>
+  <span class="key">custom:</span>
+    <span class="key">name:</span> <span class="string">"MyApp"</span>
+    <span class="key">timeout:</span> <span class="number">5000</span>
   </code>
 </pre>
     <pre class="java-code">
   <code>
-    <span class="annotation">@ConfigurationProperties</span>(prefix = <span class="string">"app.custom"</span>)
-    <span class="keyword">public class</span> <span class="class">AppCustomProperties</span> {
-        <span class="keyword">private</span> <span class="class">String</span> <span class="var">name</span>;
-        <span class="keyword">private</span> <span class="class">int</span> <span class="var">timeout</span>;
-        <span class="comment">// getters/setters</span>
-    }
+<span class="annotation">@ConfigurationProperties</span>(prefix = <span class="string">"app.custom"</span>)
+<span class="keyword">public class</span> <span class="class">AppCustomProperties</span> {
+    <span class="keyword">private</span> <span class="class">String</span> <span class="var">name</span>;
+    <span class="keyword">private</span> <span class="class">int</span> <span class="var">timeout</span>;
+    <span class="comment">// getters/setters</span>
+}
   </code>
 </pre>
 
@@ -440,15 +439,15 @@
     <h4>Grouping Multiple Property Files</h4>
     <pre class="java-code">
   <code>
-    <span class="annotation">@Configuration</span>
-    <span class="annotation">@PropertySources</span>({
-        <span class="annotation">@PropertySource</span>(<span class="string">"classpath:database.properties"</span>),
-        <span class="annotation">@PropertySource</span>(<span class="string">"classpath:security.properties"</span>),
-        <span class="annotation">@PropertySource</span>(<span class="string">"classpath:feature-flags.properties"</span>)
-    })
-    <span class="keyword">public class</span> <span class="class">AppConfig</span> {
-        <span class="comment">// Configuration beans</span>
-    }
+<span class="annotation">@Configuration</span>
+<span class="annotation">@PropertySources</span>({
+    <span class="annotation">@PropertySource</span>(<span class="string">"classpath:database.properties"</span>),
+    <span class="annotation">@PropertySource</span>(<span class="string">"classpath:security.properties"</span>),
+    <span class="annotation">@PropertySource</span>(<span class="string">"classpath:feature-flags.properties"</span>)
+})
+<span class="keyword">public class</span> <span class="class">AppConfig</span> {
+    <span class="comment">// Configuration beans</span>
+}
   </code>
 </pre>
 
@@ -456,13 +455,13 @@
     <p>This is functionally equivalent to:</p>
     <pre class="java-code">
   <code>
-    <span class="annotation">@Configuration</span>
-    <span class="annotation">@PropertySource</span>(<span class="string">"classpath:database.properties"</span>)
-    <span class="annotation">@PropertySource</span>(<span class="string">"classpath:security.properties"</span>)
-    <span class="annotation">@PropertySource</span>(<span class="string">"classpath:feature-flags.properties"</span>)
-    <span class="keyword">public class</span> <span class="class">AppConfig</span> {
-        <span class="comment">// Configuration beans</span>
-    }
+<span class="annotation">@Configuration</span>
+<span class="annotation">@PropertySource</span>(<span class="string">"classpath:database.properties"</span>)
+<span class="annotation">@PropertySource</span>(<span class="string">"classpath:security.properties"</span>)
+<span class="annotation">@PropertySource</span>(<span class="string">"classpath:feature-flags.properties"</span>)
+<span class="keyword">public class</span> <span class="class">AppConfig</span> {
+    <span class="comment">// Configuration beans</span>
+}
   </code>
 </pre>
 
@@ -471,18 +470,18 @@
     <p>Properties are loaded in declaration order (last source wins for duplicate keys):</p>
     <pre class="java-code">
   <code>
-    <span class="annotation">@PropertySources</span>({
-        <span class="annotation">@PropertySource</span>(<span
-          class="string">"classpath:defaults.properties"</span>), <span class="comment">// Loaded first</span>
-        <span class="annotation">@PropertySource</span>(<span
-          class="string">"classpath:overrides.properties"</span>) <span class="comment">// Overrides defaults</span>
-    })
+<span class="annotation">@PropertySources</span>({
+    <span class="annotation">@PropertySource</span>(<span
+      class="string">"classpath:defaults.properties"</span>), <span class="comment">// Loaded first</span>
+    <span class="annotation">@PropertySource</span>(<span
+      class="string">"classpath:overrides.properties"</span>) <span class="comment">// Overrides defaults</span>
+})
   </code>
 </pre>
     <br>
     <hr>
+    <br>
     <div class="card-footer">
-        <br>
         <ul class="pagination justify-content-center">
             <li class="page-item"><a class="page-link btn-outline-primary"
                                      href="../sb/intro.html">&lArr; Previous</a></li>
