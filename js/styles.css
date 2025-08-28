@@ -576,7 +576,7 @@ h4 {
 p {
     margin-bottom: 0.75rem;
     line-height: 1.5;
-    #font-size: 1.1rem;
+    font-size: 1.1rem;
 }
 
 .content-section {

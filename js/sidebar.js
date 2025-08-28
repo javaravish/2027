@@ -100,7 +100,7 @@ const sidebars = {
     <!-- Spring Sidebar -->
     <aside id="sidebar">
       <ul class="menu">
-        <h4>Spring Framework</h4>
+        <h4>Spring</h4>
         <li class="nav-item"><a class="nav-link" data-href="/spring/intro.html" href="#">Introduction</a></li>
         <li class="nav-item"><a class="nav-link" data-href="/spring/core.html" href="#">Core</a></li>
         <li class="nav-item"><a class="nav-link" data-href="/spring/mvc.html" href="#">MVC</a></li>
@@ -120,7 +120,7 @@ const sidebars = {
     <!-- Springboot Sidebar -->
     <aside id="sidebar">
       <ul class="menu">
-        <h4>Springboot Framework</h4>
+        <h4>Springboot</h4>
         <li class="nav-item"><a class="nav-link" data-href="/sb/intro.html" href="#">Introduction</a></li>
         <li class="nav-item"><a class="nav-link" data-href="/sb/config.html" href="#">Configuration</a></li>
         <li class="nav-item"><a class="nav-link" data-href="/sb/actuator.html" href="#">Actuators</a></li>
