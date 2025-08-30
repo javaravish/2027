@@ -107,6 +107,7 @@ const sidebars = {
         <li class="nav-item"><a class="nav-link" data-href="/spring/aop.html" href="#">AOP</a></li>
         <li class="nav-item"><a class="nav-link" data-href="/spring/transactions.html" href="#">Transactions</a></li>
         <li class="nav-item"><a class="nav-link" data-href="/spring/jpa.html" href="#">Data JPA</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/spring/jpa2.html" href="#">Data JPA</a></li>
         <li class="nav-item"><a class="nav-link" data-href="/spring/caching.html" href="#">Caching</a></li>
         <li class="nav-item"><a class="nav-link" data-href="/spring/async.html" href="#">Asynchronous</a></li>
         <li class="nav-item"><a class="nav-link" data-href="/spring/scheduling.html" href="#">Scheduling</a></li>

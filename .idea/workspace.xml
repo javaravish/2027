@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1d5b87df-106c-4087-a4bf-de7751ab0360" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/js/sidebar.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/sidebar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring/intro.html" beforeDir="false" afterPath="$PROJECT_DIR$/spring/intro.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring/jpa.html" beforeDir="false" afterPath="$PROJECT_DIR$/spring/jpa.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring/transactions.html" beforeDir="false" afterPath="$PROJECT_DIR$/spring/transactions.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="30d75AIbLMXeAAaKuB3Z8g8xvzU" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Admin/Documents/GitHub/2027/spring"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Admin\Documents\GitHub\2027\spring" />
+      <recent name="C:\Users\Admin\Documents\GitHub\2027\js\images\spring" />
+      <recent name="C:\Users\Admin\Documents\GitHub\2027\sb" />
+      <recent name="C:\Users\Admin\Documents\GitHub\2027\springboot" />
+      <recent name="C:\Users\Admin\Documents\GitHub\2027\ms" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Admin\Documents\GitHub\2027\js" />
+      <recent name="C:\Users\Admin\Documents\GitHub\2027\components" />
+      <recent name="C:\Users\Admin\Documents\GitHub\2027\styles" />
+      <recent name="C:\Users\Admin\Documents\GitHub\2027\scripts" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="2027" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="2027" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1d5b87df-106c-4087-a4bf-de7751ab0360" name="Changes" comment="" />
+      <created>1753945410357</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1753945410357</updated>
+    </task>
+    <servers />
+  </component>
+</project>
