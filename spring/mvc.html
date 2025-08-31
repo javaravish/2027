@@ -30,27 +30,12 @@
     <p>4. <strong>ViewResolver</strong> maps view name to actual view template</p>
     <p>5. <strong>View</strong> renders response (HTML, JSON, XML, etc.)</p>
 
-    <div class="table-container">
-        <table class="basic-table">
-            <thead>
-            <tr>
-                <th>Client</th>
-                <th>DispatcherServlet</th>
-                <th>HandlerMapping</th>
-                <th>Controller</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>ViewResolver</td>
-                <td>View</td>
-                <td>ModelAndView</td>
-                <td></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
+    <pre class="sql-code">  <code>
+    <span class="keyword">Client</span> → <span class="keyword">DispatcherServlet</span>  →  <span class="keyword">HandlerMapping </span>    →   <span
+            class="keyword">Controller </span> →   <span class="keyword">ViewResolver </span> →    <span
+            class="keyword">View </span>    →   <span class="keyword">ModelAndView</span>
+  </code>
+</pre>
     <h3>Key Components</h3>
     <div class="table-container">
         <table class="basic-table">
@@ -107,10 +92,7 @@
         <span class="keyword">return</span> <span class="string">"userProfile"</span>;
     }
     <span class="annotation">@PostMapping</span>
-</code></pre>
-
-    <pre class="java-code">
-<code><span class="annotation">@ResponseStatus</span>(<span class="class">HttpStatus</span>.CREATED)
+<span class="annotation">@ResponseStatus</span>(<span class="class">HttpStatus</span>.CREATED)
 <span class="keyword">public</span> <span class="class">ResponseEntity</span>&lt;<span
             class="class">User</span>&gt; <span class="method">createUser</span>(<span
             class="annotation">@RequestBody</span> <span class="class">User</span> <span class="var">user</span>) {
