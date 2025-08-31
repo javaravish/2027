@@ -21,178 +21,172 @@
 
 <!-- Main Content Section -->
 <main id="content">
-    <p>
-        A database transaction is a sequence of actions that are treated
-        as a single unit of work. These actions should either complete
-        entirely or take no effect at all. Transaction management is an
-        important part of RDBMS-oriented enterprise application to ensure
-        data integrity and consistency. The concept of transactions can
-        be described with the following four key properties described as
-        <b>ACID</b>
-    </p>
-    <h4>1. ACID Properties</h4>
-    <ul class="list">
-        <li>
-            <p>
-                <b>Atomicity</b> − A transaction should be treated as a single
-                unit of operation, which means either the entire sequence of
-                operations is successful or unsuccessful.
-            </p>
+    <h2>1. Spring Transactions</h2>
+
+    <p>A database transaction is a sequence of actions that are treated as a single unit of work. These actions should
+        either complete entirely or take no effect at all. Transaction management is an important part of RDBMS-oriented
+        enterprise application to ensure data integrity and consistency. The concept of transactions can be described
+        with the following four key properties described as <strong>ACID</strong></p>
+    <hr>
+    <h3>2. ACID Properties</h3>
+
+    <ul>
+        <li><strong>Atomicity</strong> – A transaction should be treated as a single unit of operation, which means
+            either the entire sequence of operations is successful or unsuccessful.
         </li>
-        <li>
-            <p>
-                <b>Consistency</b> − This represents the consistency of the
-                referential integrity of the database, unique primary keys in
-                tables, etc.
-            </p>
+        <li><strong>Consistency</strong> – This represents the consistency of the referential integrity of the database,
+            unique primary keys in tables, etc.
         </li>
-        <li>
-            <p>
-                <b>Isolation</b> − There may be many transaction processing
-                with the same data set at the same time. Each transaction
-                should be isolated from others to prevent data corruption.
-            </p>
+        <li><strong>Isolation</strong> – There may be many transaction processing with the same data set at the same
+            time. Each transaction should be isolated from others to prevent data corruption.
         </li>
-        <li>
-            <p>
-                <b>Durability</b> − Once a transaction has completed, the
-                results of this transaction have to be made permanent and
-                cannot be erased from the database due to system failure.
-            </p>
+        <li><strong>Durability</strong> – Once a transaction has completed, the results of this transaction have to be
+            made permanent and cannot be erased from the database due to system failure.
         </li>
     </ul>
-    <h4>2. Transaction Isolation Levels</h4>
-    <p>Transaction isolation level is a concept that is not
-        exclusive to the Spring framework. It is applied to transactions
-        in general and is directly related with the ACID transaction
-        properties. Isolation level defines how the changes made to some
-        data repository by one transaction affect other simultaneous
-        concurrent transactions, and also how and when that changed data
-        becomes available to other transactions. When we define a
-        transaction using the Spring framework we are also able to
-        configure in which isolation level that same transaction will be
-        executed.</p>
+    <hr>
+    <h3>3. Transaction Isolation Levels</h3>
+
+    <p>Transaction isolation level is a concept that is not exclusive to the Spring framework. It is applied to
+        transactions in general and is directly related with the ACID transaction properties. Isolation level defines
+        how the changes made to some data repository by one transaction affect other simultaneous concurrent
+        transactions, and also how and when that changed data becomes available to other transactions. When we define a
+        transaction using the Spring framework we are also able to configure in which isolation level that same
+        transaction will be executed.</p>
+
     <h4>Usage example</h4>
-    <p>Using the @Transactional annotation we can define the
-        isolation level of a Spring managed bean transactional method.
-        This means that the transaction in which this method is executed
-        will run with that isolation level:</p>
+
+    <p>Using the @Transactional annotation we can define the isolation level of a Spring managed bean transactional
+        method. This means that the transaction in which this method is executed will run with that isolation level:</p>
+
     <ul>
-        <li style="text-align: justify"><strong>Dirty Read
-            – </strong>A Dirty read is a situation when a transaction reads data
-            that has not yet been committed. For example, Let’s say
-            transaction 1 updates a row and leaves it uncommitted,
-            meanwhile, Transaction 2 reads the updated row. If transaction 1
-            rolls back the change, transaction 2 will have read data that is
-            considered never to have existed.
+        <li><strong>Dirty Read</strong> – A Dirty read is a situation when a transaction reads data that has not yet
+            been committed. For example, Let's say transaction 1 updates a row and leaves it uncommitted, meanwhile,
+            Transaction 2 reads the updated row. If transaction 1 rolls back the change, transaction 2 will have read
+            data that is considered never to have existed.
         </li>
         <img src="../js/images/spring/dirty-read.jpg" alt="Dirty Read"/>
-        <li style="text-align: justify"><strong>Non
-            Repeatable read – </strong>Non Repeatable read occurs when a transaction
-            reads the same row twice and gets a different value each time.
-            For example, suppose transaction T1 reads data. Due to
-            concurrency, another transaction T2 updates the same data and
-            commit, Now if transaction T1 rereads the same data, it will
-            retrieve a different value.
+        <li><strong>Non Repeatable read</strong> – Non Repeatable read occurs when a transaction reads the same row
+            twice and gets a different value each time. For example, suppose transaction T1 reads data. Due to
+            concurrency, another transaction T2 updates the same data and commit, Now if transaction T1 rereads the same
+            data, it will retrieve a different value.
         </li>
         <img src="../js/images/spring/non-repeatable.jpg" alt="Non Repeatable read"/>
-        <li style="text-align: justify"><strong>Phantom
-            Read – </strong>Phantom Read occurs when two same queries are executed,
-            but the rows retrieved by the two, are different. For example,
-            suppose transaction T1 retrieves a set of rows that satisfy some
-            search criteria. Now, Transaction T2 generates some new rows
-            that match the search criteria for transaction T1. If
-            transaction T1 re-executes the statement that reads the rows, it
-            gets a different set of rows this time.
+        <li><strong>Phantom Read</strong> – Phantom Read occurs when two same queries are executed, but the rows
+            retrieved by the two, are different. For example, suppose transaction T1 retrieves a set of rows that
+            satisfy some search criteria. Now, Transaction T2 generates some new rows that match the search criteria for
+            transaction T1. If transaction T1 re-executes the statement that reads the rows, it gets a different set of
+            rows this time.
         </li>
         <img src="../js/images/spring/phantom-read.jpg" alt="Phantom Read"/>
-        <ul class="list">
-            <li>
-                <p>
-                    <b>ISOLATION_READ_UNCOMMITTED</b> − Allows to read changes
-                    that haven't yet been committed.It suffer from <b>Dirty
-                    reads, Nonrepeatable read and Phantom read.</b>
-                </p>
-            </li>
-            <li>
-                <p>
-                    <b>ISOLATION_READ_COMMITTED</b> − Allows reads from concurrent
-                    transactions that have been committed. It may suffer from <b>Nonrepeatable
-                    read and Phantom read</b> Because other transactions may be
-                    updating the data.
-                </p>
-            </li>
-            <li>
-                <p>
-                    <b>ISOLATION_REPEATABLE_READ</b> − Multiple reads of the same
-                    field will yield the same results untill it is changed by
-                    itself.It may suffer from <b>Phantom read</b> Because other
-                    transactions may be inserting the data.
-                </p>
-            </li>
-            <li>
-                <p>
-                    <b>ISOLATION_SERIALIZABLE</b> − SERIALIZABLE isolation level
-                    is the most restrictive of all isolation levels. Transactions
-                    are executed with locking at all levels (read, range and write
-                    locking) so they appear as if they were executed in a
-                    serialized way. This leads to a scenario where none of the
-                    issues mentioned above may occur, but in the other way we
-                    don't allow transaction concurrency and consequently introduce
-                    a performance penalty.
-                </p>
-            </li>
-        </ul>
-        <p>To summarize, the existing relationship between isolation
-            level and read phenomena may be expressed in the following table
-            :</p>
-        <figure class="wp-block-table is-style-stripes">
-            <table style="border: 1px solid #ccc; padding: 1px;">
-                <tbody>
-                <tr>
-                    <td style="border: 1px solid #ccc; padding: 5px;"><strong>Isolation
-                        Level</strong></td>
-                    <td style="border: 1px solid #ccc; padding: 5px;"><strong>Dirty
-                        Read</strong></td>
-                    <td style="border: 1px solid #ccc; padding: 5px;"><strong>Non
-                        Repeatable Read</strong></td>
-                    <td style="border: 1px solid #ccc; padding: 5px;"><strong>Phantom
-                        Read</strong></td>
-                </tr>
-                <tr>
-                    <td style="border: 1px solid #ccc; padding: 5px;">READ_UNCOMMITTED</td>
-                    <td style="border: 1px solid #ccc; padding: 5px;">Yes</td>
-                    <td style="border: 1px solid #ccc; padding: 5px;">Yes</td>
-                    <td style="border: 1px solid #ccc; padding: 5px;">Yes</td>
-                </tr>
-                <tr>
-                    <td style="border: 1px solid #ccc; padding: 5px;">READ_COMMITTED</td>
-                    <td style="border: 1px solid #ccc; padding: 5px;">No</td>
-                    <td style="border: 1px solid #ccc; padding: 5px;">Yes</td>
-                    <td style="border: 1px solid #ccc; padding: 5px;">Yes</td>
-                </tr>
-                <tr>
-                    <td style="border: 1px solid #ccc; padding: 5px;">REPEATABLE_READ</td>
-                    <td style="border: 1px solid #ccc; padding: 5px;">No</td>
-                    <td style="border: 1px solid #ccc; padding: 5px;">No</td>
-                    <td style="border: 1px solid #ccc; padding: 5px;">Yes</td>
-                </tr>
-                <tr>
-                    <td style="border: 1px solid #ccc; padding: 5px;">SERIALIZABLE</td>
-                    <td style="border: 1px solid #ccc; padding: 5px;">No</td>
-                    <td style="border: 1px solid #ccc; padding: 5px;">No</td>
-                    <td style="border: 1px solid #ccc; padding: 5px;">No</td>
-                </tr>
-                </tbody>
-            </table>
-        </figure>
     </ul>
-    <h4>3. Transaction Propagation Levels</h4>
-    <p>Propagation level in spring decides if the spring has to
-        create a new transaction or the same transaction can be used to
-        perform a database operation. Transaction Propagation Types:
-        There are seven types of Transaction Propagation: REQUIRED is
-        Default Transaction Propagation.</p>
+    <hr>
+    <p><strong>ISOLATION_READ_UNCOMMITTED</strong> – Allows to read changes that haven't yet been committed. It suffer
+        from <strong>Dirty reads</strong>, <strong>Nonrepeatable read and Phantom read</strong>.</p>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@Transactional</span>(isolation = Isolation.READ_UNCOMMITTED)
+<span class="keyword">public</span> Account <span class="method">getAccount</span>(<span class="keyword">int</span> id) {
+    <span class="keyword">return</span> accountRepository.findById(id).get();
+}
+</code>
+    </pre>
+
+    <p><strong>ISOLATION_READ_COMMITTED</strong> – Allows reads from concurrent transactions that have been committed.
+        It may suffer from <strong>Nonrepeatable read and Phantom read</strong> Because other transactions may be
+        updating the data.</p>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@Transactional</span>(isolation = Isolation.READ_COMMITTED)
+<span class="keyword">public</span> Account <span class="method">getAccount</span>(<span class="keyword">int</span> id) {
+    <span class="keyword">return</span> accountRepository.findById(id).get();
+}
+</code>
+    </pre>
+
+    <p><strong>ISOLATION_REPEATABLE_READ</strong> – Multiple reads of the same field will yield the same results until
+        it is changed by itself. It may suffer from <strong>Phantom read</strong> Because other transactions may be
+        inserting the data.</p>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@Transactional</span>(isolation = Isolation.REPEATABLE_READ)
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="method">checkBalance</span>(<span
+        class="keyword">int</span> id) {
+    Account acc1 = accountRepository.findById(id).get();
+    <span class="comment">// some other transaction modifies it in the meantime</span>
+    Account acc2 = accountRepository.findById(id).get();
+    <span class="comment">// acc1 == acc2 is guaranteed</span>
+}
+</code>
+    </pre>
+
+    <p><strong>ISOLATION_SERIALIZABLE</strong> – SERIALIZABLE isolation level is the most restrictive of all isolation
+        levels. Transactions are executed with locking at all levels (read, range and write locking) so they appear as
+        if they were executed in a serialized way. This leads to a scenario where none of the issues mentioned above may
+        occur, but in the other way we don't allow transaction concurrency and consequently introduce a performance
+        penalty.</p>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@Transactional</span>(isolation = Isolation.SERIALIZABLE)
+<span class="keyword">public</span> List&lt;Account&gt; <span class="method">getAccountsAboveBalance</span>(<span
+        class="keyword">double</span> amount) {
+    <span class="keyword">return</span> accountRepository.findByBalanceGreaterThan(amount);
+}
+</code>
+    </pre>
+
+    <p>To summarize, the existing relationship between isolation level and read phenomena may be expressed in the
+        following table :</p>
+
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Isolation Level</th>
+                <th>Dirty Read</th>
+                <th>Non Repeatable Read</th>
+                <th>Phantom Read</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>READ_UNCOMMITTED</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <td>READ_COMMITTED</td>
+                <td>No</td>
+                <td>Yes</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <td>REPEATABLE_READ</td>
+                <td>No</td>
+                <td>No</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <td>SERIALIZABLE</td>
+                <td>No</td>
+                <td>No</td>
+                <td>No</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <hr>
+    <h3>4. Transaction Propagation Levels</h3>
+
+    <p>Propagation level in spring decides if the spring has to create a new transaction or the same transaction can be
+        used to perform a database operation. Transaction Propagation Types: There are seven types of Transaction
+        Propagation: REQUIRED is Default Transaction Propagation.</p>
+
     <ul>
         <li>REQUIRED</li>
         <li>REQUIRES_NEW</li>
@@ -202,128 +196,231 @@
         <li>NEVER</li>
         <li>MANDATORY</li>
     </ul>
-    <p>
-        <strong>1. REQUIRED</strong> Spring REQUIRED behavior means that
-        the same transaction will be used if there is an already opened
-        transaction in the current bean method execution context. If
-        there is no existing transaction the Spring container will create
-        a new one. If multiple methods configured as REQUIRED behavior
-        are called in a nested way they will be assigned distinct logical
-        transactions but they will all share the same physical
-        transaction. In short this means that if an inner method causes a
-        transaction to rollback, the outer method will fail to commit and
-        will also rollback the transaction.
-    </p>
-    <p>Note that the inner method throws a RuntimeException and is
-        annotated with REQUIRED behavior. This means that it will use the
-        same transaction as the outer bean, so the outer transaction will
-        fail to commit and will also rollback.</p>
-    <p>
-        <b>Note: </b>The only exceptions that set a transaction to
-        rollback state by default are the unchecked exceptions
-        (likeRuntimeException). If you want checked exceptions to also
-        set transactions to rollback you must configure them to do so.
 
-    </p>
-    <p>
-        <strong>2. REQUIRES_NEW</strong> behavior means that a new
-        physical transaction will always be created by the container. In
-        other words the inner transaction may commit or rollback
-        independently of the outer transaction, i.e. the outer
-        transaction will not be affected by the inner transaction result:
-        they will run in <strong>distinct physical transactions</strong>.
-    </p>
-    <p>The inner method is annotated with REQUIRES_NEW and throws
-        a RuntimeException so it will set its transaction to rollback but
-        will not affect the outer transaction. The outer transaction is
-        paused when the inner transaction starts and then resumes after
-        the inner transaction is Concluded. They run independently of
-        each other so the outer transaction may commit successfully.</p>
-    <p>
-        <strong>3. NESTED</strong> The NESTED behavior makes nested
-        Spring transactions to use the same physical transaction but sets
-        savepoints between nested invocations so inner transactions may
-        also rollback independently of outer transactions. This may be
-        familiar to JDBC aware developers as the savepoints are achieved
-        with JDBC savepoints, so this behavior should only be used with
-        Spring JDBC managed transactions.
+    <p><strong>1. REQUIRED</strong> Spring REQUIRED behavior means that the same transaction will be used if there is an
+        already opened transaction in the current bean method execution context. If there is no existing transaction the
+        Spring container will create a new one. If multiple methods configured as REQUIRED behavior are called in a
+        nested way they will be assigned distinct logical transactions but they will all share the same physical
+        transaction. In short this means that if an inner method causes a transaction to rollback, the outer method will
+        fail to commit and will also rollback the transaction.</p>
 
-    </p>
-    <p>
-        <strong>4. SUPPORTS</strong> The SUPPORTS behavior will execute
-        in the scope of a transaction if an opened transaction already
-        exists. If there isn't an already opened transaction the method
-        will execute anyway but in a non-transactional way.
-    </p>
-    <p>
-        <strong>5. NOT_SUPPORTED </strong> The NOT_SUPPORTED behavior The
-        NOT_SUPPORTED behavior will execute outside of the scope of any
-        transaction. If an opened transaction already exists it will be
-        paused.
-    </p>
-    <p>
-        <strong>6. NEVER </strong> The NEVER behavior states that an
-        existing opened transaction must not already exist. If a
-        transaction exists an exception will be thrown by the container.
-    </p>
-    <p>
-        <strong>7. MANDATORY </strong> The MANDATORY behavior states that
-        an existing opened transaction must already exist. If not an
-        exception will be thrown by the container.
-    </p>
-    <table style="border: 1px solid #ccc; padding: 1px; width: 100%;">
-        <tbody style="border: 1px solid #ccc;">
-        <tr>
-            <th style="border: 1px solid #ccc; padding: 5px;">Propagation</th>
-            <th style="border: 1px solid #ccc; padding: 5px;">Behaviour</th>
-        </tr>
-        <tr>
-            <td style="border: 1px solid #ccc; padding: 5px;"><b>REQUIRED</b></td>
-            <td style="border: 1px solid #ccc; padding: 5px;"><b>Always
-                executes in a transaction.</b> If there is any existing
-                transaction it uses it. If none exists then only a new one is
-                created
-            </td>
-        </tr>
-        <tr>
-            <td style="border: 1px solid #ccc; padding: 5px;"><b>SUPPORTS</b></td>
-            <td style="border: 1px solid #ccc; padding: 5px;"><b>It
-                may or may not run in a transaction.</b> If current transaction
-                exists then it is supported. If none exists then gets executed
-                with out transaction.
-            </td>
-        </tr>
-        <tr>
-            <td style="border: 1px solid #ccc; padding: 5px;"><b>NOT_SUPPORTED</b></td>
-            <td style="border: 1px solid #ccc; padding: 5px;"><b>Always
-                executes without a transaction.</b> If there is any existing
-                transaction it gets suspended
-            </td>
-        </tr>
-        <tr>
-            <td style="border: 1px solid #ccc; padding: 5px;"><b>REQUIRES_NEW</b></td>
-            <td style="border: 1px solid #ccc; padding: 5px;"><b>Always
-                executes in a new transaction.</b> If there is any existing
-                transaction it gets suspended
-            </td>
-        </tr>
-        <tr>
-            <td style="border: 1px solid #ccc; padding: 5px;"><b>NEVER</b></td>
-            <td style="border: 1px solid #ccc; padding: 5px;"><b>Always
-                executes with out any transaction.</b> It throws an exception if
-                there is an existing transaction
-            </td>
-        </tr>
-        <tr>
-            <td style="border: 1px solid #ccc; padding: 5px;"><b>MANDATORY</b></td>
-            <td style="border: 1px solid #ccc; padding: 5px;"><b>Always
-                executes in a transaction.</b> If there is any existing
-                transaction it is used. If there is no existing transaction it
-                will throw an exception.
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <p>Note that the inner method throws a RuntimeException and is annotated with REQUIRED behavior. This means that it
+        will use the same transaction as the outer bean, so the outer transaction will fail to commit and will also
+        rollback.</p>
+
+    <p><strong>Note:</strong> The only exceptions that set a transaction to rollback state by default are the unchecked
+        exceptions (likeRuntimeException). If you want checked exceptions to also set transactions to rollback you must
+        configure them to do so.</p>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@Transactional</span>(propagation = Propagation.REQUIRED)
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="method">methodB</span>() {
+    <span class="comment">// Joins caller's transaction</span>
+}
+</code>
+    </pre>
+
+    <p><strong>2. REQUIRES_NEW</strong> behavior means that a new physical transaction will always be created by the
+        container. In other words the inner transaction may commit or rollback independently of the outer transaction,
+        i.e. the outer transaction will not be affected by the inner transaction result: they will run in <strong>distinct
+            physical transactions</strong>.</p>
+
+    <p>The inner method is annotated with REQUIRES_NEW and throws a RuntimeException so it will set its transaction to
+        rollback but will not affect the outer transaction. The outer transaction is paused when the inner transaction
+        starts and then resumes after the inner transaction is Concluded. They run independently of each other so the
+        outer transaction may commit successfully.</p>
+
+    <p><strong>3. NESTED</strong> The NESTED behavior makes nested Spring transactions to use the same physical
+        transaction but sets savepoints between nested invocations so inner transactions may also rollback independently
+        of outer transactions. This may be familiar to JDBC aware developers as the savepoints are achieved with JDBC
+        savepoints, so this behavior should only be used with Spring JDBC managed transactions.</p>
+
+    <p><strong>4. SUPPORTS</strong> The SUPPORTS behavior will execute in the scope of a transaction if an opened
+        transaction already exists. If there isn't an already opened transaction the method will execute anyway but in a
+        non-transactional way.</p>
+
+    <p><strong>5. NOT_SUPPORTED</strong> The NOT_SUPPORTED behavior The NOT_SUPPORTED behavior will execute outside of
+        the scope of any transaction. If an opened transaction already exists it will be paused.</p>
+
+    <p><strong>6. NEVER</strong> The NEVER behavior states that an existing opened transaction must not already exist.
+        If a transaction exists an exception will be thrown by the container.</p>
+
+    <p><strong>7. MANDATORY</strong> The MANDATORY behavior states that an existing opened transaction must already
+        exist. If not an exception will be thrown by the container.</p>
+
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Propagation</th>
+                <th>Behavior</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><strong>REQUIRED</strong></td>
+                <td>Always executes in a transaction. If there is any existing transaction it uses it. If none exists
+                    then only a new one is created
+                </td>
+            </tr>
+            <tr>
+                <td><strong>SUPPORTS</strong></td>
+                <td>It may or may not run in a transaction. If current transaction exists then it is supported. If none
+                    exists then gets executed with out transaction.
+                </td>
+            </tr>
+            <tr>
+                <td><strong>NOT_SUPPORTED</strong></td>
+                <td>Always executes without a transaction. If there is any existing transaction it gets suspended</td>
+            </tr>
+            <tr>
+                <td><strong>REQUIRES_NEW</strong></td>
+                <td>Always executes in a new transaction. If there is any existing transaction it gets suspended</td>
+            </tr>
+            <tr>
+                <td><strong>NEVER</strong></td>
+                <td>Always executes with out any transaction. It throws an exception if there is an existing
+                    transaction
+                </td>
+            </tr>
+            <tr>
+                <td><strong>MANDATORY</strong></td>
+                <td>Always executes in a transaction. If there is any existing transaction it is used. If there is no
+                    existing transaction it will throw an exception.
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <hr>
+    <h3>5. Cascade Types JPA</h3>
+
+    <p><strong>Cascade</strong> in JPA means <strong>automatically propagating operations</strong> (like persist, merge,
+        delete) from a parent entity to its associated child entities.</p>
+
+    <p>For example:</p>
+
+    <ul>
+        <li>When you save a <code>Department</code>, it can <strong>automatically save</strong> all its
+            <code>Employee</code> objects.
+        </li>
+    </ul>
+
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Cascade Type</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><strong>PERSIST</strong></td>
+                <td>Propagates <code>persist()</code> to child (Saving new parent and children)</td>
+            </tr>
+            <tr>
+                <td><strong>MERGE</strong></td>
+                <td>Propagates <code>merge()</code> to child (Updating entire object graph)</td>
+            </tr>
+            <tr>
+                <td><strong>REMOVE</strong></td>
+                <td>Propagates <code>remove()</code> (delete) to child (Deleting parent and its children)</td>
+            </tr>
+            <tr>
+                <td><strong>REFRESH</strong></td>
+                <td>Refreshes child from database (Complete sync with DB)</td>
+            </tr>
+            <tr>
+                <td><strong>DETACH</strong></td>
+                <td>Detaches child from persistence context (Unloading from persistence unit)</td>
+            </tr>
+            <tr>
+                <td><strong>ALL</strong></td>
+                <td>Applies all above cascade types (All of the above)</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <pre class="java-code">
+<code>
+<span class="annotation">@OneToMany</span>(mappedBy = <span class="string">"department"</span>, cascade = CascadeType.ALL)
+<span class="keyword">private</span> List&lt;Employee&gt; employees;
+</code>
+    </pre>
+
+    <p><strong>1.CascadeType.PERSIST</strong></p>
+
+    <pre class="java-code">
+<code>
+Department dept = <span class="keyword">new</span> Department();
+dept.setName(<span class="string">"IT"</span>);
+
+Employee emp1 = <span class="keyword">new</span> Employee();
+emp1.setName(<span class="string">"Ravi"</span>);
+emp1.setDepartment(dept);
+
+dept.getEmployees().add(emp1);
+
+entityManager.persist(dept); <span class="comment">// Will also persist emp1</span>
+</code>
+    </pre>
+
+    <p>• Without cascade, this would throw an error unless you also explicitly call <code>persist(emp1).</code></p>
+
+    <p><strong>2.CascadeType.MERGE</strong></p>
+
+    <p>Used when updating an existing parent and its children.</p>
+
+    <pre class="java-code">
+<code>
+dept.setName(<span class="string">"IT - Updated"</span>);
+emp1.setName(<span class="string">"Ravi K"</span>);
+
+entityManager.merge(dept); <span class="comment">// Merges both dept and emp1</span>
+</code>
+    </pre>
+
+    <p><strong>3.CascadeType.REMOVE</strong></p>
+
+    <pre class="java-code">
+<code>
+entityManager.remove(dept); <span class="comment">// Will also remove all employees under this dept</span>
+</code>
+    </pre>
+
+    <p>△ Be careful: deleting parent will delete all associated children.</p>
+
+    <p><strong>4.CascadeType.REFRESH</strong></p>
+
+    <p>Reloads entity from the database and applies changes to children too.</p>
+
+    <pre class="java-code">
+<code>
+entityManager.refresh(dept); <span class="comment">// Employees will also be refreshed</span>
+</code>
+    </pre>
+
+    <p><strong>5. CascadeType.DETACH</strong></p>
+
+    <p>Removes entity and its children from the persistence context.</p>
+
+    <pre class="java-code">
+<code>
+entityManager.detach(dept); <span class="comment">// Employees will also be detached</span>
+</code>
+    </pre>
+
+    <p><strong>6. CascadeType.ALL</strong></p>
+
+    <p>Shortcut for:</p>
+
+    <p>CascadeType.PERSIST, MERGE, REMOVE, REFRESH, DETACH</p>
+
+    <p>Common for @OneToMany and @OneToOne relationships.</p>
+
     <br>
     <hr>
     <br>

@@ -131,7 +131,7 @@
 </pre>
 
     <p>Benefits: Single query instead of N+1 queries</p>
-
+    <hr>
     <h3>2. Dynamic Insert and Update</h3>
 
     <p>Reduces SQL statement size by including only changed fields.</p>
@@ -213,7 +213,7 @@
 </pre>
 
     <p>Benefits: Smaller SQL statements, better performance, avoids overwriting with null values</p>
-
+    <hr>
     <h3>3. Query Hints with Examples</h3>
 
     <p>Provide additional instructions to the JPA provider for query optimization.</p>
@@ -290,7 +290,7 @@
           class="number">1</span> <span class="keyword">FOR UPDATE WAIT</span> <span class="number">5</span>;
   </code>
 </pre>
-
+    <hr>
     <h3>4. Join Fetch Optimization</h3>
 
     <p>Without Join Fetch (N+1 Problem):</p>
@@ -332,7 +332,7 @@
 </pre>
 
     <p>Benefits: Single query instead of 1 + 2N queries</p>
-
+    <hr>
     <h3>5. Batch Processing</h3>
 
     <p>Optimize bulk operations to reduce database roundtrips.</p>
@@ -404,7 +404,7 @@
     <span class="comment">-- Single query instead of multiple updates</span>
   </code>
 </pre>
-
+    <hr>
     <h3>6. Projection/DTO Optimization</h3>
 
     <p>Reduce data transfer by using projections and DTOs.</p>
@@ -467,7 +467,7 @@
 </pre>
 
     <p><strong>Benefits:</strong> Reduced data transfer, no unnecessary fields selected</p>
-
+    <hr>
     <h3>7. Second Level Cache</h3>
 
     <p><strong>Entity Cache Configuration:</strong></p>
@@ -509,7 +509,7 @@
     <span class="comment">// No SQL generated - data served from cache</span>
   </code>
 </pre>
-
+    <hr>
     <h3>8. Native Query Optimization</h3>
 
     <p>Use native queries for complex operations when JPQL isn't efficient.</p>
@@ -546,7 +546,7 @@
 </pre>
 
     <p>Benefits: Database-specific optimizations, complex aggregations</p>
-
+    <hr>
     <h3>9. Monitoring and Statistics</h3>
 
     <p>Configuration:</p>
@@ -609,7 +609,7 @@
     }
   </code>
 </pre>
-
+    <hr>
     <h3>Performance Comparison Table</h3>
 
     <div class="table-container">

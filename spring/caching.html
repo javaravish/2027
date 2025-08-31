@@ -24,7 +24,7 @@
     <h3>Spring Caching</h3>
     <p>Caching is a critical performance optimization technique, and Spring provides a powerful abstraction layer for
         caching. This guide covers everything from basic setup to advanced configurations.</p>
-
+    <hr>
     <h3>1. Core Concepts</h3>
 
     <h4>Cache Abstraction</h4>
@@ -68,7 +68,7 @@
             </tbody>
         </table>
     </div>
-
+    <hr>
     <h3>2. Basic Setup</h3>
 
     <h4>Step 1: Enable Caching</h4>
@@ -85,7 +85,7 @@
 }
 </code>
 </pre>
-
+    <hr>
     <h4>Step 2: Configure Cache Provider</h4>
     <p>In-memory (Default):</p>
     <p>No extra dependencies needed</p>
@@ -99,10 +99,10 @@
 <span class="key">spring.redis.port</span>=<span class="number">6379</span>
 </code>
 </pre>
-
+    <hr>
     <h3>3. Cache Annotations In-Depth</h3>
 
-    <h4>@Cacheable</h4>
+    <h4>1. @Cacheable</h4>
     <pre class="java-code">
 <code>
 <span class="annotation">@Service</span>
@@ -111,11 +111,6 @@
     <span class="keyword">public</span> <span class="class">Product</span> <span
         class="method">getProductById</span>(<span class="keyword">long</span> <span class="var">id</span>) {
     <span class="comment">// Expensive operation</span>
-</code>
-</pre>
-
-    <pre class="java-code">
-<code>
 <span class="keyword">return</span> <span class="var">productRepository</span>.<span
         class="method">findById</span>(<span class="var">id</span>);
 }
@@ -134,7 +129,7 @@
 </code>
 </pre>
 
-    <h4>@CacheEvict</h4>
+    <h4>2. @CacheEvict</h4>
     <pre class="java-code">
 <code>
 <span class="annotation">@CacheEvict</span>(
@@ -150,7 +145,7 @@
 </code>
 </pre>
 
-    <h4>@CachePut</h4>
+    <h4>3. @CachePut</h4>
     <pre class="java-code">
 <code>
 <span class="annotation">@CachePut</span>(<span class="key">value</span> = <span class="string">"products"</span>, <span
@@ -163,7 +158,7 @@
 </code>
 </pre>
 
-    <h4>@Caching</h4>
+    <h4>4. @Caching</h4>
     <pre class="java-code">
 <code>
 <span class="annotation">@Caching</span>(
@@ -185,7 +180,7 @@
 }
 </code>
 </pre>
-
+    <hr>
     <h3>4. Cache Providers</h3>
 
     <h4>Simple (ConcurrentMap) - Default</h4>
@@ -256,7 +251,7 @@
 }
 </code>
 </pre>
-
+    <hr>
     <h3>5. Advanced Techniques</h3>
 
     <h3>Custom Key Generation</h3>
@@ -306,7 +301,7 @@
 }
 </code>
 </pre>
-
+    <hr>
     <h3>6. Monitoring & Metrics</h3>
 
     <h3>Spring Boot Actuator</h3>
@@ -395,7 +390,7 @@ com.github.bennames.caffeine.cache.Cache <span class="var">nativeCache</span> =
             </tbody>
         </table>
     </div>
-
+    <hr>
     <h4>Detailed Attribute Explanations:</h4>
 
     <p>Common Attributes (for @Cacheable, @CachePut, @CacheEvict):</p>

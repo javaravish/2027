@@ -39,21 +39,6 @@
         </li>
     </ul>
 
-    <h3>Key Concepts of IoC in Spring</h3>
-
-    <ol>
-        <li><strong>Traditional Approach</strong>: Normally, objects create and manage their own dependencies</li>
-        <li><strong>IoC Approach</strong>: The Spring container creates and injects dependencies when needed</li>
-    </ol>
-
-    <h3>How IoC Works in Spring</h3>
-
-    <ul>
-        <li>The Spring container (ApplicationContext) manages Java objects called "beans"</li>
-        <li>Instead of your code creating objects, the container creates them</li>
-        <li>Dependencies are "injected" into objects rather than objects creating them</li>
-    </ul>
-
     <h3>Types of Dependency Injection in Spring IoC</h3>
 
     <ol>
@@ -390,12 +375,10 @@
     </div>
 
     <h3>Lifecycle Flow of Dependency Injection</h3>
+    <pre class="java-code">
 
-    <ol>
-        <li>@ComponentScan -- BeanDefinition creation -- Dependency Resolution</li>
-        <li>-- Object Instantiation -- Injection (Constructor/Setter/Field)</li>
-        <li>-- Bean Initialization -- Ready for use</li>
-    </ol>
+<code><span class="keyword">@ComponentScan -- BeanDefinition creation -- Dependency Resolution -- Object Instantiation -- Injection (Constructor/Setter/Field) -- Bean Initialization -- Ready for use
+    </span></code></pre>
     <br>
     <hr>
     <h3>5. Spring Dependency Resolution Strategies</h3>
@@ -695,7 +678,83 @@
         class="method">getBean</span>(<span class="class">MyService</span>.<span class="keyword">class</span>);
 </code>
 </pre>
+    <h2>Detailed Comparison of ApplicationContext and BeanFactory</h2>
 
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Feature</th>
+                <th>BeanFactory</th>
+                <th>ApplicationContext</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><strong>Core Purpose</strong></td>
+                <td>Basic Dependency Injection</td>
+                <td>Advanced Enterprise Application Framework</td>
+            </tr>
+            <tr>
+                <td><strong>Relationship</strong></td>
+                <td>Core Interface for IoC</td>
+                <td>Extends the BeanFactory interface</td>
+            </tr>
+            <tr>
+                <td><strong>Loading Strategy</strong></td>
+                <td>Lazy-loading (by default). Beans are created only when they are explicitly requested via
+                    getBean().
+                </td>
+                <td>Eager-loading (by default). Singleton beans are created at startup during container initialization.
+                    This helps detect configuration errors immediately.
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Internationalization (I18n)</strong></td>
+                <td>Not Supported</td>
+                <td>Supported. Provides getMessage() to resolve messages from property files, supporting different
+                    locales.
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Event Publishing</strong></td>
+                <td>Not Supported</td>
+                <td>Supported. Allows publishing and listening to application events using the ApplicationEventPublisher
+                    and ApplicationListener interfaces.
+                </td>
+            </tr>
+            <tr>
+                <td><strong>AOP Integration</strong></td>
+                <td>Basic, requires more manual setup.</td>
+                <td>Seamless and automatic integration with Spring AOP.</td>
+            </tr>
+            <tr>
+                <td><strong>Web Application Support</strong></td>
+                <td>No inherent support for web-specific contexts.</td>
+                <td>Provides web-aware contexts like AnnotationConfigWebApplicationContext and
+                    XmlWebApplicationContext.
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Annotation Support</strong></td>
+                <td>No. It only understands bean definitions.</td>
+                <td>Yes. Full support for @Autowired, @Component, @Qualifier, etc., when used with a
+                    BeanPostProcessor.
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Configuration Styles</strong></td>
+                <td>Primarily XML.</td>
+                <td>Full support for XML, Java-based (@Configuration), and annotation-based configuration.</td>
+            </tr>
+            <tr>
+                <td><strong>Use Case</strong></td>
+                <td>In resource-constrained environments (e.g., mobile devices) where memory footprint is critical.</td>
+                <td>Used in ~99.9% of all Spring applications. The standard choice for all kinds of applications.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
     <h3>Common Implementations</h3>
 
     <div class="table-container">
@@ -736,7 +795,7 @@
     </ul>
     <br>
     <hr>
-    <h3>7. Spring Bean Scopes: A Complete Guide</h3>
+    <h3>7. Spring Bean Scopes</h3>
 
     <p>Spring Framework provides several bean scopes that determine the lifecycle and visibility of beans in the
         container. Understanding these scopes is crucial for proper bean management in Spring applications.</p>
@@ -981,253 +1040,379 @@
     <hr>
     <h3>8. Bean Lifecycle in Spring Framework</h3>
 
-    <p>The Spring bean lifecycle consists of several phases from instantiation to destruction. Understanding this
-        lifecycle is crucial for proper bean management and customization.</p>
-
-    <h3>Complete Bean Lifecycle Phases</h3>
+    <p>Here is the complete sequence of steps for a singleton bean:</p>
 
     <ol>
-        <li><strong>Instantiation</strong>
+        <li><strong>Instantiation</strong></li>
+        <li><strong>Population of Properties (Dependency Injection)</strong></li>
+        <li><strong>Bean Post Processing (Before Initialization)</strong>
             <ul>
-                <li>Bean instance created via constructor or factory method</li>
-                <li>If constructor injection used, dependencies are resolved and injected</li>
+                <li>BeanPostProcessor.postProcessBeforeInitialization()</li>
             </ul>
         </li>
-        <li><strong>Population of Properties</strong>
+        <li><strong>Initialization</strong>
             <ul>
-                <li>Setter injection occurs (if used)</li>
-                <li>Field injection via reflection (if used)</li>
+                <li>Methods annotated with @PostConstruct</li>
+                <li>InitializingBean.afterPropertiesSet()</li>
+                <li>Custom init-method (specified via XML or @Bean(initMethod = "..."))</li>
             </ul>
         </li>
-        <li><strong>BeanNameAware.setBeanName()</strong>
+        <li><strong>Bean Post Processing (After Initialization)</strong>
             <ul>
-                <li>If bean implements BeanNameAware, Spring calls setBeanName()</li>
+                <li>BeanPostProcessor.postProcessAfterInitialization()</li>
             </ul>
         </li>
-        <li><strong>BeanClassLoaderAware.setBeanClassLoader()</strong>
+        <li><strong>Bean is Ready (In use in the application)</strong></li>
+        <li><strong>Destruction</strong>
             <ul>
-                <li>If bean implements BeanClassLoaderAware, Spring calls setBeanClassLoader()</li>
-            </ul>
-        </li>
-        <li><strong>BeanFactoryAware.setBeanFactory()</strong>
-            <ul>
-                <li>If bean implements BeanFactoryAware, Spring calls setBeanFactory()</li>
-            </ul>
-        </li>
-        <li><strong>EnvironmentAware.setEnvironment()</strong>
-            <ul>
-                <li>If bean implements EnvironmentAware, Spring calls setEnvironment()</li>
-            </ul>
-        </li>
-        <li><strong>EmbeddedValueResolverAware.setEmbeddedValueResolver()</strong>
-            <ul>
-                <li>If bean implements this interface, Spring calls setEmbeddedValueResolver()</li>
-            </ul>
-        </li>
-        <li><strong>ResourceLoaderAware.setResourceLoader()</strong>
-            <ul>
-                <li>If bean implements ResourceLoaderAware, Spring calls setResourceLoader()</li>
-            </ul>
-        </li>
-        <li><strong>ApplicationEventPublisherAware.setApplicationEventPublisher()</strong>
-            <ul>
-                <li>If bean implements this interface, Spring calls setApplicationEventPublisher()</li>
-            </ul>
-        </li>
-        <li><strong>MessageSourceAware.setMessageSource()</strong>
-            <ul>
-                <li>If bean implements MessageSourceAware, Spring calls setMessageSource()</li>
-            </ul>
-        </li>
-        <li><strong>ApplicationContextAware.setApplicationContext()</strong>
-            <ul>
-                <li>If bean implements ApplicationContextAware, Spring calls setApplicationContext()</li>
-            </ul>
-        </li>
-        <li><strong>ServletContextAware.setServletContext()</strong>
-            <ul>
-                <li>If bean implements ServletContextAware (in web apps), Spring calls setServletContext()</li>
-            </ul>
-        </li>
-        <li><strong>@PostConstruct Annotation</strong>
-            <ul>
-                <li>Methods annotated with @PostConstruct are called</li>
-            </ul>
-        </li>
-        <li><strong>InitializingBean.afterPropertiesSet()</strong>
-            <ul>
-                <li>If bean implements InitializingBean, Spring calls afterPropertiesSet()</li>
-            </ul>
-        </li>
-        <li><strong>Custom init() method</strong>
-            <ul>
-                <li>Custom initialization method specified via @Bean(initMethod = "...") or XML</li>
-            </ul>
-        </li>
-        <li><strong>Bean is ready for use</strong>
-            <ul>
-                <li>Bean is fully initialized and available in the container</li>
-            </ul>
-        </li>
-        <li><strong>@PreDestroy Annotation</strong>
-            <ul>
-                <li>Methods annotated with @PreDestroy are called during shutdown</li>
-            </ul>
-        </li>
-        <li><strong>DisposableBean.destroy()</strong>
-            <ul>
-                <li>If bean implements DisposableBean, Spring calls destroy()</li>
-            </ul>
-        </li>
-        <li><strong>Custom destroy() method</strong>
-            <ul>
-                <li>Custom destruction method specified via @Bean(destroyMethod = "...") or XML</li>
+                <li>Methods annotated with @PreDestroy</li>
+                <li>DisposableBean.destroy()</li>
+                <li>Custom destroy-method (specified via XML or @Bean(destroyMethod = "..."))</li>
             </ul>
         </li>
     </ol>
 
-    <h3>Lifecycle Example with Code</h3>
+    <h3>The Main Bean (MyService)</h3>
+
+    <p>This bean uses all three ways to define init and destroy methods, and implements the *Aware interfaces for
+        context details.</p>
 
     <pre class="java-code">
 <code>
-<span class="annotation">@Component</span>
-<span class="keyword">public class</span> <span class="class">LifecycleDemoBean</span> <span
-        class="keyword">implements</span>
-    <span class="class">BeanNameAware</span>, <span class="class">BeanFactoryAware</span>, <span class="class">ApplicationContextAware</span>,
-    <span class="class">InitializingBean</span>, <span class="class">DisposableBean</span> {
+<span class="keyword">import</span> org.springframework.beans.BeansException;
+<span class="keyword">import</span> org.springframework.beans.factory.*;
+<span class="keyword">import</span> org.springframework.context.*;
+<span class="keyword">import</span> javax.annotation.PostConstruct;
+<span class="keyword">import</span> javax.annotation.PreDestroy;
 
-    <span class="keyword">private</span> <span class="class">String</span> <span class="var">beanName</span>;
+<span class="keyword">public class</span> <span class="class">MyService</span> <span class="keyword">implements</span> InitializingBean, DisposableBean, ApplicationContextAware, BeanNameAware {
+    <span class="keyword">private</span> String message;
 
-    <span class="annotation">@Override</span>
-    <span class="keyword">public void</span> <span class="method">setBeanName</span>(<span
-        class="class">String</span> <span class="var">name</span>) {
-        <span class="keyword">this</span>.<span class="var">beanName</span> = <span class="var">name</span>;
-        <span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span
-        class="string">"4. BeanNameAware.setBeanName(): "</span> + <span class="var">name</span>);
+    <span class="comment">// 1. Constructor (Instantiation)</span>
+    <span class="keyword">public</span> MyService() {
+        System.out.println(<span class="string">"1. [CONSTRUCTOR] Bean Instantiated."</span>);
     }
 
-    <span class="annotation">@Override</span>
-    <span class="keyword">public void</span> <span class="method">setBeanFactory</span>(<span
-        class="class">BeanFactory</span> <span class="var">beanFactory</span>) {
-        <span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span
-        class="string">"5. BeanFactoryAware.setBeanFactory()"</span>);
+    <span class="comment">// 2. Setter Injection (Population of Properties)</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> setMessage(String message) {
+        <span class="keyword">this</span>.message = message;
+        System.out.println(<span class="string">"2. [DI] Properties Populated. Message: "</span> + message);
     }
 
-    <span class="annotation">@Override</span>
-    <span class="keyword">public void</span> <span class="method">setApplicationContext</span>(<span class="class">ApplicationContext</span> <span
-        class="var">applicationContext</span>) {
-        <span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span
-        class="string">"11. ApplicationContextAware.setApplicationContext()"</span>);
+    <span class="comment">// 3. BeanNameAware callback</span>
+    @Override
+    <span class="keyword">public</span> <span class="keyword">void</span> setBeanName(String name) {
+        System.out.println(<span
+        class="string">"3. [AWARE INTERFACE] BeanNameAware: Bean name is '"</span> + name + <span
+        class="string">"'"</span>);
     }
 
-    <span class="annotation">@PostConstruct</span>
-    <span class="keyword">public void</span> <span class="method">postConstruct</span>() {
-        <span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span
-        class="string">"13. @PostConstruct method"</span>);
+    <span class="comment">// 4. ApplicationContextAware callback</span>
+    @Override
+    <span class="keyword">public</span> <span class="keyword">void</span> setApplicationContext(ApplicationContext applicationContext) <span
+        class="keyword">throws</span> BeansException {
+        System.out.println(<span class="string">"4. [AWARE INTERFACE] ApplicationContextAware: Context loaded."</span>);
     }
 
-    <span class="annotation">@Override</span>
-    <span class="keyword">public void</span> <span class="method">afterPropertiesSet</span>() {
-        <span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span
-        class="string">"14. InitializingBean.afterPropertiesSet()"</span>);
+    <span class="comment">// 5. @PostConstruct (Initialization)</span>
+    @PostConstruct
+    <span class="keyword">public</span> <span class="keyword">void</span> postConstruct() {
+        System.out.println(<span class="string">"5. [INIT] @PostConstruct method called."</span>);
     }
 
-    <span class="keyword">public void</span> <span class="method">customInit</span>() {
-        <span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span
-        class="string">"15. Custom init method"</span>);
+    <span class="comment">// 6. InitializingBean (Initialization)</span>
+    @Override
+    <span class="keyword">public</span> <span class="keyword">void</span> afterPropertiesSet() <span class="keyword">throws</span> Exception {
+        System.out.println(<span class="string">"6. [INIT] InitializingBean.afterPropertiesSet() called."</span>);
     }
 
-    <span class="annotation">@PreDestroy</span>
-    <span class="keyword">public void</span> <span class="method">preDestroy</span>() {
-        <span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span
-        class="string">"17. @PreDestroy method"</span>);
+    <span class="comment">// 7. Custom init method (Initialization)</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> myInit() {
+        System.out.println(<span class="string">"7. [INIT] Custom init-method called."</span>);
     }
 
-    <span class="annotation">@Override</span>
-    <span class="keyword">public void</span> <span class="method">destroy</span>() {
-        <span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span
-        class="string">"18. DisposableBean.destroy()"</span>);
+    <span class="comment">// Business method</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> performTask() {
+        System.out.println(<span class="string">"8. [BUSINESS] Bean is in use. Performing task: "</span> + message);
     }
 
-    <span class="keyword">public void</span> <span class="method">customDestroy</span>() {
-        <span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span
-        class="string">"19. Custom destroy method"</span>);
+    <span class="comment">// 9. @PreDestroy (Destruction)</span>
+    @PreDestroy
+    <span class="keyword">public</span> <span class="keyword">void</span> preDestroy() {
+        System.out.println(<span class="string">"9. [DESTROY] @PreDestroy method called."</span>);
     }
-}
 
-<span class="annotation">@Configuration</span>
-<span class="keyword">public class</span> <span class="class">AppConfig</span> {
-    <span class="annotation">@Bean</span>(initMethod = <span class="string">"customInit"</span>, destroyMethod = <span
-        class="string">"customDestroy"</span>)
-    <span class="keyword">public</span> <span class="class">LifecycleDemoBean</span> <span class="method">lifecycleDemoBean</span>() {
-        <span class="keyword">return new</span> <span class="class">LifecycleDemoBean</span>();
+    <span class="comment">// 10. DisposableBean (Destruction)</span>
+    @Override
+    <span class="keyword">public</span> <span class="keyword">void</span> destroy() <span class="keyword">throws</span> Exception {
+        System.out.println(<span class="string">"10. [DESTROY] DisposableBean.destroy() called."</span>);
+    }
+
+    <span class="comment">// 11. Custom destroy method (Destruction)</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> myCleanup() {
+        System.out.println(<span class="string">"11. [DESTROY] Custom destroy-method called."</span>);
     }
 }
 </code>
-</pre>
+    </pre>
 
-    <h3>Lifecycle Callback Order Summary</h3>
+    <h3>A Custom BeanPostProcessor</h3>
 
-    <div class="table-container">
-        <table class="basic-table">
-            <thead>
-            <tr>
-                <th>Phase</th>
-                <th>Callback Method</th>
-                <th>Description</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>Initialization</td>
-                <td>Aware interfaces (BeanNameAware, etc.)</td>
-                <td>Injection of container infrastructure</td>
-            </tr>
-            <tr>
-                <td>Initialization</td>
-                <td>@PostConstruct</td>
-                <td>JSR-250 annotation-based initialization</td>
-            </tr>
-            <tr>
-                <td>Initialization</td>
-                <td>afterPropertiesSet()</td>
-                <td>Spring's InitializingBean interface</td>
-            </tr>
-            <tr>
-                <td>Initialization</td>
-                <td>Custom init method</td>
-                <td>Programmatically specified initialization</td>
-            </tr>
-            <tr>
-                <td>Destruction</td>
-                <td>@PreDestroy</td>
-                <td>JSR-250 annotation-based destruction</td>
-            </tr>
-            <tr>
-                <td>Destruction</td>
-                <td>destroy()</td>
-                <td>Spring's DisposableBean interface</td>
-            </tr>
-            <tr>
-                <td>Destruction</td>
-                <td>Custom destroy method</td>
-                <td>Programmatically specified destruction</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+    <p>This is crucial to see the before/after initialization phases.</p>
 
-    <h3>Important Notes</h3>
+    <pre class="java-code">
+<code>
+<span class="keyword">import</span> org.springframework.beans.BeansException;
+<span class="keyword">import</span> org.springframework.beans.factory.config.BeanPostProcessor;
+<span class="keyword">import</span> org.springframework.stereotype.Component;
 
-    <ul>
-        <li><strong>Prototype Beans</strong>: Destruction callbacks are not called for prototype-scoped beans</li>
-        <li><strong>Callback Order</strong>: Within each phase, callbacks execute in the order listed above</li>
-        <li><strong>Best Practice</strong>: Prefer @PostConstruct and @PreDestroy over Spring-specific interfaces for
-            better portability
-        </li>
-        <li><strong>Circular Dependencies</strong>: Can interfere with normal lifecycle processing</li>
-    </ul>
+@Component
+<span class="keyword">public class</span> <span class="class">MyBeanPostProcessor</span> <span class="keyword">implements</span> BeanPostProcessor {
+    @Override
+    <span class="keyword">public</span> Object postProcessBeforeInitialization(Object bean, String beanName) <span
+        class="keyword">throws</span> BeansException {
+        <span class="keyword">if</span> (bean <span class="keyword">instanceof</span> MyService) {
+            System.out.println(<span
+        class="string">">> [BEAN POST PROCESSOR] postProcessBeforeInitialization() for: "</span> + beanName);
+        }
+        <span class="keyword">return</span> bean;
+    }
 
+    @Override
+    <span class="keyword">public</span> Object postProcessAfterInitialization(Object bean, String beanName) <span
+        class="keyword">throws</span> BeansException {
+        <span class="keyword">if</span> (bean <span class="keyword">instanceof</span> MyService) {
+            System.out.println(<span
+        class="string">"<< [BEAN POST PROCESSOR] postProcessAfterInitialization() for: "</span> + beanName);
+        }
+        <span class="keyword">return</span> bean;
+    }
+}
+</code>
+    </pre>
+
+    <h3>Java Configuration Class (AppConfig)</h3>
+
+    <p>We define our bean here, specifying the custom init-method and destroy-method.</p>
+
+    <pre class="java-code">
+<code>
+<span class="keyword">import</span> org.springframework.context.annotation.Bean;
+<span class="keyword">import</span> org.springframework.context.annotation.Configuration;
+
+@Configuration
+<span class="keyword">public class</span> <span class="class">AppConfig</span> {
+    @Bean(initMethod = <span class="string">"myInit"</span>, destroyMethod = <span class="string">"myCleanup"</span>)
+    <span class="keyword">public</span> MyService myService() {
+        MyService myService = <span class="keyword">new</span> MyService();
+        myService.setMessage(<span class="string">"Hello, Spring Lifecycle!"</span>);
+        <span class="keyword">return</span> myService;
+    }
+}
+</code>
+    </pre>
+
+    <h3>Main Application to Run the Example</h3>
+
+    <pre class="java-code">
+<code>
+<span class="keyword">import</span> org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+<span class="keyword">public class</span> <span class="class">LifecycleDemoApplication</span> {
+    <span class="keyword">public static</span> <span class="keyword">void</span> main(String[] args) {
+        <span class="comment">// Create the Spring context (This triggers bean creation)</span>
+        System.out.println(<span class="string">"-- Step: Creating ApplicationContext --"</span>);
+        AnnotationConfigApplicationContext context = <span class="keyword">new</span> AnnotationConfigApplicationContext(AppConfig.class);
+
+        <span class="comment">// Retrieve the bean and use it</span>
+        System.out.println(<span class="string">"\n-- Step: Retrieving Bean --"</span>);
+        MyService service = context.getBean(MyService.class);
+        service.performTask();
+
+        <span class="comment">// Close the context (This triggers bean destruction)</span>
+        System.out.println(<span class="string">"\n-- Step: Closing ApplicationContext --"</span>);
+        context.close(); <span class="comment">// or context.registerShutdownHook();</span>
+    }
+}
+</code>
+    </pre>
+
+    <h3>Expected Output (The Exact Sequence)</h3>
+
+    <p>When you run the LifecycleDemoApplication, you will see the following output, which clearly shows the lifecycle
+        sequence:</p>
+
+    <pre class="code-block">
+<code>
+-- Step: Creating ApplicationContext --
+1. [CONSTRUCTOR] Bean Instantiated.
+2. [DI] Properties Populated. Message: Hello, Spring Lifecycle!
+3. [AWARE INTERFACE] BeanNameAware: Bean name is 'myService'
+4. [AWARE INTERFACE] ApplicationContextAware: Context loaded.
+>> [BEAN POST PROCESSOR] postProcessBeforeInitialization() for: myService
+5. [INIT] @PostConstruct method called.
+6. [INIT] InitializingBean.afterPropertiesSet() called.
+7. [INIT] Custom init-method called.
+<< [BEAN POST PROCESSOR] postProcessAfterInitialization() for: myService
+
+-- Step: Retrieving Bean --
+8. [BUSINESS] Bean is in use. Performing task: Hello, Spring Lifecycle!
+
+-- Step: Closing ApplicationContext --
+9. [DESTROY] @PreDestroy method called.
+10. [DESTROY] DisposableBean.destroy() called.
+11. [DESTROY] Custom destroy-method called.
+</code>
+    </pre>
+    <h2>Bean Lifecycle Overview</h2>
+
+    <table class="basic-table">
+        <thead>
+        <tr>
+            <th width="20%">Phase</th>
+            <th width="30%">Methods / Callbacks</th>
+            <th width="30%">Implementation Method</th>
+            <th width="20%">Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td style="text-align: center !important;" class="phase-header" colspan="4">Before Bean Instantiation</td>
+        </tr>
+        <tr>
+            <td>Bean Definition Loading</td>
+            <td>BeanFactoryPostProcessor.postProcessBeanFactory()</td>
+            <td>Implement BeanFactoryPostProcessor interface</td>
+            <td>Modifies bean definitions before beans are created</td>
+        </tr>
+        <tr>
+            <td>Custom Bean Validation</td>
+            <td>Custom validation methods</td>
+            <td>Custom implementation</td>
+            <td>Custom validation logic before bean creation</td>
+        </tr>
+
+        <tr>
+            <td style="text-align: center !important;" class="phase-header" colspan="4">Bean Instantiation</td>
+        </tr>
+        <tr>
+            <td>Object Instantiation</td>
+            <td>Constructor</td>
+            <td>Class constructor</td>
+            <td>Creates the bean instance</td>
+        </tr>
+
+        <tr>
+            <td style="text-align: center !important;" class="phase-header" colspan="4">After Instantiation (Before Initialization)</td>
+        </tr>
+        <tr>
+            <td>Dependency Injection</td>
+            <td>Setter methods, @Autowired</td>
+            <td>Setter methods or field injection</td>
+            <td>Dependencies are injected into the bean</td>
+        </tr>
+        <tr>
+            <td>Aware Interfaces</td>
+            <td>BeanNameAware.setBeanName()<br>
+                BeanFactoryAware.setBeanFactory()<br>
+                ApplicationContextAware.setApplicationContext()<br>
+                etc.
+            </td>
+            <td>Implement relevant *Aware interface</td>
+            <td>Provides access to container facilities</td>
+        </tr>
+        <tr>
+            <td>Bean Post Processing (Before Init)</td>
+            <td>BeanPostProcessor.postProcessBeforeInitialization()</td>
+            <td>Implement BeanPostProcessor interface</td>
+            <td>Custom modification of bean instances before init</td>
+        </tr>
+
+        <tr>
+            <td style="text-align: center !important;" class="phase-header" colspan="4">Initialization Phase</td>
+        </tr>
+        <tr>
+            <td>Initialization</td>
+            <td>@PostConstruct annotated method</td>
+            <td>Annotate method with @PostConstruct</td>
+            <td>JSR-250 standard initialization method</td>
+        </tr>
+        <tr>
+            <td>Initialization</td>
+            <td>InitializingBean.afterPropertiesSet()</td>
+            <td>Implement InitializingBean interface</td>
+            <td>Spring-specific initialization callback</td>
+        </tr>
+        <tr>
+            <td>Initialization</td>
+            <td>Custom init method</td>
+            <td>XML: init-method attribute<br>
+                Java: @Bean(initMethod = "...")
+            </td>
+            <td>Custom initialization method defined in configuration</td>
+        </tr>
+
+        <tr>
+            <td style="text-align: center !important;" class="phase-header" colspan="4">After Initialization</td>
+        </tr>
+        <tr>
+            <td>Bean Post Processing (After Init)</td>
+            <td>BeanPostProcessor.postProcessAfterInitialization()</td>
+            <td>Implement BeanPostProcessor interface</td>
+            <td>Custom modification of bean instances after init</td>
+        </tr>
+        <tr>
+            <td>Bean Ready</td>
+            <td>-</td>
+            <td>-</td>
+            <td>Bean is fully configured and ready for use</td>
+        </tr>
+
+        <tr>
+            <td style="text-align: center !important;" class="phase-header" colspan="4">Before Destruction</td>
+        </tr>
+        <tr>
+            <td>Container Shutdown Initiated</td>
+            <td>Context close event</td>
+            <td>context.close() or context.registerShutdownHook()</td>
+            <td>Container begins shutdown process</td>
+        </tr>
+
+        <tr>
+            <td style="text-align: center !important;" class="phase-header" colspan="4">Destruction Phase</td>
+        </tr>
+        <tr>
+            <td>Destruction</td>
+            <td>@PreDestroy annotated method</td>
+            <td>Annotate method with @PreDestroy</td>
+            <td>JSR-250 standard destruction method</td>
+        </tr>
+        <tr>
+            <td>Destruction</td>
+            <td>DisposableBean.destroy()</td>
+            <td>Implement DisposableBean interface</td>
+            <td>Spring-specific destruction callback</td>
+        </tr>
+        <tr>
+            <td>Destruction</td>
+            <td>Custom destroy method</td>
+            <td>XML: destroy-method attribute<br>
+                Java: @Bean(destroyMethod = "...")
+            </td>
+            <td>Custom destruction method defined in configuration</td>
+        </tr>
+
+        <tr>
+            <td style="text-align: center !important;" class="phase-header" colspan="4">After Destruction</td>
+        </tr>
+        <tr>
+            <td>Garbage Collection</td>
+            <td>finalize() (not recommended)</td>
+            <td>Override Object.finalize()</td>
+            <td>Called by garbage collector before object destruction (avoid using)</td>
+        </tr>
+        </tbody>
+    </table>
     <br>
     <hr>
     <br>

@@ -22,8 +22,9 @@
 <!-- Main Content Section -->
 <main id="content">
     <h3>Asynchronous Programming in Spring</h3>
-    <p>Spring provides powerful abstractions for asynchronous execution, allowing you to improve application performance by running tasks concurrently. This guide covers all aspects from basic setup to advanced patterns.</p>
-
+    <p>Spring provides powerful abstractions for asynchronous execution, allowing you to improve application performance
+        by running tasks concurrently. This guide covers all aspects from basic setup to advanced patterns.</p>
+    <hr>
     <h3>1. Core Concepts</h3>
 
     <h4>Key Benefits</h4>
@@ -63,7 +64,7 @@
             </tbody>
         </table>
     </div>
-
+    <hr>
     <h3>2. Basic Setup</h3>
 
     <h4>Enable Async Support</h4>
@@ -84,15 +85,17 @@
 <span class="keyword">public class</span> <span class="class">NotificationService</span> {
 
 <span class="annotation">@Async</span>
-<span class="keyword">public</span> <span class="class">void</span> <span class="method">sendEmail</span>(<span class="class">String</span> <span class="var">to</span>, <span class="class">String</span> <span class="var">content</span>) {
+<span class="keyword">public</span> <span class="class">void</span> <span class="method">sendEmail</span>(<span
+        class="class">String</span> <span class="var">to</span>, <span class="class">String</span> <span class="var">content</span>) {
 <span class="comment">// Simulate delay</span>
 <span class="class">Thread</span>.<span class="method">sleep</span>(<span class="number">1000</span>);
-<span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span class="string">"Email sent to: "</span> + <span class="var">to</span>);
+<span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span class="string">"Email sent to: "</span> + <span
+        class="var">to</span>);
 }
 }
 </code>
 </pre>
-
+    <hr>
     <h3>3. Thread Pool Configuration</h3>
 
     <h4>Custom Thread Pool</h4>
@@ -104,7 +107,8 @@
 
 <span class="annotation">@Bean</span>(<span class="key">name</span> = <span class="string">"taskExecutor"</span>)
 <span class="keyword">public</span> <span class="class">Executor</span> <span class="method">taskExecutor</span>() {
-<span class="class">ThreadPoolTaskExecutor</span> <span class="var">executor</span> = <span class="keyword">new</span> <span class="class">ThreadPoolTaskExecutor</span>();
+<span class="class">ThreadPoolTaskExecutor</span> <span class="var">executor</span> = <span
+        class="keyword">new</span> <span class="class">ThreadPoolTaskExecutor</span>();
 <span class="var">executor</span>.<span class="method">setCorePoolSize</span>(<span class="number">5</span>);
 <span class="var">executor</span>.<span class="method">setMaxPoolSize</span>(<span class="number">10</span>);
 <span class="var">executor</span>.<span class="method">setQueueCapacity</span>(<span class="number">100</span>);
@@ -120,19 +124,21 @@
     <pre class="java-code">
 <code>
 <span class="annotation">@Async</span>(<span class="string">"taskExecutor"</span>)
-<span class="keyword">public</span> <span class="class">void</span> <span class="method">processData</span>(<span class="class">List</span><<span class="class">Data</span>> <span class="var">items</span>) {
+<span class="keyword">public</span> <span class="class">void</span> <span class="method">processData</span>(<span
+        class="class">List</span><<span class="class">Data</span>> <span class="var">items</span>) {
 <span class="comment">// Processing logic</span>
 }
 </code>
 </pre>
-
+    <hr>
     <h3>4. Return Types</h3>
 
     <h4>Void Return</h4>
     <pre class="java-code">
 <code>
 <span class="annotation">@Async</span>
-<span class="keyword">public</span> <span class="class">void</span> <span class="method">logActivity</span>(<span class="class">String</span> <span class="var">message</span>) {
+<span class="keyword">public</span> <span class="class">void</span> <span class="method">logActivity</span>(<span
+        class="class">String</span> <span class="var">message</span>) {
 <span class="comment">// No return value needed</span>
 }
 </code>
@@ -142,8 +148,10 @@
     <pre class="java-code">
 <code>
 <span class="annotation">@Async</span>
-<span class="keyword">public</span> <span class="class">Future</span><<span class="class">String</span>> <span class="method">processWithResult</span>() {
-<span class="keyword">return</span> <span class="keyword">new</span> <span class="class">AsyncResult</span><>(<span class="string">"Processing complete"</span>);
+<span class="keyword">public</span> <span class="class">Future</span><<span class="class">String</span>> <span
+        class="method">processWithResult</span>() {
+<span class="keyword">return</span> <span class="keyword">new</span> <span class="class">AsyncResult</span><>(<span
+        class="string">"Processing complete"</span>);
 }
 </code>
 </pre>
@@ -152,8 +160,10 @@
     <pre class="java-code">
 <code>
 <span class="annotation">@Async</span>
-<span class="keyword">public</span> <span class="class">CompletableFuture</span><<span class="class">String</span>> <span class="method">fetchDataAsync</span>() {
-<span class="keyword">return</span> <span class="class">CompletableFuture</span>.<span class="method">completeFuture</span>(<span class="string">"Data loaded"</span>);
+<span class="keyword">public</span> <span class="class">CompletableFuture</span><<span
+        class="class">String</span>> <span class="method">fetchDataAsync</span>() {
+<span class="keyword">return</span> <span class="class">CompletableFuture</span>.<span
+        class="method">completeFuture</span>(<span class="string">"Data loaded"</span>);
 }
 </code>
 </pre>
