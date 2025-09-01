@@ -85,7 +85,7 @@
     box-sizing: border-box;
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
     font-family: var(--font-family);
-    font-size: 0.97rem;
+    font-size: 1rem;
     #line-height: 1.8;
     /* Space between paragraphs */
 
@@ -332,7 +332,7 @@ aside {
     display: block;
     padding: 0.2rem;
     #border-radius: 4px;
-    font-size: 0.97rem;
+    font-size: 1rem;
     transition: all 0.3s ease, transform 0.2s ease;
     position: relative;
     overflow: hidden;
@@ -579,7 +579,7 @@ h3 {
 }
 
 h4 {
-    font-size: 0.9rem;
+    font-size: 1rem;
     margin-bottom: 0.4rem;
     margin-top: 0.9rem;
     color: var(--text-color);
@@ -588,7 +588,7 @@ h4 {
 p {
     margin-bottom: 0.75rem;
     #line-height: 0.5;
-    font-size: 0.97rem;
+    font-size: 1rem;
     margin-bottom: 0.8em;
     text-align: justify;
     text-justify: inter-word;
@@ -613,13 +613,13 @@ ul {
 
 ul li{
     margin-bottom: 0.5rem;
-    font-size: 0.97rem;
+    font-size: 1rem;
     margin-left: 1.5rem;
 }
 
 li {
     margin-bottom: 0.5rem;
-    font-size: 0.97rem;
+    font-size: 1rem;
 }
 
 li > ul {
