@@ -84,7 +84,7 @@ const components = {
 
   footer: `
     <!-- Footer Section -->
-    <footer>
+    <footer style="display:flex; justify-content:center; align-items:center; text-align:center;">
       <p>© <span id="currentYear"></span>, The content is copyrighted
       to Ravi Kalyan Kolloju.</p>
     </footer>

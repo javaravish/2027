@@ -585,6 +585,10 @@ h4 {
     color: var(--text-color);
 }
 
+hr {
+  margin: 20px 0;  /* 20px space above and below */
+}
+
 p {
     margin-bottom: 0.75rem;
     #line-height: 0.5;
