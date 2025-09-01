@@ -90,7 +90,7 @@
     /* Space between paragraphs */
 
       /* Text alignment */
-    text-align: justify;
+    #text-align: justify;
     text-justify: inter-word;
 }
 
@@ -630,10 +630,6 @@ li > ol {
   margin-top: 5px;  /* space between li and its nested ul */
 }
 
-article {
-    border-bottom: 1px solid #e1e1e1;
-
-}
 .card-footer {
     border-bottom: 1px solid #e1e1e1;
     border-bottom: 1px solid var(--nav-panel-divider-color);
