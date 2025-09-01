@@ -85,6 +85,13 @@
     box-sizing: border-box;
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
     font-family: var(--font-family);
+    font-size: 0.97rem;
+    #line-height: 1.8;
+    /* Space between paragraphs */
+
+      /* Text alignment */
+    text-align: justify;
+    text-justify: inter-word;
 }
 
 body {
@@ -146,7 +153,7 @@ header {
 }
 
 .brand-name {
-    font-size: 1.25rem;
+    font-size: 1.3rem;
     color: var(--link-color);
     position: relative;
     transition: all 0.3s ease;
@@ -224,7 +231,7 @@ header {
 
 .header-items a:hover {
     color: var(--hover-color);
-    letter-spacing: 1px;
+    #letter-spacing: 1px;
     transform: translateY(-2px);
 }
 
@@ -274,7 +281,7 @@ nav {
 
 .breadcrumbs {
     display: flex;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
 }
 
 .breadcrumbs a {
@@ -324,8 +331,8 @@ aside {
     text-decoration: none;
     display: block;
     padding: 0.2rem;
-    border-radius: 4px;
-    font-size: 1rem;
+    #border-radius: 4px;
+    font-size: 0.97rem;
     transition: all 0.3s ease, transform 0.2s ease;
     position: relative;
     overflow: hidden;
@@ -367,7 +374,7 @@ aside {
 .menu a:hover {
     background-color: rgba(0, 0, 0, 0.1);
     color: var(--hover-color);
-    transform: translateX(5px);
+    #transform: translateX(5px);
 }
 
 .menu a:active {
@@ -539,7 +546,7 @@ input:checked + .slider:before {
     display: none;
     background: none;
     border: none;
-    font-size: 1.25rem;
+    font-size: 1.4rem;
     color: var(--text-color);
     cursor: pointer;
     transition: transform 0.3s ease;
@@ -550,33 +557,41 @@ input:checked + .slider:before {
 }
 
 /* Content Styles */
-h1, h2, h3 {
-    margin-bottom: 0.75rem;
+h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0.4rem;
+    margin-top: 0.9rem;
     color: var(--text-color);
 }
 
 h2 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
+    margin-bottom: 0.4rem;
+    margin-top: 0.9rem;
+    color: var(--text-color);
 }
 
 h3 {
-    font-size: 1.25rem;
-    margin-top: 25px;
-    margin-bottom: 5px;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    margin-top: 0.9rem;
+    color: var(--text-color);
 }
 
 h4 {
-    padding-left: 5px;
-    margin-bottom: 8px;
-    margin-top: 15px;
-    #background-color: var(--link-color);
-    #color: var(--bg-color);
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+    margin-top: 0.9rem;
+    color: var(--text-color);
 }
 
 p {
     margin-bottom: 0.75rem;
-    line-height: 1.5;
-    font-size: 1.1rem;
+    #line-height: 0.5;
+    font-size: 0.97rem;
+    margin-bottom: 0.8em;
+    text-align: justify;
+    text-justify: inter-word;
 }
 
 .content-section {
@@ -593,19 +608,28 @@ p {
 }
 
 ul {
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
 }
 
 ul li{
-    margin-bottom: 0.75rem;
-    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.97rem;
     margin-left: 1.5rem;
 }
 
 li {
     margin-bottom: 0.5rem;
-    font-size: 1rem;
+    font-size: 0.97rem;
 }
+
+li > ul {
+  margin-top: 5px;  /* space between li and its nested ul */
+}
+
+li > ol {
+  margin-top: 5px;  /* space between li and its nested ul */
+}
+
 article {
     border-bottom: 1px solid #e1e1e1;
 
@@ -834,7 +858,7 @@ article {
         text-align: left;
         left: 20px;
         padding: 0.5rem 1rem;
-        font-size: 1.1rem;
+        font-size: 1rem;
         border-bottom: 1px solid var(--border-color);
         transition: all 0.3s ease;
         background-color: var(--header-bg);
@@ -904,7 +928,7 @@ article {
     }
 
     .brand-name {
-        font-size: 1.1rem;
+        font-size: 1rem;
         white-space: nowrap;
         text-overflow: ellipsis;
         max-width: 120px;
@@ -969,7 +993,7 @@ article {
   border-radius: 8px;
   overflow-x: auto;
   font-family: "Fira Code", monospace;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.5;
   margin: 15px 0;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
@@ -994,7 +1018,7 @@ article {
   border-radius: 8px;
   overflow-x: auto;
   font-family: "Fira Code", monospace;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.6;
   margin: 15px 0;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
@@ -1020,7 +1044,7 @@ article {
   border-radius: 8px;
   overflow-x: auto;
   font-family: "Fira Code", monospace;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.6;
   margin: 15px 0;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
