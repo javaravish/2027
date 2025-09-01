@@ -85,6 +85,9 @@
     box-sizing: border-box;
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
     font-family: var(--font-family);
+
+    line-height: 1.5;
+    font-size: 1rem;
 }
 
 body {
@@ -224,7 +227,7 @@ header {
 
 .header-items a:hover {
     color: var(--hover-color);
-    letter-spacing: 1px;
+    #letter-spacing: 1px;
     transform: translateY(-2px);
 }
 
@@ -324,8 +327,8 @@ aside {
     text-decoration: none;
     display: block;
     padding: 0.2rem;
-    border-radius: 4px;
-    font-size: 1rem;
+    border-radius: 2px;
+    font-size: 0.9rem;
     transition: all 0.3s ease, transform 0.2s ease;
     position: relative;
     overflow: hidden;
@@ -367,7 +370,7 @@ aside {
 .menu a:hover {
     background-color: rgba(0, 0, 0, 0.1);
     color: var(--hover-color);
-    transform: translateX(5px);
+    #transform: translateX(5px);
 }
 
 .menu a:active {
@@ -550,33 +553,32 @@ input:checked + .slider:before {
 }
 
 /* Content Styles */
-h1, h2, h3 {
-    margin-bottom: 0.75rem;
-    color: var(--text-color);
+h1{
+    font-size: 1.5rem;
+    margin-top: 15px;
+    margin-bottom: 4px;
 }
 
 h2 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
+    margin-top: 15px;
+    margin-bottom: 4px;
 }
 
 h3 {
-    font-size: 1.25rem;
-    margin-top: 25px;
-    margin-bottom: 5px;
+    font-size: 1rem;
+    margin-top: 15px;
+    margin-bottom: 4px;
 }
 
-h4 {
-    padding-left: 5px;
-    margin-bottom: 8px;
-    margin-top: 15px;
-    #background-color: var(--link-color);
-    #color: var(--bg-color);
+hr {
+  margin: 20px 0;  /* 20px space above and below */
 }
 
 p {
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.3rem;
     line-height: 1.5;
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
 .content-section {
@@ -606,10 +608,15 @@ li {
     margin-bottom: 0.5rem;
     font-size: 1rem;
 }
-article {
-    border-bottom: 1px solid #e1e1e1;
 
+li > ul {
+  margin-top: 8px;  /* space between li and its nested ul */
 }
+
+ol > li {
+  margin-top: 8px;  /* space between li and its nested ul */
+}
+
 .card-footer {
     border-bottom: 1px solid #e1e1e1;
     border-bottom: 1px solid var(--nav-panel-divider-color);
@@ -834,7 +841,7 @@ article {
         text-align: left;
         left: 20px;
         padding: 0.5rem 1rem;
-        font-size: 1.1rem;
+        font-size: 1rem;
         border-bottom: 1px solid var(--border-color);
         transition: all 0.3s ease;
         background-color: var(--header-bg);
@@ -958,6 +965,15 @@ article {
   background-color: var(--table_border-color);
 }
 
+pre code {
+  font-size: 14px !important;   /* force font-size for raw text */
+  font-family: monospace;       /* optional: code editor look */
+}
+
+pre code span[class] {
+  font-size: inherit !important;  /* don’t let classes reset it */
+}
+
 /* General code block style */
 .code-block {
   width: 100%;               /* Full width */
@@ -969,19 +985,19 @@ article {
   border-radius: 8px;
   overflow-x: auto;
   font-family: "Fira Code", monospace;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.5;
   margin: 15px 0;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
 /* Syntax Colors */
-.code-block .tag       { color: #569cd6; } /* XML tags */
-.code-block .attr      { color: #9cdcfe; } /* Attributes */
-.code-block .value     { color: #e3116c; } /* Attribute values, strings */
-.code-block .key       { color: #4ec9b0; } /* Keys (YAML/Properties) */
-.code-block .number    { color: #c18401; } /* Numbers */
-.code-block .comment   { color: #6a9955; font-style: italic; } /* Comments */
+.code-block .tag       { color: #569cd6; font-size: 13px;} /* XML tags */
+.code-block .attr      { color: #9cdcfe; font-size: 13px;} /* Attributes */
+.code-block .value     { color: #e3116c; font-size: 13px;} /* Attribute values, strings */
+.code-block .key       { color: #4ec9b0; font-size: 13px;} /* Keys (YAML/Properties) */
+.code-block .number    { color: #c18401; font-size: 13px;} /* Numbers */
+.code-block .comment   { color: #6a9955; font-style: italic; font-size: 13px;} /* Comments */
 
 /* General Java code block */
 .java-code {
@@ -994,21 +1010,21 @@ article {
   border-radius: 8px;
   overflow-x: auto;
   font-family: "Fira Code", monospace;
-  font-size: 14px;
-  line-height: 1.6;
+  font-size: 13px;
+  line-height: 1;
   margin: 15px 0;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
 /* Syntax Colors */
-.java-code .keyword   { color: #569cd6; font-weight: bold; }   /* public, class, void */
-.java-code .class     { color: #4ec9b0; font-weight: bold; }   /* Class names */
-.java-code .method    { color: #f14f00; }                      /* Method names */
-.java-code .string    { color: #50a14f; }                      /* String literals */
-.java-code .number    { color: #b5cea8; }                      /* Numbers */
-.java-code .comment   { color: #ce9178; font-style: italic; }  /* Comments */
-.java-code .annotation{ color: #c586c0; }                      /* @Annotation */
-.java-code .var       { color: #e3116c; }                      /* Variables */
+.java-code .keyword   { color: #569cd6; font-weight: bold; font-size: 13px;}   /* public, class, void */
+.java-code .class     { color: #4ec9b0; font-weight: bold; font-size: 13px;}   /* Class names */
+.java-code .method    { color: #f14f00; font-size: 13px;}                      /* Method names */
+.java-code .string    { color: #50a14f; font-size: 13px;}                      /* String literals */
+.java-code .number    { color: #b5cea8; font-size: 13px;}                      /* Numbers */
+.java-code .comment   { color: #ce9178; font-style: italic; font-size: 13px;}  /* Comments */
+.java-code .annotation{ color: #c586c0; font-size: 13px;}                      /* @Annotation */
+.java-code .var       { color: #e3116c; font-size: 13px;}                      /* Variables */
 
 /* General Java code block */
 .sql-code {
@@ -1020,9 +1036,9 @@ article {
   border-radius: 8px;
   overflow-x: auto;
   font-family: "Fira Code", monospace;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.6;
   margin: 15px 0;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
-.sql-code .keyword   { color: #e3116c; font-weight: bold; }   /* public, class, void */
+.sql-code .keyword   { color: #e3116c; font-weight: bold; font-size: 13px;}   /* public, class, void */
