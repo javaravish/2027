@@ -21,7 +21,7 @@
 
 <!-- Main Content Section -->
 <main id="content">
-    <h3>1. Core Spring MVC Architecture</h3>
+    <h2>1. Core Spring MVC Architecture</h2>
 
     <h3>Request Lifecycle</h3>
     <p>1. <strong>DispatcherServlet</strong> (Front Controller) receives HTTP request</p>
@@ -73,10 +73,10 @@
             </tbody>
         </table>
     </div>
-    <br>
+
     <hr>
-    <br>
-    <h3>2. Annotation-Based Controllers</h3>
+
+    <h2>2. Annotation-Based Controllers</h2>
 
     <h3>Core Annotations</h3>
     <pre class="java-code">
@@ -453,8 +453,8 @@
 <span class="annotation">@ResponseStatus</span>(<span class="class">HttpStatus</span>.CREATED)
 <span class="keyword">public</span> <span class="keyword">void</span> <span class="method">createResource</span>(<span
             class="annotation">@RequestBody</span> <span class="class">Resource</span> <span class="var">resource</span>) { ... }</code></pre>
-
-    <h3>3. Key Differences Table</h3>
+<hr>
+    <h2>3. Key Differences Table</h2>
     <div class="table-container">
         <table class="basic-table">
             <thead>
@@ -557,10 +557,10 @@
             class="var">location</span>).body(<span class="var">saved</span>);
     }
 }</code></pre>
-    <br>
+
     <hr>
-    <br>
-    <h3>4. Global Exception Handling</h3>
+
+    <h2>4. Global Exception Handling</h2>
 
     <p><b>@ControllerAdvice</b> is a global exception handling mechanism in spring. It allows you to define a
         central place for handling exceptions that occur in your application.</p>
@@ -669,10 +669,10 @@
     <p>In short, <b>@ControllerAdvice</b> is used for handling exceptions in web applications and returns a view
         as a response, while <b>@RestControllerAdvice</b> is used for handling exceptions in RESTful web services
         and returns a JSON or XML response.</p>
-    <br>
+
     <hr>
-    <br>
-    <h3>5. Validation</h3>
+
+    <h2>5. Validation</h2>
 
     <p>Spring provides robust validation support through the Bean Validation API (JSR-380) and its own validation
         mechanisms. Here's a comprehensive guide with practical examples:</p>
@@ -924,10 +924,10 @@ ConstraintValidator&lt;ValidPhoneNumber, String&gt; {
 }
 </code>
     </pre>
-    <br>
+
     <hr>
-    <br>
-    <h3>5. REST API Best Practices</h3>
+
+    <h2>5. REST API Best Practices</h2>
 
     <h3>1. Resource Naming</h3>
     <p>• Use nouns (not verbs) for resource names</p>
@@ -1108,9 +1108,9 @@ ConstraintValidator&lt;ValidPhoneNumber, String&gt; {
   }
 }</code></pre>
 
-    <br>
+
     <hr>
-    <br>
+
     <div class="card-footer">
         <ul class="pagination justify-content-center">
             <li class="page-item"><a class="page-link btn-outline-primary"

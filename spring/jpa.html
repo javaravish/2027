@@ -21,7 +21,7 @@
 
 <!-- Main Content Section -->
 <main id="content">
-    <h3>1. ORM (Object-Relational Mapping):</h3>
+    <h2>1. ORM (Object-Relational Mapping):</h2>
 
     <ul>
         <li>A technique to connect object-oriented Java applications with relational databases.</li>
@@ -44,7 +44,7 @@
 
     <hr>
 
-    <h3>2. Spring Data JPA Repositories</h3>
+    <h2>2. Spring Data JPA Repositories</h2>
 
     <ul>
         <li>Provides predefined interfaces (<strong>CrudRepository</strong>, <strong>PagingAndSortingRepository</strong>,
@@ -95,7 +95,7 @@
 
     <hr>
 
-    <h3>3. @Query Annotation:</h3>
+    <h2>3. @Query Annotation:</h2>
 
     <p>A native query lets you write plain SQL (specific to your database) instead of JPQL (Java
         Persistence Query Language).</p>
@@ -204,7 +204,7 @@
 
     <hr>
 
-    <h3>4. Enabling Spring Data JPA:</h3>
+    <h2>4. Enabling Spring Data JPA:</h2>
 
     <ul>
         <li>Auto-configured by adding spring-boot-starter-data-jpa dependency.</li>
@@ -329,27 +329,6 @@
         </table>
     </div>
 
-    <div class="table-container">
-        <table class="basic-table">
-            <thead>
-            <tr>
-                <th>Best For</th>
-                <th>Simple CRUD</th>
-                <th>Large datasets with pagination</th>
-                <th>Full JPA/Hibernate projects</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
     <p><strong>When to Use Which?</strong></p>
 
     <ul>
@@ -363,7 +342,7 @@
 
     <hr>
 
-    <h3>5. What is @Repository ?</h3>
+    <h2>5. What is @Repository ?</h2>
     <p>@Repository is a <strong>Spring stereotype annotation</strong> used to indicate that the class is a <strong>DAO
         (Data Access Object)</strong> — a component responsible for interacting with the <strong>database</strong>.</p>
 
@@ -541,7 +520,7 @@
         </table>
     </div>
     <hr>
-    <h3>6. JPA Relationships (Entity Associations)</h3>
+    <h2>6. JPA Relationships (Entity Associations)</h2>
 
     <div class="table-container">
         <table class="basic-table">
@@ -782,7 +761,7 @@
     <p>• EAGER: Loads related entity immediately, can lead to performance issues or N+1 select problem</p>
     <p>• LAZY: Loads entity only when accessed, good for performance</p>
     <hr>
-    <h3>7. Step-by-Step Setup for Two Databases Configuration</h3>
+    <h2>7. Step-by-Step Setup for Two Databases Configuration</h2>
     <p>You'll configure:</p>
     <ul>
         <li>Two data sources</li>
@@ -950,7 +929,7 @@
         </table>
     </div>
     <hr>
-    <h3>8. Spring Data JPA repository method types</h3>
+    <h2>8. Spring Data JPA repository method types</h2>
 
     <p>Let's go through each category of Spring Data JPA repository method types and explain them with simple examples,
         using an imaginary User entity:</p>
@@ -989,9 +968,12 @@
     <p><strong>Examples:</strong></p>
 
     <pre class="java-code">
-<code><span class="method">findByAge</span>(<span class="keyword">int</span> <span class="var">age</span>); <span class="comment">// where age = ?</span>
-<span class="method">findByAgeIs</span>(<span class="keyword">int</span> <span class="var">age</span>); <span class="comment">// same as above</span>
-<span class="method">findByAgeEquals</span>(<span class="keyword">int</span> <span class="var">age</span>); <span class="comment">// same as above</span></code>
+<code><span class="method">findByAge</span>(<span class="keyword">int</span> <span class="var">age</span>); <span
+        class="comment">// where age = ?</span>
+<span class="method">findByAgeIs</span>(<span class="keyword">int</span> <span class="var">age</span>); <span
+            class="comment">// same as above</span>
+<span class="method">findByAgeEquals</span>(<span class="keyword">int</span> <span class="var">age</span>); <span
+            class="comment">// same as above</span></code>
 </pre>
 
     <h3>✅ 2. Negative Condition Methods</h3>
@@ -1010,8 +992,10 @@
     <p><strong>Examples:</strong></p>
 
     <pre class="java-code">
-<code><span class="method">findByGradeNot</span>(<span class="keyword">char</span> <span class="var">grade</span>);    <span class="comment">// where grade != ?</span>
-<span class="method">findByActiveIsNot</span>(<span class="keyword">boolean</span> <span class="var">active</span>);    <span class="comment">// where active != ?</span></code>
+<code><span class="method">findByGradeNot</span>(<span class="keyword">char</span> <span
+        class="var">grade</span>);    <span class="comment">// where grade != ?</span>
+<span class="method">findByActiveIsNot</span>(<span class="keyword">boolean</span> <span class="var">active</span>);    <span
+            class="comment">// where active != ?</span></code>
 </pre>
 
     <h3>✔ 3. Comparison Methods</h3>
@@ -1022,7 +1006,8 @@
 <code><span class="method">findBy</span>&lt;<span class="class">Field</span>&gt;<span class="method">GreaterThan</span>()
 <span class="method">findBy</span>&lt;<span class="class">Field</span>&gt;<span class="method">GreaterThanEqual</span>()
 <span class="method">findBy</span>&lt;<span class="class">Field</span>&gt;<span class="method">LessThan</span>()
-<span class="method">findBy</span>&lt;<span class="class">Field</span>&gt;<span class="method">LessThanEqual</span>()</code>
+<span class="method">findBy</span>&lt;<span class="class">Field</span>&gt;<span
+            class="method">LessThanEqual</span>()</code>
 </pre>
 
     <p><strong>Meaning:</strong></p>
@@ -1032,8 +1017,10 @@
     <p><strong>Examples:</strong></p>
 
     <pre class="java-code">
-<code><span class="method">findByAgeGreaterThan</span>(<span class="keyword">int</span> <span class="var">age</span>);    <span class="comment">// where age > ?</span>
-<span class="method">findBySalaryLessThanEqual</span>(<span class="keyword">double</span> <span class="var">salary</span>);    <span class="comment">// where salary <= ?</span></code>
+<code><span class="method">findByAgeGreaterThan</span>(<span class="keyword">int</span> <span class="var">age</span>);    <span
+        class="comment">// where age > ?</span>
+<span class="method">findBySalaryLessThanEqual</span>(<span class="keyword">double</span> <span
+            class="var">salary</span>);    <span class="comment">// where salary <= ?</span></code>
 </pre>
 
     <h3>✔ 4. Between Range</h3>
@@ -1041,7 +1028,8 @@
     <p><strong>Syntax:</strong></p>
 
     <pre class="java-code">
-<code><span class="method">findBy</span>&lt;<span class="class">Field</span>&gt;<span class="method">Between</span>(<span class="var">value1</span>, <span class="var">value2</span>)</code>
+<code><span class="method">findBy</span>&lt;<span class="class">Field</span>&gt;<span
+        class="method">Between</span>(<span class="var">value1</span>, <span class="var">value2</span>)</code>
 </pre>
 
     <p><strong>Meaning:</strong></p>
@@ -1051,7 +1039,9 @@
     <p><strong>Example:</strong></p>
 
     <pre class="java-code">
-<code><span class="method">findByAgeBetween</span>(<span class="keyword">int</span> <span class="var">min</span>, <span class="keyword">int</span> <span class="var">max</span>);    <span class="comment">// where age BETWEEN ? AND ?</span></code>
+<code><span class="method">findByAgeBetween</span>(<span class="keyword">int</span> <span class="var">min</span>, <span
+        class="keyword">int</span> <span class="var">max</span>);    <span
+        class="comment">// where age BETWEEN ? AND ?</span></code>
 </pre>
 
     <h3>✔ 5. IN and NOT IN</h3>
@@ -1059,8 +1049,10 @@
     <p><strong>Syntax:</strong></p>
 
     <pre class="java-code">
-<code><span class="method">findBy</span>&lt;<span class="class">Field</span>&gt;<span class="method">In</span>(<span class="class">Collection</span>&lt;?&gt; <span class="var">list</span>)
-<span class="method">findBy</span>&lt;<span class="class">Field</span>&gt;<span class="method">NotIn</span>(<span class="class">Collection</span>&lt;?&gt; <span class="var">list</span>)</code>
+<code><span class="method">findBy</span>&lt;<span class="class">Field</span>&gt;<span class="method">In</span>(<span
+        class="class">Collection</span>&lt;?&gt; <span class="var">list</span>)
+<span class="method">findBy</span>&lt;<span class="class">Field</span>&gt;<span class="method">NotIn</span>(<span
+            class="class">Collection</span>&lt;?&gt; <span class="var">list</span>)</code>
 </pre>
 
     <p><strong>Meaning:</strong></p>
@@ -1070,8 +1062,10 @@
     <p><strong>Example:</strong></p>
 
     <pre class="java-code">
-<code><span class="method">findByAgeIn</span>(<span class="class">List</span>&lt;<span class="class">Integer</span>&gt; <span class="var">ages</span>);    <span class="comment">// where age in (?, ?, ?)</span>
-<span class="method">findByGradeNotIn</span>(<span class="class">List</span>&lt;<span class="class">Character</span>&gt; <span class="var">grades</span>); <span class="comment">// where grade NOT IN (?, ?)</span></code>
+<code><span class="method">findByAgeIn</span>(<span class="class">List</span>&lt;<span class="class">Integer</span>&gt; <span
+        class="var">ages</span>);    <span class="comment">// where age in (?, ?, ?)</span>
+<span class="method">findByGradeNotIn</span>(<span class="class">List</span>&lt;<span class="class">Character</span>&gt; <span
+            class="var">grades</span>); <span class="comment">// where grade NOT IN (?, ?)</span></code>
 </pre>
 
     <h3>6. NULL Checks</h3>
@@ -1123,7 +1117,8 @@
 <span class="method">findBy</span>&lt;<span class="class">Field</span>&gt;<span class="method">Startswith</span>()
 <span class="method">findBy</span>&lt;<span class="class">Field</span>&gt;<span class="method">EndsWith</span>()
 <span class="method">findBy</span>&lt;<span class="class">Field</span>&gt;<span class="method">Like</span>()
-<span class="method">findBy</span>&lt;<span class="class">Field</span>&gt;<span class="method">IgnoreCase</span>()</code>
+<span class="method">findBy</span>&lt;<span class="class">Field</span>&gt;<span
+            class="method">IgnoreCase</span>()</code>
 </pre>
 
     <p><strong>Meaning:</strong></p>
@@ -1133,10 +1128,14 @@
     <p><strong>Examples:</strong></p>
 
     <pre class="java-code">
-<code><span class="method">findByNameContaining</span>(<span class="class">String</span> <span class="var">s</span>);    <span class="comment">// where name LIKE %s%</span>
-<span class="method">findByNameStartswith</span>(<span class="class">String</span> <span class="var">s</span>);    <span class="comment">// where name LIKE s%</span>
-<span class="method">findByNameLike</span>(<span class="class">String</span> <span class="var">s</span>);    <span class="comment">// where name LIKE ?</span>
-<span class="method">findByNameIgnoreCase</span>(<span class="class">String</span> <span class="var">s</span>);    <span class="comment">// where LOWER(name) = LOWER(?)</span></code>
+<code><span class="method">findByNameContaining</span>(<span class="class">String</span> <span class="var">s</span>);    <span
+        class="comment">// where name LIKE %s%</span>
+<span class="method">findByNameStartswith</span>(<span class="class">String</span> <span class="var">s</span>);    <span
+            class="comment">// where name LIKE s%</span>
+<span class="method">findByNameLike</span>(<span class="class">String</span> <span class="var">s</span>);    <span
+            class="comment">// where name LIKE ?</span>
+<span class="method">findByNameIgnoreCase</span>(<span class="class">String</span> <span class="var">s</span>);    <span
+            class="comment">// where LOWER(name) = LOWER(?)</span></code>
 </pre>
 
     <h3>✔ 9. Combining Multiple Fields</h3>
@@ -1144,8 +1143,10 @@
     <p><strong>Syntax:</strong></p>
 
     <pre class="java-code">
-<code><span class="method">findBy</span>&lt;<span class="class">Field1</span>&gt;<span class="method">And</span>&lt;<span class="class">Field2</span>&gt;();
-<span class="method">findBy</span>&lt;<span class="class">Field1</span>&gt;<span class="method">Or</span>&lt;<span class="class">Field2</span>&gt;</code>
+<code><span class="method">findBy</span>&lt;<span class="class">Field1</span>&gt;<span
+        class="method">And</span>&lt;<span class="class">Field2</span>&gt;();
+<span class="method">findBy</span>&lt;<span class="class">Field1</span>&gt;<span class="method">Or</span>&lt;<span
+            class="class">Field2</span>&gt;</code>
 </pre>
 
     <p><strong>Meaning:</strong></p>
@@ -1155,8 +1156,11 @@
     <p><strong>Examples:</strong></p>
 
     <pre class="java-code">
-<code><span class="method">findByAgeAndActive</span>(<span class="keyword">int</span> <span class="var">age</span>, <span class="keyword">boolean</span> <span class="var">active</span>);   <span class="comment">// where age = ? AND active = ?</span>
-<span class="method">findBySalaryOrRatingGreaterThan</span>(<span class="keyword">double</span> <span class="var">s</span>, <span class="keyword">float</span> <span class="var">r</span>); <span class="comment">// salary = ? OR rating > ?</span></code>
+<code><span class="method">findByAgeAndActive</span>(<span class="keyword">int</span> <span
+        class="var">age</span>, <span class="keyword">boolean</span> <span class="var">active</span>);   <span
+        class="comment">// where age = ? AND active = ?</span>
+<span class="method">findBySalaryOrRatingGreaterThan</span>(<span class="keyword">double</span> <span
+            class="var">s</span>, <span class="keyword">float</span> <span class="var">r</span>); <span class="comment">// salary = ? OR rating > ?</span></code>
 </pre>
 
     <h3>✔ 10. Sorting with Method Name</h3>
@@ -1164,8 +1168,10 @@
     <p><strong>Syntax:</strong></p>
 
     <pre class="java-code">
-<code><span class="method">findBy</span>&lt;<span class="class">Field</span>&gt;<span class="method">OrderBy</span>&lt;<span class="class">OtherField</span>&gt;<span class="method">Asc</span>()
-<span class="method">findBy</span>&lt;<span class="class">Field</span>&gt;<span class="method">OrderBy</span>&lt;<span class="class">OtherField</span>&gt;<span class="method">Desc</span>()</code>
+<code><span class="method">findBy</span>&lt;<span class="class">Field</span>&gt;<span
+        class="method">OrderBy</span>&lt;<span class="class">OtherField</span>&gt;<span class="method">Asc</span>()
+<span class="method">findBy</span>&lt;<span class="class">Field</span>&gt;<span class="method">OrderBy</span>&lt;<span
+            class="class">OtherField</span>&gt;<span class="method">Desc</span>()</code>
 </pre>
 
     <p><strong>Meaning:</strong></p>
@@ -1175,7 +1181,8 @@
     <p><strong>Examples:</strong></p>
 
     <pre class="java-code">
-<code><span class="method">findByAgeOrderByNameAsc</span>();    <span class="comment">// where age = ? ORDER BY name ASC</span>
+<code><span class="method">findByAgeOrderByNameAsc</span>();    <span
+        class="comment">// where age = ? ORDER BY name ASC</span>
 <span class="method">findBySalaryOrderByRatingDesc</span>(); <span class="comment">// where salary = ? ORDER BY rating DESC</span></code>
 </pre>
 
@@ -1184,7 +1191,8 @@
     <p><strong>Syntax:</strong></p>
 
     <pre class="java-code">
-<code><span class="method">findBy</span>&lt;<span class="class">Field</span>&gt;(. . . , <span class="class">Pageable</span> <span class="var">pageable</span>)</code>
+<code><span class="method">findBy</span>&lt;<span class="class">Field</span>&gt;(. . . , <span
+        class="class">Pageable</span> <span class="var">pageable</span>)</code>
 </pre>
 
     <p><strong>Meaning:</strong></p>
@@ -1194,8 +1202,12 @@
     <p><strong>Examples:</strong></p>
 
     <pre class="java-code">
-<code><span class="class">Page</span>&lt;<span class="class">User</span>&gt; <span class="method">findByAgeGreaterThan</span>(<span class="keyword">int</span> <span class="var">age</span>, <span class="class">Pageable</span> <span class="var">pageable</span>);
-<span class="class">Slice</span>&lt;<span class="class">User</span>&gt; <span class="method">findBySalaryBetween</span>(<span class="keyword">double</span> <span class="var">min</span>, <span class="keyword">double</span> <span class="var">max</span>, <span class="class">Pageable</span> <span class="var">pageable</span>);</code>
+<code><span class="class">Page</span>&lt;<span class="class">User</span>&gt; <span
+        class="method">findByAgeGreaterThan</span>(<span class="keyword">int</span> <span class="var">age</span>, <span
+        class="class">Pageable</span> <span class="var">pageable</span>);
+<span class="class">Slice</span>&lt;<span class="class">User</span>&gt; <span class="method">findBySalaryBetween</span>(<span
+            class="keyword">double</span> <span class="var">min</span>, <span class="keyword">double</span> <span
+            class="var">max</span>, <span class="class">Pageable</span> <span class="var">pageable</span>);</code>
 </pre>
 
     <h3>12. Date & Time Filters</h3>
@@ -1210,8 +1222,11 @@
     <p><strong>Examples:</strong></p>
 
     <pre class="java-code">
-<code><span class="method">findByCreatedDateAfter</span>(<span class="class">LocalDate</span> <span class="var">date</span>); <span class="comment">// where createdDate > ?</span>
-<span class="method">findByCreatedDateBetween</span>(<span class="class">LocalDate</span> <span class="var">d1</span>, <span class="class">LocalDate</span> <span class="var">d2</span>); <span class="comment">// between</span></code>
+<code><span class="method">findByCreatedDateAfter</span>(<span class="class">LocalDate</span> <span
+        class="var">date</span>); <span class="comment">// where createdDate > ?</span>
+<span class="method">findByCreatedDateBetween</span>(<span class="class">LocalDate</span> <span
+            class="var">d1</span>, <span class="class">LocalDate</span> <span class="var">d2</span>); <span
+            class="comment">// between</span></code>
 </pre>
 
     <h3>Summary Table (Quick Reference)</h3>
@@ -1278,9 +1293,7 @@
             </tbody>
         </table>
     </div>
-    <br>
     <hr>
-    <br>
     <div class="card-footer">
         <ul class="pagination justify-content-center">
             <li class="page-item"><a class="page-link btn-outline-primary"

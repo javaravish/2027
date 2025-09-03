@@ -21,13 +21,13 @@
 
 <!-- Main Content Section -->
 <main id="content">
-    <h3>JPA Query Optimization Techniques</h3>
+    <h1>JPA Query Optimization Techniques</h1>
 
-    <h3>1. Entity Graphs (Fetch Graphs)</h3>
+    <h2>1. Entity Graphs (Fetch Graphs)</h2>
     <p>Entity Graphs help control eager/lazy loading behavior to avoid N+1 query problems.</p>
     <p><strong>Problem:</strong> N+1 Query Issue:</p>
 
-    <pre class="code-block">
+    <pre class="sql-code">
   <code>
     <span class="comment">-- First query: get all customers</span>
     <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> customers;
@@ -115,7 +115,7 @@
 
     <p>Generated SQL with EntityGraph:</p>
 
-    <pre class="code-block">
+    <pre class="sql-code">
   <code>
     <span class="keyword">SELECT</span>
       c.id, c.name,
@@ -132,7 +132,7 @@
 
     <p>Benefits: Single query instead of N+1 queries</p>
     <hr>
-    <h3>2. Dynamic Insert and Update</h3>
+    <h2>2. Dynamic Insert and Update</h2>
 
     <p>Reduces SQL statement size by including only changed fields.</p>
 
@@ -214,7 +214,7 @@
 
     <p>Benefits: Smaller SQL statements, better performance, avoids overwriting with null values</p>
     <hr>
-    <h3>3. Query Hints with Examples</h3>
+    <h2>3. Query Hints with Examples</h2>
 
     <p>Provide additional instructions to the JPA provider for query optimization.</p>
 
@@ -240,7 +240,7 @@
 
     <p>Generated SQL:</p>
 
-    <pre class="code-block">
+    <pre class="sql-code">
   <code>
     <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> product <span class="keyword">WHERE</span> price &gt; <span
           class="number">100.00</span>
@@ -284,14 +284,14 @@
 
     <p>Generated SQL:</p>
 
-    <pre class="code-block">
+    <pre class="sql-code">
   <code>
     <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> product <span class="keyword">WHERE</span> id = <span
           class="number">1</span> <span class="keyword">FOR UPDATE WAIT</span> <span class="number">5</span>;
   </code>
 </pre>
     <hr>
-    <h3>4. Join Fetch Optimization</h3>
+    <h2>4. Join Fetch Optimization</h2>
 
     <p>Without Join Fetch (N+1 Problem):</p>
 
@@ -333,7 +333,7 @@
 
     <p>Benefits: Single query instead of 1 + 2N queries</p>
     <hr>
-    <h3>5. Batch Processing</h3>
+    <h2>5. Batch Processing</h2>
 
     <p>Optimize bulk operations to reduce database roundtrips.</p>
 
@@ -367,7 +367,7 @@
 
     <p>Generated SQL:</p>
 
-    <pre class="code-block">
+    <pre class="sql-code">
   <code>
     <span class="comment">-- Instead of 1000 individual INSERT statements:</span>
     <span class="keyword">INSERT INTO</span> product (name, price) <span class="keyword">VALUES</span> (?, ?);
@@ -396,7 +396,7 @@
 
     <p>Generated SQL:</p>
 
-    <pre class="code-block">
+    <pre class="sql-code">
   <code>
     <span class="keyword">UPDATE</span> product
     <span class="keyword">SET</span> price = price * <span class="number">1.1</span>
@@ -405,7 +405,7 @@
   </code>
 </pre>
     <hr>
-    <h3>6. Projection/DTO Optimization</h3>
+    <h2>6. Projection/DTO Optimization</h2>
 
     <p>Reduce data transfer by using projections and DTOs.</p>
 
@@ -433,7 +433,7 @@
 
     <p><strong>Generated SQL:</strong></p>
 
-    <pre class="code-block">
+    <pre class="sql-code">
   <code>
     <span class="keyword">SELECT</span> p.name, p.price, c.name
     <span class="keyword">FROM</span> product p
@@ -468,7 +468,7 @@
 
     <p><strong>Benefits:</strong> Reduced data transfer, no unnecessary fields selected</p>
     <hr>
-    <h3>7. Second Level Cache</h3>
+    <h2>7. Second Level Cache</h2>
 
     <p><strong>Entity Cache Configuration:</strong></p>
 
@@ -510,7 +510,7 @@
   </code>
 </pre>
     <hr>
-    <h3>8. Native Query Optimization</h3>
+    <h2>8. Native Query Optimization</h2>
 
     <p>Use native queries for complex operations when JPQL isn't efficient.</p>
 
@@ -547,7 +547,7 @@
 
     <p>Benefits: Database-specific optimizations, complex aggregations</p>
     <hr>
-    <h3>9. Monitoring and Statistics</h3>
+    <h2>9. Monitoring and Statistics</h2>
 
     <p>Configuration:</p>
 
@@ -680,9 +680,7 @@
 
     <p>By implementing these JPA query optimization techniques, you can significantly improve application performance,
         reduce database load, and provide better user experience.</p>
-    <br>
     <hr>
-    <br>
     <div class="card-footer">
         <ul class="pagination justify-content-center">
             <li class="page-item"><a class="page-link btn-outline-primary"

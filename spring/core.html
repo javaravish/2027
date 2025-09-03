@@ -21,13 +21,13 @@
 
 <!-- Main Content Section -->
 <main id="content">
-    <h3>1. What is Spring Framework?</h3>
+    <h2>1. What is Spring Framework?</h2>
 
     <p>Spring is a <strong>lightweight, open-source framework</strong> used to build <strong>Java-based enterprise
         applications</strong>. It promotes <strong>loose coupling</strong> through <strong>Dependency Injection
         (DI)</strong> and supports <strong>Aspect-Oriented Programming (AOP)</strong>.</p>
     <hr>
-    <h3>2. Inversion of Control (IoC) in Spring</h3>
+    <h2>2. Inversion of Control (IoC) in Spring</h2>
 
     <p><strong>Inversion of Control (IoC)</strong> in Spring is a <strong>design principle</strong> where the control of
         object creation and dependency management is <strong>transferred</strong> from the programmer to the <strong>Spring
@@ -57,7 +57,7 @@
         <li><strong>Lifecycle management</strong>: Container handles object creation and destruction</li>
     </ul>
     <hr>
-    <h3>3. Dependency Injection (DI)</h3>
+    <h2>3. Dependency Injection (DI)</h2>
 
     <p>Dependency Injection is the concrete implementation of the Inversion of Control (IoC) principle in Spring, where
         the framework provides dependencies to objects rather than having objects create their own dependencies.</p>
@@ -139,9 +139,9 @@
             </ul>
         </li>
     </ol>
-    <br>
+
     <hr>
-    <h3>4. Types of Dependency Injection in Spring</h3>
+    <h2>4. Types of Dependency Injection in Spring</h2>
 
     <p>Spring Framework supports three main types of dependency injection, each with its own use cases and
         advantages:</p>
@@ -379,9 +379,9 @@
 
 <code><span class="keyword">@ComponentScan -- BeanDefinition creation -- Dependency Resolution -- Object Instantiation -- Injection (Constructor/Setter/Field) -- Bean Initialization -- Ready for use
     </span></code></pre>
-    <br>
+
     <hr>
-    <h3>5. Spring Dependency Resolution Strategies</h3>
+    <h2>5. Spring Dependency Resolution Strategies</h2>
 
     <p>Spring Framework provides multiple strategies for resolving dependencies when injecting beans. Here's a detailed
         explanation of each approach:</p>
@@ -539,8 +539,8 @@
         <li>When you have a default implementation among several options</li>
         <li>To simplify configuration in most common cases</li>
     </ul>
-
-    <h3>5. Custom Qualifier Resolution</h3>
+    <hr>
+    <h2>5. Custom Qualifier Resolution</h2>
 
     <p><strong>How it works:</strong></p>
 
@@ -598,10 +598,10 @@
         <li>By type matching (if only one matching bean exists)</li>
     </ol>
 
-    <br>
+
     <hr>
 
-    <h3>6. BeanFactory vs. ApplicationContext in Spring</h3>
+    <h2>6. BeanFactory vs. ApplicationContext in Spring</h2>
 
     <p>Both BeanFactory and ApplicationContext are core containers in Spring, but they serve different purposes and have
         distinct capabilities. Below is a detailed comparison:</p>
@@ -793,9 +793,9 @@
         <li>Enterprise applications needing AOP, events, I18n, etc.</li>
         <li>Web applications (Spring MVC, Spring Boot).</li>
     </ul>
-    <br>
+
     <hr>
-    <h3>7. Spring Bean Scopes</h3>
+    <h2>7. Spring Bean Scopes</h2>
 
     <p>Spring Framework provides several bean scopes that determine the lifecycle and visibility of beans in the
         container. Understanding these scopes is crucial for proper bean management in Spring applications.</p>
@@ -1036,9 +1036,9 @@
         </li>
         <li><strong>Thread Safety</strong>: Singleton beans must be designed for concurrent access</li>
     </ul>
-    <br>
+
     <hr>
-    <h3>8. Bean Lifecycle in Spring Framework</h3>
+    <h2>8. Bean Lifecycle in Spring Framework</h2>
 
     <p>Here is the complete sequence of steps for a singleton bean:</p>
 
@@ -1303,7 +1303,9 @@
         </tr>
 
         <tr>
-            <td style="text-align: center !important;" class="phase-header" colspan="4">After Instantiation (Before Initialization)</td>
+            <td style="text-align: center !important;" class="phase-header" colspan="4">After Instantiation (Before
+                Initialization)
+            </td>
         </tr>
         <tr>
             <td>Dependency Injection</td>
@@ -1313,9 +1315,9 @@
         </tr>
         <tr>
             <td>Aware Interfaces</td>
-            <td>BeanNameAware.setBeanName()<br>
-                BeanFactoryAware.setBeanFactory()<br>
-                ApplicationContextAware.setApplicationContext()<br>
+            <td>BeanNameAware.setBeanName()
+                BeanFactoryAware.setBeanFactory()
+                ApplicationContextAware.setApplicationContext()
                 etc.
             </td>
             <td>Implement relevant *Aware interface</td>
@@ -1346,7 +1348,7 @@
         <tr>
             <td>Initialization</td>
             <td>Custom init method</td>
-            <td>XML: init-method attribute<br>
+            <td>XML: init-method attribute
                 Java: @Bean(initMethod = "...")
             </td>
             <td>Custom initialization method defined in configuration</td>
@@ -1396,7 +1398,7 @@
         <tr>
             <td>Destruction</td>
             <td>Custom destroy method</td>
-            <td>XML: destroy-method attribute<br>
+            <td>XML: destroy-method attribute
                 Java: @Bean(destroyMethod = "...")
             </td>
             <td>Custom destruction method defined in configuration</td>
@@ -1413,9 +1415,9 @@
         </tr>
         </tbody>
     </table>
-    <br>
+
     <hr>
-    <br>
+
     <div class="card-footer">
         <ul class="pagination justify-content-center">
             <li class="page-item"><a class="page-link btn-outline-primary"

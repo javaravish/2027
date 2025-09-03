@@ -28,7 +28,7 @@
         enterprise application to ensure data integrity and consistency. The concept of transactions can be described
         with the following four key properties described as <strong>ACID</strong></p>
     <hr>
-    <h3>2. ACID Properties</h3>
+    <h2>2. ACID Properties</h2>
 
     <ul>
         <li><strong>Atomicity</strong> – A transaction should be treated as a single unit of operation, which means
@@ -45,7 +45,7 @@
         </li>
     </ul>
     <hr>
-    <h3>3. Transaction Isolation Levels</h3>
+    <h2>3. Transaction Isolation Levels</h2>
 
     <p>Transaction isolation level is a concept that is not exclusive to the Spring framework. It is applied to
         transactions in general and is directly related with the ACID transaction properties. Isolation level defines
@@ -181,7 +181,7 @@
         </table>
     </div>
     <hr>
-    <h3>4. Transaction Propagation Levels</h3>
+    <h2>4. Transaction Propagation Levels</h2>
 
     <p>Propagation level in spring decides if the spring has to create a new transaction or the same transaction can be
         used to perform a database operation. Transaction Propagation Types: There are seven types of Transaction
@@ -294,7 +294,7 @@
         </table>
     </div>
     <hr>
-    <h3>5. Cascade Types JPA</h3>
+    <h2>5. Cascade Types JPA</h2>
 
     <p><strong>Cascade</strong> in JPA means <strong>automatically propagating operations</strong> (like persist, merge,
         delete) from a parent entity to its associated child entities.</p>
@@ -420,10 +420,7 @@ entityManager.detach(dept); <span class="comment">// Employees will also be deta
     <p>CascadeType.PERSIST, MERGE, REMOVE, REFRESH, DETACH</p>
 
     <p>Common for @OneToMany and @OneToOne relationships.</p>
-
-    <br>
     <hr>
-    <br>
     <div class="card-footer">
         <ul class="pagination justify-content-center">
             <li class="page-item"><a class="page-link btn-outline-primary"
