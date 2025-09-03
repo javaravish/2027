@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Java Introduction</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../js/styles.css"/>
+</head>
+<body data-sidebar="java8">
+<nav>
+    <button class="mobile-sidebar-btn" id="mobileSidebarBtn">☰</button>
+    <div class="breadcrumbs">
+        <a href="../home.html">Home</a>
+        <span class="separator">/</span>
+        <a href="#">Java 8</a>
+        <span class="separator">/</span>
+        <a href="#">Introduction</a>
+    </div>
+</nav>
+
+<!-- Header will be inserted by JavaScript -->
+
+<!-- Sidebar will be inserted by JavaScript -->
+
+<!-- Main Content Section -->
+<main id="content">
+    <h2>3. Java 8 Lambda Expressions</h2>
+
+    <h3>1. Definition</h3>
+    <p>Java 8 Lambda Expressions can be defined as methods without names i.e anonymous functions. Like methods, they can
+        have parameters, a body, a return type and possible list of exceptions that can be thrown. But unlike methods,
+        neither they have names nor they are associated with any particular class.</p>
+
+    <h3>2. Lambda Syntax</h3>
+    <pre class="java-code">
+        <code>
+1 (Parameters) -> Expression
+2 OR
+3 (Parameters) -> { Statements }
+        </code>
+    </pre>
+    <p>Lambda syntax consist of three parts – list of parameters, an arrow mark and a body. The body of a lambda can be
+        an expression or a set of statements. If it is set of statements, they must be enclosed within curly braces { }.
+        Return type and possible list of exceptions that can be thrown are not explicitly mentioned in a lambda. They
+        are implicitly applied.</p>
+
+    <h3>3. Where To Use Lambda Expressions?</h3>
+    <p>Lambda expressions are used where an instance of functional interface is expected. Functional interface is an
+        interface which has only one abstract method. Functional interfaces can have any number of default methods. But,
+        they must have only one abstract method. <strong>Comparator</strong>, <strong>Runnable</strong> And<strong>ActionListener</strong>
+        are some examples of functional interfaces.</p>
+
+    <pre class="java-code">
+        <code>
+1 | @FunctionalInterface |
+2 | public interface Comparator |
+3 | { |
+4 | int compare(T o1, T o2);    //Only one abstract method |
+5 | } |
+6 | |
+7 | @FunctionalInterface |
+8 | public interface Runnable |
+9 | { |
+10 | public abstract void run();    //Only one abstract method |
+11 | } |
+12 | |
+13 | @FunctionalInterface |
+14 | public interface ActionListener extends EventListener |
+15 | { |
+16 | public void actionPerformed(ActionEvent e);    //Only One abstract method |
+17 | }
+        </code>
+    </pre>
+
+    <p>Before Java 8, anonymous inner classes are used to implement functional interfaces. After Java 8, you can use
+        lambda expressions to implement functional interfaces.</p>
+
+    <h3>4. How To Use Lambda Expressions?</h3>
+    <p>Lambda expressions are used to implement functional interfaces. Before Java 8, anonymous inner classes are used
+        to implement functional interfaces. Let's explore this with some before Java 8 and after Java 8 code.</p>
+
+    <p>Before Java 8 : Implementation of Comparator interface using anonymous inner class</p>
+    <pre class="java-code">
+        <code>
+1 Comparator<Student> idComparator = new Comparator<Student>();
+2 @Override
+3 public int compare(Student s1, Student s2) {
+4 return s1.getID()->s2.getID();
+5 }
+6 };
+        </code>
+    </pre>
+
+    <p>After Java 8 : Implementation of Comparator interface using lambda expressions</p>
+    <pre class="java-code">
+        <code>
+1 Comparator<Student> idComparator = (Student s1, Student s2) -> s1.getID()->s2.getID();
+        </code>
+    </pre>
+
+    <p>Before Java 8 : Implementation of Runnable interface using anonymous inner class</p>
+    <pre class="java-code">
+        <code>
+1 Runnable r = new Runnable() {
+2 @Override
+3 public void run() {
+4 System.out.println("Runnable Implementation Using Anonymous Inner Class");
+5 }
+6 };
+        </code>
+    </pre>
+
+    <p>After Java 8 : Implementation of Runnable interface using lambda expressions</p>
+    <pre class="java-code">
+        <code>
+1 Runnable r = () -> System.out.println("Runnable Implementation Using Lambda Expressions");
+        </code>
+    </pre>
+
+    <p>Before Java 8 : Implementation Of ActionListener interface using anonymous inner class</p>
+    <pre class="java-code">
+        <code>
+1 Label label = new Label();
+2
+3 Button button = new Button("Send");
+4
+5 button.addActionListener(new ActionListener() {
+6 @Override
+7 public void actionPerformed(ActionEvent e) {
+8 label.setText("Sent");
+9 }
+10 });
+        </code>
+    </pre>
+
+    <p>After Java 8 : Implementation of ActionListener interface using lambda expressions</p>
+    <pre class="java-code">
+        <code>
+1 Label label = new Label();
+2
+3 Button button = new Button("Send");
+4
+5 button.addActionListener((ActionEvent e) -> label.setText("Sent..."));
+5
+        </code>
+    </pre>
+
+    <h3>5. Lambda As Inline Implementation Of Functional Interfaces</h3>
+    <p>From the above examples, you can notice that lambdas instantiate functional interfaces and implement their
+        abstract method in a single line. Before Java 8, anonymous inner classes are used for this purpose. But, they
+        create lots of verbosity i.e you end up writing more lines of code than actually needed. Lambdas let you to
+        write less code for same task.</p>
+
+    <h3>6. Signature Of Lambda Expressions</h3>
+    <p>The signature of lambda expressions can be derived from the signature of abstract method of functional
+        interface.</p>
+    <p>For example,</p>
+    <p>run() method of Runnable interface accepts nothing and returns nothing. Then signature of lambda expression
+        implementing Runnable interface will be () → void.</p>
+    <p>actionPerformed() method of ActionListener interface takes one argument of type ActionEvent and returns void.
+        Then signature of lambda expression for implementing ActionListener interface will be (ActionEvent) → void.</p>
+    <p>compare() method of Comparator interface takes two arguments of type Object and returns int. Then signature of
+        lambda expression for implementing Comparator interface will be (Object, Object) → int.</p>
+
+    <h3>7. Type Checking</h3>
+    <p>The type of a variable or a parameter to which lambda expression is assigned or passed as an argument is called
+        target type.</p>
+    <p>For example, if you are assigning a lambda to a <strong>Runnable</strong> type then its target type is <strong>Runnable</strong>.
+        If you are passing a lambda to a method which takes <strong>ActionListener</strong> as an argument, then its
+        target type is <strong>ActionListener</strong>.</p>
+    <p>Compiler uses this target type to check the type of parameters and return type of a lambda expression. For
+        example,</p>
+
+    <pre class="java-code">
+        <code>
+1 Runnable r = () -> System.out.println("Runnable Implementation Using Lambda Expressions");
+        </code>
+    </pre>
+    <p>In the above code, target type of lambda expression is <strong>Runnable</strong>. Compiler uses run() method of
+        <strong>Runnable</strong> interface to check the type of parameters and return type of lambda expression.</p>
+
+    <pre class="java-code">
+        <code>
+1 button.addActionListener((ActionEvent e) -> label.setText("Sent..."));
+        </code>
+    </pre>
+    <p>In the above code, target type of lambda expression is <strong>ActionListener</strong>. Compiler uses <strong>actionPerformed()</strong>
+        method of <strong>ActionListener</strong> to check the type of parameters and return type of lambda expression.
+    </p>
+
+    <h3>8. Use Of Local Variables Inside Lambda Expression</h3>
+    <p>You can use local variables inside a lambda expression just like anonymous inner classes provided they must be
+        final or effectively final.</p>
+    <p>For example, the following code will show error because you are re-assigning new Label() to label.</p>
+
+    <pre class="java-code">
+        <code>
+1 Label label = new Label();
+2
+3 Button button = new Button("Send");
+4
+5 button.addActionListener((ActionEvent e) -> label.setText("Sent..."));    //Compile Time Error
+6
+7 label = new Label();
+        </code>
+    </pre>
+
+    <h3>9. Benefits Of Lambda Expressions</h3>
+    <ul>
+        <li>Lambda expressions let you to write more clear, concise and flexible code.</li>
+        <li>Lambda expressions removes verbosity and repetition of code.</li>
+    </ul>
+
+    <h3>10) Valid Lambda Expressions With Description</h3>
+    <table class="basic-table">
+        <thead>
+        <tr>
+            <th>Lambda Expressions</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>()->System.out.println("Hi...")</td>
+            <td>Takes nothing and returns nothing.</td>
+        </tr>
+        <tr>
+            <td>(int a)->a*a</td>
+            <td>Takes int and returns int.</td>
+        </tr>
+        <tr>
+            <td>(String s1, String s2)->{<br>System.out.println(s1);<br>System.out.println(s2);<br>}</td>
+            <td>Takes two strings and returns nothing.</td>
+        </tr>
+        <tr>
+            <td>(double d)->d</td>
+            <td>Takes double and returns double.</td>
+        </tr>
+        <tr>
+            <td>()->{<br>}</td>
+            <td>Takes nothing and returns nothing. It has an empty body.</td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <hr>
+    <div class="card-footer">
+        <ul class="pagination justify-content-center">
+            <li class="page-item"><a class="page-link btn-outline-primary"
+                                     href="../java8/functional.html">&lArr; Previous</a></li>
+            <li class="page-item"><a class="page-link" href="../java8/streams.html">Next
+                &rArr;</a></li>
+        </ul>
+    </div>
+</main>
+
+<!-- Footer will be inserted by JavaScript -->
+
+<!-- Scripts -->
+<script src="../js/sidebar.js"></script>
+<script src="../js/componentLoader.js"></script>
+</body>
+</html>

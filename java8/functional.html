@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Java Introduction</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../js/styles.css"/>
+</head>
+<body data-sidebar="java8">
+<nav>
+    <button class="mobile-sidebar-btn" id="mobileSidebarBtn">☰</button>
+    <div class="breadcrumbs">
+        <a href="../home.html">Home</a>
+        <span class="separator">/</span>
+        <a href="#">Java 8</a>
+        <span class="separator">/</span>
+        <a href="#">Introduction</a>
+    </div>
+</nav>
+
+<!-- Header will be inserted by JavaScript -->
+
+<!-- Sidebar will be inserted by JavaScript -->
+
+<!-- Main Content Section -->
+<main id="content">
+    <h2>1. Java 8 Functional Interfaces</h2>
+
+    <h3>1) Definition</h3>
+    <p>Functional interfaces are the interfaces which has exactly one abstract method. They may have any number of
+        default and static methods but must have only one abstract method. Functional interfaces provide only one
+        functionality to implement.</p>
+    <p>The new set of functional interfaces are introduced in Java 8 to make programmer's job easy while writing lambda
+        expressions. Your lambda expression must implement any one of these functional interfaces. These new functional
+        interfaces are organised under <em>java.util.function</em> package.</p>
+
+    <h3>2) @FunctionalInterface Annotation</h3>
+    <p>@FunctionalInterface annotation is introduced in Java 8 to represent functional interfaces. Although, it is not
+        compulsory to write functional interface using this annotation. But, if you are using @FunctionalInterface
+        annotation then your interface should contain only one abstract method. If you try to write more than one
+        abstract method, compiler will show the error.</p>
+
+    <h3>3) java.util.function package</h3>
+    <p>All Java 8 functional interfaces are organised in <em>java.util.function</em> package. Each functional interface
+        in this package represents an operation that can be performed by the lambda expression.</p>
+    <p>Below table shows the list of all Java 8 functional interfaces along with their abstract method, which operation
+        they represent and when to use them?</p>
+
+    <table class="basic-table">
+        <thead>
+        <tr>
+            <th>Functional Interface And Its Abstract Method</th>
+            <th>Operation It Represents.</th>
+            <th>When To Use?</th>
+            <th>Related Functional Interfaces To Support Primitive Types</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Predicate boolean test(T t)</td>
+            <td>Represents an operation which takes one argument and returns boolean.</td>
+            <td>Use this interface when you want to evaluate a boolean expression which takes an argument of type T.
+            </td>
+            <td>IntPredicate LongPredicate DoublePredicate</td>
+        </tr>
+        <tr>
+            <td>Consumer void accept(T t)</td>
+            <td>Represents an operation that accepts single argument and returns nothing.</td>
+            <td>Use this interface when you want to perform some operations on an object.</td>
+            <td>IntConsumer LongConsumer DoubleConsumer</td>
+        </tr>
+        <tr>
+            <td>Function R apply(T t)</td>
+            <td>Represents an operation that accepts an argument of type T and returns a result of type R.</td>
+            <td>Use this interface when you want to extract a data from an existing data.</td>
+            <td>IntFunction LongFunction DoubleFunction TolntFunction TolongFunction ToDoubleFunction IntTolongFunction
+                IntToDoubleFunction LongToDoubleFunction LongTolntFunction DoubleTolntFunction DoubleTolongFunction
+            </td>
+        </tr>
+        <tr>
+            <td>Supplier T get()</td>
+            <td>Represents an operation which takes nothing but returns a result of type T.</td>
+            <td>Use this interface when you want to create new objects.</td>
+            <td>BooleanSupplier IntSupplier LongSupplier DoubleSupplier</td>
+        </tr>
+        <tr>
+            <td>BiPredicate boolean test(T t, U u)</td>
+            <td>Represents a predicate of two arguments.</td>
+            <td>Use this interface when you want to evaluate a boolean expression of two arguments.</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>BiConsumer void accept(T t, U u)</td>
+            <td>Represents an operation that accepts two arguments and returns nothing.</td>
+            <td>Use this interface when you want to perform some operations on two objects.</td>
+            <td>ObjIntConsumer ObjLongConsumer ObjDoubleConsumer</td>
+        </tr>
+        <tr>
+            <td>BiFunction R apply(T t, U u)</td>
+            <td>Represents an operation which takes two arguments and produces a result.</td>
+            <td>Use this interface when you want to extract result data from two existing objects.</td>
+            <td>TolntBiFunction TolongBiFunction ToDoubleBiFunction</td>
+        </tr>
+        <tr>
+            <td>UnaryOperator (extends Function)</td>
+            <td>Same as Function but argument and result should be of same type.</td>
+            <td>Same as Function.</td>
+            <td>IntUnaryOperator LongUnaryOperator DoubleUnaryOperator</td>
+        </tr>
+        <tr>
+            <td>BinaryOperator (extends BiFunction)</td>
+            <td>Same as BiFunction but argument and result should be of same type.</td>
+            <td>Same as BiFunction.</td>
+            <td>IntBinaryOperator LongBinaryOperator DoubleBinaryOperator</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>4) How To Use Java 8 Functional Interfaces In Real Time?</h3>
+    <p>Let's define Student class like below. We will be using this class in the subsequent examples.</p>
+
+    <pre class="java-code">
+<code>
+class Student
+{
+    int id;
+    String name;
+    double percentage;
+    String specialization;
+
+    public Student(int id, String name, double percentage, String specialization)
+    {
+        this.id = id;
+        this.name = name;
+        this.percentage = percentage;
+        this.specialization = specialization;
+    }
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getPercentage() {
+        return percentage;
+    }
+
+    public String getSpecialization() {
+        return specialization;
+    }
+
+    @Override
+    public String toString()
+    {
+        return id+"-"+name+"-"+percentage+"-"+specialization;
+    }
+}
+</code>
+</pre>
+
+    <p>Let listOfStudents be the list of 10 students.</p>
+
+    <pre class="java-code">
+<code>
+List&lt;Student&gt; listOfStudents = new ArrayList&lt;Student&gt;();
+listOfStudents.add(new Student(111, "John", 81.0, "Mathematics"));
+listOfStudents.add(new Student(222, "Harsha", 79.5, "History"));
+listOfStudents.add(new Student(333, "Ruth", 87.2, "Computers"));
+listOfStudents.add(new Student(444, "Aroma", 63.2, "Mathematics"));
+listOfStudents.add(new Student(555, "Zade", 83.5, "Computers"));
+listOfStudents.add(new Student(666, "Xing", 58.5, "Geography"));
+listOfStudents.add(new Student(777, "Richards", 72.6, "Banking"));
+listOfStudents.add(new Student(888, "Sunil", 86.7, "History"));
+listOfStudents.add(new Student(999, "Jordan", 58.6, "Finance"));
+listOfStudents.add(new Student(101010, "Chris", 89.8, "Computers"));
+listOfStudents.add(new Student(100000, "Chriss", 88.9, "Cookies"));
+</code>
+</pre>
+
+    <p>Let's see how to use 4 important functional interfaces – Predicate, Consumer, Function and Supplier using above
+        listOfStudents.</p>
+
+    <h4>a) Predicate – Tests an object</h4>
+    <p>Predicate represents an operation which takes an argument T and returns a boolean. Use this functional interface,
+        if you want to define a lambda expression which performs some test on an argument and returns true or false
+        depending upon outcome of the test.</p>
+    <p>For example,</p>
+    <p>Imagine an operation where you want only a list of "Mathematics" students from the above listOfStudents. Let's
+        see how to do it using Predicate.</p>
+    <p>Lambda expression implementing Predicate : Checking specialization of a Student</p>
+
+    <pre class="java-code">
+<code>
+Predicate&lt;Student&gt; mathematicsPredicate = (Student student) -> student.getSpecialization().equals("Mathematics");
+List&lt;Student&gt; mathematicsStudents = new ArrayList&lt;Student&gt;();
+for (Student student : listOfStudents)
+{
+    if (mathematicsPredicate.test(student))
+    {
+        mathematicsStudents.add(student);
+    }
+}
+</code>
+</pre>
+
+    <h4>b) Consumer – Consumes an object</h4>
+    <p>Consumer represents an operation which takes an argument and returns nothing. Use this functional interface If
+        you want to compose a lambda expression which performs some operations on an object.</p>
+    <p>For example, displaying all students with their percentage.</p>
+    <p>Lambda expression implementing Consumer : Displaying all students with their percentage</p>
+
+    <pre class="java-code">
+<code>
+Consumer&lt;Student&gt; percentageConsumer = (Student student) -> {
+    System.out.println(student.getName()+" : "+student.getPercentage());
+};
+
+for (Student student : listOfStudents)
+{
+    percentageConsumer.accept(student);
+}
+</code>
+</pre>
+
+    <h4>c) Function – Applies to an object</h4>
+    <p>Function represents an operation which takes an argument of type T and returns a result of type R. Use this
+        functional interface if you want to extract some data from an existing data.</p>
+    <p>For example, extracting only the names from listOfStudents.</p>
+    <p>Lambda expression implementing Function : Extracting only the names of all students</p>
+
+    <pre class="java-code">
+<code>
+Function&lt;Student, String&gt; nameFunction = (Student Student) -> Student.getName();
+List&lt;String&gt; studentNames = new ArrayList&lt;String&gt;();
+for (Student student : listOfStudents)
+{
+    studentNames.add(nameFunction.apply(student));
+}
+</code>
+</pre>
+
+    <h4>d) Supplier – Supplies the objects</h4>
+    <p>Supplier represents an operation which takes no argument and returns the results of type R. Use this functional
+        interface when you want to create new objects.</p>
+    <p>Lambda expression implementing Supplier : Creating a new Student</p>
+
+    <pre class="java-code">
+<code>
+Supplier&lt;Student&gt; studentSupplier = () -> new Student(111111, "New Student", 92.9, "Java 8");
+listOfStudents.add(studentSupplier.get());
+</code>
+</pre>
+
+    <h3>5) Functional Interfaces Supporting Primitive Type</h3>
+    <p>Java 8 has also introduced functional interfaces which support primitive types. For example IntPredicate,
+        DoublePredicate, LongConsumer etc... (See above table).</p>
+    <p>If an input or output is a primitive type then using these functional interfaces will enhance the performance of
+        your code. For example, if input to a Predicate is primitive type int then using IntPredicate instead of
+        Predicate will remove unnecessary boxing of input.</p>
+
+    <h2>Java 8 Interface Changes</h2>
+    <p>From Java 8, interfaces can also have concrete methods i.e methods with body along with abstract methods. This is
+        the major change introduced to interfaces in Java 8 to help Java API developers to update and maintain the
+        interfaces. The interfaces can have concrete methods either in the form of default methods or static
+        methods.</p>
+
+    <h3>A) Default Methods</h3>
+
+    <h4>1) Definition With Example</h4>
+    <p>Default methods of an interface are the concrete methods i.e methods with body for which implementing classes
+        need not to give implementation. They inherit default implementation.</p>
+    <p>Default methods start with the modifier default.</p>
+
+    <pre class="java-code">
+<code>
+interface InterfaceWithDefaultMethod
+{
+    void abstractMethod();    //Abstract Method
+    default void defaultMethod()
+    {
+        System.out.println("It is a default method");
+    }
+}
+
+class AnyClass implements InterfaceWithDefaultMethod
+{
+    @Override
+    public void abstractMethod()
+    {
+        System.out.println("Abstract Method implemented");
+    }
+    //No need to implement defaultMethod()
+}
+</code>
+</pre>
+
+    <h4>2) Why Default Methods?</h4>
+    <p>Default methods are introduced to add extra features to current interfaces without disrupting their existing
+        implementations. For example, stream() is a default method which is added to Collection interface in Java 8. If
+        stream() would have been added as abstract method, then all classes implementing Collection interface must have
+        implemented stream() method which may have irritated existing users.</p>
+    <p>Thanks to Java 8 default method feature, now it is a default method, all implementations of Collection interface
+        inherit default implementation of stream() method.</p>
+
+    <h4>3) Three Rules To Solve Diamond Problem</h4>
+    <p>In Java, a class can extend only one class but can implement multiple interfaces. With the introduction of
+        default methods, it is possible that your class inherit multiple methods with same signature. In such scenarios,
+        to solve the conflict, Java 8 specifies 3 rules to follow.</p>
+
+    <h5>Rule 1: Select classes over interfaces</h5>
+    <p>If your class inherit multiple methods with same signature then a method from super class is selected (Remember a
+        class can inherit only one class).</p>
+    <p>For example, in the below program, anyMethod() from ClassOne is called.</p>
+
+    <pre class="java-code">
+<code>
+interface InterfaceOne
+{
+    default void anyMethod()
+    {
+        System.out.println("Hi... From Interface One");
+    }
+}
+
+interface InterfaceTwo extends InterfaceOne
+{
+    @Override
+    default void anyMethod()
+    {
+        System.out.println("Hi... From Interface Two");
+    }
+}
+
+class ClassOne implements InterfaceOne, InterfaceTwo
+{
+    @Override
+    public void anyMethod()
+    {
+        System.out.println("Hi... From Class One");
+    }
+}
+
+public class MyClass extends ClassOne implements InterfaceOne, InterfaceTwo
+{
+    public static void main(String[] args)
+    {
+        new MyClass().anyMethod();
+    }
+}
+</code>
+</pre>
+
+    <p>Output:</p>
+    <pre class="java-code">
+<code>
+Hi... From Class One
+</code>
+</pre>
+
+    <h5>Rule 2 : Select most specific interfaces than general interfaces.</h5>
+    <p>If your class doesn't extend any class and inherit multiple methods with same signature from multiple interfaces
+        which belong to same hierarchy, then a method from most specific interface is selected (If interface X extends Y
+        then X is more specific than Y).</p>
+    <p>For example, In the below program, anyMethod() from InterfaceTwo is called.</p>
+
+    <pre class="java-code">
+<code>
+interface InterfaceOne
+{
+    default void anyMethod()
+    {
+        System.out.println("Hi... From Interface One");
+    }
+}
+
+interface InterfaceTwo extends InterfaceOne
+{
+    @Override
+    default void anyMethod()
+    {
+        System.out.println("Hi... From Interface Two");
+    }
+}
+
+public class MyClass implements InterfaceOne, InterfaceTwo
+{
+    public static void main(String[] args)
+    {
+        new MyClass().anyMethod();
+    }
+}
+</code>
+</pre>
+
+    <p>Output:</p>
+    <pre class="java-code">
+<code>
+Hi... From Interface Two
+</code>
+</pre>
+
+    <h5>Rule 3 : InterfaceName.super.methodName()</h5>
+    <p>If your class doesn't extend any class and inherit multiple methods with same signature from multiple interfaces
+        which doesn't belong to same hierarchy, then override that method and from within body explicitly call desired
+        method as InterfaceName.super.methodName().</p>
+    <p>For example, in the below program, anyMethod() from InterfaceOne is called explicitly.</p>
+
+    <pre class="java-code">
+<code>
+interface InterfaceOne
+{
+    default void anyMethod()
+    {
+        System.out.println("Hi... From Interface One");
+    }
+}
+
+interface InterfaceTwo
+{
+    default void anyMethod()
+    {
+        System.out.println("Hi... From Interface Two");
+    }
+}
+
+public class MyClass implements InterfaceOne, InterfaceTwo
+{
+    @Override
+    public void anyMethod()
+    {
+        InterfaceOne.super.anyMethod();
+    }
+
+    public static void main(String[] args)
+    {
+        new MyClass().anyMethod();
+    }
+}
+</code>
+</pre>
+
+    <p>Output:</p>
+    <pre class="java-code">
+<code>
+Hi... From Interface One
+</code>
+</pre>
+
+    <h4>Three Rules To Solve Diamond Problem</h4>
+    <p><strong>Rule 1 :</strong></p>
+    <p>If your class inherit multiple methods with same signature then a method from super class is selected (Remember a
+        class can extend only one class).</p>
+
+    <p><strong>Rule 2 :</strong></p>
+    <p>If your class doesn't extend any class and inherit multiple methods with same signature from multiple interfaces
+        which belong to same hierarchy, then a method from most specific interface is selected (If interface X extends Y
+        then X is more specific than Y).</p>
+
+    <p><strong>Rule 3 :</strong></p>
+    <p>If your class doesn't extend any class and inherit multiple methods with same signature from multiple interfaces
+        which doesn't belong to same hierarchy, then override that method and from within the body explicitly call
+        desired method as InterfaceName.super.methodName().</p>
+
+    <h3>B) Static Methods</h3>
+
+    <h4>1) Definition With Example</h4>
+    <p>From Java 8, interfaces can also have static methods. Static methods are also concrete methods but they can't be
+        implemented.</p>
+
+    <pre class="java-code">
+<code>
+interface InterfaceWithDefaultAndStaticMethod
+{
+    void abstractMethod();    //Abstract Method
+
+    default void defaultMethod()
+    {
+        System.out.println("It is a default method");
+    }
+
+    static void staticMethod()
+    {
+        System.out.println("It is a static method");
+    }
+}
+
+class AnyClass implements InterfaceWithDefaultAndStaticMethod
+{
+    @Override
+    public void abstractMethod()
+    {
+        System.out.println("Abstract Method implemented");
+    }
+    //No need to implement defaultMethod()
+    //Can't implement staticMethod()
+}
+</code>
+</pre>
+
+    <h4>2) Why Static Methods?</h4>
+    <p>Do you know? Collection and Collections.</p>
+    <p>Collection is an interface and Collections is an utility class containing only static methods which operate on
+        Collection objects.</p>
+    <p>Java API developers have followed this pattern of supplying an utility class along with an interface to perform
+        basic operations on such objects. But from Java 8, they have break this pattern by introducing static methods to
+        interfaces.</p>
+    <p>With the introduction of static methods to interface, such utility classes will disappear and methods to perform
+        basic operations will be kept as static methods in interface itself.</p>
+
+    <hr>
+    <div class="card-footer">
+        <ul class="pagination justify-content-center">
+            <li class="page-item"><a class="page-link btn-outline-primary"
+                                     href="../java8/intro.html">&lArr; Previous</a></li>
+            <li class="page-item"><a class="page-link" href="../java8/lambda.html">Next
+                &rArr;</a></li>
+        </ul>
+    </div>
+</main>
+
+<!-- Footer will be inserted by JavaScript -->
+
+<!-- Scripts -->
+<script src="../js/sidebar.js"></script>
+<script src="../js/componentLoader.js"></script>
+</body>
+</html>

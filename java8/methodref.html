@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Java Introduction</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../js/styles.css"/>
+</head>
+<body data-sidebar="java8">
+<nav>
+    <button class="mobile-sidebar-btn" id="mobileSidebarBtn">☰</button>
+    <div class="breadcrumbs">
+        <a href="../home.html">Home</a>
+        <span class="separator">/</span>
+        <a href="#">Java 8</a>
+        <span class="separator">/</span>
+        <a href="#">Introduction</a>
+    </div>
+</nav>
+
+<!-- Header will be inserted by JavaScript -->
+
+<!-- Sidebar will be inserted by JavaScript -->
+
+<!-- Main Content Section -->
+<main id="content">
+    <h2>4. Java 8 Method References</h2>
+
+    <h3>1) Definition</h3>
+    <p>Java 8 method references can be defined as shortened versions of lambda expressions calling a specific method.
+        Method references are the easiest way to refer a method than the lambdas calling a specific method. Method
+        references will enhance the readability of your code.</p>
+
+    <h3>2) Syntax</h3>
+    <p>a) Method reference to static method :<br>
+        ClassName::MethodName<br>
+        Use this syntax when you are referring to a static method.<br>
+        ex : Integer::parseInt, Math::max</p>
+
+    <p>b) Method reference to instance method of an existing object :<br>
+        ReferenceVariable::MethodName<br>
+        Use this syntax when you are referring to an instance method of already existing object.<br>
+        ex : s::getName<br>
+        where 's' is a reference variable referring to Student object which already exist.</p>
+
+    <p>c) Method reference to instance method of non-existing object :<br>
+        ClassName::MethodName<br>
+        Use this syntax when you are referring to an instance method by passing reference variables as an argument.<br>
+        ex : (Student s)->s.getName() can be written as Student::getName</p>
+
+    <h3>3) Constructor References</h3>
+    <p>You can also refer to the constructor of a class same as method references. Syntax for referring to constructor
+        is,</p>
+    <p><strong>ClassName::new</strong></p>
+    <p>Ex : Student::new</p>
+
+    <h3>4) Examples</h3>
+    <table class="basic-table">
+        <thead>
+        <tr>
+            <th>Lambda Expressions</th>
+            <th>Equivalent Method References</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>(Strings)-> Integer.parseInt(s)</td>
+            <td>Integer::parseInt</td>
+        </tr>
+        <tr>
+            <td>(Strings)-> s.toLowerCase()</td>
+            <td>String::toLowerCase</td>
+        </tr>
+        <tr>
+            <td>(inti)-> System.out.println(i)</td>
+            <td>System.out::printIn</td>
+        </tr>
+        <tr>
+            <td>(Student's)-> s.getName()</td>
+            <td>Student::getName</td>
+        </tr>
+        <tr>
+            <td>()-> s.getName()</td>
+            <td>s::getName<br>where 's' refers to Student object which already exist.</td>
+        </tr>
+        <tr>
+            <td>()-> new Student()</td>
+            <td>Student::new</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p>a) Method reference to static method</p>
+    <pre class="java-code">
+        <code>
+import java.util.function.Function;
+
+public class Java8MethodReferences
+{
+    public static void main(String[] args)
+    {
+    //Calling parseInt() method using lambda
+
+    Function<String, Integer> lambdaFunction = (String s) -> Integer.parseInt(s);
+    System.out.println(lambdaFunction.apply("12"));
+    //Calling parseInt() method using method reference
+
+    Function<String, Integer> referenceFunction = Integer::parseInt;
+    System.out.println(referenceFunction.apply("12"));
+    }
+}
+        </code>
+    </pre>
+
+    <p>b) Method reference to instance method (ClassName::MethodName)</p>
+    <pre class="java-code">
+        <code>
+import java.util.function.Function;
+
+public class Java8MethodReferences
+{
+    public static void main(String[] args)
+    {
+    //Calling toLowerCase() method using lambda
+
+    Function<String, String> lambdaFunction = (String s) -> s.toLowerCase();
+    System.out.println(lambdaFunction.apply("JAVA"));
+    //Calling toLowerCase() method using method reference
+
+13
+14    Function<String, String> referenceFunction = String::toLowerCase;
+15    System.out.println(referenceFunction.apply("JAVA"));
+16    }
+17 }
+        </code>
+    </pre>
+
+    <p>c) Method reference to instance method (ReferenceVariable::MethodName)</p>
+    <pre class="java-code">
+        <code>
+import java.util.function.Supplier;
+
+class Company
+{
+    String name;
+    public Company(String name)
+    {
+    this.name = name;
+    }
+}
+
+public String getName()
+{
+    return name;
+}
+
+public class Java8MethodReferences
+{
+    public static void main(String[] args)
+    {
+    Company c = new Company("My_Company");
+    //Calling getName() of c using lambda
+    Supplier<String> lambdaSupplier = () -> c.getName();
+    System.out.println(lambdaSupplier.get());
+    //Calling getName() of c using method reference
+    Supplier<String> referenceSupplier = c::getName;
+    System.out.println(referenceSupplier.get());
+    }
+}
+        </code>
+    </pre>
+
+    <p>d) Constructor References</p>
+    <pre class="java-code">
+        <code>
+import java.util.function.Supplier;
+
+class Company
+{
+    }
+}
+
+public class Java8MethodReferences
+{
+    public static void main(String[] args)
+    {
+    //Creating objects using lambda
+    Supplier<Company> lambdaSupplier = () -> new Company();
+    lambdaSupplier.get();
+
+//Creating objects using constructor references
+Supplier<Company> referenceSupplier = Company::new;
+referenceSupplier.get();
+        </code>
+    </pre>
+    <hr>
+    <div class="card-footer">
+        <ul class="pagination justify-content-center">
+            <li class="page-item"><a class="page-link btn-outline-primary"
+                                     href="../java8/optional.html">&lArr; Previous</a></li>
+            <li class="page-item"><a class="page-link" href="../java8/stringJoiner.html">Next
+                &rArr;</a></li>
+        </ul>
+    </div>
+</main>
+
+<!-- Footer will be inserted by JavaScript -->
+
+<!-- Scripts -->
+<script src="../js/sidebar.js"></script>
+<script src="../js/componentLoader.js"></script>
+</body>
+</html>

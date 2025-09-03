@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Java Introduction</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../js/styles.css"/>
+</head>
+<body data-sidebar="java8">
+<nav>
+    <button class="mobile-sidebar-btn" id="mobileSidebarBtn">☰</button>
+    <div class="breadcrumbs">
+        <a href="../home.html">Home</a>
+        <span class="separator">/</span>
+        <a href="#">Java 8</a>
+        <span class="separator">/</span>
+        <a href="#">Introduction</a>
+    </div>
+</nav>
+
+<!-- Header will be inserted by JavaScript -->
+
+<!-- Sidebar will be inserted by JavaScript -->
+
+<!-- Main Content Section -->
+<main id="content">
+    <h2>2. Java 8 Streams</h2>
+
+    <h3>1) What Are Streams?</h3>
+    <p>Streams can be defined as a sequences of elements from a source which support data processing operations. You can
+        treat streams as operations on data. You will get to know as you go through this article.</p>
+
+    <h3>2) Why Streams?</h3>
+    <p>Almost every Java application use Collections API to store and process the data. Despite being the most used Java
+        API, it is not easy to write the code for even some common data processing operations like filtering, finding,
+        matching, sorting, mapping etc using Collections API . So, there needed Next-Gen API to process the data. So
+        Java API designers have come with Java 8 Streams API to write more complex data processing operations with much
+        of ease.</p>
+
+    <h3>3) Characteristics Of Java 8 Streams</h3>
+
+    <h3>3.1) Streams are not the data structures</h3>
+    <p>Streams doesn't store the data. You can't add or remove elements from streams. Hence, they are not the data
+        structures. They are the just operations on data.</p>
+
+    <h3>3.2) Stream Consumes a data source</h3>
+    <p>Stream consumes a source, performs operations on it and produces the result. Source may be a collection or an
+        array or an I/O resource. Remember, stream doesn't modify the source.</p>
+
+    <h3>3.3) Intermediate And Terminal Operations</h3>
+    <p>Most of the stream operations return another new stream and they can be chained together to form a pipeline of
+        operations.</p>
+    <p>The operations which return stream themselves are called intermediate operations. For example –
+        <strong>filter()</strong>, <strong>distinct()</strong>, <strong>sorted()</strong> etc.</p>
+    <p>The operations which return other than stream are called terminal operations. <strong>count()</strong>. <strong>min()</strong>,
+        <strong>max()</strong> are some terminal operations.</p>
+
+    <h2>2. Java 8 Stream Intermediate Vs Terminal Operations</h2>
+
+    <table class="basic-table">
+        <thead>
+        <tr>
+            <th>Intermediate Operations</th>
+            <th>Terminal Operations</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>They return stream.</td>
+            <td>They return non-stream values.</td>
+        </tr>
+        <tr>
+            <td>They can be chained together to form a pipeline of operations.</td>
+            <td>They can't be chained together.</td>
+        </tr>
+        <tr>
+            <td>Pipeline of operations may contain any number of intermediate operations.</td>
+            <td>Pipeline of operations can have maximum one terminal operation, that too at the end.</td>
+        </tr>
+        <tr>
+            <td>Intermediate operations are lazily loaded.</td>
+            <td>Terminal operations are eagerly loaded.</td>
+        </tr>
+        <tr>
+            <td>They don't produce end result.</td>
+            <td>They produce end result.</td>
+        </tr>
+        <tr>
+            <td>Examples :<br>filter(), map(), distinct(), sorted(), limit(), skip()</td>
+            <td>Examples :<br>forEach(), toArray(), reduce(), collect(), min(), max(), count(), anyMatch(), allMatch(),
+                noneMatch(), findFirst(), findAny()
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>3.4) Pipeline Of Operations</h3>
+    <p>A pipeline of operations consists of three things – a source, one or more intermediate operations and a terminal
+        operation. Pipe-lining of operations let you to write database-like queries on a data source. In the below
+        example, int array is the source, filter() and distinct() are intermediate operations and forEach() is a
+        terminal operation.</p>
+
+    <pre class="java-code">
+<code>IntStream.of(new int[] {4, 7, 1, 8, 3, 9, 7}).filter((int i) -> i > 5).distinct().forEach(System.out::println);</code>
+</pre>
+
+    <h3>3.5 Internal Iteration</h3>
+    <p>Collections need to be iterated explicitly. i.e you have to write the code to iterate over collections. But, all
+        stream operations do the iteration internally behind the scene for you. You need not to worry about iteration at
+        all while writing the code using Java 8 Streams API.</p>
+
+    <h3>3.6 Parallel Execution</h3>
+    <p>To gain the performance while processing the large amount of data, you have to process it in parallel and use
+        multi core architectures. Java 8 Streams can be processed in parallel without writing any multi threaded code.
+        For example, to process the collections in parallel, you just use parallelStream() method instead of stream()
+        method.</p>
+
+    <pre class="java-code">
+<code>List<String> names = new ArrayList<>();
+names.add("David");
+names.add("Johnson");
+names.add("Samontika");
+names.add("Brijesh");
+names.add("John");
+//Normal Execution
+names.stream().filter((String name) -> name.length() > 5).skip(2).forEach(System.out::println);
+//Parallel Execution
+names.parallelStream().filter((String name) -> name.length() > 5).skip(2).forEach(System.out::println);</code>
+</pre>
+
+    <h3>3.7 Streams are lazily populated</h3>
+    <p>All elements of a stream are not populated at a time. They are lazily populated as per demand because
+        intermediate operations are not evaluated until terminal operation is invoked.</p>
+
+    <h3>3.8 Streams are traversable only once</h3>
+    <p>You can't traverse the streams more than once just like iterators. If you traverse the stream first time, it is
+        said to be consumed.</p>
+
+    <pre class="java-code">
+<code>List<String> nameList = Arrays.asList("Dinesh", "Ross", "Kagiso", "Steyn");
+Stream<String> stream = nameList.stream();
+stream.forEach(System.out::println);
+stream.forEach(System.out::println);
+//Error : stream has already been operated upon or closed</code>
+</pre>
+
+    <h3>3.9) Short Circuiting Operations</h3>
+    <p>Short circuiting operations are the operations which don't need the whole stream to be processed to produce a
+        result. For example – findFirst(), findAny(), limit() etc.</p>
+    <img src="../js/images/Java/streams.png" class="responsive-img">
+    <h3>4) java.util.stream.Stream</h3>
+    <p>java.util.stream.Stream interface is the center of Java 8 Streams API. This interface contains all the stream
+        operations. Below table shows frequently used Stream methods with description.</p>
+
+    <table class="basic-table">
+        <thead>
+        <tr>
+            <th>Operation</th>
+            <th>Method Signature</th>
+            <th>Type Of Operation</th>
+            <th>What It Does?</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>filter()</td>
+            <td>Stream&lt;T&gt; filter(Predicates&lt;T&gt; predicate)</td>
+            <td>Intermediate</td>
+            <td>Returns a stream of elements which satisfy the given predicate.</td>
+        </tr>
+        <tr>
+            <td>map()</td>
+            <td>Stream&lt;R&gt; map(Functions T, R-&gt; mapper)</td>
+            <td>Intermediate</td>
+            <td>Returns a stream consisting of results after applying given function to elements of the stream.</td>
+        </tr>
+        <tr>
+            <td>distinct()</td>
+            <td>Stream&lt;T&gt; distinct()</td>
+            <td>Intermediate</td>
+            <td>Returns a stream of unique elements.</td>
+        </tr>
+        <tr>
+            <td>sorted()</td>
+            <td>Stream&lt;T&gt; sorted()</td>
+            <td>Intermediate</td>
+            <td>Returns a stream consisting of elements sorted according to natural order.</td>
+        </tr>
+        <tr>
+            <td>limit()</td>
+            <td>Stream&lt;T&gt; limit(long maxSize)</td>
+            <td>Intermediate</td>
+            <td>Returns a stream containing first \( n \) elements.</td>
+        </tr>
+        <tr>
+            <td>skip()</td>
+            <td>Stream&lt;T&gt; skip(long n)</td>
+            <td>Intermediate</td>
+            <td>Returns a stream after skipping first \( n \) elements.</td>
+        </tr>
+        <tr>
+            <td>forEach()</td>
+            <td>void forEach(Consumers&lt;T&gt; action)</td>
+            <td>Terminal</td>
+            <td>Performs an action on all elements of a stream.</td>
+        </tr>
+        <tr>
+            <td>toArray()</td>
+            <td>Object[] toArray()</td>
+            <td>Terminal</td>
+            <td>Returns an array containing elements of a stream.</td>
+        </tr>
+        <tr>
+            <td>reduce()</td>
+            <td>T reduced(T identity, BinaryOperator&lt;T&gt; accumulator)</td>
+            <td>Terminal</td>
+            <td>Performs reduction operation on elements of a stream using initial value and binary operation.</td>
+        </tr>
+        <tr>
+            <td>collect()</td>
+            <td>R collect(Collectors&lt;T&gt; collector)</td>
+            <td>Terminal</td>
+            <td>Returns mutable result container such as List or Set.</td>
+        </tr>
+        <tr>
+            <td>min()</td>
+            <td>Optional&lt;T&gt; min(Comparator&lt;T&gt; comparator)</td>
+            <td>Terminal</td>
+            <td>Returns minimum element in a stream wrapped in an Optional object.</td>
+        </tr>
+        <tr>
+            <td>max()</td>
+            <td>Optional&lt;T&gt; max(Comparators&lt;T&gt; comparator)</td>
+            <td>Terminal</td>
+            <td>Returns maximum element in a stream wrapped in an Optional object.</td>
+        </tr>
+        <tr>
+            <td>count()</td>
+            <td>long count()</td>
+            <td>Terminal</td>
+            <td>Returns the number of elements in a stream.</td>
+        </tr>
+        <tr>
+            <td>anyMatch()</td>
+            <td>boolean anyMatch(Predicates&lt;T&gt; predicate)</td>
+            <td>Terminal</td>
+            <td>Returns true if any one element of a stream matches with given predicate.</td>
+        </tr>
+        <tr>
+            <td>allMatch()</td>
+            <td>boolean allMatch(Predicates&lt;T&gt; predicate)</td>
+            <td>Terminal</td>
+            <td>Returns true if all the elements of a stream matches with given predicate.</td>
+        </tr>
+        <tr>
+            <td>noneMatch()</td>
+            <td>boolean noneMatch(Predicates&lt;T&gt; predicate)</td>
+            <td>Terminal</td>
+            <td>Returns true only if all the elements of a stream doesn't match with given predicate.</td>
+        </tr>
+        <tr>
+            <td>findFirst()</td>
+            <td>Optional&lt;T&gt; findFirst()</td>
+            <td>Terminal</td>
+            <td>Returns first element of a stream wrapped in an Optional object.</td>
+        </tr>
+        <tr>
+            <td>findAny()</td>
+            <td>Optional&lt;T&gt; findAny()</td>
+            <td>Terminal</td>
+            <td>Randomly returns any one element in a stream.</td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <hr>
+    <h3>5) Java 8 Stream Operations</h3>
+    <p>Let's see some important stream operations with examples.</p>
+    <h3>5.1) Stream Creation Operations</h3>
+
+    <h3>5.1.1) empty() : Creates an empty stream</h3>
+    <p>Method Signature : public static&lt;T&gt; Stream&lt;T&gt; empty()</p>
+    <p>Type Of Method : Static Method</p>
+    <p>What It Does? : Returns an empty stream of type T.</p>
+
+    <pre class="java-code">
+<code>Stream<Student> emptyStream = Stream.empty();
+System.out.println(emptyStream.count());
+
+//Output : 0</code>
+</pre>
+
+    <h3>5.1.2) of(T t) : Creates a stream of single element of type T</h3>
+    <p>Method Signature : public static&lt;T&gt; Stream&lt;T&gt; of(T t)</p>
+    <p>Type Of Method : Static Method</p>
+    <p>What It Does? : Returns a single element stream of type T.</p>
+
+    <pre class="java-code">
+<code>Stream<Student> singleElementStream = Stream.of(new Student());
+System.out.println(singleElementStream.count());
+
+//Output : 1</code>
+</pre>
+
+    <h3>5.1.3) of(T... values) : Creates a stream from values</h3>
+    <p>Method Signature : public static&lt;T&gt; Stream&lt;T&gt; of(T... values)</p>
+    <p>Type Of Method : Static Method</p>
+    <p>What It does? : Returns a stream consisting of supplied values as elements.</p>
+
+    <pre class="java-code">
+<code>Stream<Integer> streamOfNumbers = Stream.of(7, 2, 6, 9, 4, 3, 1);
+System.out.println(streamOfNumbers.count());
+
+//Output : 7</code>
+</pre>
+
+    <h3>5.1.4) Creating streams from collections</h3>
+    <p>From Java 8, every collection type will have a method called stream() which returns the stream of respective
+        collection type.</p>
+    <p>Example : Creating a stream from List</p>
+
+    <pre class="java-code">
+<code>List<String> listOfStrings = new ArrayList<>();
+listOfStrings.add("One");
+listOfStrings.add("Two");
+listOfStrings.add("Three");
+listOfStrings.stream().forEach(System.out::println);
+// Output :
+// One
+// Two
+// Three</code>
+</pre>
+
+    <h3>5.2 Selection Operations</h3>
+
+    <h3>5.2.1 filter(): Selecting with a predicate</h3>
+    <p>Method Signature : Stream&lt;T&gt; filter(Predicate&lt;T&gt; predicate)</p>
+    <p>Type Of Operation : Intermediate Operation</p>
+    <p>What it does? : Returns a stream of elements which satisfy the given predicate.</p>
+
+    <pre class="java-code">
+<code>List<String> names = new ArrayList<>();
+names.add("David");
+names.add("Johnson");
+names.add("Samontika");
+names.add("Brijesh");
+names.add("John");
+//Selecting names containing more than 5 characters
+names.stream().filter((String name) -> name.length() > 5).forEach(System.out::println);
+
+// Output :
+// Johnson
+// Samontika
+// Brijesh</code>
+</pre>
+
+    <h3>5.2.2 distinct(): Selects only unique elements</h3>
+    <p>Method Signature : Stream&lt;T&gt; distinct()</p>
+    <p>Type Of Operation : Intermediate Operation</p>
+    <p>What It Does? : Returns a stream of unique elements.</p>
+
+    <pre class="java-code">
+<code>List<String> names = new ArrayList<>();
+names.add("David");
+names.add("Johnson");
+names.add("Samontika");
+names.add("Brijesh");
+names.add("John");
+names.add("David");
+names.add("Brijesh");
+//Selecting only unique names
+names.stream().distinct().forEach(System.out::println);
+// Output :
+// David
+// Johnson
+// Samontika
+// Brijesh
+// John</code>
+</pre>
+
+    <h3>5.2.3) limit() : Selects first n elements</h3>
+    <p>Method Signature : Stream&lt;T&gt; limit(long maxSize)</p>
+    <p>Type Of Operation : Intermediate Operation</p>
+    <p>What It Does? : Returns a stream containing first n elements.</p>
+
+    <pre class="java-code">
+<code>List<String> names = new ArrayList<>();
+names.add("David");
+names.add("Johnson");
+names.add("Samontika");
+names.add("Brijesh");
+names.add("John");
+names.add("David");
+names.add("Brijesh");
+// Selecting first 4 names
+names.stream().limit(4).forEach(System.out::println);
+
+// Output :
+// David
+// Johnson
+// Samontika
+// Brijesh</code>
+</pre>
+
+    <h3>5.2.4) skip() : Skips first n elements</h3>
+    <p>Method Signature : Stream&lt;T&gt; skip(long n)</p>
+    <p>Type Of Operation : Intermediate Operation</p>
+    <p>What It Does? : Returns a stream after skipping first n elements.</p>
+
+    <pre class="java-code">
+<code>List<String> names = new ArrayList<>();
+names.add("David");
+names.add("Johnson");
+names.add("Samontika");
+names.add("Brijesh");
+names.add("John");
+names.add("David");
+names.add("Brijesh");
+// Skipping first 4 names
+names.stream().skip(4).forEach(System.out::println);
+
+// Output :
+// John
+// David
+// Brijesh</code>
+</pre>
+
+    <h3>5.3) Mapping Operations</h3>
+
+    <h3>5.3.1) map() : Applies a function</h3>
+    <p>Method Signature : Stream&lt;R&gt; map(Function&lt;T, R&gt; mapper);</p>
+    <p>Type Of Operation : Intermediate Operation</p>
+    <p>What It Does? : Returns a stream consisting of results after applying given function to elements of the
+        stream.</p>
+
+    <pre class="java-code">
+<code>List<String> names = new ArrayList<>();
+names.add("David");
+names.add("Johnson");
+names.add("Samontika");
+names.add("Brijesh");
+names.add("John");
+//Returns length of each name
+names.stream().map(String::length).forEach(System.out::println);
+// Output :
+// 5
+// 7
+// 9
+// 7
+// 4</code>
+</pre>
+
+    <p>Other versions of map() method : mapToInt(), mapToLong() and mapToDouble().</p>
+
+    <h3>5.4) Sorting Operations</h3>
+
+    <h3>5.4.1) sorted() : Sorting according to natural order</h3>
+    <p>Method Signature : Stream&lt;T&gt; sorted()</p>
+    <p>Type Of Operation : Intermediate Operation</p>
+    <p>What It Does? : Returns a stream consisting of elements sorted according to natural order.</p>
+
+    <pre class="java-code">
+<code>List<String> names = new ArrayList<>();
+names.add("David");
+names.add("Johnson");
+names.add("Samontika");
+names.add("Brijesh");
+names.add("John");
+//Sorting the names according to natural order
+names.stream().sorted().forEach(System.out::println);
+
+// Output :
+// Brijesh
+// David
+// John
+// Johnson
+// Samontika</code>
+</pre>
+
+    <h3>5.4.2) sorted(Comparator) : Sorting according to supplied comparator</h3>
+    <p>Method Signature : Stream&lt;T&gt; sorted(Comparator&lt;T&gt; comparator)</p>
+    <p>Type Of Operation : Intermediate Operation</p>
+    <p>What It Does? : Returns a stream consisting of elements sorted according to supplied Comparator.</p>
+
+    <pre class="java-code">
+<code>List<String> names = new ArrayList<>();
+names.add("David");
+names.add("Johnson");
+names.add("Samontika");
+names.add("Brijesh");
+names.add("John");
+//Sorting the names according to their length
+names.stream().sorted((String name1, String name2) -> name1.length() - name2.length()).forEach(System.out::println);
+
+// Output :
+// John
+// David
+// Johnson
+// Brijesh
+// Samontika</code>
+</pre>
+
+    <h3>5.5) Reducing Operations</h3>
+    <p>Reducing operations are the operations which combine all the elements of a stream repeatedly to produce a single
+        value. For example, counting number of elements, calculating average of elements, finding maximum or minimum of
+        elements etc.</p>
+
+    <h3>5.5.1) reduce(): Produces a single value</h3>
+    <p>Method Signature : T reduce(T identity, BinaryOperator&lt;T&gt; accumulator);</p>
+    <p>Type Of Operation : Terminal Operation</p>
+    <p>What It Does? : This method performs reduction operation on elements of a stream using initial value and binary
+        operation.</p>
+
+    <pre class="java-code">
+<code>int sum = Arrays.stream(new int[] {7, 5, 9, 2, 8, 1}.reduce(0, (a, b) -> a+b);
+
+//Output : 32</code>
+</pre>
+
+    <p>There is another form of reduce() method which takes no initial value. But returns an Optional object.</p>
+
+    <pre class="java-code">
+<code>OptionalInt sum = Arrays.stream(new int[] {7, 5, 9, 2, 8, 1}).reduce((a, b) -> a+b);
+
+//Output : OptionalInt[32]</code>
+</pre>
+
+    <p>Methods min(), max(), count() and collect() are special cases of reduction operation.</p>
+
+    <h3>5.5.2) min(): Finding the minimum</h3>
+    <p>Method Signature : Optional&lt;T&gt; min(Comparator&lt;T&gt; comparator)</p>
+    <p>Type Of Operation : Terminal Operation</p>
+    <p>What It Does? : It returns minimum element in a stream wrapped in an Optional object.</p>
+
+    <pre class="java-code">
+<code>OptionalInt min = Arrays.stream(new int[] {7, 5, 9, 2, 8, 1}).min();
+
+//Output : OptionalInt[1]
+
+//Here, min() of IntStream will be used as we are passing an array of ints</code>
+</pre>
+
+    <h3>5.5.3) max(): Finding the maximum</h3>
+    <p>Method Signature : Optional&lt;T&gt; max(Comparator&lt;T&gt; comparator)</p>
+    <p>Type Of Operation : Terminal Operation</p>
+    <p>What It Does? : It returns maximum element in a stream wrapped in an Optional object.</p>
+
+    <pre class="java-code">
+<code>OptionalInt max = Arrays.stream(new int[] {7, 5, 9, 2, 8, 1}).max();
+
+//Output : OptionalInt[9]
+
+//Here, max() of IntStream will be used as we are passing an array of ints</code>
+</pre>
+
+    <h3>5.5.4) count(): Counting the elements</h3>
+    <p>Method Signature : long count()</p>
+    <p>Type Of Operation : Terminal Operation</p>
+    <p>What It Does? : Returns the number of elements in a stream.</p>
+
+    <pre class="java-code">
+<code>List<String> names = new ArrayList<>();
+names.add("David");
+names.add("Johnson");
+names.add("Samontika");
+names.add("Brijesh");
+names.add("John");
+
+//Counting the names with length > 5
+long noOfBigNames = names.stream().filter((String name) -> name.length() > 5).count();
+System.out.println(noOfBigNames);
+
+// Output : 3</code>
+</pre>
+
+    <h3>5.5.5) collect() : Returns mutable container</h3>
+    <p>Method Signature : R collect(Collector&lt;T&gt; collector)</p>
+    <p>Type Of Operation : Terminal Operation</p>
+    <p>What It Does? : collect() method is a special case of reduction operation called mutable reduction operation
+        because it returns mutable result container such as List or Set.</p>
+
+    <pre class="java-code">
+<code>List<String> names = new ArrayList<>();
+names.add("David");
+names.add("Johnson");
+names.add("Samontika");
+names.add("Brijesh");
+names.add("John");
+
+//Storing first 3 names in a mutable container
+List<String> first3Names = names.stream().limit(3).collect(Collectors.toList());
+System.out.println(first3Names);
+
+// Output : [David, Johnson, Samontika]</code>
+</pre>
+
+    <h3>5.6) Finding And Matching Operations</h3>
+
+    <h3>5.6.1) anyMatch() : Any one element matches</h3>
+    <p>Method Signature : boolean anyMatch(Predicate&lt;T&gt; predicate)</p>
+    <p>Type Of Operation : Short-circuiting Terminal Operation</p>
+    <p>What It Does? : Returns true if any one element of a stream matches with given predicate. This method may not
+        evaluate all the elements of a stream. Even if the first element matches with given predicate, it ends the
+        operation.</p>
+
+    <pre class="java-code">
+<code>List<String> names = new ArrayList<>();
+names.add("David");
+names.add("Johnson");
+names.add("Samontika");
+names.add("Brijesh");
+names.add("John");
+if(names.stream().anyMatch((String name) -> name.length() == 5))
+{
+    System.out.println("Yes... There is a name exist with 5 letters");
+}</code>
+</pre>
+
+    <h3>5.6.2) allMatch() : All elements matches</h3>
+    <p>Method Signature : boolean allMatch(Predicate&lt;T&gt; predicate)</p>
+    <p>Type Of Operation : Terminal Operation</p>
+    <p>What It Does? : This method returns true if all the elements of a stream matches with given predicate. Otherwise
+        returns false.</p>
+
+    <pre class="java-code">
+<code>List<String> names = new ArrayList<>();
+names.add("Sampada");
+names.add("Johnson");
+names.add("Samontika");
+names.add("Brijesh");
+if(names.stream().allMatch((String name) -> name.length() > 5))
+    System.out.println("All are big names");
+}</code>
+</pre>
+
+    <h3>5.6.3) noneMatch(): No element matches</h3>
+    <p>Method Signature : boolean noneMatch(Predicate&lt;T&gt; predicate)</p>
+    <p>Type Of Operation : Terminal Operation</p>
+    <p>What It Does? : Returns true only if all the elements of a stream doesn't match with given predicate.</p>
+
+    <pre class="java-code">
+<code>List<String> names = new ArrayList<>();
+names.add("David");
+names.add("Johnson");
+names.add("Samontika");
+names.add("Brijesh");
+names.add("John");
+if(names.stream().noneMatch((String name) -> name.length() == 2))
+    System.out.println("There is no two letter name");
+}</code>
+</pre>
+
+    <h3>5.6.4) findFirst(): Finding first element</h3>
+    <p>Method Signature : Optional&lt;T&gt; findFirst()</p>
+    <p>Type Of Operation : Short-circuiting Terminal Operation</p>
+    <p>What It Does? : Returns first element of a stream wrapped in an Optional object.</p>
+
+    <pre class="java-code">
+<code>Optional<String> firstElement = Stream.of("First", "Second", "Third", "Fourth").findFirst();
+
+//Output : Optional[First]</code>
+</pre>
+
+    <h3>5.6.5) findAny(): Finding any element</h3>
+    <p>Method Signature : Optional&lt;T&gt; findAny()</p>
+    <p>Type Of Operation : Short-circuiting Terminal operation</p>
+    <p>What It Does? : Randomly returns any one element in a stream. The result of this operation is unpredictable. It
+        may select any element in a stream. Multiple invocations on the same source may not return same result.</p>
+
+    <pre class="java-code">
+<code>Optional<String> anyElement = Stream.of("First", "Second", "Third", "Fourth").findAny();</code>
+</pre>
+
+    <h3>5.7) Other Operations</h3>
+
+    <h3>5.7.1) forEach() :</h3>
+    <p>Method Signature : void forEach(Consumer&lt;T&gt; action)</p>
+    <p>Type Of Operation : Terminal Operation</p>
+    <p>What It Does? : Performs an action on all elements of a stream.</p>
+
+    <pre class="java-code">
+<code>Stream.of("First", "Second", "Second", "Third",
+    "Fourth").limit(3).distinct().forEach(System.out::println);
+
+// Output
+
+// First
+// Second</code>
+</pre>
+
+    <h3>5.7.2) toArray() : Stream to array</h3>
+    <p>Method Signature : Object[] toArray()</p>
+    <p>Type Of Operation : Terminal Operation</p>
+    <p>What It Does? : Returns an array containing elements of a stream.</p>
+
+    <pre class="java-code">
+<code>List<String> names = new ArrayList<>();
+names.add("David");
+names.add("Johnson");
+names.add("Samontika");
+names.add("Brijesh");
+names.add("John");
+
+//Storing first 3 names in an array
+Object[] streamArray = names.stream().limit(3).toArray();
+System.out.println(Arrays.toString(streamArray));
+
+// Output
+
+// [David, Johnson, Samontika]</code>
+</pre>
+
+    <h3>5.7.3) peek();</h3>
+    <p>Method Signature : Stream&lt;T&gt; peek(Consumer&lt;T&gt; action)</p>
+    <p>Type Of Operation : Intermediate Operation</p>
+    <p>What It Does? : Performs an additional action on each element of a stream. This method is only to support
+        debugging where you want to see the elements as you pass in a pipeline.</p>
+
+    <pre class="java-code">
+<code>List<String> names = new ArrayList<>();
+names.add("David");
+names.add("Johnson");
+names.add("Samontika");
+names.add("Brijesh");
+names.add("John");
+names.add("David");
+
+names.stream()
+.filter(name -> name.length() > 5)
+.peek(e -> System.out.println("Filtered Name :"+e))
+.map(String::tolpperCase)
+.peek(e -> System.out.println("Mapped Name :"+e))
+.toArray();
+
+//Output :
+
+//Filtered Name :Johnson
+//Mapped Name :JOHNSON
+//Filtered Name :Samontika
+//Mapped Name :SAMONTIKA
+//Filtered Name :Brijesh
+//Mapped Name :BRIJESH</code>
+</pre>
+    <hr>
+    <div class="card-footer">
+        <ul class="pagination justify-content-center">
+            <li class="page-item"><a class="page-link btn-outline-primary"
+                                     href="../java8/lambda.html">&lArr; Previous</a></li>
+            <li class="page-item"><a class="page-link" href="../java8/optional.html">Next
+                &rArr;</a></li>
+        </ul>
+    </div>
+</main>
+
+<!-- Footer will be inserted by JavaScript -->
+
+<!-- Scripts -->
+<script src="../js/sidebar.js"></script>
+<script src="../js/componentLoader.js"></script>
+</body>
+</html>

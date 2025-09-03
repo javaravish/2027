@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Java Introduction</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../js/styles.css"/>
+</head>
+<body data-sidebar="java8">
+<nav>
+    <button class="mobile-sidebar-btn" id="mobileSidebarBtn">☰</button>
+    <div class="breadcrumbs">
+        <a href="../home.html">Home</a>
+        <span class="separator">/</span>
+        <a href="#">Java 8</a>
+        <span class="separator">/</span>
+        <a href="#">Introduction</a>
+    </div>
+</nav>
+
+<!-- Header will be inserted by JavaScript -->
+
+<!-- Sidebar will be inserted by JavaScript -->
+
+<!-- Main Content Section -->
+<main id="content">
+
+
+    <h2>6. Java 8 StringJoiner, String.join() And Collectors.joining()</h2>
+    <p>Joining the strings or concatenating the strings is the frequent operation while programming any kind of
+        applications. To make this process easy and efficient, Java API developers has introduced java.util.StringJoiner
+        class, String.join() method and Collectors.joining() method from Java 8. By using them, you can join an array of
+        strings or a list of strings or simply string elements separated by a mandatory delimiter and optional prefix
+        and suffix. Let's see them in detail.</p>
+
+    <h3>Java 8 StringJoiner:</h3>
+    <p>StringJoiner class internally uses StringBuilder class to join the strings. It is placed in java.util package.
+        Using Java 8 StringJoiner, you can join only the strings, but not the array of strings or list of strings.</p>
+    <p>There are two ways to construct StringJoiner objects. They are,</p>
+    <pre class="java-code">
+        <code>
+1 a) StringJoiner(CharSequence delimiter)
+2 b) StringJoiner(CharSequence delimiter, CharSequence prefix, CharSequence suffix)
+        </code>
+    </pre>
+
+    <p>StringJoiner Example: Joining the strings with delimiter</p>
+    <pre class="java-code">
+        <code>
+import java.util.StringJoiner;
+public class JavaScriptJoiner
+
+public static void main(String[] args)
+{
+    StringJoiner stringJoiner = new StringJoiner(" | ");
+    stringJoiner.add("Facebook");
+    stringJoiner.add("Twitter");
+    stringJoiner.add("YouTube");
+    stringJoiner.add("WhatsApp");
+    stringJoiner.add("LinkedIn");
+    System.out.println(stringJoiner);
+}
+        </code>
+    </pre>
+    <p>Output:</p>
+    <pre class="java-code">
+        <code>
+Facebook | Twitter | YouTube | WhatsApp | LinkedIn
+        </code>
+    </pre>
+
+    <p>StringJoiner Example: Joining the strings with delimiter, prefix and suffix</p>
+    <pre class="java-code">
+        <code>
+import java.util.StringJoiner;
+public class JavaScriptJoiner
+{
+    public static void main(String[] args)
+    {
+    StringJoiner stringJoiner = new StringJoiner(". ", "[", "]");
+    stringJoiner.add("Facebook");
+    stringJoiner.add("Twitter");
+    stringJoiner.add("YouTube");
+    stringJoiner.add("WhatsApp");
+    stringJoiner.add("LinkedIn");
+    System.out.println(stringJoiner);
+}
+        </code>
+    </pre>
+    <p>Output:</p>
+    <pre class="java-code">
+        <code>
+[Facebook, Twitter, YouTube, WhatsApp, LinkedIn]
+        </code>
+    </pre>
+
+    <h3>Java 8 String.join() Method:</h3>
+    <p>String.join() method internally uses StringJoiner class. This method can be used to join strings or array of
+        strings or list of strings, but only with delimiter not with prefix and suffix.</p>
+    <p>There are two overloaded forms of String.join() .</p>
+    <p>a) public static String join(CharSequence delimiter, CharSequence… elements)<br>
+        b) public static String join(CharSequence delimiter, Iterable<? extends CharSequence> elements)</p>
+
+    <p>String.join() Method Example: Joining the strings</p>
+    <pre class="java-code">
+        <code>
+1 public class JavaScriptJoinMethod
+2 {
+3    public static void main(String[] args)
+4    {
+5    String joinedString = String.join(" | ", "Facebook", "Twitter", "YouTube",
+6    System.out.println(joinedString);
+7    }
+8 }
+        </code>
+    </pre>
+    <p>Output:</p>
+    <pre class="java-code">
+        <code>
+Facebook | Twitter | YouTube | WhatsApp | LinkedIn
+        </code>
+    </pre>
+
+    <p>String.join() Method Example: Joining an array of strings</p>
+    <pre class="java-code">
+        <code>
+public class JavaScriptJoinMethod
+{
+3    public static void main(String[] args)
+4    {
+5    String[] strArray = new String[] {"Facebook", "Twitter", "YouTube", "WhatsApp",
+6    String joinedString = String.join(" | ", strArray);
+7    System.out.println(joinedString);
+8    }
+9 }
+        </code>
+    </pre>
+    <p>Output:</p>
+    <pre class="java-code">
+        <code>
+Facebook | Twitter | YouTube | WhatsApp | LinkedIn
+        </code>
+    </pre>
+
+    <p>String.join() Method Example: Joining list of strings</p>
+    <pre class="java-code">
+        <code>
+import java.util.Arrays;
+import java.util.List;
+
+public class JavaScriptJoinMethod
+{
+6    public static void main(String[] args)
+7    {
+8    List<String> listOfStrings = Arrays.asList("Facebook", "Twitter", "YouTube",
+9    "WhatsApp", "LinkedIn");
+10    String joinedString = String.join(" | ", listOfStrings);
+11    System.out.println(joinedString);
+12 }
+        </code>
+    </pre>
+    <p>Output:</p>
+    <pre class="java-code">
+        <code>
+Facebook | Twitter | YouTube | WhatsApp | LinkedIn
+        </code>
+    </pre>
+
+    <h3>Java 8 Collectors.joining():</h3>
+    <p>There are three forms of `Collectors.joining()` method available. They are,</p>
+    <pre class="java-code">
+        <code>
+1 a) Collectors.joining()
+2 b) Collectors.joining(CharSequence delimiter)
+3 c) Collectors.joining(CharSequence delimiter, CharSequence prefix, CharSequence suffix)
+        </code>
+    </pre>
+
+    <p>Collectors.joining() Example: Joining list of strings without delimiter</p>
+    <pre class="java-code">
+        <code>
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collections;
+
+public class Java8CollectorsJoining
+{
+    public static void main(String[] args)
+    {
+    List<String> listOfStrings = Arrays.asList("Facebook", "Twitter", "YouTube",
+    "WhatsApp", "LinkedIn");
+    String joinedString = listOfStrings.stream().collect(Collectors.joining());
+    System.out.println(joinedString);
+}
+        </code>
+    </pre>
+    <p>Output:</p>
+    <pre class="java-code">
+        <code>
+FacebookTwitterYouTubeWhatsAppLinkedIn
+        </code>
+    </pre>
+
+    <p>Collectors.joining() Example: Joining list of strings with delimiter</p>
+    <pre class="java-code">
+        <code>
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collections;
+
+public class Java8CollectorsJoining
+{
+    public static void main(String[] args)
+    {
+    List<String> listOfStrings = Arrays.asList("Facebook", "Twitter", "YouTube",
+    "WhatsApp", "LinkedIn");
+    String joinedString = listOfStrings.stream().collect(Collectors.joining(' |
+    "));
+    System.out.println(joinedString);
+}
+        </code>
+    </pre>
+    <p>Output:</p>
+    <pre class="java-code">
+        <code>
+Facebook | Twitter | YouTube | WhatsApp | LinkedIn
+        </code>
+    </pre>
+
+    <p>Collectors.joining() Example: Joining list of strings with delimiter, prefix and suffix</p>
+    <pre class="java-code">
+        <code>
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collections;
+
+public class Java8CollectorsJoining
+{
+    public static void main(String[] args)
+    {
+    List<String> listOfStrings = Arrays.asList("Facebook", "Twitter", "YouTube",
+    "WhatsApp", "LinkedIn");
+    String joinedString = listOfStrings.stream().collect(Collectors.joining(". ", "[",
+    "]"));
+    System.out.println(jointedString);
+}
+        </code>
+    </pre>
+    <hr>
+    <div class="card-footer">
+        <ul class="pagination justify-content-center">
+            <li class="page-item"><a class="page-link btn-outline-primary"
+                                     href="../java8/methodref.html">&lArr; Previous</a></li>
+            <li class="page-item"><a class="page-link" href="../java8/miss.html">Next
+                &rArr;</a></li>
+        </ul>
+    </div>
+</main>
+
+<!-- Footer will be inserted by JavaScript -->
+
+<!-- Scripts -->
+<script src="../js/sidebar.js"></script>
+<script src="../js/componentLoader.js"></script>
+</body>
+</html>

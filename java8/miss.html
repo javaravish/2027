@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Java Introduction</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../js/styles.css"/>
+</head>
+<body data-sidebar="java8">
+<nav>
+    <button class="mobile-sidebar-btn" id="mobileSidebarBtn">☰</button>
+    <div class="breadcrumbs">
+        <a href="../home.html">Home</a>
+        <span class="separator">/</span>
+        <a href="#">Java 8</a>
+        <span class="separator">/</span>
+        <a href="#">Introduction</a>
+    </div>
+</nav>
+
+<!-- Header will be inserted by JavaScript -->
+
+<!-- Sidebar will be inserted by JavaScript -->
+
+<!-- Main Content Section -->
+<main id="content">
+    <h2>1. Java 8 Collectors Tutorial</h2>
+    <p>Java 8 Collectors tutorial mainly consist of three things – Stream.collect() method, Collector interface and
+        Collectors class. collect() method is a terminal operation in Stream interface. Collector is an interface in
+        java.util.stream package. Collectors class, also a member of java.util.stream package, is an utility class
+        containing many static methods which perform some common reduction operations. Let's discuss them one by
+        one.</p>
+
+    <h3>1) Stream.collect() Method</h3>
+    <p>collect() method is a terminal operation in Stream interface. It is a special case of reduction operation called
+        mutable reduction operation because it returns mutable result container such as List, Set or Map according to
+        supplied Collector.</p>
+
+    <pre class="java-code">
+<code>
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class CollectorsExamples
+{
+    public static void main(String[] args)
+    {
+        List&lt;Integer&gt; numbers = Arrays.asList(8, 2, 5, 7, 3, 6);
+        //collect() method returning List of OddNumbers
+        List&lt;Integer&gt; oddNumbers = numbers.stream().filter(i -> i%2 != 0).collect(Collectors.toList());
+        System.out.println(oddNumbers);
+        //OUTPUT : [5, 7, 3]
+    }
+}
+</code>
+</pre>
+
+    <h3>2) java.util.stream.Collector Interface</h3>
+    <p>java.util.stream.Collector interface contains four functions that work together to accumulate input elements into
+        a mutable result container and optionally performs a final transformation on the result. Those four functions
+        are,</p>
+
+    <h4>a) Supplier() :</h4>
+    <p>A function that creates and returns a new mutable result container.</p>
+
+    <h4>b) accumulator() :</h4>
+    <p>A function that accumulates a value into a mutable result container.</p>
+
+    <h4>c) combiner() :</h4>
+    <p>A function that accepts two partial results and merges them.</p>
+
+    <h4>d) finisher() :</h4>
+    <p>A function that performs final transformation from the intermediate accumulation type to the final result
+        type.</p>
+
+    <h3>3) java.util.stream.Collectors Class</h3>
+    <p>java.util.stream.Collectors class contains static factory methods which perform some common reduction operations
+        such as accumulating elements into Collection, finding min, max, average, sum of elements etc. All the methods
+        of Collectors class return Collector type which will be supplied to collect() method as an argument.</p>
+
+    <table class="basic-table">
+        <thead>
+        <tr>
+            <th>Collectors.tolist()</th>
+            <th>Collectors.toSet()</th>
+            <th>Collectors.toMap()</th>
+            <th>Collectors.toCollection()</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Collectors.joining()</td>
+            <td>Collectors.counting()</td>
+            <td>Collectors.collectingAndThen()</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Collectors.maxBy()</td>
+            <td></td>
+            <td>Collectors.minBy()</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Collectors.summingInt()</td>
+            <td>Collectors.summingLong()</td>
+            <td>Collectors.summingDouble()</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Collectors.groupingBy()</td>
+            <td></td>
+            <td>Collectors.partitioningBy()</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Collectors.averagingInt()</td>
+            <td>Collectors.averagingLong()</td>
+            <td>Collectors.averagingDouble()</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Collectors.summarizingInt()</td>
+            <td>Collectors.summarizingLong()</td>
+            <td>Collectors.summarizingDouble()</td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p>Let's see Collectors class methods one by one.</p>
+    <p>In the below coding examples, we will be using following Student class and studentList.</p>
+
+    <h4>Student Class :</h4>
+
+    <pre class="java-code">
+<code>
+class Student
+{
+    String name;
+    int id;
+    String subject;
+    double percentage;
+
+    public Student(String name, int id, String subject, double percentage)
+    {
+        this.name = name;
+        this.id = id;
+        this.subject = subject;
+        this.percentage = percentage;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public int getId()
+    {
+        return id;
+    }
+
+    public String getSubject()
+    {
+        return subject;
+    }
+
+    public double getPercentage()
+    {
+        return percentage;
+    }
+
+    @Override
+    public String toString()
+    {
+        return name+"-"+id+"-"+subject+"-"+percentage;
+    }
+}
+</code>
+</pre>
+
+    <h4>studentList:</h4>
+
+    <pre class="java-code">
+<code>
+List&lt;Student&gt; studentList = new ArrayList&lt;Student&gt;();
+
+studentList.add(new Student("Paul", 11, "Economics", 78.9));
+studentList.add(new Student("Zevin", 12, "Computer Science", 91.2));
+studentList.add(new Student("Harish", 13, "History", 83.7));
+studentList.add(new Student("Xiano", 14, "Literature", 71.5));
+studentList.add(new Student("Soumya", 15, "Economics", 77.5));
+studentList.add(new Student("Asif", 16, "Mathematics", 89.4));
+studentList.add(new Student("Nihira", 17, "Computer Science", 84.6));
+studentList.add(new Student("Mitshu", 18, "History", 73.5));
+studentList.add(new Student("Vijay", 19, "Mathematics", 92.8));
+studentList.add(new Student("Harry", 20, "History", 71.9));
+</code>
+</pre>
+
+    <h4>3.1 Collectors.toList():</h4>
+    <p>It returns a Collector which collects all input elements into a new List.</p>
+    <p>Example: Collecting top 3 performing students into List</p>
+
+    <pre class="java-code">
+<code>
+List&lt;Student&gt; top3Students = studentList.stream().sorted(Comparator.comparingDouble(Student::getPercentage).reversed()).limit(3).collect(Collectors.toList());
+
+System.out.println(top3Students);
+
+//Output :
+//[Vijay-19-Mathematics-92.8, Zevin-12-Computer Science-91.2, Asif-16-Mathematics-89.4]
+</code>
+</pre>
+
+    <h4>3.2) Collectors.toSet():</h4>
+    <p>It returns a Collector which collects all input elements into a new Set.</p>
+    <p>Example: Collecting subjects offered into Set.</p>
+
+    <pre class="java-code">
+<code>
+Set&lt;String&gt; subjects = studentList.stream().map(Student::getSubject).collect(Collectors.toSet());
+
+System.out.println(subjects);
+
+//Output :
+//[Economics, Literature, Computer Science, Mathematics, History]
+</code>
+</pre>
+
+    <h4>3.3) Collectors.toMap():</h4>
+    <p>This method returns a Collector which collects input elements into a Map whose keys and values are the result of
+        applying mapping functions to input elements.</p>
+    <p>Example: Collecting name and percentage of each student into a Map</p>
+
+    <pre class="java-code">
+<code>
+Map&lt;String, Double&gt; namePercentageMap = studentList.stream().collect(Collectors.toMap(Student::getName, Student::getPercentage));
+
+System.out.println(namePercentageMap);
+
+//Output :
+//[Asif=89.4, Vijay=92.8, Zevin=91.2, Harry=71.9, Xiano=71.5, Nihira=84.6, Soumya=77.5, Mitshu=73.5, Harish=83.7, Paul=78.9]
+</code>
+</pre>
+
+    <h4>3.4) Collectors.toCollection():</h4>
+    <p>This method returns a Collector which collects all input elements into a new Collection.</p>
+    <p>Example: Collecting first 3 students into LinkedList</p>
+
+    <pre class="java-code">
+<code>
+LinkedList&lt;Student&gt; studentLinkedList = studentList.stream().limit(3).collect(Collectors.toCollection(LinkedList::new));
+
+System.out.println(studentLinkedList);
+
+//Output :
+//[Paul-11-Economics-78.9, Zevin-12-Computer Science-91.2, Harish-13-History-83.7]
+</code>
+</pre>
+
+    <h4>3.5) Collectors.joining():</h4>
+    <p>This method returns a <em>Collector</em> which concatenates input elements separated by the specified delimiter.
+    </p>
+    <p>Example : Collecting the names of all students joined as a string</p>
+
+    <pre class="java-code">
+<code>
+String namesJoined = studentList.stream().map(Student::getName).collect(Collectors.joining(", "));
+
+System.out.println(namesJoined);
+
+//Output :
+//Paul, Zevin, Harish, Xiano, Soumya, Asif, Nihira, Mitshu, Vijay, Harry
+</code>
+</pre>
+
+    <h4>3.6) Collectors.counting():</h4>
+    <p>It returns a <em>Collector</em> that counts number of input elements.</p>
+    <p>Example : Counting number of students.</p>
+
+    <pre class="java-code">
+<code>
+Long studentCount = studentList.stream().collect(Collectors.counting());
+
+System.out.println(studentCount);
+
+//Output : 10
+</code>
+</pre>
+
+    <h4>3.7) Collectors.maxBy():</h4>
+    <p>This method returns a <em>Collector</em> that collects largest element in a stream according to supplied <em>Comparator</em>.
+    </p>
+    <p>Example : Collecting highest percentage.</p>
+
+    <pre class="java-code">
+<code>
+Optional&lt;Double&gt; highPercentage = studentList.stream().map(Student::getPercentage).collect(Collectors.maxBy(Comparator.naturalOrder()));
+
+System.out.println(highPercentage);
+
+//Output : Optional[92.8]
+</code>
+</pre>
+
+    <h4>3.8) Collectors.minBy():</h4>
+    <p>This method returns a <em>Collector</em> which collects smallest element in a stream according to supplied <em>Comparator</em>.
+    </p>
+    <p>Example : Collecting lowest percentage.</p>
+
+    <pre class="java-code">
+<code>
+Optional&lt;Double&gt; lowPercentage = studentList.stream().map(Student::getPercentage).collect(Collectors.minBy(Comparator.naturalOrder()));
+
+System.out.println(lowPercentage);
+
+//Output : Optional[71.5]
+</code>
+</pre>
+
+    <h4>3.9) summingInt(), summingLong(), summingDouble()</h4>
+    <p>These methods returns a Collector which collects sum of all input elements.</p>
+    <p>Example : Collecting sum of percentages</p>
+
+    <pre class="java-code">
+<code>
+Double sumOfPercentages = studentList.stream().collect(Collectors.summingDouble(Student::getPercentage));
+
+System.out.println(sumOfPercentages);
+
+//Output : 815.0
+</code>
+</pre>
+
+    <h4>3.10) averagingInt(), averagingLong(), averagingDouble()</h4>
+    <p>These methods return a Collector which collects average of input elements.</p>
+    <p>Example : Collecting average percentage</p>
+
+    <pre class="java-code">
+<code>
+Double averagePercentage = studentList.stream().collect(Collectors.averagingDouble(Student::getPercentage));
+
+System.out.println(averagePercentage);
+
+//Output : 81.5
+</code>
+</pre>
+
+    <h4>3.11) summarizingInt(), summarizingLong(), summarizingDouble()</h4>
+    <p>These methods return a special class called Int/Long/ DoubleSummaryStatistics which contain statistical
+        information like sum, max, min, average etc of input elements.</p>
+    <p>Example : Extracting highest, lowest and average of percentage of students</p>
+
+    <pre class="java-code">
+<code>
+DoubleSummaryStatistics studentStats = studentList.stream().collect(Collectors.summarizingDouble(Student::getPercentage));
+
+System.out.println("Highest Percentage : "+studentStats.getMax());
+System.out.println("Lowest Percentage : "+studentStats.getMin());
+System.out.println("Average Percentage : "+studentStats.getAverage());
+//Output :
+//Highest Percentage : 92.8
+//Lowest Percentage : 71.5
+//Average Percentage : 81.5
+</code>
+</pre>
+
+    <h4>3.12) Collectors.groupingBy();</h4>
+    <p>This method groups the input elements according supplied classifier and returns the results in a Map.</p>
+    <p>Example : Grouping the students by subject</p>
+
+    <pre class="java-code">
+<code>
+Map&lt;String, List&lt;Student&gt;&gt; studentsGroupedBySubject = studentList.stream().collect(Collectors.groupingBy(Student::getSubject));
+
+System.out.println(studentsGroupedBySubject);
+
+//Output :
+//Economics=[Paul-11-Economics-78.9, Soumya-15-Economics-77.5],
+//Literature=[Xiano-14-Literature-71.5],
+//Computer Science=[Zevin-12-Computer Science-91.2, Nihira-17-Computer Science-84.6],
+//Mathematics=[Asif-16-Mathematics-89.4, Vijay-19-Mathematics-92.8],
+//History=[Harish-13-History-83.7, Mitshu-18-History-73.5, Harry-20-History-71.9]}
+</code>
+</pre>
+
+    <h4>3.13) Collectors.partitioningBy() :</h4>
+    <p>This method partitions the input elements according to supplied Predicate and returns a Map&lt;Boolean, List&lt;T&gt;&gt;.
+        Under the true key, you will find elements which match given Predicate and under the false key, you will find
+        the elements which doesn't match given Predicate.</p>
+    <p>Example : Partitioning the students who got above 80.0% from who don't.</p>
+
+    <pre class="java-code">
+<code>
+Map&lt;Boolean, List&lt;Student&gt;&gt; studentsPartitionedByPercentage = studentList.stream().collect(Collectors.partitioningBy(student -> student.getPercentage() > 80.0));
+
+System.out.println(studentsPartitionedByPercentage);
+
+//Output :
+//[false=[Paul-11-Economics-78.9, Xiano-14-Literature-71.5, Soumya-15-Economics-77.5, Mitshu-18-History-73.5, Harry-20-History-71.9],
+//true=[Zevin-12-Computer Science-91.2, Harish-13-History-83.7, Asif-16-Mathematics-89.4, Nihira-17-Computer Science-84.6, Vijay-19-Mathematics-92.8]}
+</code>
+</pre>
+
+    <h4>3.14) Collectors.collectingAndThen() :</h4>
+    <p>This is a special method which lets you to perform one more action on the result after collecting the result.</p>
+    <p>Example : Collecting first three students into List and making it unmodifiable</p>
+
+    <pre class="java-code">
+<code>
+List&lt;Student&gt; first3Students = studentList.stream().limit(3).collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
+
+System.out.println(first3Students);
+
+//Output :
+//[Paul-11-Economics-78.9, Zevin-12-Computer Science-91.2, Harish-13-History-83.7]
+</code>
+</pre>
+
+    <h2>Differences between Java 8 Map() Vs flatMap() :</h2>
+
+    <table class="basic-table">
+        <thead>
+        <tr>
+            <th>Map()</th>
+            <th>flatMap()</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>It processes stream of values.</td>
+            <td>It processes stream of stream of values.</td>
+        </tr>
+        <tr>
+            <td>It does only mapping.</td>
+            <td>It performs mapping as well as flattening.</td>
+        </tr>
+        <tr>
+            <td>It's mapper function produces single value for each input value.</td>
+            <td>It's mapper function produces multiple values for each input value.</td>
+        </tr>
+        <tr>
+            <td>It is a One-To-One mapping.</td>
+            <td>It is a One-To-Many mapping.</td>
+        </tr>
+        <tr>
+            <td>Data Transformation : From Stream&lt;T&gt; to Stream&lt;R&gt;</td>
+            <td>Data Transformation : From Stream&lt;Stream&lt;T&gt;&gt; to Stream&lt;R&gt;</td>
+        </tr>
+        <tr>
+            <td>Use this method when the mapper function is producing a single value for each input value.</td>
+            <td>Use this method when the mapper function is producing multiple values for each input value.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2>Java 8 map() Vs flatMap()</h2>
+
+    <h3>Map()</h3>
+    <p>It does only mapping.</p>
+    <p>It processes stream of values.</p>
+    <p>It's mapper function produces single value for each input value.</p>
+    <p>Data Transformation : From Stream&lt;T&gt; to Stream&lt;R&gt;</p>
+    <p>Use this method when the mapper function is producing single value for each input value.</p>
+
+    <h3>flatMap()</h3>
+    <p>It processes stream of stream of values.</p>
+    <p>Data Transformation : From Stream&lt;Stream&lt;T&gt;&gt; to Stream&lt;R&gt;</p>
+    <p>Use this method when the mapper function is producing multiple values for each input value.</p>
+    <p>It performs mapping as well as flattening.</p>
+    <p>It's mapper function produces multiple values for each input value.</p>
+    <p>Data Transformation : From Stream&lt;Stream&lt;T&gt;&gt; to Stream&lt;R&gt;</p>
+    <p>Use this method when the mapper function is producing multiple values for each input value.</p>
+    <hr>
+    <div class="card-footer">
+        <ul class="pagination justify-content-center">
+            <li class="page-item"><a class="page-link btn-outline-primary"
+                                     href="../java8/stringJoiner.html">&lArr; Previous</a></li>
+        </ul>
+    </div>
+</main>
+
+<!-- Footer will be inserted by JavaScript -->
+
+<!-- Scripts -->
+<script src="../js/sidebar.js"></script>
+<script src="../js/componentLoader.js"></script>
+</body>
+</html>

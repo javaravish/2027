@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Java Introduction</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../js/styles.css"/>
+</head>
+<body data-sidebar="java8">
+<nav>
+    <button class="mobile-sidebar-btn" id="mobileSidebarBtn">☰</button>
+    <div class="breadcrumbs">
+        <a href="../home.html">Home</a>
+        <span class="separator">/</span>
+        <a href="#">Java 8</a>
+        <span class="separator">/</span>
+        <a href="#">Introduction</a>
+    </div>
+</nav>
+
+<!-- Header will be inserted by JavaScript -->
+
+<!-- Sidebar will be inserted by JavaScript -->
+
+<!-- Main Content Section -->
+<main id="content">
+
+
+    <h2>5. Java 8 Optional Class</h2>
+    <p>The Optional class is a container object that may or may not contain a non-null value. It helps to avoid
+        NullPointerException by providing methods to deal with absent values more explicitly.</p>
+    <p>Key Points:</p>
+    <ul>
+        <li>Methods: isPresent(), ifPresent(), orElse(), orElseGet(), orElseThrow(), etc.</li>
+        <li>Use Case: Eliminates the need for null checks and reduces the risk of NullPointerException.</li>
+    </ul>
+
+    <h3>Java 8 Optional Class Methods & Description</h3>
+    <table class="basic-table">
+        <thead>
+        <tr>
+            <th>Methods</th>
+            <th>What it does?</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>empty()</td>
+            <td>Creates an empty Optional object.</td>
+        </tr>
+        <tr>
+            <td>of()</td>
+            <td>Creates an Optional object with specified non-null value.</td>
+        </tr>
+        <tr>
+            <td>ofNullable()</td>
+            <td>Creates an Optional object with specified value if it is non-null, otherwise returns empty Optional.
+            </td>
+        </tr>
+        <tr>
+            <td>get()</td>
+            <td>Returns value present in Optional object. If the value is absent, throws NoSuchElementException.</td>
+        </tr>
+        <tr>
+            <td>orElse()</td>
+            <td>Returns value if present, otherwise returns supplied value.</td>
+        </tr>
+        <tr>
+            <td>ifPresent()</td>
+            <td>Performs specified action if value is present, otherwise no action taken.</td>
+        </tr>
+        <tr>
+            <td>isPresent()</td>
+            <td>Checks whether value is present or not.</td>
+        </tr>
+        <tr>
+            <td>orElseGet()</td>
+            <td>Returns value if present, otherwise returns result of specified supplier.</td>
+        </tr>
+        <tr>
+            <td>orElseThrow()</td>
+            <td>Returns value if present, otherwise throws exception created by specified supplier.</td>
+        </tr>
+        <tr>
+            <td>map()</td>
+            <td>Applies given mapping function if value is present. Returns Optional containing the result. If result is
+                null, returns empty Optional.
+            </td>
+        </tr>
+        <tr>
+            <td>flatMap()</td>
+            <td>It is used when mapper function returns another Optional as a result and you don't want to wrap it in
+                another Optional.
+            </td>
+        </tr>
+        <tr>
+            <td>filter()</td>
+            <td>If value is present and matches with given predicate then it returns Optional containing the result.
+                Otherwise returns empty Optional.
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>1. Instantiation:</h3>
+    <p>Optional.empty(): It creates an empty optional object.</p>
+    <pre class="java-code">
+        <code>
+Optional<House> house = Optional.empty();
+        </code>
+    </pre>
+
+    <p>Optional.of(): It creates an Optional object with specified non-null value.</p>
+    <pre class="java-code">
+        <code>
+1 Optional<House> house = Optional.of(new House());
+        </code>
+    </pre>
+
+    <p>Optional.ofNullable() : It creates an Optional object with specified value if the value is non-null. If the value
+        is null, it returns an empty Optional.</p>
+    <pre class="java-code">
+        <code>
+1 House house = new House();
+2 Optional<House> optionalHouse = Optional.ofNullable(house);
+        </code>
+    </pre>
+
+    <h3>2. Extraction:</h3>
+    <p>get() : This method returns the value present in the Optional object. If the value is absent, throws
+        NoSuchElementException .</p>
+    <pre class="java-code">
+        <code>
+1 Optional<House> optionalHouse = Optional.of(new House());
+2 optionalHouse.get();
+        </code>
+    </pre>
+
+    <p>orElse() : It Returns the value present in the Optional object. If the value is absent, returns the supplied
+        value.</p>
+    <pre class="java-code">
+        <code>
+1 Optional<House> optionalHouse = Optional.of(new House());
+2 optionalHouse.orElse(new House());
+        </code>
+    </pre>
+
+    <p>ifPresent() : Performs the specified action if the value is present, otherwise no action taken.</p>
+    <pre class="java-code">
+        <code>
+1 Optional<House> optionalHouse = Optional.of(new House());
+2 optionalHouse.ifPresent((House house) -> house.getHouseLoan());
+        </code>
+    </pre>
+
+    <p>isPresent() : Returns true if the value is present, otherwise returns false.</p>
+    <pre class="java-code">
+        <code>
+1 Optional<House> optionalHouse = Optional.ofNullable(new House());
+2 System.out.println(optionalHouse.isPresent()); //Output : true
+        </code>
+    </pre>
+
+    <p>orElseGet() : Returns the value if the value is present, otherwise returns result of specified supplier.</p>
+    <pre class="java-code">
+        <code>
+1 Optional<House> optionalHouse = Optional.ofNullable(new House());
+2 optionalHouse.orElseGet(() -> new House());
+        </code>
+    </pre>
+
+    <p>orElseThrow() : Returns the value if the value is present, otherwise throws an exception created by the specified
+        supplier.</p>
+    <pre class="java-code">
+        <code>
+1 Optional<House> optionalHouse = Optional.ofNullable(new House());
+2 optionalHouse.orElseThrow(() -> new NoSuchElementException());
+        </code>
+    </pre>
+
+    <h3>3. Mapping & Filtering:</h3>
+    <p>map() : If the value is present, applies given mapping function to it and if the result is null, returns empty
+        Optional. Otherwise returns Optional containing the result.</p>
+    <pre class="java-code">
+        <code>
+1  Optional<House> optionalHouse = Optional.ofNullable(new House());
+2  optionalHouse.map((House house) -> house.getHouseType());
+        </code>
+    </pre>
+
+    <p>flatMap() : This method is similar to above map() method. But, it is used when mapper function returns another
+        Optional as a result and you don't want to wrap it in another Optional.</p>
+    <pre class="java-code">
+        <code>
+1  Optional<House> optionalHouse = Optional.ofNullable(new House());
+2  optionalHouse.flatMap(House::getHouseLoan).map(HouseLoan::getHouseLoanDetails);
+        </code>
+    </pre>
+
+    <p>filter() : If the value is present and that value matches with the given predicate, then it returns Optional
+        containing the result. Otherwise returns empty Optional.</p>
+    <pre class="java-code">
+        <code>
+1  Optional<House> optionalHouse = Optional.ofNullable(new House());
+2  optionalHouse.filter((House house) -> house.getHouseType() == "Heritage")
+3  .flatMap(House::getHouseLoan)
+4  .map(HouseLoan::getHouseLoanDetails);
+        </code>
+    </pre>
+    <hr>
+    <div class="card-footer">
+        <ul class="pagination justify-content-center">
+            <li class="page-item"><a class="page-link btn-outline-primary"
+                                     href="../java8/streams.html">&lArr; Previous</a></li>
+            <li class="page-item"><a class="page-link" href="../java8/methodref.html">Next
+                &rArr;</a></li>
+        </ul>
+    </div>
+</main>
+
+<!-- Footer will be inserted by JavaScript -->
+
+<!-- Scripts -->
+<script src="../js/sidebar.js"></script>
+<script src="../js/componentLoader.js"></script>
+</body>
+</html>

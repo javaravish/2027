@@ -10,7 +10,7 @@ const sidebars = {
         <li class="nav-item"><a class="nav-link" data-href="/sb/intro.html" href="#">SpringBoot</a></li>
         <li class="nav-item"><a class="nav-link" data-href="/ms/intro.html" href="#">Microservices</a></li>
         <li class="nav-item"><a class="nav-link" data-href="/kafka.html" href="#">Kafka</a></li>
-        <li class="nav-item"><a class="nav-link" data-href="/java/java8/intro.html" href="#">Java 8 Features</a></li>
+        <li class="nav-item"><a class="nav-link" data-href="/java8/intro.html" href="#">Java 8 Features</a></li>
         <li class="nav-item"><a class="nav-link" data-href="/java/cheatsheets.html" href="#">Java Cheat Sheet</a></li>
         <li class="nav-item"><a class="nav-link" data-href="/database.html" href="#">Database</a></li>
         <li class="nav-item"><a class="nav-link" data-href="/dp/intro.html" href="#">Design Patterns</a></li>
@@ -187,6 +187,23 @@ const sidebars = {
         </ul>
       </aside>
     `,
+
+    java8: `
+          <!-- Java8 Sidebar -->
+          <aside id="sidebar">
+            <ul class="menu">
+              <h4>Java 8</h4>
+              <li class="nav-item"><a class="nav-link" data-href="/java8/intro.html" href="#">Introduction</a></li>
+              <li class="nav-item"><a class="nav-link" data-href="/java8/functional.html" href="#">Functional Interface</a></li>
+              <li class="nav-item"><a class="nav-link" data-href="/java8/lambda.html" href="#">Lambda Expressions</a></li>
+              <li class="nav-item"><a class="nav-link" data-href="/java8/streams.html" href="#">Streams</a></li>
+              <li class="nav-item"><a class="nav-link" data-href="/java8/optional.html" href="#">Optional Class</a></li>
+              <li class="nav-item"><a class="nav-link" data-href="/java8/methodref.html" href="#">Method References</a></li>
+              <li class="nav-item"><a class="nav-link" data-href="/java8/stringJoiner.html" href="#">StringJoiners</a></li>
+              <li class="nav-item"><a class="nav-link" data-href="/java8/miss.html" href="#">Miscellaneous</a></li>
+            </ul>
+          </aside>
+        `,
 
   db: `
       <!-- Interview Sidebar -->
