@@ -28,14 +28,16 @@
   max-width: 100%;
   height: auto;
   display: block;
-  margin: 0 auto; /* center it */
+  margin: 0 auto;
+  margin-top: 15px;/* center it */
 }
 .responsive-img1 {
   width: 95%;   /* or 50%, 300px, etc. */
   max-width: 100%;
   height: auto;
   display: block;
-  margin: 0 auto; /* center it */
+  margin: 0 auto;
+  margin-top: 25px;/* center it */
 }
 
 /* Root Variables */
@@ -562,7 +564,7 @@ h1{
 h2 {
     font-size: 1.2rem;
     margin-top: 15px;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
 }
 
 h3 {

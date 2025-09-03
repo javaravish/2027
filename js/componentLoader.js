@@ -83,12 +83,12 @@ const components = {
   `,
 
   footer: `
+    <button class="back-to-top" id="backToTop" aria-label="Back to top"></button>
     <!-- Footer Section -->
     <footer>
       <p>© <span id="currentYear"></span>, The content is copyrighted
       to Ravi Kalyan Kolloju.</p>
     </footer>
-    <button class="back-to-top" id="backToTop" aria-label="Back to top"></button>
   `
 };
 

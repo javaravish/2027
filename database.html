@@ -19,12 +19,12 @@
 
 <!-- Main Content Section -->
 <main id="content">
-    <h3>1. What is a Database?</h3>
+    <h2>1. What is a Database?</h2>
     <p>A database is an organized collection of data that can be easily accessed, managed, and updated.</p>
     <p>Databases are used to store information like customer records, employee data, etc.</p>
     <p>Example: A table storing employee records (ID, name, salary).</p>
 
-    <h3>2. What is DBMS and RDBMS?</h3>
+    <h2>2. What is DBMS and RDBMS?</h2>
     <p>DBMS (Database Management System) is software that interacts with the user, applications, and the database to
         capture and analyze data.</p>
     <p>Examples: MySQL, Oracle, SQL Server, PostgreSQL.</p>
@@ -65,7 +65,7 @@
         </table>
     </div>
 
-    <h3>3. What is SQL?</h3>
+    <h2>3. What is SQL?</h2>
     <p>SQL (Structured Query Language) is used to interact with databases — for querying, updating, inserting, and
         deleting data.</p>
     <p>SQL (Structured Query Language) is a standard language for managing and manipulating relational databases.
@@ -77,7 +77,7 @@
   </code>
 </pre>
 
-    <h3>4. What are the types of SQL Commands?</h3>
+    <h2>4. What are the types of SQL Commands?</h2>
     <div class="table-container">
         <table class="basic-table">
             <thead>
@@ -117,7 +117,7 @@
         </table>
     </div>
 
-    <h3>5. What is a Primary Key?</h3>
+    <h2>5. What is a Primary Key?</h2>
     <p>A primary key is a column or set of columns that uniquely identifies each row in a table. It cannot contain
         NULL values and must be unique.</p>
 
@@ -130,7 +130,7 @@
   </code>
 </pre>
 
-    <h3>6. What is a Foreign Key?</h3>
+    <h2>6. What is a Foreign Key?</h2>
     <p>A foreign key is a column or set of columns that establishes a relationship between data in two tables. It
         references the primary key of another table.</p>
 
@@ -144,7 +144,7 @@
   </code>
 </pre>
 
-    <h3>7. What is Normalization?</h3>
+    <h2>7. What is Normalization?</h2>
     <p>Normalization is the process of organizing data in a database to reduce redundancy and improve data
         integrity. The main normal forms are:</p>
 
@@ -177,11 +177,11 @@
         </table>
     </div>
 
-    <h3>8. What is Denormalization?</h3>
+    <h2>8. What is Denormalization?</h2>
     <p>Denormalization is the process of combining normalized tables to improve read performance at the cost of some
         redundancy.</p>
 
-    <h3>9. What is an Index?</h3>
+    <h2>9. What is an Index?</h2>
     <p>An index is a database object that improves the speed of data retrieval operations on a table.</p>
     <p>It works like a book's index, allowing the database to find data without scanning the entire table.</p>
 
@@ -191,7 +191,7 @@
   </code>
 </pre>
 
-    <h3>10. What is a View?</h3>
+    <h2>10. What is a View?</h2>
     <p>A view is a virtual table based on the result set of an SQL statement. It doesn't store data itself but
         presents data from underlying tables.</p>
 
@@ -202,7 +202,7 @@
   </code>
 </pre>
 
-    <h3>11. What is a Stored Procedure?</h3>
+    <h2>11. What is a Stored Procedure?</h2>
     <p>A stored procedure is a group of SQL statements stored in the database and executed as a unit.</p>
     <p>A stored procedure is a prepared SQL code that you can save and reuse. It can accept parameters and return
         values, improving performance and security.</p>
@@ -216,7 +216,7 @@
   </code>
 </pre>
 
-    <h3>12. What is a Trigger?</h3>
+    <h2>12. What is a Trigger?</h2>
     <p>A trigger is a special kind of stored procedure that automatically executes when an event (INSERT, UPDATE,
         DELETE) occurs on a table.</p>
 
@@ -229,7 +229,7 @@
   </code>
 </pre>
 
-    <h3>13. What is the difference between WHERE and HAVING ?</h3>
+    <h2>13. What is the difference between WHERE and HAVING ?</h2>
     <ul>
         <li>WHERE filters rows before grouping (GROUP BY)</li>
         <li>HAVING filters groups after the GROUP BY clause</li>
@@ -269,7 +269,7 @@
   </code>
 </pre>
 
-    <h3>14. What is a Join? What are its types?</h3>
+    <h2>14. What is a Join? What are its types?</h2>
     <p><strong>Joins</strong> combine rows from two or more tables based on a related column.</p>
     <ul>
         <li><strong>INNER JOIN</strong>: Returns matching rows from both tables</li>
@@ -287,7 +287,7 @@
   </code>
 </pre>
 
-    <h3>15. What is the difference between DELETE and TRUNCATE and DROP?</h3>
+    <h2>15. What is the difference between DELETE and TRUNCATE and DROP?</h2>
     <ul>
         <li><strong>DELETE</strong>: Removes rows from a table (can be rolled back, can have WHERE clause)</li>
         <li><strong>TRUNCATE</strong>: Removes all rows from a table (faster than DELETE, cannot be rolled back)
@@ -324,7 +324,7 @@
         </table>
     </div>
 
-    <h3>16. What is ACID in DBMS?</h3>
+    <h2>16. What is ACID in DBMS?</h2>
     <p>A transaction is a sequence of operations performed as a single logical unit of work. It follows ACID
         properties:</p>
 
@@ -362,7 +362,7 @@
         </table>
     </div>
 
-    <h3>17. What is a Transaction?</h3>
+    <h2>17. What is a Transaction?</h2>
     <p>A transaction is a sequence of one or more SQL operations performed as a single unit of work.</p>
 
     <pre class="sql-code">
@@ -376,7 +376,7 @@
   </code>
 </pre>
 
-    <h3>18. Difference between SQL and NoSQL</h3>
+    <h2>18. Difference between SQL and NoSQL</h2>
     <div class="table-container">
         <table class="basic-table">
             <thead>
@@ -410,13 +410,13 @@
             </tbody>
         </table>
     </div>
-    <h3>19. What is the difference between UNION and UNION ALL?</h3>
+    <h2>19. What is the difference between UNION and UNION ALL?</h2>
     <ul>
         <li>UNION combines results of two queries and removes duplicates</li>
         <li>UNION ALL combines results including duplicates (faster than UNION)</li>
     </ul>
 
-    <h3>20. What are aggregate functions in SQL?</h3>
+    <h2>20. What are aggregate functions in SQL?</h2>
     <p>Aggregate functions perform calculations on sets of values:</p>
     <ul>
         <li>COUNT(): Counts rows</li>
@@ -426,7 +426,7 @@
         <li>MIN(): Finds minimum value</li>
     </ul>
 
-    <h3>21. What is a constraint?</h3>
+    <h2>21. What is a constraint?</h2>
     <p>Answer:</p>
     <p>A constraint is used to enforce rules on the data in a table.</p>
     <p>Types:</p>
@@ -439,7 +439,7 @@
         <li>DEFAULT</li>
     </ul>
 
-    <h3>22. What is the difference between UNION and UNION ALL?</h3>
+    <h2>22. What is the difference between UNION and UNION ALL?</h2>
     <div class="table-container">
         <table class="basic-table">
             <thead>
@@ -463,37 +463,36 @@
             </tbody>
         </table>
     </div>
-    <br>
     <hr>
-    <h3>1. Write a query to fetch all columns from a table.</h3>
+    <h2>1. Write a query to fetch all columns from a table.</h2>
     <pre class="sql-code">
   <code>
     <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> employees;
   </code>
 </pre>
 
-    <h3>2. How to fetch specific columns from a table?</h3>
+    <h2>2. How to fetch specific columns from a table?</h2>
     <pre class="sql-code">
   <code>
     <span class="keyword">SELECT</span> id, name, salary <span class="keyword">FROM</span> employees;
   </code>
 </pre>
 
-    <h3>3. Write a query to fetch unique job titles.</h3>
+    <h2>3. Write a query to fetch unique job titles.</h2>
     <pre class="sql-code">
   <code>
     <span class="keyword">SELECT DISTINCT</span> job_title <span class="keyword">FROM</span> employees;
   </code>
 </pre>
 
-    <h3>4. How to filter rows using a condition?</h3>
+    <h2>4. How to filter rows using a condition?</h2>
     <pre class="sql-code">
   <code>
     <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> employees <span class="keyword">WHERE</span> salary > 50000;
   </code>
 </pre>
 
-    <h3>5. How to use AND/OR in WHERE clause?</h3>
+    <h2>5. How to use AND/OR in WHERE clause?</h2>
     <pre class="sql-code">
   <code>
     <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> employees <span class="keyword">WHERE</span> salary > 50000 <span
@@ -503,7 +502,7 @@
   </code>
 </pre>
 
-    <h3>6. How to use BETWEEN to filter a range?</h3>
+    <h2>6. How to use BETWEEN to filter a range?</h2>
     <pre class="sql-code">
   <code>
     <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> employees <span class="keyword">WHERE</span> salary <span
@@ -511,7 +510,7 @@
   </code>
 </pre>
 
-    <h3>7. How to filter values using IN?</h3>
+    <h2>7. How to filter values using IN?</h2>
     <pre class="sql-code">
   <code>
     <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> employees <span class="keyword">WHERE</span> department <span
@@ -519,7 +518,7 @@
   </code>
 </pre>
 
-    <h3>8. How to sort records in ascending/descending order?</h3>
+    <h2>8. How to sort records in ascending/descending order?</h2>
     <pre class="sql-code">
   <code>
     <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> employees <span
@@ -529,14 +528,14 @@
   </code>
 </pre>
 
-    <h3>9. How to count the number of rows in a table?</h3>
+    <h2>9. How to count the number of rows in a table?</h2>
     <pre class="sql-code">
   <code>
     <span class="keyword">SELECT</span> <span class="function">COUNT</span>(*) <span class="keyword">FROM</span> employees;
   </code>
 </pre>
 
-    <h3>10. How to get the maximum and minimum salary?</h3>
+    <h2>10. How to get the maximum and minimum salary?</h2>
     <pre class="sql-code">
   <code>
     <span class="keyword">SELECT</span> <span class="function">MAX</span>(salary) <span class="keyword">FROM</span> employees;
@@ -544,14 +543,14 @@
   </code>
 </pre>
 
-    <h3>11. How to get the average salary?</h3>
+    <h2>11. How to get the average salary?</h2>
     <pre class="sql-code">
   <code>
     <span class="keyword">SELECT</span> <span class="function">AVG</span>(salary) <span class="keyword">FROM</span> employees;
   </code>
 </pre>
 
-    <h3>12. How to rename a column in the result?</h3>
+    <h2>12. How to rename a column in the result?</h2>
     <pre class="sql-code">
   <code>
     <span class="keyword">SELECT</span> salary <span class="keyword">AS</span> monthly_salary <span
@@ -559,7 +558,7 @@
   </code>
 </pre>
 
-    <h3>13. How to get total salary grouped by department?</h3>
+    <h2>13. How to get total salary grouped by department?</h2>
     <pre class="sql-code">
   <code>
     <span class="keyword">SELECT</span> department, <span class="function">SUM</span>(salary) <span
@@ -567,7 +566,7 @@
   </code>
 </pre>
 
-    <h3>14. How to get departments with more than 5 employees?</h3>
+    <h2>14. How to get departments with more than 5 employees?</h2>
     <pre class="sql-code">
   <code>
     <span class="keyword">SELECT</span> department, <span class="function">COUNT</span>(*) <span
@@ -576,7 +575,7 @@
   </code>
 </pre>
 
-    <h3>15. How to fetch top 3 highest salaries?</h3>
+    <h2>15. How to fetch top 3 highest salaries?</h2>
     <pre class="sql-code">
   <code>
     <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> employees <span
@@ -584,7 +583,7 @@
   </code>
 </pre>
 
-    <h3>16. How to update a record?</h3>
+    <h2>16. How to update a record?</h2>
     <pre class="sql-code">
   <code>
     <span class="keyword">UPDATE</span> employees <span class="keyword">SET</span> salary = salary + 5000 <span
@@ -592,14 +591,14 @@
   </code>
 </pre>
 
-    <h3>17. How to delete records from a table?</h3>
+    <h2>17. How to delete records from a table?</h2>
     <pre class="sql-code">
   <code>
     <span class="keyword">DELETE FROM</span> employees <span class="keyword">WHERE</span> department = 'Temp';
   </code>
 </pre>
 
-    <h3>18. How to insert a new row?</h3>
+    <h2>18. How to insert a new row?</h2>
     <pre class="sql-code">
   <code>
     <span class="keyword">INSERT INTO</span> employees (id, name, salary, department)
@@ -607,7 +606,7 @@
   </code>
 </pre>
 
-    <h3>19. What does IS NULL and IS NOT NULL do?</h3>
+    <h2>19. What does IS NULL and IS NOT NULL do?</h2>
     <pre class="sql-code">
   <code>
     <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> employees <span class="keyword">WHERE</span> manager_id <span
@@ -617,7 +616,7 @@
   </code>
 </pre>
 
-    <h3>20. How to get the second highest salary?</h3>
+    <h2>20. How to get the second highest salary?</h2>
     <pre class="sql-code">
   <code>
     <span class="keyword">SELECT</span> <span class="function">MAX</span>(salary) <span class="keyword">FROM</span> employees
@@ -626,9 +625,8 @@
   </code>
 </pre>
 
-    <br>
     <hr>
-    <h3>SQL Keywords with description</h3>
+    <h2>3. SQL Keywords with description</h2>
     <div class="table-container">
         <table class="basic-table">
             <thead>
@@ -823,10 +821,9 @@
             </tbody>
         </table>
     </div>
-    <br>
     <hr>
     <div class="table-container">
-        <h3>SQL vs MongoDB</h3>
+        <h2>4. SQL vs MongoDB</h2>
         <p>Comprehensive comparison between Oracle SQL Database and MongoDB, covering architecture, features, usage,
             performance, and more:</p>
         <table class="basic-table">
@@ -971,9 +968,8 @@
             </tbody>
         </table>
     </div>
-    <br>
     <hr>
-    <h3>SQL JOINS</h3>
+    <h2>5. SQL JOINS</h2>
     <p>JOINS are used to combine rows from two or more tables based on a related column between them.</p>
 
     <h3>Sample Tables Used</h3>
@@ -1011,7 +1007,6 @@
             </tbody>
         </table>
     </div>
-    <br>
     <p>departments Table</p>
     <div class="table-container">
         <table class="basic-table">
@@ -1052,7 +1047,6 @@
     <span class="keyword">INNER JOIN</span> departments d <span class="keyword">ON</span> e.dept_id = d.dept_id;
   </code>
 </pre>
-    <br>
     <p>✔ Output:</p>
     <div class="table-container">
         <table class="basic-table">
@@ -1092,7 +1086,6 @@
     <span class="keyword">LEFT JOIN</span> departments d <span class="keyword">ON</span> e.dept_id = d.dept_id;
   </code>
 </pre>
-    <br>
     <p>✔ Output:</p>
     <div class="table-container">
         <table class="basic-table">
@@ -1136,7 +1129,6 @@
     <span class="keyword">RIGHT JOIN</span> departments d <span class="keyword">ON</span> e.dept_id = d.dept_id;
   </code>
 </pre>
-    <br>
     <p>📌 Output:</p>
     <div class="table-container">
         <table class="basic-table">
@@ -1185,7 +1177,6 @@
     <span class="keyword">RIGHT JOIN</span> departments d <span class="keyword">ON</span> e.dept_id = d.dept_id;
   </code>
 </pre>
-    <br>
     <p>📌 Output:</p>
     <div class="table-container">
         <table class="basic-table">
@@ -1230,7 +1221,6 @@
     <span class="keyword">CROSS JOIN</span> departments d;
   </code>
 </pre>
-    <br>
     <p>📌 Output (4 employees x 4 departments = 16 rows):</p>
     <div class="table-container">
         <table class="basic-table">
@@ -1335,6 +1325,8 @@
             </tbody>
         </table>
     </div>
+    <br>
+    <br>
 </main>
 
 <!-- Scripts -->

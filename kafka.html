@@ -19,7 +19,7 @@
 
 <!-- Main Content Section -->
 <main id="content">
-    <h3>1. Introduction to Apache Kafka</h3>
+    <h2>1. Introduction to Apache Kafka</h2>
 
     <p>Apache Kafka is an <strong>open-source, distributed event streaming platform</strong> designed for
         high-performance data pipelines, streaming analytics, data integrations, and mission-critical applications. It's
@@ -29,7 +29,7 @@
         sources like databases, sensors, mobile devices, cloud services, and software applications in in the form of
         streams of events."</p>
     <hr>
-    <h3>2. Key Features and Advantages of Kafka</h3>
+    <h2>2. Key Features and Advantages of Kafka</h2>
 
     <p>Kafka boasts several powerful features that make it a robust solution for real-time data processing:</p>
 
@@ -69,7 +69,7 @@
         </li>
     </ol>
     <hr>
-    <h3>3. Kafka Use Cases</h3>
+    <h2>3. Kafka Use Cases</h2>
 
     <p>Kafka is widely used across various industries for:</p>
 
@@ -103,7 +103,7 @@
         </li>
     </ol>
     <hr>
-    <h3>4. Kafka Key Components</h3>
+    <h2>4. Kafka Key Components</h2>
 
     <p>Understanding these core concepts is crucial for working with Kafka:</p>
 
@@ -129,11 +129,10 @@
         <li><strong>Partitions Offset</strong>: "A unique ID for each message in a partition. Consumers use offsets to
             track read progress." Offsets are crucial for consumers to track their position, know which messages they've
             consumed, and resume consumption from the last committed offset if they crash or restart.
-        </li>
-        <p>An offset is a unique identifier for a message within a partition.</p>
-        <p>Kafka stores messages in partitions in a sequential log.</p>
-        <p>Each message in a partition has an increasing offset like 0, 1, 2, 3, ....</p>
-        <p>Consumers track offsets to know what message to read next.</p>
+            <p>An offset is a unique identifier for a message within a partition.</p>
+            <p>Kafka stores messages in partitions in a sequential log.</p>
+            <p>Each message in a partition has an increasing offset like 0, 1, 2, 3, ....</p>
+            <p>Consumers track offsets to know what message to read next.</p>
     </ol>
 
     <pre class="java-code">
@@ -177,7 +176,7 @@ props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         class="comment"># or latest</span>
 </code>
 </pre>
-
+    </li>
     <ol start="6">
         <li><strong>Producers</strong>: A client that publishes (writes) data (messages/events) to one or more Kafka
             topics. Producers decide which partition to write to. Producers send messages asynchronously and serialize
@@ -186,26 +185,25 @@ props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
         <li><strong>Consumers</strong>: A client that subscribes (reads) messages from one or more Kafka topics. Can be
             part of a consumer group for load balancing.
+            <p>Consumers always read data from lower to higher offsets.</p>
+            <p>If a consumer reads from multiple partitions, message order is not guaranteed across partitions.</p>
+            <p>Consumers deserialize data from byte format into usable data structures.</p>
+            <p>Consumers are assigned to specific partitions for parallel processing and scalability.</p>
+            <p>Consumers acknowledge message receipt and commit offsets to ensure reliable, at-least-once message
+                delivery.</p>
         </li>
-        <p>Consumers always read data from lower to higher offsets.</p>
-        <p>If a consumer reads from multiple partitions, message order is not guaranteed across partitions.</p>
-        <p>Consumers deserialize data from byte format into usable data structures.</p>
-        <p>Consumers are assigned to specific partitions for parallel processing and scalability.</p>
-        <p>Consumers acknowledge message receipt and commit offsets to ensure reliable, at-least-once message
-            delivery.</p>
         <li><strong>Acknowledgement Settings (acks)</strong> Producers can configure acks to control message delivery
             durability and reliability:
+
+            <p><strong>acks=0:</strong> Producer sends data without waiting for acknowledgement. Possible data loss.</p>
+
+            <p><strong>acks=1</strong> (Default in Kafka 2.0+): Leader broker acknowledges receipt. Limited data loss
+                possible
+                if leader fails before replicas synchronize.</p>
+
+            <p><strong>acks=all:</strong> Leader waits for all in-sync replicas to acknowledge before responding to the
+                producer. No data loss.</p>
         </li>
-
-        <p><strong>acks=0:</strong> Producer sends data without waiting for acknowledgement. Possible data loss.</p>
-
-        <p><strong>acks=1</strong> (Default in Kafka 2.0+): Leader broker acknowledges receipt. Limited data loss
-            possible
-            if leader fails before replicas synchronize.</p>
-
-        <p><strong>acks=all:</strong> Leader waits for all in-sync replicas to acknowledge before responding to the
-            producer. No data loss.</p>
-
         <li><strong>Message Keys</strong>
             partitions in a
             round-robin fashion. If a key is provided, messages with the same key are always sent to and stored
@@ -221,30 +219,28 @@ props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
             contain
             multiple consumers, processing subsets of messages, which facilitates scalability and load
             distribution.
+            <p><strong>Consumer Behavior with Partitions: Single Consumer, Multiple Partitions:</strong> A
+                single consumer
+                in a
+                group will consume all partitions of a topic.</p>
+
+            <p><strong>Multiple Consumers, Multiple Partitions (Consumers <= Partitions):</strong> Kafka
+                auto-balances,
+                assigning partitions to consumers for load distribution. Each partition is consumed by only one
+                consumer
+                within
+                a group at a time.</p>
+
+            <p><strong>Multiple Consumers, Multiple Partitions (Consumers > Partitions):</strong> All partitions
+                will be
+                consumed, and any excess consumers will sit idle.</p>
+
+            <p><strong>Multiple Consumer Groups:</strong> Each consumer group independently consumes from the
+                topic's
+                partitions.</p>
+
+            <img src="js/images/kafka/consumer_grp.png" class="responsive-img">
         </li>
-
-        <p><strong>Consumer Behavior with Partitions: Single Consumer, Multiple Partitions:</strong> A
-            single consumer
-            in a
-            group will consume all partitions of a topic.</p>
-
-        <p><strong>Multiple Consumers, Multiple Partitions (Consumers <= Partitions):</strong> Kafka
-            auto-balances,
-            assigning partitions to consumers for load distribution. Each partition is consumed by only one
-            consumer
-            within
-            a group at a time.</p>
-
-        <p><strong>Multiple Consumers, Multiple Partitions (Consumers > Partitions):</strong> All partitions
-            will be
-            consumed, and any excess consumers will sit idle.</p>
-
-        <p><strong>Multiple Consumer Groups:</strong> Each consumer group independently consumes from the
-            topic's
-            partitions.</p>
-
-        <img src="js/images/kafka/consumer_grp.png" class="responsive-img">
-        <br>
         <li><strong>Leader/Follower Replications</strong>
             Each partition has one leader and multiple followers. Leaders handle all read and write
             requests for their
@@ -253,12 +249,10 @@ props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
             leaders perform all reads and writes to a particular topic partition. followers replicate
             leaders.
         </li>
-        <br>
         <img src="js/images/kafka/replica.png" class="responsive-img">
     </ol>
-    <br>
     <hr>
-    <h3>5. Zookeeper and Kafka (Legacy vs. Current)</h3>
+    <h2>5. Zookeeper and Kafka (Legacy vs. Current)</h2>
 
     <ul>
         <li><strong>Zookeeper (Legacy):</strong> Traditionally, Zookeeper acted as a distributed coordination service in
@@ -276,7 +270,7 @@ props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
     <img src="js/images/kafka/arc.png" class="responsive-img">
     <hr>
-    <h3>6. Spring Boot Kafka Integration</h3>
+    <h2>6. Spring Boot Kafka Integration</h2>
 
     <p>The tutorial demonstrates how to integrate Apache Kafka with Spring Boot, focusing on setting up producers and
         consumers.</p>
@@ -293,7 +287,7 @@ props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
     </p>
 
     <p><strong>Start Kafka Server: </strong> kafka-server-start.sh &lt;path_to_server.properties&gt;</p>
-
+    <hr>
     <h3>6.2 Producer Configuration and Service</h3>
 
     <p><strong>Dependencies: </strong> Spring Web and Kafka dependencies are required.</p>
@@ -501,7 +495,6 @@ props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 <span class="var">kafkaTemplate</span>.send(<span class="string">"payment-topic"</span>, <span class="string">"Rs 300 paid"</span>);
 </code>
 </pre>
-    <br>
     <hr>
     <h3>6.3 Consumer Configuration and Service</h3>
 
@@ -567,7 +560,6 @@ props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 }
 </code>
 </pre>
-    <br>
     <p><strong>ConsumerService Class: </strong> Uses @KafkaListener annotation to listen for messages:</p>
 
     <p><strong>@KafkaListener(topics = "payment-topic", groupId = "group-id"): </strong> Basic listener for a topic
@@ -650,7 +642,6 @@ props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
     <p>All listeners use the <strong>same group ID,</strong> hence each thread handles <strong>exclusive
         partitions.</strong></p>
-    <br>
     <hr>
     <h3>6.4 Producing and Consuming Custom Messages</h3>
 
@@ -741,7 +732,6 @@ props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
     <p><strong>Consumer Group ID:</strong> For custom message consumption, ensure a unique group.id is defined for each
         consumer group to correctly identify and coordinate consumers.</p>
-    <br>
     <hr>
     <h3>6.5 Consumer Partition Rebalance</h3>
 
@@ -751,7 +741,7 @@ props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
     <p><strong>Rebalancing</strong> involves changing partition ownership from one consumer to another to distribute the
         workload evenly among active consumers in the group. This ensures efficient parallel processing as consumers are
         assigned specific partitions.</p>
-
+    <hr>
     <h3>6.6 Committing Offsets</h3>
 
     <ul>
@@ -783,7 +773,7 @@ props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
             application's reliability and performance requirements.
         </li>
     </ul>
-
+    <hr>
     <h3>6.7 Error Handling in Kafka Consumers</h3>
 
     <p>Spring for Apache Kafka provides robust error handling mechanisms:</p>
@@ -928,6 +918,8 @@ props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
     </ul>
 
     <p>You can override topic names if needed.</p>
+    <br>
+    <br>
 </main>
 
 <!-- Scripts -->
