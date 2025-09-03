@@ -21,12 +21,10 @@
 
 <!-- Main Content Section -->
 <main id="content">
-    <h3>Actuator</h3>
+    <h2>1. Introduction to Actuator</h2>
     <p>Spring Boot Actuator is a powerful module that provides production-ready features to help you monitor and manage
         your Spring Boot application. It exposes various endpoints that give insight into your application's health,
         metrics, info, and more.</p>
-
-    <h3>1. Introduction to Actuator</h3>
     <p>Spring Boot Actuator provides:</p>
     <ul>
         <li>Built-in endpoints for monitoring application health and metrics</li>
@@ -36,8 +34,8 @@
         <li>And much more</li>
     </ul>
     <p>These features are essential for running applications in production environments.</p>
-
-    <h3>2. Setting Up Actuator</h3>
+    <hr>
+    <h2>2. Setting Up Actuator</h2>
     <h3>Basic Setup</h3>
     <p>Add the following dependency to your <code>pom.xml</code> :</p>
     <pre class="code-block">
@@ -45,7 +43,7 @@
 <span class="tag">&lt;dependency&gt;</span>
   <span class="tag">&lt;groupId&gt;</span>org.springframework.boot<span class="tag">&lt;/groupId&gt;</span>
   <span class="tag">&lt;artifactId&gt;</span>spring-boot-starter-actuator<span
-      class="tag">&lt;/artifactId&gt;</span>
+          class="tag">&lt;/artifactId&gt;</span>
 <span class="tag">&lt;/dependency&gt;</span>
   </code>
 </pre>
@@ -101,8 +99,8 @@
 <span class="key">management.endpoint.loggers.enabled</span>=<span class="value">true</span>
   </code>
 </pre>
-
-    <h3>3. Actuator Endpoints</h3>
+    <hr>
+    <h2>3. Actuator Endpoints</h2>
     <p>Here are some important built-in endpoints:</p>
     <p>Some of the important and widely used actuator endpoints are given below:</p>
 
@@ -226,8 +224,8 @@
             </tbody>
         </table>
     </div>
-
-    <h3>4. Customizing Endpoints</h3>
+    <hr>
+    <h2>4. Customizing Endpoints</h2>
     <h3>4.1 Custom Health Indicators</h3>
     <pre class="java-code">
   <code>
@@ -237,7 +235,7 @@
 
 <span class="annotation">@Component</span>
 <span class="keyword">public class</span> <span class="class">CustomHealthIndicator</span> <span class="keyword">implements</span> <span
-      class="class">HealthIndicator</span> {
+          class="class">HealthIndicator</span> {
     <span class="annotation">@Override</span>
     <span class="keyword">public</span> <span class="class">Health</span> <span class="method">health</span>() {
         <span class="comment">// Custom logic to check health</span>
@@ -246,14 +244,14 @@
             <span class="keyword">return</span> <span class="class">Health</span>.down()
                 .withDetail(<span class="string">"Error Code"</span>, <span class="number">503</span>)
                 .withException(<span class="keyword">new</span> <span class="class">RuntimeException</span>(<span
-      class="string">"Service not available"</span>))
+          class="string">"Service not available"</span>))
                 .build();
         }
         <span class="keyword">return</span> <span class="class">Health</span>.up().build();
     }
 
     <span class="keyword">private</span> <span class="class">boolean</span> <span
-      class="method">checkServiceHealth</span>() {
+          class="method">checkServiceHealth</span>() {
         <span class="comment">// Implement actual health check</span>
         <span class="keyword">return</span> <span class="keyword">true</span>;
     }
@@ -270,17 +268,17 @@
 
 <span class="annotation">@Component</span>
 <span class="keyword">public class</span> <span class="class">CustomInfoContributor</span> <span class="keyword">implements</span> <span
-      class="class">InfoContributor</span> {
+          class="class">InfoContributor</span> {
 
     <span class="annotation">@Override</span>
     <span class="keyword">public</span> <span class="class">void</span> <span class="method">contribute</span>(<span
-      class="class">Info</span>.<span class="class">Builder</span> <span class="var">builder</span>) {
+          class="class">Info</span>.<span class="class">Builder</span> <span class="var">builder</span>) {
         <span class="var">builder</span>.withDetail(<span class="string">"app"</span>,
             <span class="class">Collections</span>.singletonMap(<span class="string">"description"</span>, <span
-      class="string">"My Spring Boot Application"</span>));
+          class="string">"My Spring Boot Application"</span>));
         <span class="var">builder</span>.withDetail(<span class="string">"system"</span>,
             <span class="class">Collections</span>.singletonMap(<span class="string">"time"</span>, <span
-      class="class">System</span>.currentTimeMillis()));
+          class="class">System</span>.currentTimeMillis()));
     }
 }
   </code>
@@ -299,9 +297,9 @@
     <span class="keyword">private final</span> <span class="class">Counter</span> <span class="var">myCounter</span>;
 
     <span class="keyword">public</span> <span class="method">MyService</span>(<span
-      class="class">MeterRegistry</span> <span class="var">meterRegistry</span>) {
+          class="class">MeterRegistry</span> <span class="var">meterRegistry</span>) {
         <span class="var">myCounter</span> = <span class="var">meterRegistry</span>.counter(<span class="string">"my.counter"</span>, <span
-      class="string">"type"</span>, <span class="string">"demo"</span>);
+          class="string">"type"</span>, <span class="string">"demo"</span>);
     }
 
     <span class="keyword">public</span> <span class="class">void</span> <span class="method">doSomething</span>() {
@@ -311,8 +309,8 @@
 }
   </code>
 </pre>
-
-    <h3>5. Security Considerations</h3>
+    <hr>
+    <h2>5. Security Considerations</h2>
     <p>It's important to secure your actuator endpoints:</p>
     <pre class="java-code">
   <code>
@@ -322,12 +320,12 @@
 
 <span class="annotation">@Configuration</span>
 <span class="keyword">public class</span> <span class="class">SecurityConfig</span> <span
-      class="keyword">extends</span> <span class="class">WebSecurityConfigurerAdapter</span> {
+          class="keyword">extends</span> <span class="class">WebSecurityConfigurerAdapter</span> {
 
     <span class="annotation">@Override</span>
     <span class="keyword">protected</span> <span class="class">void</span> <span
-      class="method">configure</span>(<span class="class">HttpSecurity</span> <span class="var">http</span>) <span
-      class="keyword">throws</span> <span class="class">Exception</span> {
+          class="method">configure</span>(<span class="class">HttpSecurity</span> <span class="var">http</span>) <span
+          class="keyword">throws</span> <span class="class">Exception</span> {
         <span class="var">http</span>
             .authorizeRequests()
             .antMatchers(<span class="string">"/actuator/health"</span>).permitAll()
@@ -339,9 +337,7 @@
 }
   </code>
 </pre>
-    <br>
     <hr>
-    <br>
     <div class="card-footer">
         <ul class="pagination justify-content-center">
             <li class="page-item"><a class="page-link btn-outline-primary"

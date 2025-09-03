@@ -21,8 +21,7 @@
 
 <!-- Main Content Section -->
 <main id="content">
-    <h2>Testing in Spring Boot</h2>
-    <h3>1. Types of Testing in Spring Boot</h3>
+    <h2>1. Types of Testing in Spring Boot</h2>
     <p>Spring Boot applications (and microservices) typically require:</p>
     <ol>
         <li><strong>Unit Testing</strong> → Testing individual classes (service, repository, controller logic).</li>
@@ -35,7 +34,7 @@
         <li><strong>Resilience Testing</strong> → Retry, Circuit Breaker, Rate Limiter scenarios.</li>
     </ol>
     <hr>
-    <h3>2. Dependencies for Testing</h3>
+    <h2>2. Dependencies for Testing</h2>
     <p>Add to pom.xmL :</p>
     <pre class="code-block">
 <code>
@@ -68,9 +67,10 @@
   <span class="tag">&lt;/dependency&gt;</span>
 <span class="tag">&lt;/dependencies&gt;</span></code>
   </pre>
-  <h3>3. Unit Testing in Spring Boot</h3>
-  <p>Example: Service Layer Test with Mockito</p>
-  <pre class="java-code">
+    <hr>
+    <h2>3. Unit Testing in Spring Boot</h2>
+    <p>Example: Service Layer Test with Mockito</p>
+    <pre class="java-code">
 <code>
 <span class="comment">// Unit Test for UserService using Mockito & AssertJ</span>
 <span class="keyword">import static</span> org.mockito.Mockito.*;
@@ -85,37 +85,38 @@
 
     <span class="annotation">@Mock</span>
     <span class="keyword">private</span> <span class="class">UserRepository</span> <span
-      class="var">userRepository</span>;
+        class="var">userRepository</span>;
 
     <span class="annotation">@InjectMocks</span>
     <span class="keyword">private</span> <span class="class">UserService</span> <span class="var">userService</span>;
 
     <span class="comment">// Constructor to initialize mocks</span>
     <span class="keyword">public</span> <span class="class">UserServiceTest</span>() {
-        <span class="class">MockitoAnnotations</span>.<span class="method">openMocks</span>(<span class="keyword">this</span>);
+        <span class="class">MockitoAnnotations</span>.<span class="method">openMocks</span>(<span
+        class="keyword">this</span>);
     }
 
     <span class="annotation">@Test</span>
     <span class="keyword">void</span> <span class="method">testCreateUser</span>() {
         <span class="class">User</span> <span class="var">user</span> = <span class="keyword">new</span> <span
-      class="class">User</span>(1L, <span class="string">"Ravi"</span>);
+        class="class">User</span>(1L, <span class="string">"Ravi"</span>);
         <span class="class">when</span>(<span class="var">userRepository</span>.<span
-      class="method">save</span>(<span class="class">any</span>(<span class="class">User</span>.<span
-      class="keyword">class</span>)))
+        class="method">save</span>(<span class="class">any</span>(<span class="class">User</span>.<span
+        class="keyword">class</span>)))
             .<span class="method">thenReturn</span>(<span class="var">user</span>);
         <span class="class">User</span> <span class="var">saved</span> = <span class="var">userService</span>.<span
-      class="method">createUser</span>(<span class="string">"Ravi"</span>);
+        class="method">createUser</span>(<span class="string">"Ravi"</span>);
         <span class="class">assertThat</span>(<span class="var">saved</span>.<span class="method">getName</span>())
             .<span class="method">isEqualTo</span>(<span class="string">"Ravi"</span>);
         <span class="class">verify</span>(<span class="var">userRepository</span>, <span class="class">times</span>(1))
             .<span class="method">save</span>(<span class="class">any</span>(<span class="class">User</span>.<span
-      class="keyword">class</span>));
+        class="keyword">class</span>));
     }
 }
   </code>
 </pre>
-
-    <h3>4. Testing REST Controllers</h3>
+    <hr>
+    <h2>4. Testing REST Controllers</h2>
     <p>Spring Boot provides @WebMycTest for controller testing.</p>
     <pre class="java-code">
   <code>
@@ -129,27 +130,29 @@
 <span class="keyword">import</span> org.springframework.test.web.servlet.<span class="class">MockMvc</span>;
 
 <span class="annotation">@WebMvcTest</span>(<span class="class">UserController</span>.<span
-      class="keyword">class</span>)
+          class="keyword">class</span>)
 <span class="keyword">class</span> <span class="class">UserControllerTest</span> {
 
     <span class="annotation">@Autowired</span>
     <span class="keyword">private</span> <span class="class">MockMvc</span> <span class="var">mockMvc</span>;
 
     <span class="annotation">@Test</span>
-    <span class="keyword">void</span> <span class="method">testGetUser</span>() <span class="keyword">throws</span> <span
-      class="class">Exception</span> {
+    <span class="keyword">void</span> <span class="method">testGetUser</span>() <span
+          class="keyword">throws</span> <span
+          class="class">Exception</span> {
         <span class="var">mockMvc</span>.<span class="method">perform</span>(<span class="method">get</span>(<span
-      class="string">"/users/1"</span>))
+          class="string">"/users/1"</span>))
                .<span class="method">andExpect</span>(<span class="class">status</span>().<span
-      class="method">isOk</span>())
-               .<span class="method">andExpect</span>(<span class="class">content</span>().<span class="method">string</span>(<span
-      class="string">"User-1"</span>));
+          class="method">isOk</span>())
+               .<span class="method">andExpect</span>(<span class="class">content</span>().<span
+          class="method">string</span>(<span
+          class="string">"User-1"</span>));
     }
 }
   </code>
 </pre>
-
-    <h3>5. Integration Testing with DB</h3>
+    <hr>
+    <h2>5. Integration Testing with DB</h2>
     <p>For testing repository and DB interactions, use @SpringBootTest + Testcontainers.</p>
     <pre class="java-code">
   <code>
@@ -167,7 +170,7 @@
 
     <span class="annotation">@Container</span>
     <span class="keyword">private static final</span> <span class="class">MySQLContainer</span>&lt;?&gt; <span
-      class="var">mysql</span> =
+          class="var">mysql</span> =
         <span class="keyword">new</span> <span class="class">MySQLContainer</span>&lt;&gt;(<span class="string">"mysql:8.0"</span>)
             .<span class="method">withDatabaseName</span>(<span class="string">"testdb"</span>)
             .<span class="method">withUsername</span>(<span class="string">"user"</span>)
@@ -175,23 +178,24 @@
 
     <span class="annotation">@Autowired</span>
     <span class="keyword">private</span> <span class="class">UserRepository</span> <span
-      class="var">userRepository</span>;
+          class="var">userRepository</span>;
 
     <span class="annotation">@Test</span>
     <span class="keyword">void</span> <span class="method">testSaveUser</span>() {
         <span class="class">User</span> <span class="var">user</span> = <span class="keyword">new</span> <span
-      class="class">User</span>(<span class="keyword">null</span>, <span class="string">"Ravi"</span>);
+          class="class">User</span>(<span class="keyword">null</span>, <span class="string">"Ravi"</span>);
         <span class="class">User</span> <span class="var">saved</span> = <span
-      class="var">userRepository</span>.<span class="method">save</span>(<span class="var">user</span>);
+          class="var">userRepository</span>.<span class="method">save</span>(<span class="var">user</span>);
         <span class="keyword">assert</span> <span class="var">saved</span>.<span
-      class="method">getId</span>() != <span class="keyword">null</span>;
+          class="method">getId</span>() != <span class="keyword">null</span>;
     }
 }
   </code>
 </pre>
 
     <p>Here Testcontainers runs a real MySQL in Docker during the test.</p>
-    <h3>6. Testing Microservices Communication</h3>
+    <hr>
+    <h2>6. Testing Microservices Communication</h2>
     <p>Mocking REST Calls with @RestClientTest</p>
     <pre class="java-code">
   <code>
@@ -202,7 +206,7 @@
 <span class="keyword">import</span> org.springframework.http.<span class="class">HttpMethod</span>;
 <span class="keyword">import</span> org.springframework.http.<span class="class">MediaType</span>;
 <span class="keyword">import</span> org.springframework.test.web.client.<span
-      class="class">MockRestServiceServer</span>;
+          class="class">MockRestServiceServer</span>;
 <span class="keyword">import</span> org.springframework.web.client.<span class="class">RestTemplate</span>;
 
 <span class="keyword">import static</span> org.springframework.test.web.client.match.<span class="class">MockRestRequestMatchers</span>.*;
@@ -213,31 +217,33 @@
 
     <span class="annotation">@Autowired</span>
     <span class="keyword">private</span> <span class="class">RestTemplate</span> <span
-      class="var">restTemplate</span>;
+          class="var">restTemplate</span>;
 
     <span class="annotation">@Autowired</span>
     <span class="keyword">private</span> <span class="class">MockRestServiceServer</span> <span
-      class="var">server</span>;
+          class="var">server</span>;
 
     <span class="annotation">@Test</span>
     <span class="keyword">void</span> <span class="method">testCallExternalService</span>() {
         <span class="var">server</span>.<span class="method">expect</span>(<span
-      class="method">requestTo</span>(<span class="string">"http://external-service/api/data"</span>))
-              .<span class="method">andExpect</span>(<span class="method">method</span>(<span class="class">HttpMethod</span>.<span
-      class="constant">GET</span>))
+          class="method">requestTo</span>(<span class="string">"http://external-service/api/data"</span>))
+              .<span class="method">andExpect</span>(<span class="method">method</span>(<span
+          class="class">HttpMethod</span>.<span
+          class="constant">GET</span>))
               .<span class="method">andRespond</span>(<span class="method">withSuccess</span>(<span class="string">"{\"status\":\"ok\"}"</span>, <span
-      class="class">MediaType</span>.<span class="constant">APPLICATION_JSON</span>));
-        <span class="class">String</span> <span class="var">response</span> = <span class="var">restTemplate</span>.<span
-      class="method">getForObject</span>(<span class="string">"http://external-service/api/data"</span>, <span
-      class="class">String</span>.<span class="keyword">class</span>);
+          class="class">MediaType</span>.<span class="constant">APPLICATION_JSON</span>));
+        <span class="class">String</span> <span class="var">response</span> = <span
+          class="var">restTemplate</span>.<span
+          class="method">getForObject</span>(<span class="string">"http://external-service/api/data"</span>, <span
+          class="class">String</span>.<span class="keyword">class</span>);
         <span class="keyword">assert</span> <span class="var">response</span>.<span
-      class="method">contains</span>(<span class="string">"ok"</span>);
+          class="method">contains</span>(<span class="string">"ok"</span>);
     }
 }
   </code>
 </pre>
-
-    <h3>7. Contract Testing (Consumer-Driven Contracts)</h3>
+    <hr>
+    <h2>7. Contract Testing (Consumer-Driven Contracts)</h2>
     <p>With Spring Cloud Contract:</p>
     <ul>
         <li>Producer defines the contract.</li>
@@ -267,23 +273,24 @@
 </pre>
 
     <p>This generates tests + stubs for consumers.</p>
-    <h3>8. Resilience & Fault Tolerance Testing</h3>
+    <hr>
+    <h2>8. Resilience & Fault Tolerance Testing</h2>
     <p>When using Resilience4j (Retry, Circuit Breaker, Bulkhead):</p>
     <pre class="java-code">
   <code>
 <span class="annotation">@Test</span>
 <span class="keyword">void</span> <span class="method">testRetryMechanism</span>() {
     <span class="class">AtomicInteger</span> <span class="var">counter</span> = <span
-      class="keyword">new</span> <span class="class">AtomicInteger</span>(0);
+          class="keyword">new</span> <span class="class">AtomicInteger</span>(0);
 
     <span class="class">CheckedFunction0</span>&lt;<span class="class">String</span>&gt; <span
-      class="var">supplier</span> =
+          class="var">supplier</span> =
         Retry.decorateCheckedSupplier(
             Retry.ofDefaults(<span class="string">"testRetry"</span>),
             () -&gt; {
                 <span class="keyword">if</span> (<span class="var">counter</span>.incrementAndGet() &lt; 3)
                     <span class="keyword">throw new</span> <span class="class">RuntimeException</span>(<span
-      class="string">"#fail"</span>);
+          class="string">"#fail"</span>);
                 <span class="keyword">return</span> <span class="string">"success"</span>;
             }
         );
@@ -294,8 +301,8 @@
 }
   </code>
 </pre>
-
-    <h3>9. Best Practices for Testing Microservices</h3>
+    <hr>
+    <h2>9. Best Practices for Testing Microservices</h2>
     <p>✔ Unit Tests for business logic (fast feedback).</p>
     <p>✔ Integration Tests with Testcontainers for DB/message broker.</p>
     <p>✔ Mock external dependencies (don't call real services in CI).</p>
@@ -304,7 +311,8 @@
     <p>✔ CI/CD integration → Run tests automatically in pipelines.</p>
     <p>✔ Don't overuse @SpringBootTest (it loads full context → slow). Use @WebMvcTest, @DataJpaTest , etc. where
         possible.</p>
-    <h3>10. Example: E2E Test for Microservice</h3>
+    <hr>
+    <h2>10. Example: E2E Test for Microservice</h2>
     <pre class="java-code">
   <code>
 <span class="keyword">import</span> io.restassured.RestAssured;
@@ -333,7 +341,7 @@
 </pre>
 
     <hr>
-    <h3>Summary</h3>
+    <h2>Summary</h2>
     <p>✔ Unit Tests → Mockito + JUnit</p>
     <p>✔ Controller Tests → @WebMvcTest + MockMvc</p>
     <p>✔ Repository Tests → @DataJpaTest + Testcontainers</p>
@@ -341,9 +349,7 @@
     <p>✔ Microservices → RestClientTest, Contract Testing, Testcontainers</p>
     <p>✔ E2E → RestAssured</p>
     <p>✔ Resilience Testing → Resilience4j Retry, Circuit Breaker tests</p>
-    <br>
     <hr>
-    <br>
     <div class="card-footer">
         <ul class="pagination justify-content-center">
             <li class="page-item"><a class="page-link btn-outline-primary"

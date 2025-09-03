@@ -21,14 +21,12 @@
 
 <!-- Main Content Section -->
 <main id="content">
-    <h3>Spring Profiles</h3>
+    <h2>1. What Are Profiles?</h2>
     <p>Profiles are one of Spring's most powerful features for managing environment-specific configurations. This
         comprehensive guide covers everything from basic setup to advanced usage patterns.</p>
     <p>Spring Profiles provide a robust way to manage environment-specific configurations while keeping your codebase
         clean and maintainable. By following these patterns, you can build applications that easily adapt to different
         deployment environments.</p>
-
-    <h3>1. What Are Profiles?</h3>
     <p>Profiles provide a way to segment your application configuration and make it available only in certain
         environments. They allow you to:</p>
     <ul>
@@ -37,8 +35,8 @@
         <li>Activate particular features</li>
         <li>Switch between implementations</li>
     </ul>
-
-    <h3>2. Basic Profile Setup</h3>
+    <hr>
+    <h2>2. Basic Profile Setup</h2>
     <h4>Declaring Profile-Specific Beans</h4>
     <pre class="java-code">
   <code>
@@ -47,8 +45,9 @@
 <span class="keyword">public class</span> <span class="class">DevConfig</span> {
     <span class="annotation">@Bean</span>
     <span class="keyword">public</span> <span class="class">DataSource</span> <span
-      class="method">devDataSource</span>() {
-        <span class="keyword">return</span> <span class="keyword">new</span> <span class="class">EmbeddedDatabaseBuilder</span>()
+          class="method">devDataSource</span>() {
+        <span class="keyword">return</span> <span class="keyword">new</span> <span
+          class="class">EmbeddedDatabaseBuilder</span>()
             .setType(EmbeddedDatabaseType.H2)
             .build();
     }
@@ -59,7 +58,7 @@
 <span class="keyword">public class</span> <span class="class">ProdConfig</span> {
     <span class="annotation">@Bean</span>
     <span class="keyword">public</span> <span class="class">DataSource</span> <span
-      class="method">prodDataSource</span>() {
+          class="method">prodDataSource</span>() {
         <span class="keyword">return</span> <span class="class">DataSourceBuilder</span>.create()
             .url(<span class="string">"jdbc:mysql://prod-db:3306/app"</span>)
             .username(<span class="string">"admin"</span>)
@@ -98,15 +97,15 @@
             <pre class="java-code">
   <code>
 <span class="class">SpringApplication</span> <span class="var">app</span> = <span class="keyword">new</span> <span
-      class="class">SpringApplication</span>(MyApp.class);
+          class="class">SpringApplication</span>(MyApp.class);
 <span class="var">app</span>.setAdditionalProfiles(<span class="string">"local"</span>);
 <span class="var">app</span>.run(<span class="var">args</span>);
   </code>
 </pre>
         </li>
     </ol>
-
-    <h3>3. Profile-Specific Property Files</h3>
+    <hr>
+    <h2>3. Profile-Specific Property Files</h2>
     <p>Spring Boot automatically loads properties from files named:</p>
     <ul>
         <li>application-{profile}.properties</li>
@@ -130,8 +129,8 @@
         <li>OS environment variables</li>
         <li>Command line arguments</li>
     </ol>
-
-    <h3>4. Advanced Profile Techniques</h3>
+    <hr>
+    <h2>4. Advanced Profile Techniques</h2>
     <h4>Profile Groups (Spring Boot 2.4+)</h4>
     <p>Group related profiles together:</p>
     <pre class="code-block">
@@ -152,16 +151,19 @@
   <code>
 <span class="annotation">@Service</span>
 <span class="annotation">@Profile</span>(<span class="string">"!prod"</span>) <span class="comment">// Active in all profiles EXCEPT prod</span>
-<span class="keyword">public class</span> <span class="class">MockEmailService</span> <span class="keyword">implements</span> <span
-      class="class">EmailService</span> {
+<span class="keyword">public class</span> <span class="class">MockEmailService</span> <span
+          class="keyword">implements</span> <span
+          class="class">EmailService</span> {
     <span class="comment">// ...</span>
 }
 
 <span class="annotation">@Repository</span>
-<span class="annotation">@Profile</span>({<span class="string">"prod"</span>, <span class="string">"staging"</span>}) <span
-      class="comment">// Only in prod/staging</span>
-<span class="keyword">public class</span> <span class="class">JpaOrderRepository</span> <span class="keyword">implements</span> <span
-      class="class">OrderRepository</span> {
+<span class="annotation">@Profile</span>({<span class="string">"prod"</span>, <span
+          class="string">"staging"</span>}) <span
+          class="comment">// Only in prod/staging</span>
+<span class="keyword">public class</span> <span class="class">JpaOrderRepository</span> <span
+          class="keyword">implements</span> <span
+          class="class">OrderRepository</span> {
     <span class="comment">// ...</span>
 }
   </code>
@@ -180,9 +182,8 @@
 }
   </code>
 </pre>
-    <br>
     <hr>
-    <h3>5. Testing with Profiles</h3>
+    <h2>5. Testing with Profiles</h2>
     <h4>Test-Specific Profiles</h4>
     <pre class="java-code">
   <code>
@@ -199,8 +200,9 @@
   <code>
 <span class="annotation">@Test</span>
 <span class="keyword">public</span> <span class="class">void</span> <span
-      class="method">testWithSpecificProfile</span>() {
-    <span class="keyword">try</span> (<span class="class">ConfigurableApplicationContext</span> <span class="var">ctx</span> =
+          class="method">testWithSpecificProfile</span>() {
+    <span class="keyword">try</span> (<span class="class">ConfigurableApplicationContext</span> <span
+          class="var">ctx</span> =
         <span class="keyword">new</span> <span class="class">SpringApplicationBuilder</span>(TestConfig.class)
             .profiles(<span class="string">"integration-test"</span>)
             .run()) {
@@ -209,8 +211,8 @@
 }
   </code>
 </pre>
-
-    <h3>6. Common Profile Patterns</h3>
+    <hr>
+    <h2>6. Common Profile Patterns</h2>
     <h4>Database Configurations</h4>
     <pre class="java-code">
   <code>
@@ -219,14 +221,14 @@
     <span class="annotation">@Bean</span>
     <span class="annotation">@Profile</span>(<span class="string">"dev"</span>)
     <span class="keyword">public</span> <span class="class">DataSource</span> <span
-      class="method">h2DataSource</span>() {
+          class="method">h2DataSource</span>() {
         <span class="comment">// Embedded H2</span>
     }
 
     <span class="annotation">@Bean</span>
     <span class="annotation">@Profile</span>(<span class="string">"prod"</span>)
     <span class="keyword">public</span> <span class="class">DataSource</span> <span
-      class="method">mysqlDataSource</span>() {
+          class="method">mysqlDataSource</span>() {
         <span class="comment">// Production MySQL</span>
     }
 }
@@ -252,10 +254,10 @@
 
     <span class="annotation">@Value</span>(<span class="string">"${feature.new-checkout.enabled:false}"</span>)
     <span class="keyword">private</span> <span class="class">boolean</span> <span
-      class="var">newCheckoutEnabled</span>;
+          class="var">newCheckoutEnabled</span>;
 
     <span class="keyword">public</span> <span class="class">void</span> <span
-      class="method">processOrder</span>(<span class="class">Order</span> <span class="var">order</span>) {
+          class="method">processOrder</span>(<span class="class">Order</span> <span class="var">order</span>) {
         <span class="keyword">if</span> (<span class="var">newCheckoutEnabled</span>) {
             newCheckoutFlow(<span class="var">order</span>);
         } <span class="keyword">else</span> {
@@ -271,22 +273,21 @@
   <code>
 <span class="annotation">@Profile</span>(<span class="string">"test | local"</span>)
 <span class="annotation">@Service</span>
-<span class="keyword">public class</span> <span class="class">MockPaymentGateway</span> <span class="keyword">implements</span> <span
-      class="class">PaymentGateway</span> {
+<span class="keyword">public class</span> <span class="class">MockPaymentGateway</span> <span
+          class="keyword">implements</span> <span
+          class="class">PaymentGateway</span> {
     <span class="comment">// Test implementation</span>
 }
 
 <span class="annotation">@Profile</span>(<span class="string">"prod | staging"</span>)
 <span class="annotation">@Service</span>
 <span class="keyword">public class</span> <span class="class">StripePaymentGateway</span> <span class="keyword">implements</span> <span
-      class="class">PaymentGateway</span> {
+          class="class">PaymentGateway</span> {
     <span class="comment">// Real implementation</span>
 }
   </code>
 </pre>
-    <br>
     <hr>
-    <br>
     <div class="card-footer">
         <ul class="pagination justify-content-center">
             <li class="page-item"><a class="page-link btn-outline-primary"
