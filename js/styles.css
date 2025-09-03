@@ -885,7 +885,7 @@ ol > li {
         padding-top: 0;
         height: calc(100vh - 90px); /* Adjusted for mobile header height */
         min-height: calc(100vh - 150px); /* Account for header, nav, and footer */
-        padding-bottom: 60px; /* Space for footer */
+        padding-bottom: 0px; /* Space for footer */
         height: auto; /* Change from fixed height to auto */
         overflow: visible; /* Allow content to flow naturally */
     }
