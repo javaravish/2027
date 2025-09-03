@@ -75,7 +75,6 @@
     </ul>
 
     <hr>
-    <br>
     <h2>🧱 2. Bulkhead Pattern</h2>
 
     <p><strong>Purpose:</strong> Prevents a failure in one part of the system from bringing down others. Limits
@@ -125,7 +124,6 @@
         <li>SemaphoreBulkhead: Limits concurrent calls</li>
     </ul>
     <hr>
-    <br>
     <h2>🔁 3. Retry Pattern</h2>
 
     <p><strong>Purpose:</strong> Automatically retries failed operations a certain number of times.</p>
@@ -177,7 +175,6 @@
         <li>retryOnPredicate: Conditions to retry</li>
     </ul>
     <hr>
-    <br>
     <h2>⏱ 4. Timeout Pattern</h2>
 
     <p><strong>Purpose:</strong> Fails a call if it takes longer than a specified time to prevent blocking system
@@ -222,7 +219,6 @@
 
     <p><strong>Meaning:</strong> If the callWithDelay() takes more than 2 seconds, fullback is called.</p>
     <hr>
-    <br>
     <h2>🧾 5. Event Sourcing (Spring + Axon Framework)</h2>
 
     <p><strong>Purpose:</strong> Store every change to an application state as a sequence of events.</p>
@@ -325,8 +321,7 @@
         <li>Useful for audit and restoring state.</li>
     </ul>
     <hr>
-    <br>
-    <h2>Combining Patterns (Example)</h2>
+    <h2>6. Combining Patterns (Example)</h2>
 
     <pre class="java-code">
 <code>
@@ -367,8 +362,8 @@
         <span class="key">timeout-duration:</span> <span class="number">2s</span>
 </code>
 </pre>
-
-    <h2>Summary Table</h2>
+    <hr>
+    <h2>7.Summary Table</h2>
 
     <div class="table-container">
         <table class="basic-table">
@@ -420,10 +415,7 @@
             </tbody>
         </table>
     </div>
-    <br>
-    <br>
     <hr>
-    <br>
     <div class="card-footer">
         <ul class="pagination justify-content-center">
             <li class="page-item"><a class="page-link btn-outline-primary"

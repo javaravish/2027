@@ -21,7 +21,7 @@
 
 <!-- Main Content Section -->
 <main id="content">
-    <h3>What is the Saga Pattern?</h3>
+    <h2>1. Saga Pattern?</h2>
 
     <p>A Saga pattern is a design pattern used to manage and maintain data consistency across multiple microservices. It
         involves a series of local transactions, where each transaction updates a database and triggers the next
@@ -77,7 +77,7 @@
 
     <hr>
 
-    <h3>1. Implementing Saga Choreography Pattern</h3>
+    <h2>1. Implementing Saga Choreography Pattern</h2>
 
     <p>In the Saga, choreography flow is successful if all the microservices complete their local transaction, and none
         of the microservices reported any failure.</p>
@@ -89,7 +89,9 @@
     <p>In the event of a failure, the microservice reports the failure to SEC, and it is the SEC's responsibility to
         invoke the relevant compensation transactions:</p>
     <img src="../js/images/ms/saga2.png" class="responsive-img">
-    <h3>2. Implementing Saga Orchestration Pattern</h3>
+
+    <hr>
+    <h2>2. Implementing Saga Orchestration Pattern</h2>
 
     <p>In the Orchestration pattern, a single orchestrator is responsible for managing the overall transaction status.
         If any of the microservices encounter a failure, the orchestrator is responsible for invoking the necessary
@@ -106,13 +108,15 @@
     <p>In my opinion, Sagas can help solve certain challenges and scenarios. They should be adopted or explored if the
         need arises. However, I would love to hear if others have also used Saga Pattern and how was the experience?
         What frameworks (if any) did you use?</p>
+    <hr>
+    <h2>Advantages and Disadvantages of Saga Pattern</h2>
 
     <div class="table-container">
         <table class="basic-table">
             <thead>
             <tr>
-                <th>Advantage of SAGA Pattern</th>
-                <th>Disadvantage of SAGA Pattern</th>
+                <th>Advantages of SAGA Pattern</th>
+                <th>Disadvantages of SAGA Pattern</th>
             </tr>
             </thead>
             <tbody>
@@ -151,9 +155,7 @@
             </tbody>
         </table>
     </div>
-    <br>
     <hr>
-    <br>
     <div class="card-footer">
         <ul class="pagination justify-content-center">
             <li class="page-item"><a class="page-link btn-outline-primary"

@@ -22,14 +22,14 @@
 <!-- Main Content Section -->
 <main id="content">
 
-    <h3>1. Introduction to Spring Cloud Config</h3>
+    <h2>1. Introduction to Spring Cloud Config</h2>
 
     <p>Spring Cloud Config is a powerful tool designed to "support like externalized configuration in distributed
         systems." It provides a mechanism to manage application properties across various environments from a single,
         centralized location. This eliminates the need to bundle configuration files directly within individual
         microservices, simplifying updates and ensuring consistency.</p>
-
-    <h3>2. Core Components and Their Roles</h3>
+    <hr>
+    <h2>2. Core Components and Their Roles</h2>
 
     <p>The system operates with two primary components:</p>
 
@@ -40,8 +40,8 @@
     <p><strong>Spring Cloud Config Client:</strong> This is integrated into individual microservices. It connects to the
         Config Server to retrieve its necessary configuration properties at startup. Your Spring Boot app that fetches
         configuration from the Config Server.</p>
-
-    <h3>3. Centralized Configuration Storage (Git Repository)</h3>
+    <hr>
+    <h2>3. Centralized Configuration Storage (Git Repository)</h2>
 
     <p>The source emphasizes the use of a "centralized location" for storing configuration files. In the example
         provided, a Git repository is used. This repository contains:</p>
@@ -55,7 +55,7 @@
     <p>This structure allows for environment-specific property overriding, providing flexibility in managing different
         deployment contexts.</p>
     <hr>
-    <h3>4. Setting up the Spring Cloud Config Server</h3>
+    <h2>4. Setting up the Spring Cloud Config Server</h2>
 
     <h4>4.1. Project Creation:</h4>
 
@@ -159,7 +159,7 @@
         <li>http://localhost:8888/payment-service/default -- returns config JSON.</li>
     </ul>
     <hr>
-    <h3>2. Setting up the Spring Cloud Config Client</h3>
+    <h2>5. Setting up the Spring Cloud Config Client</h2>
 
     <h3>1. Project Creation:</h3>
 
@@ -218,8 +218,8 @@
 
     <p>The source demonstrates how activating the dev profile results in the client receiving the service.name from
         dev.yml instead of the default application.yml.</p>
-
-    <h3>3. Key Components</h3>
+    <hr>
+    <h2>6. Key Components</h2>
 
     <div class="table-container">
         <table class="basic-table">
@@ -289,8 +289,8 @@
             </tbody>
         </table>
     </div>
-
-    <h3>4. Key Benefits and Main Themes</h3>
+    <hr>
+    <h2>7. Key Benefits and Main Themes</h2>
 
     <ul>
         <li><strong>Centralized Management:</strong> All configurations are managed from a single Git repository,
@@ -315,9 +315,7 @@
             communication between clients and the Config Server in dynamic microservices landscapes.
         </li>
     </ul>
-    <br>
     <hr>
-    <br>
     <div class="card-footer">
         <ul class="pagination justify-content-center">
             <li class="page-item"><a class="page-link btn-outline-primary"

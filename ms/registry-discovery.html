@@ -22,7 +22,7 @@
 <!-- Main Content Section -->
 <main id="content">
 
-    <h3>1. What is a Service Registry?</h3>
+    <h2>1. What is a Service Registry?</h2>
 
     <p>The Eureka Server acts as a central <strong>service registry</strong> where all microservices in an ecosystem
         register themselves. Its primary purpose is to enable dynamic service discovery, allowing microservices to
@@ -116,7 +116,7 @@
 
     <p>System status, Instances currently running and registered with Eureka.</p>
     <hr>
-    <h3>2. Eureka Client</h3>
+    <h2>2. Eureka Client</h2>
 
     <p>Eureka Clients are individual microservices that register themselves with the Eureka Server and use it to
         discover other services.</p>
@@ -171,7 +171,7 @@
 </code>
 </pre>
     <hr>
-    <h3>3. Service Instance Identification</h3>
+    <h2>3. Service Instance Identification</h2>
 
     <p>By default, Eureka identifies instances by a combination of application name, IP address, and port number. The
         source demonstrates how to customize this instance ID for better readability and uniqueness, especially when
@@ -193,7 +193,7 @@
     <p>This changes the displayed instance ID to include the application name and a random value, making each instance's
         entry unique and easily distinguishable in the Eureka dashboard.</p>
     <hr>
-    <h3>4. Dynamic Service Discovery in Action</h3>
+    <h2>4. Dynamic Service Discovery in Action</h2>
 
     <p>The core benefit of Eureka is demonstrated through running multiple instances of a service.</p>
 
@@ -209,7 +209,7 @@
         this. For example, a consumer service would query Eureka for "product-service" and receive the details (IP,
         port) of available instances to make requests.</p>
     <hr>
-    <h3>5. Key Takeaways and Benefits</h3>
+    <h2>5. Key Takeaways and Benefits</h2>
 
     <p><strong>Centralized Registry:</strong> Eureka provides a single point of truth for all running microservices.</p>
 
@@ -224,9 +224,7 @@
 
     <p><strong>Netflix OSS & Spring Cloud Integration:</strong> Eureka is a mature and widely adopted solution within
         the Spring Cloud ecosystem, leveraging Netflix's experience in building highly distributed systems.</p>
-    <br>
     <hr>
-    <br>
     <div class="card-footer">
         <ul class="pagination justify-content-center">
             <li class="page-item"><a class="page-link btn-outline-primary"
