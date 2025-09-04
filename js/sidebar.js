@@ -22,7 +22,7 @@ const sidebars = {
     </aside>
   `,
 
-  java: `
+  java_original: `
     <!-- Java Sidebar -->
     <aside id="sidebar">
       <ul class="menu">
@@ -95,6 +95,38 @@ const sidebars = {
       </ul>
     </aside>
   `,
+
+  java: `
+      <!-- Java Sidebar -->
+      <aside id="sidebar">
+        <ul class="menu">
+          <h4>Java Basic</h4>
+          <li class="nav-item"><a class="nav-link" data-href="/java/intro.html" href="#">Java Introduction</a></li>
+          <li class="nav-item"><a class="nav-link" data-href="/java/jdk.html" href="#">JDK vs JRE vs JVM</a></li>
+          <li class="nav-item"><a class="nav-link" data-href="/java/jvm.html" href="#">JVM - Java Virtual Machine</a></li>
+          <li class="nav-item"><a class="nav-link" data-href="/java/garbage_collection.html" href="#">Garbage Collection</a></li>
+          <li class="nav-item"><a class="nav-link" data-href="/java/strings.html" href="#">Java Strings</a></li>
+          <h4>OOPs Concepts</h4>
+          <li class="nav-item"><a class="nav-link" data-href="/java/oops.html" href="#">OOPs Concepts</a></li>
+          <li class="nav-item"><a class="nav-link" data-href="/java/overloading_overriding.html" href="#">Overloading vs Overriding</a></li>
+          <li class="nav-item"><a class="nav-link" data-href="/java/abstract_interface.html" href="#">Abstract class vs interface</a></li>
+          <h4>Java Exception Handling</h4>
+          <li class="nav-item"><a class="nav-link" data-href="/java/exception_handling.html" href="#">Exception handling</a></li>
+          <h4>Java Multithreading</h4>
+          <li class="nav-item"><a class="nav-link" data-href="/java/multithreading.html" href="#">Multithreading</a></li>
+          <h4>Java Serialization</h4>
+          <li class="nav-item"><a class="nav-link" data-href="/java/serialization.html" href="#">Serialization</a></li>
+          <h4>Java Synchronization</h4>
+          <li class="nav-item"><a class="nav-link" data-href="/java/synchronization.html" href="#">Synchronization</a></li>
+          <h4>Java Sorting</h4>
+          <li class="nav-item"><a class="nav-link" data-href="/java/comparable_comparator.html" href="#">Comparable & Comparator</a></li>
+          <h4>Collections Framework</h4>
+          <li class="nav-item"><a class="nav-link" data-href="/java/collections.html" href="#">Collections in Java</a></li>
+          <br>
+          <br>
+        </ul>
+      </aside>
+    `,
 
   spring: `
     <!-- Spring Sidebar -->
