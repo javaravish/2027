@@ -24,6 +24,166 @@
 <!-- Main Content Section -->
 <main id="content">
 
+    <h2>1. Method Overloading vs. Method Overriding</h2>
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Feature</th>
+                <th>Method Overloading</th>
+                <th>Method Overriding</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Definition</td>
+                <td>Multiple methods with the same name but different parameters in the same class</td>
+                <td>Subclass provides a specific implementation of a method already defined in its superclass</td>
+            </tr>
+            <tr>
+                <td>Purpose</td>
+                <td>Increases readability (same operation for different inputs)</td>
+                <td>Enables polymorphism (same method behaves differently in subclasses)</td>
+            </tr>
+            <tr>
+                <td>Inheritance</td>
+                <td>Can happen within the same class or between parent-child classes</td>
+                <td>Requires inheritance (only in child classes)</td>
+            </tr>
+            <tr>
+                <td>Parameter Rules</td>
+                <td>Must differ in:<br>• Number of parameters<br>• Type of parameters<br>• Order of parameters</td>
+                <td>Must match exactly:<br>• Same name<br>• Same parameters<br>• Same return type (or covariant)</td>
+            </tr>
+            <tr>
+                <td>Return Type</td>
+                <td>Can be same or different</td>
+                <td>Must be same or covariant (subclass of parent's return type)</td>
+            </tr>
+            <tr>
+                <td>Access Modifier</td>
+                <td>No restrictions (can vary)</td>
+                <td>Cannot be more restrictive than parent's method (e.g., parent protected → child cannot be private)
+                </td>
+            </tr>
+            <tr>
+                <td>Exception Handling</td>
+                <td>No restrictions on thrown exceptions</td>
+                <td>Cannot throw broader checked exceptions than parent</td>
+            </tr>
+            <tr>
+                <td>Binding</td>
+                <td>Compile-time (static polymorphism)</td>
+                <td>Runtime (dynamic polymorphism)</td>
+            </tr>
+            <tr>
+                <td>Performance</td>
+                <td>No impact (resolved at compile time)</td>
+                <td>Slight overhead (JVM decides which method to call at runtime)</td>
+            </tr>
+            <tr>
+                <td>Keyword</td>
+                <td>Not required</td>
+                <td>Uses @Override annotation (recommended)</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h4>Key Differences Explained</h4>
+    <p>1. Parameter Rules</p>
+    <p>• Overloading:</p>
+    <pre class="java-code">
+        <code>
+<span class="keyword">void</span> <span class="method">print</span>(<span class="class">int</span> a) { ... }
+<span class="keyword">void</span> <span class="method">print</span>(<span class="class">String</span> a) { ... } <span
+                class="comment">// Valid (different parameter types)</span>
+        </code>
+    </pre>
+
+    <p>• Overriding:</p>
+    <pre class="java-code">
+        <code>
+<span class="keyword">class</span> <span class="class">Parent</span> { <span class="keyword">void</span> <span
+                class="method">show</span>(<span class="class">int</span> x) { ... } }
+<span class="keyword">class</span> <span class="class">Child</span> <span class="keyword">extends</span> <span
+                class="class">Parent</span> {
+    @Override
+    <span class="keyword">void</span> <span class="method">show</span>(<span class="class">int</span> x) { ... } <span
+                class="comment">// Must match parameters exactly</span>
+}
+        </code>
+    </pre>
+
+    <p>2. Return Type</p>
+    <p>• Overloading: Return types can differ freely.</p>
+    <pre class="java-code">
+        <code>
+<span class="class">int</span> <span class="method">process</span>(<span class="class">int</span> a) { ... }
+<span class="class">String</span> <span class="method">process</span>(<span class="class">String</span> a) { ... } <span
+                class="comment">// Valid</span>
+        </code>
+    </pre>
+
+    <p>• Overriding: Return types must match or be covariant.</p>
+    <pre class="java-code">
+        <code>
+<span class="keyword">class</span> <span class="class">Parent</span> { <span class="class">Number</span> <span
+                class="method">get</span>() { ... } }
+<span class="keyword">class</span> <span class="class">Child</span> <span class="keyword">extends</span> <span
+                class="class">Parent</span> {
+    @Override
+    <span class="class">Integer</span> <span class="method">get</span>() { ... } <span class="comment">// Valid (Integer extends Number)</span>
+}
+        </code>
+    </pre>
+
+    <p>3. Access Modifiers</p>
+    <p>• Overriding: Child method cannot be more restrictive.</p>
+    <pre class="java-code">
+        <code>
+<span class="keyword">class</span> <span class="class">Parent</span> { <span class="keyword">public</span> <span
+                class="class">void</span> <span class="method">demo</span>() { ... } }
+<span class="keyword">class</span> <span class="class">Child</span> <span class="keyword">extends</span> <span
+                class="class">Parent</span> {
+    <span class="comment">// void demo() { ... }    // Error (default is more restrictive than public)</span>
+    <span class="keyword">protected</span> <span class="class">void</span> <span
+                class="method">demo</span>() { ... }  <span class="comment">// Error</span>
+    <span class="keyword">public</span> <span class="class">void</span> <span
+                class="method">demo</span>() { ... }   <span class="comment">// Valid</span>
+}
+        </code>
+    </pre>
+
+    <p>4. Exception Handling</p>
+    <p>• Overriding: Child cannot throw broader checked exceptions.</p>
+    <img src="../js/images/Java/exceptions2.jpg" class="responsive-img">
+    <pre class="java-code">
+        <code>
+<span class="keyword">class</span> <span class="class">Parent</span> { <span class="keyword">void</span> <span
+                class="method">foo</span>() <span class="keyword">throws</span> <span class="class">IOException</span> { ... } }
+<span class="keyword">class</span> <span class="class">Child</span> <span class="keyword">extends</span> <span
+                class="class">Parent</span> {
+    @Override
+    <span class="keyword">void</span> <span class="method">foo</span>() <span class="keyword">throws</span> <span
+                class="class">Exception</span> { ... } <span class="comment">// Error (Exception is broader than IOException)</span>
+}
+        </code>
+    </pre>
+
+    <p>5. Static vs. Instance Methods</p>
+    <p>Static methods can be overloaded but not overridden (they are hidden, not overridden).</p>
+    <pre class="java-code">
+        <code>
+<span class="keyword">class</span> <span class="class">Parent</span> { <span class="keyword">static</span> <span
+                class="class">void</span> <span class="method">test</span>() { ... } }
+<span class="keyword">class</span> <span class="class">Child</span> <span class="keyword">extends</span> <span
+                class="class">Parent</span> {
+    <span class="keyword">static</span> <span class="class">void</span> <span class="method">test</span>() { ... } <span
+                class="comment">// Method hiding (not overriding)</span>
+}
+        </code>
+    </pre>
     <hr>
     <div class="card-footer">
         <ul class="pagination justify-content-center">

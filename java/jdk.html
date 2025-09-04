@@ -23,6 +23,84 @@
 
 <!-- Main Content Section -->
 <main id="content">
+    <h2>1. JDK vs JRE vs JVM</h2>
+
+    <h3>1. JDK (Java Development Kit)</h3>
+    <ul>
+        <li><strong>Purpose:</strong> The complete <strong>software development package</strong> for <strong>writing,
+            compiling, and debugging</strong> Java applications. It is for <strong>developers</strong>.
+        </li>
+        <li><strong>Key Function:</strong> Provides all the tools needed to <em>create</em> Java programs, in addition
+            to being able to run them.
+        </li>
+        <li><strong>Physical Existence:</strong> Exists physically on your computer as the main Java installation
+            directory.
+        </li>
+        <li><strong>What it Contains:</strong>
+            <ul>
+                <li>The <strong>JRE</strong> (so it can run programs).</li>
+                <li><strong>Development Tools:</strong> Compiler ( javac ), Debugger ( jdb ), Documentation Generator (
+                    javadoc ), Archiver ( jar ), and other tools.
+                </li>
+            </ul>
+        </li>
+        <li><strong>Platform Dependency:</strong> Platform-dependent (you need a different JDK for Windows, Linux, and
+            macOS).
+        </li>
+        <li><strong>Compilation Requirement:</strong> You need the <strong>JDK to compile</strong> a .java source file
+            into a .class bytecode file. Once compiled, the program can be run on any system with just a JRE.
+        </li>
+        <li><strong>Analogy:</strong> The <strong>car factory</strong>. It contains everything the car has (the JRE)
+            plus all the tools, robots, and engineers (development tools) needed to <em>build</em> the car.
+        </li>
+    </ul>
+
+    <img src="../js/images/Java/jdk.png" class="responsive-img">
+    <hr>
+    <h3>2. JRE (Java Runtime Environment)</h3>
+    <ul>
+        <li><strong>Purpose:</strong> Provides the environment and necessary components to run existing, compiled Java
+            applications ( .class files). It is for end-users, not developers.
+        </li>
+        <li><strong>Key Function:</strong> Contains everything needed to execute a Java program, but nothing to create
+            one.
+        </li>
+        <li><strong>Physical Existence:</strong> Exists physically on your computer. It can be found in the Java
+            installation directory. In modern JDK installations, a JRE is often created inside the JDK directory.
+        </li>
+        <li><strong>What it Contains:</strong>
+            <ul>
+                <li>The JVM (for execution).</li>
+                <li>Libraries and Core Classes (e.g., <code>rt.jar</code> files for packages like <code>java.lang.java.util</code>).
+                </li>
+                <li>Other Support Files (property files, configuration files).</li>
+            </ul>
+        </li>
+        <li><strong>Platform Dependency:</strong> Platform-dependent (you need a different JRE for Windows, Linux, and
+            macOS).
+        </li>
+        <li><strong>Analogy:</strong> The entire car. It includes the engine (JVM), fuel, wheels, and body (libraries)
+            needed to get you from A to B (run the program).
+        </li>
+    </ul>
+    <hr>
+    <h3>3. JVM (Java Virtual Machine)</h3>
+    <ul>
+        <li><strong>Purpose:</strong> The core engine that loads and executes compiled Java programs (bytecode) in
+            memory.
+        </li>
+        <li><strong>Key Function:</strong> Makes Java platform-independent by translating bytecode into machine code for
+            the specific operating system.
+        </li>
+        <li><strong>Physical Existence:</strong> Does not exist as a separate, installable software package. It is a
+            software-based execution environment that is part of the JRE.
+        </li>
+        <li><strong>What it Contains:</strong> Memory areas (Heap, Stack), a class loader, an execution engine
+            (Interpreter, JIT compiler), and a garbage collector. It does not contain development tools like
+            <code>javac</code>.
+        </li>
+        <li><strong>Analogy:</strong> The engine of a car. It's the part that actually makes the car run.</li>
+    </ul>
 
     <hr>
     <div class="card-footer">

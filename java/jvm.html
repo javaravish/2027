@@ -24,6 +24,238 @@
 <!-- Main Content Section -->
 <main id="content">
 
+    <h2>1. JVM Architecture</h2>
+
+    <img src="../js/images/Java/jvm_arc.png" class="responsive-img">
+    <hr>
+    <h2>2. Class Loader Subsystem</h2>
+    <p>The class loaders load the compiled class file. Class loader system contains 3 types of class loaders.</p>
+
+    <h4>1.1. Bootstrap class loader</h4>
+    <p>Bootstrap class Loader is responsible for loading all core java API classes. These are all classes that exist
+        inside rt.jar which are available in all JVMs by default. Bootstrap class Loader loads classes from bootstrap
+        class path. However it's implementation is in native languages(C, C++) but not in java.</p>
+    <p>Bootstrap Class Path is JDK/JRE/lib</p>
+
+    <h4>1.2. Extension class loader</h4>
+    <p>Extension Class Loader is a child class of Bootstrap class loader which is responsible for loading all classes
+        from the extension class path in java. However, it's implementation is in java only. The Extension Class Path is
+        : JDK/JRE/lib/ext</p>
+
+    <h4>1.3. Application class loader</h4>
+    <p>Application Class Loader is a child class of Extension class loader which is responsible for loading classes from
+        application class-path. It's implementation is also in java. The Application class path is our environment class
+        path.</p>
+    <hr>
+    <h4>Phases Of Class Loading</h4>
+    <p><strong>1) Loading</strong></p>
+    <p>Loading phase involves accepting the binary representation (bytecode) of a class or interface with a specific
+        name, and generating the original class or interface from that. The JVM uses the ClassLoader.loadClass() method
+        for loading the class into memory.</p>
+
+    <p><strong>2) Linking</strong></p>
+    <p>Once a class is loaded into the memory, it undergoes the linking process. Linking a class or interface involves
+        combining the different elements and dependencies of the program together. As the name suggests making required
+        links with each other.</p>
+
+    <p><strong>3) Initialization</strong></p>
+    <p>This is the final stage of class loading. Initialization involves executing the initialization code of the class
+        or interface. This can include calling the class's constructor, executing the static block, and assigning values
+        to all the static variables.</p>
+    <hr>
+    <h2>3. JVM Memory Area</h2>
+    <p>The division of total Memory area of JVM is in 5 parts :</p>
+
+    <h4>1. Method Area :</h4>
+    <p>In the method area, One area will be allocated for each JVM. It will be created at JVM startup. Class level
+        binary information & static variables reside in this area. Also Constant pools will be saved inside method area.
+        Further It can be accessed by multiple threads simultaneously, therefore it is not thread-safe.</p>
+
+    <h4>2. Heap Area :</h4>
+    <p>One area will be allocated for each JVM. It will be created at JVM startup. Objects reside in this area. It can
+        be accessed by multiple threads simultaneously, therefore it is also not thread-safe.</p>
+
+    <p><strong>How can we find allocated heap area ?</strong></p>
+
+    <pre class="java-code">
+<code>
+<span class="number">1</span> <span class="class">Runtime</span> r = <span class="class">Runtime</span>.<span
+        class="method">getRuntime</span>();
+<span class="number">2</span> r.<span class="method">maxMemory</span>(); r.<span class="method">InitialMemory</span>(); r.<span
+        class="method">freeMemory</span>();
+<span class="number">3</span> <span class="class">Runtime</span> is inside java.lang package is a Singleton class.
+</code>
+    </pre>
+
+    <p><strong>How to set maximum & minimum heap sizes ?</strong></p>
+    <p>1. By using command prompt execution of program :</p>
+
+    <pre class="code-block">
+<code>
+java -Xmx512m JavaProgramFileName enter
+java -Xms64m JavaProgramFileName enter
+</code>
+    </pre>
+
+    <p>Where Xmx indicates Maximum Memory & Xms indicates Minimum Memory. Heap memory is finite memory but based on our
+        requirement we can set max & min heap sizes.</p>
+
+    <p>2. By Setting 'JAVA_OPTS' as a system variable</p>
+
+    <pre class="code-block">
+<code>
+JAVA_OPTS="-Xms256m -Xmx512m"
+</code>
+    </pre>
+
+    <p>After that in a command prompt run the following command:</p>
+
+    <pre class="code-block">
+<code>
+SET JAVA_OPTS="-Xms256m -Xmx512m"
+</code>
+    </pre>
+
+    <p>This setting indicates</p>
+    <p>allocating minimum 256MBs of heap</p>
+    <p>allocating maximum 512MBs of heap</p>
+
+    <h4>3. Stack Area :</h4>
+    <p>It is available per thread unlike Method & Heap area as they are one per JVM. Each entry in stack is called Stack
+        frame or activation record. Also it is thread-safe as it allocates one memory for each thread. Furthermore, Each
+        stack frame has three parts : local variable array, operand stack and frame data.</p>
+    <p>Local Variable Array : It contains values of local variables & method parameters.</p>
+    <p>Operand Stack : JVM uses it as workspace, some instruction push the values to it & some pop from it & some other
+        to performs arithmetic operations.</p>
+    <p>Frame Data : It contains all symbolic references related to the method. It also contains reference of exception
+        related to method.</p>
+
+    <h4>4. PC Registers :</h4>
+    <p>(Program Counter Registers) : Internally used by JVM. For every thread JVM creates a separate PC register. In
+        brief PC register contains address of currently executing threads.</p>
+
+    <h4>5. Native Method Stacks :</h4>
+    <p>For every thread JVM creates a separate native method stack if its native method call.</p>
+    <hr>
+    <h2>4. Execution Engine</h2>
+    <p>It is a central component of JVM and responsible for executing .class files. It mainly contains two parts :
+        Interpreter & JIT compiler</p>
+
+    <h4>Interpreter :</h4>
+    <p>Interpreter reads & interprets bytecode, converts it into machine code/native code line by line.</p>
+    <p>Because of line by line performance of system goes down. Then JIT compiler comes into picture in jdk 1.1
+        version.</p>
+
+    <h4>JIT Compiler :</h4>
+    <p>The primary purpose of JIT compiler is to improve performance. In fact, Internally it maintains a separate count
+        for every method. Whenever JVM comes across any method call, first that method is interpreted normally by the
+        interpreter and JIT compiler increments the corresponding count variable accordingly.</p>
+    <hr>
+    <h2>5. Difference between PermGen Space and MetaSpace.</h2>
+    <p>PermGen is the memory area for storing class data like static variable,byte code and etc. By default 64 Mb is
+        allocated for PermGen. It can be tuned by using -XXMaxPermSize.</p>
+    <p>In Java 8, PermGen method area replaced with MetaSpace. They have moved permGem to the separate memory in the
+        native OS and that is called MetaSpace. It can by default auto increases its size. In MetaSpace, classes can
+        load and unload during the lifespan of the JVM.</p>
+
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Sr. No .</th>
+                <th>Key</th>
+                <th>PermGen</th>
+                <th>MetaSpace</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>1</td>
+                <td>Basic</td>
+                <td>PermGen is the memory area for storing class data like static variable,byte code and etc</td>
+                <td>In Java 8, PermGen method area replaced with MetaSpace</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Default Memory Allocation</td>
+                <td>By default 64 Mb is allocated for PermGen</td>
+                <td>It can by default auto increases its size</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Tuned-up Memory Flag</td>
+                <td>It can be tuned by using - XXMaxPermSize.</td>
+                <td>We can restrict upper bound of the memory by -XX:MaxMetaspaceSize</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Memory Area</td>
+                <td>It is a special Heap space.</td>
+                <td>Since Java 8, It is now separate memory area in the native OS</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <hr>
+    <h2>6. Java Memory Architecture: Stack vs. Heap</h2>
+    <p>Java Virtual Machine (JVM) manages memory by dividing it into two primary areas: <strong>Stack</strong> and
+        <strong>Heap</strong>.</p>
+
+    <h3>Stack Memory:</h3>
+    <ul>
+        <li><strong>Purpose:</strong> Stores temporary variables, primitive data types, method call frames, and
+            references to Heap objects.
+        </li>
+        <li><strong>Characteristics:</strong> "Each thread has its own stack memory." This means multiple threads will
+            have separate stack copies."Variables within a scope is only visible and as soon as variables goes out of
+            the scope it gets deleted from the stack in the LIFO order." This highlights its temporary nature and
+            Last-In, First-Out (LIFO) deletion mechanism.If stack memory becomes full, a "Stack Overflow Error" occurs.
+        </li>
+        <li><strong>Contents:</strong> <strong>Temporary Variables:</strong> Variables defined within a method block
+            with a limited lifespan.
+        </li>
+        <li><strong>Separate Memory Blocks for Methods:</strong> Each method call creates a "memory frame" on the stack
+            to hold its variables and execution context.
+        </li>
+        <li><strong>Primitive Data Types:</strong> Stores the actual values of primitives (e.g., int i = 10;).</li>
+        <li><strong>References to Heap Objects:</strong> While objects themselves reside in the Heap, the variables that
+            point to these objects are stored on the stack (e.e., Person obj; where obj is the reference).
+        </li>
+    </ul>
+
+    <h3>Heap Memory:</h3>
+    <ul>
+        <li><strong>Purpose:</strong> Stores all Java objects and String literals (within the String Pool).</li>
+        <li><strong>Characteristics:</strong> "Heap memory is always larger than a stack." "All the threads share a
+            common Heap memory." Unlike the stack, the Heap is a shared resource among all threads.
+        </li>
+        <li>Objects created using the new keyword are allocated in the Heap.</li>
+        <li><strong>Subdivisions:</strong> The Heap is further divided into:
+            <ul>
+                <li><strong>Young Generation: Eden Space:</strong> Where "whenever you created a new object it goes
+                    inside Eden."
+                </li>
+                <li><strong>Survivor Spaces (SO and S1):</strong> Objects that survive a minor garbage collection in
+                    Eden are moved here. These spaces alternate roles during GC cycles.
+                </li>
+                <li><strong>Old Generation (Tenured/Permanent Generation):</strong> Objects that "survive a particular
+                    threshold" (i.e., reach a certain "age" through multiple minor GC cycles) are "promoted" here. "here
+                    the GC runs very less periodically very very less as compared to the young."
+                </li>
+                <li><strong>Non-Heap Memory (Meta Space):</strong> <strong>Purpose:</strong> Stores "class variables,"
+                    "class metadata," and "constants."
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+    <p><strong>Evolution:</strong> "In the previous version of java I think before Java 7 it is called Prime Jam."
+        However, "now it is no more use it is use the meta space."</p>
+
+    <p><strong>Key Difference from PermGen:</strong> "Prem gem was a part of Heap memory and it is not Expendable so as
+        soon as it will get filled up you will get out of memory error but here meta space is out of this Heap... and it
+        is expanded Expendable as you required." This means Meta Space can grow dynamically, reducing "Out Of Memory"
+        errors related to metadata.</p>
     <hr>
     <div class="card-footer">
         <ul class="pagination justify-content-center">

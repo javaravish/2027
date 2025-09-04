@@ -23,7 +23,189 @@
 
 <!-- Main Content Section -->
 <main id="content">
+    <h2>1. Object Lifecycle and Garbage Collection (GC)</h2>
 
+    <h3>A. Deletion Process:</h3>
+    <ol>
+        <li><strong>Stack Cleanup (LIFO):</strong> When a method's scope ends, all variables and references within its
+            memory frame are "deleted from the stack in the LIFO order."
+        </li>
+        <li><strong>Heap Cleanup (Garbage Collector):</strong> After stack references are removed, "objects are left in
+            the Heap who will clean this up? That's where the garbage collector comes into the picture."
+            <ul>
+                <li><strong>Role of GC:</strong> "Garbage collector is used to delete the unreferenced object from the
+                    Heap."
+                </li>
+                <li><strong>Automation:</strong> "JVM controls when to run the garbage collector." While System.gc() can
+                    be called, "there is no guarantee that even if you type this I will run the GC." This signifies
+                    "automatic memory management" where "you don't have to worry about freeing up the memory jvm takes
+                    care of it automatically."
+                </li>
+                <li><strong>Periodicity:</strong> JVM runs GC "periodically," adjusting frequency based on Heap memory
+                    usage.
+                </li>
+            </ul>
+        </li>
+    </ol>
+    <hr>
+    <h3>B. Types of References (Influencing GC Behavior):</h3>
+    <ol>
+        <li><strong>Strong Reference:</strong>
+            <ul>
+                <li><strong>Definition:</strong> The most common type (e.g., Person obj = new Person();).</li>
+                <li><strong>GC Behavior:</strong> "When garbage collector invokes now... it will see that yes there is a
+                    strong reference so it will not delete this it will survive." As long as a strong reference exists,
+                    the object will not be garbage collected.
+                </li>
+            </ul>
+        </li>
+        <li><strong>Weak Reference:</strong>
+            <ul>
+                <li><strong>Definition:</strong> Created using WeakReference class.</li>
+                <li><strong>GC Behavior:</strong> "As soon as the garbage collector runs as soon as garbage collector
+                    get invoked it will freed up this space." This means the object is eligible for garbage collection
+                    even if a weak reference exists. If accessed after GC, it "might get null."
+                </li>
+            </ul>
+        </li>
+        <li><strong>Soft Reference:</strong>
+            <ul>
+                <li><strong>Definition:</strong> A type of weak reference, created using SoftReference class.</li>
+                <li><strong>GC Behavior:</strong> "Garbage collector you are allowed to feed it up even though I have a
+                    soft reference but only do it when it is very very very urgent... when there is no more space and
+                    you have to create a space then go ahead you can remove it." GC prioritizes keeping soft-referenced
+                    objects alive as long as memory is not critically low.
+                </li>
+            </ul>
+        </li>
+    </ol>
+    <hr>
+    <h2>2. Garbage Collection Algorithms and Types</h2>
+
+    <h3>A. Fundamental Algorithm: Mark and Sweep</h3>
+    <ul>
+        <li><strong>Mark Phase:</strong> "it will Mark all the objects which is no more reference and it is allowed to
+            delete."
+        </li>
+        <li><strong>Sweep Phase:</strong> "it do two things it will first remove this it remove this from the memory and
+            what it will do is it will sweep this other the surviving objects into one of this Survivor extract."
+        </li>
+    </ul>
+
+    <h3>B. Mark and Sweep with Compaction:</h3>
+    <ul>
+        <li><strong>Purpose:</strong> To address memory fragmentation.</li>
+        <li><strong>Process:</strong> After sweeping unreferenced objects, it "will bring the objects into sequential...
+            compacted so that we have a memories fragment in a sequential form later so that it any new object it can be
+            added later."
+        </li>
+    </ul>
+
+    <h3>C. Garbage Collector Implementations (Versions):</h3>
+    <ol>
+        <li><strong>Serial GC:</strong>
+            <ul>
+                <li><strong>Threads:</strong> "only one thread" is used for both minor and major GC.</li>
+                <li><strong>Disadvantage:</strong> "it definitely work would be slow." Crucially, "whenever the GC work
+                    start all application threads will get paused," leading to "the world stop when the garbage
+                    collector runs." This makes GC a "very expensive task."
+                </li>
+            </ul>
+        </li>
+        <li><strong>Parallel GC:</strong>
+            <ul>
+                <li><strong>Threads:</strong> "depending upon the core... this many threads got initiated for the
+                    garbage collector and they work parallely."
+                </li>
+                <li><strong>Advantage:</strong> "it would be little bit fast and there would be less pause time"
+                    compared to Serial GC.
+                </li>
+                <li><strong>Current Default:</strong> "this is the default default version of garbage collector in Java
+                    8."
+                </li>
+                <li><strong>Limitation:</strong> "still there is a pause time."</li>
+            </ul>
+        </li>
+        <li><strong>Concurrent Mark and Sweep (CMS) GC:</strong>
+            <ul>
+                <li><strong>Concurrency:</strong> "while your application threads are working... concurrently GC threads
+                    are also working." The goal is "no one is stopping so application threads are not stopping because
+                    of GC threads."
+                </li>
+                <li><strong>Limitations:</strong> "It's not 100 guarantee" that application threads won't stop, and "no
+                    memory compaction happens."
+                </li>
+            </ul>
+        </li>
+        <li><strong>G1 Garbage Collector:</strong>
+            <ul>
+                <li><strong>Improvement over CMS:</strong> "the better version of this where it says that okay try to
+                    give you a hundred percent that okay your application thread will not stop and also it brings a
+                    compaction."
+                </li>
+                <li><strong>Benefits:</strong> Aims to minimize pause times and improve overall application "throughput"
+                    and decrease "latency."
+                </li>
+            </ul>
+        </li>
+    </ol>
+
+    <p>This briefing provides a comprehensive overview of Java memory management, including the roles of Stack and Heap,
+        object lifecycle, different reference types, and the evolution of garbage collection algorithms. Understanding
+        these concepts is fundamental for optimizing Java application performance and debugging memory-related
+        issues.</p>
+    <hr>
+    <h2>3. Eden Space and Survivor Space in Java Garbage Collection</h2>
+    <p>In Java's garbage collection (GC), the heap memory is divided into several regions, with Eden space and Survivor
+        spaces being key components of the young generation. Here's a detailed explanation:</p>
+
+    <h3>1. Eden Space</h3>
+    <ul>
+        <li><strong>Purpose:</strong> Eden is where all new objects are initially allocated.</li>
+        <li><strong>Characteristics:</strong>
+            <ul>
+                <li>Most objects are short-lived and die young (become unreachable quickly)</li>
+                <li>When Eden fills up, a minor GC is triggered</li>
+                <li>After minor GC, surviving objects are moved to a Survivor space</li>
+                <li>Typically the largest section of the young generation</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h3>2. Survivor Spaces (S0 and S1)</h3>
+    <ul>
+        <li><strong>Purpose:</strong> Hold objects that survive garbage collection in Eden</li>
+        <li><strong>Characteristics:</strong>
+            <ul>
+                <li>There are always two Survivor spaces (commonly called "From" and "To" or S0 and S1)</li>
+                <li>Only one is active (contains objects) at any time</li>
+                <li>Objects are copied between Survivor spaces with each minor GC</li>
+                <li>Objects that survive a certain number of GC cycles (age threshold) are promoted to the old
+                    generation
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <hr>
+    <h2>4. The Lifecycle of an Object</h2>
+    <ol>
+        <li>Object is created in Eden space</li>
+        <li>When Eden is full, minor GC occurs:
+            <ul>
+                <li>Dead objects are collected</li>
+                <li>Live objects are moved to Survivor space (S0)</li>
+            </ul>
+        </li>
+        <li>Next minor GC:
+            <ul>
+                <li>Dead objects in Eden and S0 are collected</li>
+                <li>Surviving objects from both are moved to S1</li>
+                <li>Age counters for surviving objects are incremented</li>
+            </ul>
+        </li>
+        <li>This copying between S0 and S1 continues</li>
+        <li>When an object's age exceeds a threshold (often 15), it's promoted to the old generation</li>
+    </ol>
     <hr>
     <div class="card-footer">
         <ul class="pagination justify-content-center">

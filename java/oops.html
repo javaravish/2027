@@ -23,7 +23,231 @@
 
 <!-- Main Content Section -->
 <main id="content">
+    <h2>1. Introduction to OOP in Java</h2>
+    <p>Object-Oriented Programming (OOP) is a programming paradigm based on the concept of "objects" which can contain
+        data (attributes) and code (methods). Java is fundamentally object-oriented, with all code written inside
+        classes.</p>
+    <hr>
+    <h2>2. Core OOP Concepts in Java</h2>
 
+    <p><strong>1. Class</strong><br>
+        A class is a blueprint or template for creating objects. It defines:</p>
+    <p>• The data/attributes (fields/variables) that each object will have</p>
+    <p>• The behavior/actions (methods/functions) that each object can perform</p>
+    <hr>
+    <p><strong>2. Object</strong><br>
+        An object is an instance of a class. It's a concrete entity created from the class blueprint, with its own set
+        of values for the attributes.</p>
+
+    <p>Example:</p>
+    <pre class="java-code">
+        <code>
+<span class="comment">// Class definition</span>
+<span class="keyword">class</span> <span class="class">Car</span> {
+    <span class="comment">// Fields (attributes)</span>
+    <span class="class">String</span> color;
+    <span class="class">String</span> model;
+    <span class="class">int</span> year;
+
+    <span class="comment">// Method</span>
+    <span class="keyword">void</span> <span class="method">startEngine</span>() {
+        <span class="class">System</span>.out.println(<span class="string">"Engine started for "</span> + model);
+    }
+}
+
+<span class="keyword">public class</span> <span class="class">Main</span> {
+    <span class="keyword">public static</span> <span class="class">void</span> <span class="method">main</span>(<span
+                class="class">String</span>[] args) {
+        <span class="comment">// Creating an object</span>
+        <span class="class">Car</span> myCar = <span class="keyword">new</span> <span class="class">Car</span>();
+        myCar.color = <span class="string">"Red"</span>;
+        myCar.model = <span class="string">"Tesla Model S"</span>;
+        myCar.year = 2023;
+
+        myCar.startEngine(); <span class="comment">// Output: Engine started for Tesla Model S</span>
+    }
+}
+        </code>
+    </pre>
+    <hr>
+    <h3>3. Abstraction</h3>
+    <p>Hides complex implementation details and shows only essential features. Reduces complexity and increases
+        efficiency.</p>
+    <p>is a technique by which we can hide the unnecessary data that is not needed from a user and expose only that data
+        is of interest to the user. It hides all unwanted data so that users can work only with the required data.</p>
+
+    <p><strong>Implementation Methods:</strong></p>
+    <p>1. Abstract classes: Can have both abstract and concrete methods</p>
+    <p>2. Interfaces: Pure abstraction (until Java 7)</p>
+
+    <p><strong>Why Use Abstraction?</strong></p>
+    <p>• Reduce complexity: Hide unnecessary details</p>
+    <p>• Security: Expose only what's needed</p>
+    <p>• Flexibility: Change implementation without affecting users</p>
+    <hr>
+    <h3>4. Encapsulation</h3>
+    <p>Bundling data (attributes) and methods (behaviors) that operate on that data into a single unit (class), while
+        restricting direct access to some components.</p>
+    <p>Protects data by restricting direct access and provides controlled access through methods. Prevents unauthorized
+        access and modification.</p>
+    <p>Through encapsulation, data is hidden and protected from access by outside non-member methods of a class. Only
+        member methods defined in a class will have access to the data.</p>
+
+    <p><strong>Why Use Encapsulation?</strong></p>
+    <p>• Data protection: Prevent unauthorized access</p>
+    <p>• Controlled access: Validate data before modification</p>
+    <p>• Flexibility: Change implementation without affecting other code</p>
+
+    <p>Example:</p>
+    <pre class="java-code">
+        <code>
+<span class="keyword">class</span> <span class="class">BankAccount</span> {
+    <span class="keyword">private</span> <span class="class">double</span> balance; <span class="comment">// private field</span>
+
+    <span class="comment">// Public method to access private field</span>
+    <span class="keyword">public</span> <span class="class">double</span> <span class="method">getBalance</span>() {
+        <span class="keyword">return</span> balance;
+    }
+
+    <span class="comment">// Public method to modify private field with validation</span>
+    <span class="keyword">public</span> <span class="class">void</span> <span class="method">deposit</span>(<span
+                class="class">double</span> amount) {
+        <span class="keyword">if</span> (amount > 0) {
+            balance += amount;
+        }
+    }
+
+    <span class="keyword">public</span> <span class="class">void</span> <span class="method">withdraw</span>(<span
+                class="class">double</span> amount) {
+        <span class="keyword">if</span> (amount > 0 && amount <= balance) {
+            balance -= amount;
+        }
+    }
+}
+
+<span class="keyword">public class</span> <span class="class">Main</span> {
+    <span class="keyword">public static</span> <span class="class">void</span> <span class="method">main</span>(<span
+                class="class">String</span>[] args) {
+        <span class="class">BankAccount</span> account = <span class="keyword">new</span> <span class="class">BankAccount</span>();
+        account.deposit(1000);
+        <span class="comment">// account.balance = -500; // Error: balance is private</span>
+        account.withdraw(200);
+        <span class="class">System</span>.out.println(<span class="string">"Balance: "</span> + account.getBalance());
+    }
+}
+        </code>
+    </pre>
+    <hr>
+    <h3>5. Polymorphism</h3>
+    <p>The ability of objects to take on many forms (same method name behaves differently based on the object).</p>
+
+    <p><strong>Types of Polymorphism:</strong></p>
+    <p>1. <strong>Compile-time (Method Overloading):</strong> Multiple methods with same name but different parameters
+    </p>
+    <p>2. <strong>Runtime (Method Overriding):</strong> Child class provides specific implementation of parent's method
+    </p>
+
+    <p><strong>Why Use Polymorphism?</strong></p>
+    <p>• Flexibility: Write code that works with objects of different classes</p>
+    <p>• Extensibility: Easily add new classes without modifying existing code</p>
+    <hr>
+    <h3>6. Inheritance</h3>
+    <p>A mechanism where a new class (child/subclass) inherits properties and behaviors from an existing class
+        (parent/superclass).</p>
+    <p>Promotes code reuse and establishes relationships between classes. Child classes inherit fields and methods from
+        parent classes.</p>
+    <p>Inheritance in Java is a process where a child class acquires all the properties and behaviors of the parent
+        class. The existing class is called parent class and the new class is called child class.</p>
+
+    <p><strong>Why Use Inheritance?</strong></p>
+    <p>1. Code Reusability: Avoid duplicating code</p>
+    <p>2. Method Overriding: Enable runtime polymorphism</p>
+    <p>3. Class Hierarchy: Create logical relationships</p>
+    <p>4. Extensibility: Easily add new features to existing code</p>
+
+    <h4>Types of Inheritance in Java</h4>
+    <p>1. Single Inheritance</p>
+    <p>2. Multilevel Inheritance</p>
+    <p>3. Hierarchical Inheritance</p>
+    <p>4. Multiple Inheritance (Through Interfaces)</p>
+
+    <p>Java doesn't support multiple inheritance with classes but allows it with interfaces</p>
+    <p>Java intentionally does not support multiple inheritance of classes (where a class can inherit from multiple
+        parent classes) to avoid complexity and ambiguity in code.</p>
+
+    <h4>The Diamond Problem: Core Issue</h4>
+    <p>The primary reason is the "diamond problem", a classic multiple inheritance ambiguity that occurs when:</p>
+
+    <p>If:</p>
+    <p>- Class A has a method print()</p>
+    <p>- Classes B and C override print()</p>
+    <p>- Class D inherits from both B and C</p>
+    <p>Ambiguity: Which print() should D inherit - B's version or C's version?</p>
+    <hr>
+    <h2>3. Association, Aggregation, and Composition</h2>
+
+    <h3>1. Association</h3>
+    <p>• Bi-directional relationship between objects</p>
+    <p>• Objects have their own lifecycle</p>
+    <p>• Example: Teacher and Student</p>
+    <pre class="java-code">
+        <code>
+<span class="keyword">class</span> <span class="class">Teacher</span> {
+    <span class="keyword">void</span> <span class="method">teach</span>(<span class="class">Student</span> s) {
+        <span class="class">System</span>.out.println(<span class="string">"Teaching student"</span>);
+    }
+}
+
+<span class="keyword">class</span> <span class="class">Student</span> {
+    <span class="keyword">void</span> <span class="method">learn</span>(<span class="class">Teacher</span> t) {
+        <span class="class">System</span>.out.println(<span class="string">"Learning from teacher"</span>);
+    }
+}
+        </code>
+    </pre>
+    <hr>
+    <h3>2. Aggregation (Weak "has-a")</h3>
+    <p>• One object "has" another object</p>
+    <p>• Child can exist without parent</p>
+    <p>• Example: Department has Professors</p>
+    <pre class="java-code">
+        <code>
+<span class="keyword">class</span> <span class="class">Professor</span> {
+    <span class="class">String</span> name;
+    <span class="class">Professor</span>(<span class="class">String</span> name) { <span class="keyword">this</span>.name = name; }
+}
+
+<span class="keyword">class</span> <span class="class">Department</span> {
+    <span class="class">List</span>&lt;<span class="class">Professor</span>&gt; professors;
+    <span class="class">Department</span>(<span class="class">List</span>&lt;<span class="class">Professor</span>&gt; profs) {
+        professors = profs;
+    }
+}
+        </code>
+    </pre>
+    <hr>
+    <h3>3. Composition (Strong "has-a")</h3>
+    <p>• One object "owns" another object</p>
+    <p>• Child cannot exist without parent</p>
+    <p>• Example: Car has an Engine</p>
+    <pre class="java-code">
+        <code>
+<span class="keyword">class</span> <span class="class">Engine</span> {
+    <span class="keyword">void</span> <span class="method">start</span>() { <span class="class">System</span>.out.println(<span
+                class="string">"Engine started"</span>); }
+}
+
+<span class="keyword">class</span> <span class="class">Car</span> {
+    <span class="keyword">private</span> <span class="class">Engine</span> engine;
+    <span class="class">Car</span>() {
+        engine = <span class="keyword">new</span> <span class="class">Engine</span>(); <span class="comment">// Engine created with Car</span>
+    }
+    <span class="keyword">void</span> <span class="method">startCar</span>() {
+        engine.start();
+    }
+}
+        </code>
+    </pre>
     <hr>
     <div class="card-footer">
         <ul class="pagination justify-content-center">
