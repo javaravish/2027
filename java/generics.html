@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Generics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../js/styles.css"/>
+</head>
+<body data-sidebar="java">
+<nav>
+    <button class="mobile-sidebar-btn" id="mobileSidebarBtn">☰</button>
+    <div class="breadcrumbs">
+        <a href="../home.html">Home</a>
+        <span class="separator">/</span>
+        <a href="intro.html">Java</a>
+        <span class="separator">/</span>
+        <a href="#">Generics</a>
+    </div>
+</nav>
+
+<!-- Header will be inserted by JavaScript -->
+
+<!-- Sidebar will be inserted by JavaScript -->
+
+<!-- Main Content Section -->
+<main id="content">
+    <h2>1. Generics</h2>
+    <p>Generics in Java allow you to write code that works with different data types without specifying the exact type
+        in advance, making your code more flexible, reusable, and type-safe. Generics were introduced in Java 5 to
+        address shortcomings of pre-generic Java in handling objects, specifically regarding type safety and
+        reusability.</p>
+
+    <p><strong>Why use generics?</strong></p>
+    <p>Generics offer several key advantages:</p>
+    <p>- <strong>Type Safety:</strong> Generics enable the compiler to perform type checking at compile time, catching
+        errors that would otherwise manifest at runtime as ClassCastException .</p>
+    <p>- <strong>Code Reusability:</strong> You can write a single class, interface, or method that operates on various
+        data types, reducing code duplication.</p>
+    <p>- <strong>No Explicit Type Casting:</strong> Generics eliminate the need for manual type casting when retrieving
+        objects, resulting in cleaner and more readable code.</p>
+    <p>- <strong>Improved Code Readability and Maintainability:</strong> By specifying types explicitly, generic code
+        becomes easier to understand and maintain.</p>
+    <p>- <strong>Generic Algorithms:</strong> Generics enable the creation of algorithms that work across various types,
+        promoting efficient coding practices.</p>
+
+    <p><strong>How generics work</strong></p>
+    <p>Generics work by using <strong>type parameters</strong>—placeholders for actual data types. These type parameters
+        are defined within angle brackets &lt; &gt;. For examples of generic classes and methods, you can refer to the
+        provided source documents.</p>
+
+    <p><strong>Key concepts</strong></p>
+    <p>- <strong>Type Erasure:</strong> During compilation, the Java compiler replaces generic type parameters with
+        their bounds (or Object if no bounds are specified), ensuring backward compatibility but limiting runtime type
+        information.</p>
+    <p>- <strong>Bounded Type Parameters:</strong> You can restrict the types that can be used as type arguments using
+        the extends keyword (upper bound) or super keyword (lower bound).</p>
+    <p>- List&lt;? extends Number&gt;: Accepts Number or any of its subclasses (e.g., Integer, Double).</p>
+    <p>- List&lt;? super Integer&gt;: Accepts Integer or any of its superclasses (e.g., Number, Object).</p>
+    <p>- <strong>Wildcards:</strong> Represented by the ? symbol, wildcards can specify unknown types in situations like
+        method parameters or field declarations, increasing flexibility.</p>
+    <p>- List&lt;?&gt;: Represents a list of unknown type.</p>
+
+    <p><strong>Limitations</strong></p>
+    <p>- Generics cannot directly work with primitive types (e.g., int, char, double); you must use their corresponding
+        wrapper classes (e.e., Integer, Character, Double).</p>
+    <p>- You cannot create instances of a generic type parameter (e.g., new T()).</p>
+    <p>- Due to type erasure, you cannot use instanceof with parameterized types at runtime.</p>
+
+    <p>Generics are a vital part of modern Java development, significantly improving the safety, reusability, and
+        readability of your code. Understanding their principles and mastering their usage is crucial for any Java
+        programmer.</p>
+    <hr>
+    <div class="card-footer">
+        <ul class="pagination justify-content-center">
+            <li class="page-item"><a class="page-link btn-outline-primary"
+                                     href="../java/clone.html">&lArr; Previous</a></li>
+            <li class="page-item"><a class="page-link" href="../java/annotations.html">Next
+                &rArr;</a></li>
+        </ul>
+    </div>
+</main>
+
+<!-- Footer will be inserted by JavaScript -->
+
+<!-- Scripts -->
+<script src="../js/sidebar.js"></script>
+<script src="../js/componentLoader.js"></script>
+</body>
+</html>

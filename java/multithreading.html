@@ -23,7 +23,1367 @@
 
 <!-- Main Content Section -->
 <main id="content">
+    <h1>Java Multithreading</h1>
 
+    <h2>1. What is multithreading in java</h2>
+    <p>Multithreading in Java allows multiple threads to run concurrently within a single program. This enables
+        efficient CPU usage by allowing the operating system to execute different parts of a program at the same time.
+        Multithreading improves the performance of applications, especially those that need to perform multiple tasks
+        simultaneously, like games, real-time data processing, or web servers.</p>
+
+    <h2>1. Thread states/ Thread life cycle in java</h2>
+    <p>Thread states/Thread life cycle is very basic question, before going deep into concepts we must understand Thread
+        life cycle. This post contains in depth explanation of thread methods explaining which method puts thread from
+        which state to which state.</p>
+    <p>Thread have following states</p>
+
+    <img src="../js/images/Java/multi.png" class="responsive-img">
+
+    <p>- <strong>New</strong>: A thread is in this state when it is created but not yet started.</p>
+    <p>- <strong>Runnable</strong>: A thread is in this state when it is ready to execute, but the JVM scheduler decides
+        when to run it.</p>
+    <p>- <strong>Blocked</strong>: A thread enters this state when it is waiting for a lock to be released by another
+        thread.</p>
+    <p>- <strong>Waiting</strong>: A thread enters this state when it is waiting indefinitely for another thread to
+        perform a particular action (e.g., wait() method).</p>
+    <p>- <strong>Timed Waiting</strong>: A thread enters this state when it is waiting for a specific amount of time
+        (e.g., sleep(), join() with a timeout).</p>
+    <p>- <strong>Terminated</strong>: A thread enters this state when it has finished execution or was terminated due to
+        an error.</p>
+
+    <h2>2. Difference between Process and Thread in java</h2>
+    <p>One process can have multiple Threads,</p>
+    <p>Thread are subdivision of Process. One or more Threads runs in the context of process. Threads can execute any
+        part of process. And some part of process can be executed by multiple Threads.</p>
+    <p>Processes have their own copy of the data segment of the parent process while Threads have direct access to the
+        data segment of its process.</p>
+    <p>Processes have their own address while Threads share the address space of the process that created it.</p>
+    <p>Process creation needs whole lot of stuff to be done, we might need to copy whole parent process, but Thread can
+        be easily created.</p>
+    <p>Processes can easily communicate with child processes but interprocess communication is difficult. While, Threads
+        can easily communicate with other threads of the same process using wait() and notify() methods.</p>
+    <p>In process all threads share system resource like heap Memory etc. while Thread has its own stack.</p>
+    <p>Any change made to process does not affect child processes, but any change made to thread can affect the behavior
+        of the other threads of the process.</p>
+
+    <h2>3. Threads can be created in two ways</h2>
+    <p>You can create a thread in Java by either:</p>
+    <p>• Extending the Thread class: Create a subclass of Thread and override the run() method to define the task.</p>
+    <p>• Implementing the Runnable interface: Create a class that implements Runnable and define the run() method. Then,
+        pass an instance of the class to a Thread object and start the thread by calling its start() method.</p>
+
+    <h3>1. Thread creation by implementing java.lang.Runnable interface.</h3>
+    <p>Create Runnable object, pass it in thread constructor. But our thread is not going to start until we call
+        thread.start(), calling start() method internally calls run() method.</p>
+    <pre class="java-code">
+        <code>
+<span class="keyword">class</span> <span class="class">MyRunnable</span> <span class="keyword">implements</span> <span
+                class="class">Runnable</span>{
+    <span class="keyword">public</span> <span class="class">void</span> <span class="method">run</span>(){
+        <span class="comment">//overrides Runnable's run() method</span>
+        <span class="class">System</span>.out.println(<span class="string">"in run() method"</span>);
+    }
+}
+
+<span class="keyword">public class</span> <span class="class">MyClass</span> {
+    <span class="keyword">public static</span> <span class="class">void</span> <span class="method">main</span>(<span
+                class="class">String</span> args[]){
+        <span class="class">MyRunnable</span> runnable=<span class="keyword">new</span> <span
+                class="class">MyRunnable</span>();
+        <span class="class">Thread</span> thread=<span class="keyword">new</span> <span class="class">Thread</span>(runnable);
+        thread.start();
+    }
+}
+
+<span class="comment">/*OUTPUT */</span>
+<span class="comment">in run() method</span>
+<span class="comment">*/</span>
+        </code>
+    </pre>
+
+    <h3>2. Program to create thread extending java.lang.Thread</h3>
+    <pre class="java-code">
+        <code>
+<span class="keyword">class</span> <span class="class">MyThread</span> <span class="keyword">extends</span> <span
+                class="class">Thread</span>{
+    <span class="keyword">public</span> <span class="class">void</span> <span class="method">run</span>(){
+        <span class="comment">//overrides Thread's run() method</span>
+        <span class="class">System</span>.out.println(<span class="string">"in run() method"</span>);
+        <span class="class">System</span>.out.println(<span class="string">"currentThreadName="</span> + <span
+                class="class">Thread</span>.currentThread().getName());
+    }
+}
+
+<span class="keyword">public class</span> <span class="class">MyClass</span> {
+    <span class="keyword">public static</span> <span class="class">void</span> <span class="method">main</span>(<span
+                class="class">String</span> args[]){
+        <span class="class">System</span>.out.println(<span class="string">"currentThreadName="</span> + <span
+                class="class">Thread</span>.currentThread().getName());
+        <span class="class">MyThread</span> obj=<span class="keyword">new</span> <span class="class">MyThread</span>();
+        obj.start();
+    }
+}
+
+<span class="comment">/*OUTPUT</span>
+<span class="comment">currentThreadName= main</span>
+<span class="comment">in run() method</span>
+<span class="comment">currentThreadName= Thread-1</span>
+<span class="comment">*/</span>
+        </code>
+    </pre>
+
+    <p>If we note output of program, we will find that program started with main thread, and then calling obj.start()
+        called run() method with Thread-1</p>
+
+    <h3>We should implement Runnable interface or extend Thread class ?</h3>
+    <p>Well the answer is you must extend Thread only when you are looking to modify run() and other methods as well. If
+        you are simply looking to modify only the run() method implementing Runnable is the best option (Runnable
+        interface has only one abstract method i.e. run() ).</p>
+
+    <h2>4. Differences between implementing Runnable interface and extending Thread class</h2>
+    <p>1. Multiple inheritance in not allowed in java : When we implement Runnable interface we can extend another class
+        as well, but if we extend Thread class we cannot extend any other class because java does not allow multiple
+        inheritance. So, same work is done by implementing Runnable and extending Thread but in case of implementing
+        Runnable we are still left with option of extending some other class. So, it's better to implement Runnable.</p>
+    <p>2. Thread safety : When we implement Runnable interface, same object is shared amongst multiple threads, but when
+        we extend Thread class each and every thread gets associated with new object.</p>
+    <p>3. Inheritance (Implementing Runnable is lightweight operation) : When we extend Thread unnecessary all Thread
+        class features are inherited, but when we implement Runnable interface no extra feature are inherited, as
+        Runnable only consists only of one abstract method i.e. run() method. So, implementing Runnable is lightweight
+        operation.</p>
+    <p>4. Coding to interface : Even java recommends coding to interface. So, we must implement Runnable rather than
+        extending thread. Also, Thread class implements Runnable interface.</p>
+    <p>5. Don't extend unless you wanna modify fundamental behaviour of class, Runnable interface has only one abstract
+        method i.e. run() : We must extend Thread only when you are looking to modify run() and other methods as well.
+        If you are simply looking to modify only the run() method implementing Runnable is the best option (Runnable
+        interface has only one abstract method i.e. run() ). We must not extend Thread class unless we're looking to
+        modify fundamental behaviour of Thread class.</p>
+    <p>6. Flexibility in code when we implement Runnable : When we extend Thread first a fall all thread features are
+        inherited and our class becomes direct subclass of Thread, so whatever action we are doing is in Thread class.
+        But, when we implement Runnable we create a new thread and pass runnable object as parameter, we could pass
+        runnable object to executorService & much more. So, we have more options when we implement Runnable and our code
+        becomes more flexible.</p>
+    <p>7. ExecutorService : If we implement Runnable, we can start multiple thread created on runnable object with
+        ExecutorService (because we can start Runnable object with new threads), but not in the case when we extend
+        Thread (because thread can be started only once).</p>
+    <p>Conclusion : I'll recommend you to go for implementing Runnable rather than extending Thread class.</p>
+
+    <h3>Difference between Runnable and Thread in Java?</h3>
+    <p>1. Runnable is an interface that defines a single method run() , which contains the code to be executed by a
+        thread. Thread , on the other hand, is a class that represents an actual thread of execution. A Thread can
+        implement the Runnable interface, allowing you to decouple the task from the thread management, enabling better
+        code reuse.</p>
+
+    <h3>What will happen if we don't override run method of thread?</h3>
+    <p>When we call start() method on thread, it internally calls run() method with newly created thread. So, if we
+        don't override run() method newly created thread won't be called and nothing will happen.</p>
+    <pre class="java-code">
+        <code>
+<span class="keyword">class</span> <span class="class">MyThread</span> <span class="keyword">extends</span> <span
+                class="class">Thread</span> {
+    <span class="comment">//don't override run() method</span>
+}
+
+<span class="keyword">public class</span> <span class="class">DontOverrideRun</span> {
+    <span class="keyword">public static</span> <span class="class">void</span> <span class="method">main</span>(<span
+                class="class">String</span>[] args) {
+        <span class="class">System</span>.out.println(<span class="string">"main has started."</span>);
+        <span class="class">MyThread</span> thread=<span class="keyword">new</span> <span class="class">MyThread</span>();
+        thread.start();
+        <span class="class">System</span>.out.println(<span class="string">"main has ended."</span>);
+    }
+}
+
+<span class="comment">/*OUTPUT */</span>
+<span class="comment">main has started.</span>
+<span class="comment">main has ended.</span>
+<span class="comment">*/</span>
+        </code>
+    </pre>
+    <p>As we saw in output, we didn't override run() method that's why on calling start() method nothing happened.</p>
+
+    <h3>What will happen if we override start method of thread?</h3>
+    <p>This question will again test your basic core java knowledge how overriding works at runtime, what what will be
+        called at runtime and how start and run methods work internally in Thread Api.</p>
+    <p>When we call start() method on thread, it internally calls run() method with newly created thread. So, if we
+        override start() method, run() method will not be called until we write code for calling run() method.</p>
+    <pre class="java-code">
+        <code>
+<span class="keyword">class</span> <span class="class">MyThread</span> <span class="keyword">extends</span> <span
+                class="class">Thread</span> {
+    @Override
+    <span class="keyword">public</span> <span class="class">void</span> <span class="method">run</span>() {
+        <span class="class">System</span>.out.println(<span class="string">"in run() method"</span>);
+    }
+
+    @Override
+    <span class="keyword">public</span> <span class="class">void</span> <span class="method">start</span>() {
+        <span class="class">System</span>.out.println(<span class="string">"In start() method"</span>);
+    }
+}
+
+<span class="keyword">public class</span> <span class="class">OverrideStartMethod</span> {
+    <span class="keyword">public static</span> <span class="class">void</span> <span class="method">main</span>(<span
+                class="class">String</span>[] args) {
+        <span class="class">System</span>.out.println(<span class="string">"main has started."</span>);
+        <span class="class">MyThread</span> thread1=<span class="keyword">new</span> <span class="class">MyThread</span>();
+        thread1.start();
+        <span class="class">System</span>.out.println(<span class="string">"main has ended."</span>);
+    }
+}
+
+<span class="comment">/*OUTPUT</span>
+<span class="comment">main has started.</span>
+<span class="comment">In start() method</span>
+<span class="comment">main has ended.</span>
+<span class="comment">*/</span>
+        </code>
+    </pre>
+    <p>If we note output, we have overridden start method and didn't called run() method from it, so, run() method
+        wasn't call.</p>
+
+    <h3>Difference between starting thread with run() and start() methods in java</h3>
+    <p>When you call start() method, main thread internally calls run() method to start newly created Thread. So run()
+        method is ultimately called by newly created thread.</p>
+    <p>When you call run() method main thread rather than starting run() method with newly thread it start run() method
+        by itself.</p>
+
+    <h4>Let's use start() method to start a thread</h4>
+    <pre class="java-code">
+        <code>
+<span class="keyword">class</span> <span class="class">MyRunnable</span> <span class="keyword">implements</span> <span
+                class="class">Runnable</span>{
+    <span class="keyword">public</span> <span class="class">void</span> <span class="method">run</span>() { <span
+                class="comment">//overrides Runnable's run() method</span>
+        <span class="class">System</span>.out.println(<span class="string">"in run() method"</span>);
+        <span class="class">System</span>.out.println(<span class="string">"currentThreadName="</span> + <span
+                class="class">Thread</span>.currentThread().getName());
+    }
+}
+
+<span class="keyword">public class</span> <span class="class">MyClass</span> {
+    <span class="keyword">public static</span> <span class="class">void</span> <span class="method">main</span>(<span
+                class="class">String</span> args[]) {
+        <span class="class">System</span>.out.println(<span class="string">"currentThreadName="</span> + <span
+                class="class">Thread</span>.currentThread().getName());
+        <span class="class">MyRunnable</span> runnable=<span class="keyword">new</span> <span
+                class="class">MyRunnable</span>();
+        <span class="class">Thread</span> thread=<span class="keyword">new</span> <span class="class">Thread</span>(runnable);
+        thread.start();
+    }
+}
+
+<span class="comment">/*OUTPUT</span>
+<span class="comment">currentThreadName= main</span>
+<span class="comment">in run() method</span>
+<span class="comment">currentThreadName= Thread-0</span>
+<span class="comment">*/</span>
+        </code>
+    </pre>
+    <p>If we note output, when we called start() from main thread, run() method was called by new Thread (i.e.
+        Thread-0).</p>
+
+    <h4>Let's use run() method to start a thread</h4>
+    <pre class="java-code">
+        <code>
+<span class="keyword">class</span> <span class="class">MyRunnable</span> <span class="keyword">implements</span> <span
+                class="class">Runnable</span>{
+    <span class="keyword">public</span> <span class="class">void</span> <span class="method">run</span>(){
+        <span class="comment">//overrides Runnable's run() method</span>
+        <span class="class">System</span>.out.println(<span class="string">"in run() method"</span>);
+        <span class="class">System</span>.out.println(<span class="string">"currentThreadName="</span> + <span
+                class="class">Thread</span>.currentThread().getName());
+    }
+}
+
+<span class="keyword">public class</span> <span class="class">MyClass</span> {
+    <span class="keyword">public static</span> <span class="class">void</span> <span class="method">main</span>(<span
+                class="class">String</span> args[]) {
+        <span class="class">System</span>.out.println(<span class="string">"currentThreadName="</span> + <span
+                class="class">Thread</span>.currentThread().getName());
+        <span class="class">MyRunnable</span> runnable=<span class="keyword">new</span> <span
+                class="class">MyRunnable</span>();
+        <span class="class">Thread</span> thread=<span class="keyword">new</span> <span class="class">Thread</span>(runnable);
+        thread.run();
+    }
+}
+
+<span class="comment">/*OUTPUT</span>
+<span class="comment">currentThreadName= main</span>
+<span class="comment">in run() method</span>
+<span class="comment">currentThreadName= main</span>
+<span class="comment">*/</span>
+        </code>
+    </pre>
+    <p>If we note output, when we called run() from main thread, run() method was called by main Thread, not by newly
+        created thread (i.e. Thread-0).</p>
+
+    <h3>Can we start Thread again in java?</h3>
+    <p>No, we cannot start Thread again, doing so will throw runtimeException java.lang.IllegalThreadStateException. The
+        reason is once run() method is executed by Thread, it goes into dead state.</p>
+    <p>Let's take an example-</p>
+    <p>Thinking of starting thread again and calling start() method on it (which internally is going to call run()
+        method) for us is some what like asking dead man to wake up and run. As, after completing his life person goes
+        to dead state.</p>
+
+    <h4>Program to show that IllegalThreadStateException is thrown when we try to start thread again</h4>
+    <pre class="java-code">
+        <code>
+<span class="keyword">public class</span> <span class="class">MyClass</span> <span
+                class="keyword">implements</span> <span class="class">Runnable</span>{
+    @Override
+    <span class="keyword">public</span> <span class="class">void</span> <span class="method">run</span>(){
+        <span class="class">System</span>.out.println(<span class="string">"in run() method, method completed."</span>);
+    }
+
+    <span class="keyword">public static</span> <span class="class">void</span> <span class="method">main</span>(<span
+                class="class">String</span>[] args) {
+        <span class="class">MyClass</span> obj=<span class="keyword">new</span> <span class="class">MyClass</span>();
+        <span class="class">Thread</span> thread1=<span class="keyword">new</span> <span class="class">Thread</span>(obj,<span
+                class="string">"Thread-1"</span>);
+        thread1.start();
+        thread1.start(); <span class="comment">//will throw java.lang.IllegalThreadStateException at runtime</span>
+    }
+}
+
+<span class="comment">/*OUTPUT</span>
+<span class="comment">in run() method, method completed.</span>
+<span class="comment">Exception in thread "main" java.lang.IllegalThreadStateException</span>
+<span class="comment">at java.lang.Thread.start(Unknown Source)</span>
+<span class="comment">*/</span>
+        </code>
+    </pre>
+
+    <h3>Different ways to achieve thread synchronization in Java?</h3>
+    <p>Thread synchronization can be achieved using:</p>
+    <p>1. <strong>Synchronized Methods</strong>: Locking an entire method so that only one thread can execute it at a
+        time.</p>
+    <p>2. <strong>Synchronized Blocks</strong>: Locking a specific block of code within a method, providing more
+        granular control over which sections of code are synchronized.</p>
+    <p>3. <strong>Explicit Locks</strong>: Using <code>ReentrantLock</code> and other locks from the <code>java.util.concurrent.locks</code>
+        package for more advanced synchronization features, such as trying to acquire a lock without blocking.</p>
+
+    <h4>Difference between synchronized method and synchronized block?</h4>
+    <p>1. A <strong>synchronized method</strong> locks the entire method, ensuring that only one thread can execute that
+        method at a time. This can potentially lock unnecessary parts of the code.</p>
+    <p>2. A <strong>synchronized block</strong> locks only the specific block of code within a method, providing more
+        flexibility and allowing you to lock just the critical section that requires synchronization, reducing the scope
+        of contention.</p>
+
+    <h4>How do threads communicate with each other?</h4>
+    <p>1. Threads communicate using <code>wait()</code>, <code>notify()</code>, and <code>notifyAll()</code> methods,
+        which are part of the <code>Object</code> class in Java. These methods are typically used for inter-thread
+        communication in situations where threads need to coordinate their execution based on some shared state or
+        condition.</p>
+
+    <h4>Purpose of wait(), notify(), and notifyAll()?</h4>
+    <p>1. <code>wait()</code> causes the current thread to release the lock and enter a waiting state until another
+        thread calls <code>notify()</code> or <code>notifyAll()</code> on the same object.</p>
+    <p>2. <code>notify()</code> wakes up a single thread that is waiting on the object's monitor.</p>
+    <p>3. <code>notifyAll()</code> wakes up all threads that are waiting on the object's monitor, allowing them to
+        compete for the lock.</p>
+
+    <h4>What are the ways to achieve thread safety in Java?</h4>
+    <p>1. Thread safety can be achieved using:</p>
+    <p>- <strong>Synchronization</strong>: Using synchronized blocks or methods to control access to shared resources.
+    </p>
+    <p>- <strong>Volatile Variables</strong>: Ensuring that changes to variables are immediately visible to other
+        threads.</p>
+    <p>- <strong>Atomic Variables</strong>: Using classes like <code>AtomicInteger</code> or
+        <code>AtomicReference</code> to perform operations atomically.</p>
+    <p>- <strong>Concurrent Collections</strong>: Using thread-safe collections like <code>ConcurrentHashMap</code> or
+        <code>CopyOnWriteArrayList</code> for managing shared data.</p>
+
+    <h4>What is an atomic operation?</h4>
+    <p>1. An atomic operation is a series of operations that are executed as a single, indivisible unit of work. It
+        ensures that no other thread can interfere with the operation. For example, incrementing a variable atomically
+        means that no other thread can change the value of the variable between the read and write operations.</p>
+
+    <h4>What is the difference between volatile keyword and Atomic classes?</h4>
+    <p>1. The <code>volatile</code> keyword ensures visibility of changes to a variable across all threads, meaning when
+        one thread modifies a variable, other threads see the updated value immediately. However, it does not ensure
+        atomicity (i.e., it doesn't prevent race conditions).</p>
+    <p>2. Atomic classes, such as <code>AtomicInteger</code>, provide both visibility and atomicity for operations like
+        incrementing or updating a variable.</p>
+
+    <h3>Volatile keyword in java- difference between synchronized and volatile, 10 key points about volatile keyword,
+        why volatile variables are not cached in memory</h3>
+    <h4>volatile keyword?</h4>
+    <p>Using Volatile is java is very important topic, I will be covering this topic in lot of detail. Java allows
+        threads to access shared variables. As a rule, to ensure that shared variables are consistently updated, a
+        thread should ensure that it has exclusive use of such variables by obtaining a lock that enforces mutual
+        exclusion for those shared variables.</p>
+    <p>If a field is declared volatile, in that case the Java memory model ensures that all threads see a consistent
+        value for the variable.</p>
+
+    <h4>What could be impact of not using volatile keyword?</h4>
+    <p>We will create method1() which will be called repeatedly called by thread1 & method2() which will be called
+        repeatedly called by thread2.</p>
+    <pre class="java-code">
+        <code>
+<span class="keyword">static</span> <span class="class">int</span> x = 0, y = 0;
+<span class="keyword">static</span> <span class="class">void</span> <span class="method">method1</span>() {
+    x++; y++;
+}
+
+<span class="keyword">static</span> <span class="class">void</span> <span class="method">method2</span>() {
+    <span class="class">System</span>.out.println(<span class="string">"x="</span> + x + <span
+                class="string">" y="</span> + y);
+}
+        </code>
+    </pre>
+    <p>then method two could occasionally print a value for x that is greater than the value of y, because neither
+        synchronization nor volatile is used. The shared values of x and y might be updated out of order.</p>
+
+    <h4>Full program without synchronized or volatile, x and y are updated out of order</h4>
+    <pre class="java-code">
+        <code>
+<span class="keyword">public class</span> <span class="class">MyClass</span> {
+    <span class="keyword">static</span> <span class="class">int</span> x = 0, y = 0;
+    <span class="keyword">static</span> <span class="class">void</span> <span class="method">method1</span>() {
+        x++; y++;
+    }
+
+    <span class="keyword">static</span> <span class="class">void</span> <span class="method">method2</span>() {
+        <span class="class">System</span>.out.println(<span class="string">"x="</span> + x + <span
+                class="string">" y="</span> + y);
+    }
+
+    <span class="keyword">public static</span> <span class="class">void</span> <span class="method">main</span>(<span
+                class="class">String</span>[] args) {
+        <span class="class">Thread</span> thread1=<span class="keyword">new</span> <span class="class">Thread</span>(){
+            <span class="keyword">public</span> <span class="class">void</span> <span class="method">run</span>(){
+                <span class="keyword">for</span>(<span class="class">int</span> i=0; i<10;i++)
+                    method1();
+            }
+        };
+        <span class="class">Thread</span> thread2=<span class="keyword">new</span> <span class="class">Thread</span>(){
+            <span class="keyword">public</span> <span class="class">void</span> <span class="method">run</span>(){
+                <span class="keyword">for</span>(<span class="class">int</span> i=0; i<10;i++)
+                    method2();
+            }
+        };
+        thread1.start();
+        thread2.start();
+    }
+}
+
+<span class="comment">/*OUTPUT</span>
+<span class="comment">x=10 y=10</span>
+<span class="comment">x=10 y=10</span>
+<span class="comment">x=10 y=10</span>
+<span class="comment">x=10 y=10</span>
+<span class="comment">x=10 y=10</span>
+<span class="comment">x=10 y=10</span>
+<span class="comment">x=10 y=10</span>
+<span class="comment">x=10 y=10</span>
+<span class="comment">x=10 y=10</span>
+<span class="comment">x=10 y=10</span>
+<span class="comment">x=10 y=10</span>
+<span class="comment">x=10 y=10</span>
+<span class="comment">*/</span>
+        </code>
+    </pre>
+    <p>NOTE: Output of this programs may not be that much conclusive because of unpredictable thread behaviour.</p>
+
+    <h4>How can be ensure that x and y are updated in order?</h4>
+    <p>We can use synchronized method or volatile keyword.</p>
+
+    <h4>Can we have volatile methods in java?</h4>
+    <p>No, volatile is only a keyword, can be used only with variables.</p>
+
+    <h4>Can we have synchronized variable in java?</h4>
+    <p>No, synchronized can be used only with methods, i.e. in method declaration.</p>
+
+    <h4>Let's use synchronized method first :</h4>
+    <pre class="java-code">
+        <code>
+<span class="keyword">static</span> <span class="class">int</span> x = 0, y = 0;
+<span class="keyword">static</span> <span class="keyword">synchronized</span> <span class="class">void</span> <span
+                class="method">method1</span>() {
+    x++;
+}
+<span class="keyword">static</span> <span class="keyword">synchronized</span> <span class="class">void</span> <span
+                class="method">method2</span>() {
+    <span class="class">System</span>.out.println(<span class="string">"x="</span> + x + <span
+                class="string">" y="</span> + y);
+}
+        </code>
+    </pre>
+    <p>Using synchronized keyword will help updating x and y in order. Because of synchronization used against method we
+        ensures that both methods are not called concurrently. Therefore, during execution of method2() x and y will be
+        always equal.</p>
+
+    <h4>Full program using synchronized keyword, x and y are always updated in order</h4>
+    <pre class="java-code">
+        <code>
+<span class="keyword">public class</span> <span class="class">MyClass</span> {
+    <span class="keyword">static</span> <span class="class">int</span> x = 0, y = 0;
+    <span class="keyword">static</span> <span class="keyword">synchronized</span> <span class="class">void</span> <span
+                class="method">method1</span>() {
+        x++;
+    }
+    <span class="keyword">static</span> <span class="keyword">synchronized</span> <span class="class">void</span> <span
+                class="method">method2</span>() {
+        <span class="class">System</span>.out.println(<span class="string">"x="</span> + x + <span
+                class="string">" y="</span> + y);
+    }
+
+    <span class="keyword">public static</span> <span class="class">void</span> <span class="method">main</span>(<span
+                class="class">String</span>[] args) {
+        <span class="class">Thread</span> thread1=<span class="keyword">new</span> <span class="class">Thread</span>(){
+            <span class="keyword">public</span> <span class="class">void</span> <span class="method">run</span>(){
+                <span class="keyword">for</span>(<span class="class">int</span> i=0; i<10;i++)
+                    method1();
+            }
+        };
+        <span class="class">Thread</span> thread2=<span class="keyword">new</span> <span class="class">Thread</span>(){
+            <span class="keyword">public</span> <span class="class">void</span> <span class="method">run</span>(){
+                <span class="keyword">for</span>(<span class="class">int</span> i=0; i<10;i++)
+                    method2();
+            }
+        };
+        thread1.start();
+        thread2.start();
+    }
+}
+        </code>
+    </pre>
+    <p>NOTE: Output of this programs may not be that much conclusive because of unpredictable thread behaviour. But our
+        aim was to show that method2() will always observe same value for x and y.</p>
+
+    <h4>Now, let's use <strong>volatile keyword</strong> :</h4>
+    <pre class="java-code">
+        <code>
+<span class="keyword">static</span> <span class="keyword">volatile</span> <span class="class">int</span> x = 0, y = 0;
+<span class="keyword">static</span> <span class="class">void</span> <span class="method">method1</span>() {
+    x++;
+}
+<span class="keyword">static</span> <span class="class">void</span> <span class="method">method2</span>() {
+    <span class="class">System</span>.out.println(<span class="string">"x="</span> + x + <span
+                class="string">" y="</span> + y);
+}
+        </code>
+    </pre>
+    <p>This allows method1() & method2() to be executed concurrently, but assures that accesses to the shared values for
+        x and y occur exactly as many times, and in exactly the same order, as they appear to occur during execution of
+        the program text by each thread. Therefore, the shared value for y is never greater than that for x, because
+        each update to x must be reflected in the shared value for x before the update to y occurs.</p>
+    <p>It is possible, however, that certain invocation of method2() might note a value for y that is much greater than
+        the value noted for x, because method1() might be executed many times between the moment when method2() fetches
+        the value of x and the moment when method2() fetches the value of y.</p>
+
+    <h4>Full program using volatile keyword, x and y are updated in order</h4>
+    <pre class="java-code">
+        <code>
+<span class="keyword">public class</span> <span class="class">MyClass</span> {
+    <span class="keyword">static</span> <span class="keyword">volatile</span> <span class="class">int</span> x = 0, y = 0;
+    <span class="keyword">static</span> <span class="class">void</span> <span class="method">method1</span>() {
+        x++; y++;
+    }
+
+    <span class="keyword">static</span> <span class="class">void</span> <span class="method">method2</span>() {
+        <span class="class">System</span>.out.println(<span class="string">"x="</span> + x + <span
+                class="string">" y="</span> + y);
+    }
+
+    <span class="keyword">public static</span> <span class="class">void</span> <span class="method">main</span>(<span
+                class="class">String</span>[] args) {
+        <span class="class">Thread</span> thread1=<span class="keyword">new</span> <span class="class">Thread</span>(){
+            <span class="keyword">public</span> <span class="class">void</span> <span class="method">run</span>(){
+                <span class="keyword">for</span>(<span class="class">int</span> i=0; i<10;i++)
+                    method1();
+            }
+        };
+        <span class="class</span> thread2=<span class=" keyword">new</span> <span class="class">Thread</span>(){
+            <span class="keyword">public</span> <span class="class">void</span> <span class="method">run</span>(){
+                <span class="keyword">for</span>(<span class="class">int</span> i=0; i<10;i++)
+                    method2();
+            }
+        };
+        thread1.start();
+        thread2.start();
+    }
+}
+        </code>
+    </pre>
+    <p>NOTE: Output of this programs may not be that much conclusive because of unpredictable thread behaviour.</p>
+
+    <h4>Volatile variable is not Cached in CPU memory</h4>
+    <p>Volatile members are never cached in CPU by jvm, they are always read from main memory i.e. from stack where
+        variable lives.</p>
+
+    <h4>Differences between synchronized and volatile keyword in detail in java</h4>
+    <p>1. Volatile can be used as a keyword against the variable, we cannot use volatile against method declaration.</p>
+    <pre class="java-code">
+        <code>
+<span class="keyword">volatile</span> <span class="class">void</span> <span class="method">method1</span>(){} <span
+                class="comment">//it's illegal, compilation error.</span>
+
+<span class="keyword">volatile</span> <span class="class">int</span> i; <span class="comment">//legal</span>
+        </code>
+    </pre>
+    <p>While synchronization can be used in method declaration or we can create synchronization blocks. Variables cannot
+        be synchronized.</p>
+    <p>Synchronized method:</p>
+    <pre class="java-code">
+        <code>
+<span class="keyword">synchronized</span> <span class="class">void</span> <span class="method">method2</span>(){} <span
+                class="comment">//legal</span>
+        </code>
+    </pre>
+    <p>Synchronized block:</p>
+    <pre class="java-code">
+        <code>
+<span class="class">void</span> <span class="method">method2</span>(){
+    <span class="keyword">synchronized</span> (<span class="keyword">this</span>) {
+        <span class="comment">//code inside synchronized block.</span>
+    }
+}
+        </code>
+    </pre>
+    <p>Synchronized variable (illegal):</p>
+    <pre class="java-code">
+        <code>
+<span class="keyword">synchronized</span> <span class="class">int</span> i; <span class="comment">//it's illegal, compilation error.</span>
+        </code>
+    </pre>
+    <p>2. Volatile does not acquire any lock on variable or object, but Synchronization acquires lock on method or block
+        in which it is used.</p>
+    <p>3. Volatile variables are not cached, but variables used inside synchronized method or block are cached.</p>
+    <p>4. When volatile is used will never create deadlock in program, as volatile never obtains any kind of lock . But
+        in case if synchronization is not done properly, we might end up creating dedlock in program.</p>
+    <p>5. Synchronization may cost us performance issues, as one thread might be waiting for another thread to release
+        lock on object. But volatile is never expensive in terms of performance.</p>
+
+    <h3>What is the ExecutorService in Java and how is it different from using threads directly?</h3>
+    <p>1. ExecutorService is an interface in Java that simplifies thread management. It provides methods to submit tasks
+        for execution, manage thread pools, and shut down threads gracefully. Unlike using threads directly,
+        ExecutorService abstracts away low-level thread management and provides better control over task scheduling and
+        execution.</p>
+
+    <h3>How do you create an ExecutorService?</h3>
+    <p>1. You can create an ExecutorService using the factory methods provided by the Executors class:</p>
+    <p>- Executors.newFixedThreadPool(int nThreads) creates a fixed-size thread pool.</p>
+    <p>- Executors.newCachedThreadPool() creates a thread pool that can expand as needed.</p>
+    <p>- Executors.newSingleThreadExecutor() creates a single-threaded executor.</p>
+    <p>- Executors.newScheduledThreadPool(int corePoolSize) creates a pool that supports scheduled tasks.</p>
+
+    <h3>Difference between execute() and submit() methods in ExecutorService.</h3>
+    <p>1. execute(): Used for submitting tasks that do not return any result or need to be tracked (i.e., void tasks).
+        It does not return any value.</p>
+    <p>2. submit(): Used for tasks that return a result. It returns a Future object, which can be used to retrieve the
+        result of the task or check if it has completed.</p>
+
+    <h3>How do you gracefully shut down an ExecutorService?</h3>
+    <p>1. You can gracefully shut down an ExecutorService by calling the shutdown() method. This initiates an orderly
+        shutdown in which previously submitted tasks are executed, but no new tasks will be accepted. You can also use
+        shutdownNow() to attempt to stop all actively executing tasks and halt the processing of waiting tasks.</p>
+
+    <h4>Difference between shutdown() and shutdownNow() methods in ExecutorService?</h4>
+    <p>1. shutdown(): Initiates an orderly shutdown, where tasks that were already submitted are completed before the
+        service is fully shut down. No new tasks will be accepted.</p>
+    <p>2. shutdownNow(): Tries to stop all actively executing tasks and attempts to stop any waiting tasks. It returns a
+        list of the tasks that were waiting to be executed.</p>
+
+    <h4>What is a Future in Java and how is it related to ExecutorService?</h4>
+    <p>1. A Future represents the result of an asynchronous computation. When you submit a task to an ExecutorService
+        using submit(), it returns a Future object. You can use the Future object to check if the task is completed,
+        retrieve the result, or cancel the task.</p>
+
+    <h4>How can you cancel a task that has been submitted to an ExecutorService?</h4>
+    <p>1. You can cancel a task by calling the cancel() method on the Future object returned by the submit() method. If
+        the task is still running, calling cancel() will attempt to interrupt it. If the task has already finished or
+        been canceled, it will have no effect.</p>
+
+    <h3>What is a Deadlock in Java?</h3>
+    <p>A deadlock is a situation where two or more threads are blocked forever, each waiting for a resource that the
+        other holds. This can occur when threads are locked in a circular dependency, where thread A holds a lock needed
+        by thread B, and thread B holds a lock needed by thread A. This prevents the threads from making progress.</p>
+
+    <h4>Example of Deadlock in Java</h4>
+    <pre class="java-code">
+        <code>
+<span class="keyword">public class</span> <span class="class">DeadlockExample</span> {
+    <span class="keyword">private static final</span> <span class="class">Object</span> lock1 = <span class="keyword">new</span> <span
+                class="class">Object</span>();
+    <span class="keyword">private static final</span> <span class="class">Object</span> lock2 = <span class="keyword">new</span> <span
+                class="class">Object</span>();
+
+    <span class="keyword">public static</span> <span class="class">void</span> <span class="method">main</span>(<span
+                class="class">String</span>[] args) {
+        <span class="class">Thread</span> t1 = <span class="keyword">new</span> <span class="class">Thread</span>(() -> {
+            <span class="keyword">synchronized</span> (lock1) {
+                <span class="class">System</span>.out.println(<span class="string">"Thread 1: Holding lock1..."</span>);
+                <span class="keyword">try</span> { <span class="class">Thread</span>.sleep(100); } <span
+                class="keyword">catch</span> (<span class="class">InterruptedException</span> ignored) {}
+                <span class="keyword">synchronized</span> (lock2) {
+                    <span class="class">System</span>.out.println(<span
+                class="string">"Thread 1: Acquired lock2!"</span>);
+                }
+            }
+        });
+
+        <span class="class">Thread</span> t2 = <span class="keyword">new</span> <span class="class">Thread</span>(() -> {
+            <span class="keyword">synchronized</span> (lock2) {
+                <span class="class">System</span>.out.println(<span class="string">"Thread 2: Holding lock2..."</span>);
+                <span class="keyword">try</span> { <span class="class">Thread</span>.sleep(100); } <span
+                class="keyword">catch</span> (<span class="class">InterruptedException</span> ignored) {}
+                <span class="keyword">synchronized</span> (lock1) {
+                    <span class="class">System</span>.out.println(<span
+                class="string">"Thread 2: Acquired lock1!"</span>);
+                }
+            }
+        });
+
+        t1.start();
+        t2.start();
+    }
+}
+        </code>
+    </pre>
+
+    <h4>What happens here?</h4>
+    <p>- Thread 1 locks lock1 and waits for lock2.</p>
+    <p>- Thread 2 locks lock2 and waits for lock1.</p>
+    <p>- Both threads wait forever = deadlock.</p>
+
+    <h3>How to Resolve or Avoid Deadlock in Java</h3>
+    <p>Here are all major techniques to resolve or avoid deadlocks:</p>
+
+    <h4>1. Lock Ordering</h4>
+    <p>Ensure that all threads acquire locks in the same order.</p>
+
+    <h4>Fix for the above example:</h4>
+    <pre class="java-code">
+        <code>
+<span class="class">Thread</span> t2 = <span class="keyword">new</span> <span class="class">Thread</span>(() -> {
+    <span class="keyword">synchronized</span> (lock1) {
+        <span class="class">System</span>.out.println(<span class="string">"Thread 2: Holding lock1..."</span>);
+        <span class="keyword">try</span> { <span class="class">Thread</span>.sleep(100); } <span
+                class="keyword">catch</span> (<span class="class">InterruptedException</span> ignored) {}
+        <span class="keyword">synchronized</span> (lock2) {
+            <span class="class">System</span>.out.println(<span class="string">"Thread 2: Acquired lock2!"</span>);
+        }
+    }
+});
+        </code>
+    </pre>
+    <p>Now both threads lock lock1 before lock2.</p>
+
+    <h4>2. Try-Lock with Timeout (Using ReentrantLock)</h4>
+    <p>Use tryLock() from java.util.concurrent.locks.ReentrantLock which tries to get a lock and times out if
+        unavoidable.</p>
+    <pre class="java-code">
+        <code>
+<span class="keyword">import</span> java.util.concurrent.locks.Lock;
+<span class="keyword">import</span> java.util.concurrent.locks.ReentrantLock;
+<span class="keyword">import</span> java.util.concurrent.TimeUnit;
+
+<span class="keyword">public class</span> <span class="class">DeadlockAvoidWithTryLock</span> {
+    <span class="keyword">private static final</span> <span class="class">Lock</span> lock1 = <span
+                class="keyword">new</span> <span class="class">ReentrantLock</span>();
+    <span class="keyword">private static final</span> <span class="class">Lock</span> lock2 = <span
+                class="keyword">new</span> <span class="class">ReentrantLock</span>();
+
+    <span class="keyword">public static</span> <span class="class">void</span> <span class="method">main</span>(<span
+                class="class">String</span>[] args) {
+        <span class="class">Thread</span> t1 = <span class="keyword">new</span> <span class="class">Thread</span>(() -> {
+            <span class="keyword">try</span> {
+                <span class="keyword">if</span> (lock1.tryLock(1000, <span class="class">TimeUnit</span>.MILLISECONDS)) {
+                    <span class="class">System</span>.out.println(<span class="string">"Thread 1: Acquired lock1"</span>);
+                    <span class="class">Thread</span>.sleep(100);
+                    <span class="keyword">if</span> (lock2.tryLock(1000, <span class="class">TimeUnit</span>.MILLISECONDS)) {
+                        <span class="class">System</span>.out.println(<span
+                class="string">"Thread 1: Acquired lock2"</span>);
+                        lock2.unlock();
+                    }
+                    lock1.unlock();
+                }
+            } <span class="keyword">catch</span> (<span class="class">InterruptedException</span> e) {
+                e.printStackTrace();
+            }
+        });
+
+        <span class="class">Thread</span> t2 = <span class="keyword">new</span> <span class="class">Thread</span>(() -> {
+            <span class="keyword">try</span> {
+                <span class="keyword">if</span> (lock2.tryLock(1000, <span class="class">TimeUnit</span>.MILLISECONDS)) {
+                    <span class="class">System</span>.out.println(<span class="string">"Thread 2: Acquired lock2"</span>);
+                    <span class="class">Thread</span>.sleep(100);
+                    <span class="keyword">if</span> (lock1.tryLock(1000, <span class="class">TimeUnit</span>.MILLISECONDS)) {
+                        <span class="class">System</span>.out.println(<span
+                class="string">"Thread 2: Acquired lock1"</span>);
+                        lock1.unlock();
+                    }
+                    lock2.unlock();
+                }
+            } <span class="keyword">catch</span> (<span class="class">InterruptedException</span> e) {
+                e.printStackTrace();
+            }
+        });
+
+        t1.start();
+        t2.start();
+    }
+}
+        </code>
+    </pre>
+
+    <h4>3. Using a Single Lock Object (Lock Coarsening)</h4>
+    <p>If possible, use one lock instead of multiple.</p>
+    <pre class="java-code">
+        <code>
+<span class="keyword">synchronized</span> (lock) { <span class="comment">// Safe block }</span>
+        </code>
+    </pre>
+    <p>Simplifies design and avoids cyclic lock dependency.</p>
+
+    <h4>4. Deadlock Detection Tools</h4>
+    <p>• Use jstack to analyze deadlocks in a running Java process.</p>
+    <p>• Use Thread Dump Analysis Tools or VisualVM.</p>
+
+    <h4>5. Timeout on Thread.join() or Wait</h4>
+    <p>When using join() or wait(), always consider adding a timeout to avoid indefinite blocking.</p>
+    <pre class="java-code">
+        <code>
+thread.join(1000); <span class="comment">// wait at most 1 second</span>
+        </code>
+    </pre>
+
+    <h4>6. Avoid Nested Locks (if possible)</h4>
+    <p>Try not to acquire one lock while holding another unless absolutely necessary.</p>
+
+    <h3>✔ Summary Table</h3>
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Approach</th>
+                <th>Description</th>
+                <th>Example API/Use</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Lock Ordering</td>
+                <td>Always acquire locks in same order</td>
+                <td>Same order: lock1 → lock2</td>
+            </tr>
+            <tr>
+                <td>Try-Lock</td>
+                <td>Use tryLock() with timeout</td>
+                <td>ReentrantLock</td>
+            </tr>
+            <tr>
+                <td>Single Lock (Coarsening)</td>
+                <td>Use one lock instead of multiple</td>
+                <td>synchronized(Lock)</td>
+            </tr>
+            <tr>
+                <td>Timeout on Join/Wait</td>
+                <td>Prevents indefinite thread wait</td>
+                <td>join(timeout)</td>
+            </tr>
+            <tr>
+                <td>Avoid Nested Locks</td>
+                <td>Reduces risk of circular waiting</td>
+                <td>Flat structure</td>
+            </tr>
+            <tr>
+                <td>Monitoring Tools</td>
+                <td>Identify deadlocks in production</td>
+                <td>jstack, VisualVM</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>✔ Final Tips</h3>
+    <p>• Favor higher-level concurrency utilities like ExecutorService, Semaphore, and CountDownLatch.</p>
+    <p>• Avoid manual synchronized blocks when possible.</p>
+    <p>• Always analyze thread dumps regularly in complex apps.</p>
+
+    <h3>1. Explain the lifecycle of an ExecutorService?</h3>
+    <p>a. The lifecycle of an ExecutorService involves:</p>
+    <p>i. Creation: Instantiate an ExecutorService using one of the factory methods.</p>
+    <p>ii. Task Submission: Submit tasks for execution using execute() or submit().</p>
+    <p>iii. Execution: The service manages the execution of tasks using a thread pool.</p>
+    <p>iv. Shutdown: The service is shut down gracefully using shutdown() or shutdownNow().</p>
+
+    <h3>2. What is a thread pool and why is it used?</h3>
+    <p>a. A thread pool is a collection of pre-instantiated, reusable threads that are used to execute tasks. Thread
+        pools are used to manage the execution of concurrent tasks efficiently, reducing the overhead of creating and
+        destroying threads for each task. They improve performance by reusing threads and controlling the number of
+        concurrent threads.</p>
+
+    <h3>3. What are the benefits of using a thread pool?</h3>
+    <p>a. Benefits of using a thread pool include:</p>
+    <p>i. Efficient Resource Management: Reduces the overhead of creating and destroying threads for each task.</p>
+    <p>ii. Improved Performance: Reuses threads, reducing the cost of thread creation.</p>
+    <p>iii. Better Scalability: Controls the number of concurrent threads and balances system resources.</p>
+    <p>iv. <strong>Task Queueing:</strong> Allows for efficient management of tasks in a queue, ensuring that they are
+        executed in order.</p>
+
+    <h3>4. How does the thread pool manage the number of threads in the pool?</h3>
+    <p>a. The thread pool manages the number of threads using the <strong>core pool size</strong> and <strong>maximum
+        pool size</strong>. It creates new threads if the number of active threads is less than the core size, and if
+        the number of active threads exceeds the core size, it creates additional threads up to the maximum pool size.
+        Idle threads are terminated if they exceed the keep-alive time.</p>
+
+    <h3>5. Different types of thread pools provided by the Executors utility class?</h3>
+    <p>a. The Executors utility class provides several types of thread pools:</p>
+    <p>i. Fixed Thread Pool: A pool with a fixed number of threads (newFixedThreadPool(int nThreads) ).</p>
+    <p>ii. Cached Thread Pool: A pool that creates new threads as needed but reuses previously constructed threads
+        (newCachedThreadPool() ).</p>
+    <p>iii. Single Thread Executor: A pool with a single thread for executing tasks (newSingleThreadExecutor() ).</p>
+    <p>iv. Scheduled Thread Pool: A pool that supports scheduling tasks with a fixed rate or delay
+        (newScheduledThreadPool(int corePoolSize) ).</p>
+
+    <h3>6. How do you create a fixed thread pool in Java?</h3>
+    <p>a. You can create a fixed thread pool by using the method Executors.newFixedThreadPool(int nThreads), where
+        nThreads is the number of threads in the pool. This creates a pool with a fixed number of threads, and if all
+        threads are busy, new tasks will wait until a thread becomes available.</p>
+
+    <h2>Future VS CompletableFuture</h2>
+    <h3>1. Blocking vs Non-Blocking</h3>
+    <p>- <strong>Future</strong>: When using Future, you submit a task to an ExecutorService, and it returns a Future
+        object. However, to get the result of the computation, <strong>you must call the get() method</strong>, which
+        blocks the calling thread until the task is complete. This can make your application less responsive, as it
+        waits for the computation to finish.</p>
+    <p>- <strong>CompletableFuture</strong>: With CompletableFuture, you get non-blocking execution. It allows you to
+        define what happens when the computation is done through methods like thenApply(), thenAccept(), and thenRun().
+        This makes your application much more responsive, as it doesn't block the main thread while waiting for the
+        result.</p>
+    <pre class="java-code">
+        <code>
+<span class="comment">// Using Future</span>
+<span class="class">Future</span>&lt;<span class="class">String</span>&gt; future = executor.submit(() -> {
+    <span class="class">Thread</span>.sleep(2000);
+    <span class="keyword">return</span> <span class="string">"Hello, Future!"</span>;
+});
+<span class="class">String</span> result = future.get(); <span
+                class="comment">// Blocks until the result is ready</span>
+
+<span class="comment">// Using CompletableFuture</span>
+<span class="class">CompletableFuture</span>.supplyAsync(() -> {
+    <span class="class">Thread</span>.sleep(2000);
+    <span class="keyword">return</span> <span class="string">"Hello, CompletableFuture!"</span>;
+}).thenAccept(<span class="class">System</span>.out::println); <span class="comment">// Non-blocking</span>
+        </code>
+    </pre>
+
+    <h3>2. Callback Support</h3>
+    <p>• <strong>Future</strong>: Unfortunately, `Future doesn't allow you to attach callbacks that define what to do
+        when the computation is done. You must block the thread with get() and manually process the result later.</p>
+    <p>• <strong>CompletableFuture</strong>: On the other hand, `CompletableFuture provides full support for chaining
+        tasks. You can attach various callbacks using thenApply(), thenAccept(), or thenRun() to define what should
+        happen after the task completes, without blocking the main thread.</p>
+
+    <h3>3. Exception Handling</h3>
+    <p>• <strong>Future</strong>: If the task fails, `Future provides no built-in mechanism to handle exceptions. You
+        must catch exceptions when you call get(), making error handling a bit clunky.</p>
+    <p>• <strong>CompletableFuture</strong>: Offers much more robust exception handling with methods like
+        exceptionally() and handle(). These methods allow you to define fallback actions or recovery mechanisms within
+        the same async computation chain, ensuring smoother error management.</p>
+    <pre class="java-code">
+        <code>
+<span class="class">CompletableFuture</span>.supplyAsync(() -> {
+    <span class="keyword">if</span> (<span class="keyword">new</span> <span class="class">Random</span>().nextBoolean()) <span
+                class="keyword">throw new</span> <span class="class">RuntimeException</span>(<span class="string">"Oops!"</span>);
+    <span class="keyword">return</span> <span class="string">"Task completed"</span>;
+})
+.exceptionally(ex -> <span class="string">"Error: "</span> + ex.getMessage())
+.thenAccept(<span class="class">System</span>.out::println);
+        </code>
+    </pre>
+
+    <h3>4. Composing Results</h3>
+    <p>• <strong>Future</strong>: One of the major limitations of `Future` is the inability to combine multiple `Future`
+        instances or chain tasks. If you need to wait for multiple tasks to complete, you have to manage it manually,
+        which can be cumbersome.</p>
+    <p>• <strong>CompletableFuture</strong>: This is where `CompletableFuture` excels. It allows you to compose and
+        combine asynchronous tasks easily using methods like `thenCompose(), thenCombine(), or run multiple tasks in
+        parallel with allOf(). This makes complex workflows for easier to handle.</p>
+    <pre class="java-code">
+        <code>
+<span class="class">CompletableFuture</span>&lt;<span class="class">String</span>&gt; future1 = <span class="class">CompletableFuture</span>.supplyAsync(() -> <span
+                class="string">"Task 1"</span>);
+<span class="class">CompletableFuture</span>&lt;<span class="class">String</span>&gt; future2 = <span class="class">CompletableFuture</span>.supplyAsync(() -> <span
+                class="string">"Task 2"</span>);
+
+future1.thenCombine(future2, (result1, result2) -> result1 + <span class="string">" and "</span> + result2)
+    .thenAccept(<span class="class">System</span>.out::println); <span
+                class="comment">// Combines results of both tasks</span>
+        </code>
+    </pre>
+
+    <h3>5. Asynchronous Execution Support</h3>
+    <p>• <strong>Future</strong>: To run tasks asynchronously, `Future` needs to be paired with an `ExecutorService`,
+        which adds some overhead. While this approach works for simple scenarios, it lacks the flexibility of more
+        advanced async handling.</p>
+    <p>• <strong>CompletableFuture</strong>: With `CompletableFuture`, asynchronous execution is built-in. Methods like
+        `supplyAsync()` and `runAsync()` allow you to run tasks asynchronously without needing to explicitly manage an
+        ExecutorService .</p>
+
+    <h3>6. Use Cases</h3>
+    <p>• <strong>Future</strong>: Use `Future` for simple use cases where you need to execute a task in another thread
+        and block until you retrieve the result. It's helpful for basic concurrency but lacks advanced features.</p>
+    <p>• <strong>CompletableFuture</strong>: If you need to handle more complex asynchronous workflows with non-blocking
+        behavior, error handling, and task composition, `CompletableFuture` is the way to go. It offers a more complete
+        solution for modern async programming in Java.</p>
+    <pre class="java-code">
+        <code>
+<span class="comment">// Using Future</span>
+<span class="class">ExecutorService</span> executor = <span class="class">Executors</span>.newFixedThreadPool(2);
+<span class="class">Future</span>&lt;<span class="class">String</span>&gt; future = executor.submit(() -> {
+    <span class="comment">// Simulating long-running task</span>
+    <span class="class">Thread</span>.sleep(2000);
+    <span class="keyword">return</span> <span class="string">"Hello, Future!"</span>;
+});
+
+<span class="keyword">try</span> {
+    <span class="comment">// Blocking call, waiting for the result</span>
+    <span class="class">String</span> result = future.get();
+    <span class="class">System</span>.out.println(result);
+} <span class="keyword">catch</span> (<span class="class">Exception</span> e) {
+    e.printStackTrace();
+}
+
+<span class="comment">// Using CompletableFuture</span>
+<span class="class">CompletableFuture</span>.supplyAsync(() -> {
+    <span class="comment">// Simulating long-running task</span>
+    <span class="keyword">try</span> { <span class="class">Thread</span>.sleep(2000); } <span
+                class="keyword">catch</span> (<span class="class">Exception</span> e) {}
+    <span class="keyword">return</span> <span class="string">"Hello, CompletableFuture!"</span>;
+})
+.thenApply(result -> result + <span class="string">" with Async Chaining!"</span>)
+.thenAccept(<span class="class">System</span>.out::println)
+.exceptionally(e -> {
+    <span class="class">System</span>.out.println(<span class="string">"Exception occurred: "</span> + e);
+    <span class="keyword">return null</span>;
+});
+        </code>
+    </pre>
+
+    <img src="../js/images/Java/feature.png" class="responsive-img">
+    <h3>Below is the summary of methods available in <strong>Completable Future</strong>:</h3>
+    <p>- <strong>supplyAsync</strong>: Executes a task asynchronously and returns the result in a `CompletableFuture`.
+    </p>
+    <p>- <strong>runAsync</strong>: Executes a task asynchronously without returning any result.</p>
+    <p>- <strong>thenApply</strong>: Transforms the result of a `CompletableFuture` once it completes.</p>
+    <p>- <strong>thenAccept</strong>: Consumes the result of a `CompletableFuture` after completion without returning a
+        value.</p>
+    <p>- <strong>thenRun</strong>: Runs a runnable task after the `CompletableFuture` completes without using its
+        result.</p>
+    <p>- <strong>thenCompose</strong>: Chains two `CompletableFuture` tasks sequentially by using the result of the
+        first to trigger the second.</p>
+    <p>- <strong>thenCombine</strong>: Combines results of two independent `CompletableFuture` tasks and processes them
+        together.</p>
+    <p>- <strong>allOf</strong>: Waits for all `CompletableFuture` tasks to complete and combines them.</p>
+    <p>- <strong>anyOf</strong>: Waits for the first `CompletableFuture` task to complete, then proceeds.</p>
+    <p>- <strong>exceptionally</strong>: Handles exceptions in the async pipeline by providing a fallback value.</p>
+    <p>- <strong>handle</strong>: Processes both the result and any exceptions from a `CompletableFuture`.</p>
+    <p>- <strong>complete</strong>: Manually completes the `CompletableFuture` with a result.</p>
+    <p>- <strong>completeExceptionally</strong>: Completes the `CompletableFuture` exceptionally with a given error.</p>
+    <p>- <strong>join</strong>: Similar to `get()`, but throws unchecked exceptions, making it more convenient to use in
+        async chains.</p>
+    <p>- <strong>orTimeout</strong>: Sets a timeout for the completion of the `CompletableFuture` and triggers an
+        exception if exceeded.</p>
+    <p>- <strong>completeOnTimeout</strong>: Completes the `CompletableFuture` with a default value if the task takes
+        too long.</p>
+    <hr>
+    <h2>Volatile, Synchronized, Semaphores, and Reentrant Lock in Java</h2>
+
+    <p>All the above are used to avoid Race Conditions in a Multi-threaded code in Java. Let's take an example of the
+        below code.</p>
+
+    <pre class="java-code">
+<code>
+<span class="number">1</span> <span class="keyword">public class</span> <span class="class">RaceCondition</span> <span
+        class="keyword">implements</span> <span class="class">Runnable</span> {
+    <span class="keyword">private</span> <span class="class">int</span> x;
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="class">void</span> <span class="method">run</span>() {
+    <span class="keyword">for</span> (<span class="class">int</span> i = <span class="number">0</span>; i &lt; <span
+        class="number">10</span>; i++) {
+    <span class="keyword">try</span> {
+    <span class="class">Thread</span>.sleep((i + <span class="number">1</span>) * <span class="number">100</span>);
+    <span class="keyword">this</span>.x = <span class="keyword">this</span>.x + <span class="number">1</span>;
+    } <span class="keyword">catch</span> (<span class="class">InterruptedException</span> e) {
+    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="class">RuntimeException</span>(e);
+    }
+    }
+    }
+
+<span class="number">14</span> <span class="keyword">public</span> <span class="class">int</span> <span class="method">getX</span>() {
+    <span class="keyword">return</span> <span class="keyword">this</span>.x;
+}
+
+<span class="number">15</span> <span class="keyword">public static</span> <span class="class">void</span> <span
+        class="method">main</span>(<span class="class">String</span>[] args) <span class="keyword">throws</span> <span
+        class="class">InterruptedException</span> {
+    <span class="class">RaceCondition</span> r = <span class="keyword">new</span> <span
+        class="class">RaceCondition</span>();
+    <span class="class">Thread</span> t1 = <span class="keyword">new</span> <span class="class">Thread</span>(r);
+    <span class="class">Thread</span> t2 = <span class="keyword">new</span> <span class="class">Thread</span>(r);
+    t1.start();
+    t2.start();
+    t1.join();
+    t2.join();
+    <span class="class">System</span>.out.println(r.getX());
+}
+</code>
+</pre>
+
+    <p>The above code tries to increment the value of 'x' 20 times by the use of 2 threads. The output should be 20 but
+        if you run the above code it will vary every time. And the value will be ≥10 and not 20. Because at any point in
+        time, two threads might be trying to increment the same value. These two threads are not synchronized.</p>
+
+    <h2>1. volatile in Java</h2>
+
+    <p>- A keyword used to mark a variable as being stored in main memory.</p>
+    <p>- All threads see the most updated value of a volatile variable.</p>
+    <p>- When multiple threads read/write a single variable and no atomicity is required.</p>
+
+    <p>Example:</p>
+
+    <pre class="java-code">
+<code>
+<span class="keyword">public class</span> <span class="class">VolatileExample</span> {
+    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="class">boolean</span> flag = <span
+        class="keyword">true</span>;
+    <span class="keyword">public</span> <span class="class">void</span> <span class="method">run</span>() {
+    <span class="keyword">while</span> (flag) {
+    <span class="comment">// do something</span>
+    }
+    <span class="class">System</span>.out.println(<span class="string">"Stopped!"</span>);
+    }
+    <span class="keyword">public</span> <span class="class">void</span> <span class="method">stop</span>() {
+    flag = <span class="keyword">false</span>;
+    }
+    <span class="keyword">public static</span> <span class="class">void</span> <span class="method">main</span>(<span
+        class="class">String</span>[] args) <span class="keyword">throws</span> <span
+        class="class">InterruptedException</span> {
+    <span class="class">VolatileExample</span> example = <span class="keyword">new</span> <span class="class">VolatileExample</span>();
+    <span class="class">Thread</span> t1 = <span class="keyword">new</span> <span class="class">Thread</span>(example::run);
+    t1.start();
+    <span class="class">Thread</span>.sleep(<span class="number">1000</span>);
+    example.stop();
+
+    }
+}
+</code>
+</pre>
+
+    <p>Without volatile, thread may cache the value and never see the change.</p>
+
+    <h2>2. Synchronized in Java</h2>
+
+    <p>• A keyword that allows mutual exclusion.</p>
+    <p>• Only one thread at a time can access the synchronized block/method.</p>
+    <p>• When you want to protect a critical section so only one thread can access it.</p>
+
+    <p>Example:</p>
+
+    <pre class="java-code">
+<code>
+<span class="keyword">public class</span> <span class="class">SynchronizedExample</span> {
+    <span class="keyword">private</span> <span class="class">int</span> count = <span class="number">0</span>;
+    <span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="class">void</span> <span
+        class="method">increment</span>() {
+    count++;
+    }
+    <span class="keyword">public static</span> <span class="class">void</span> <span class="method">main</span>(<span
+        class="class">String</span>[] args) <span class="keyword">throws</span> <span
+        class="class">InterruptedException</span> {
+    <span class="class">SynchronizedExample</span> example = <span class="keyword">new</span> <span class="class">SynchronizedExample</span>();
+    <span class="class">Thread</span> t1 = <span class="keyword">new</span> <span class="class">Thread</span>(() -&gt; {
+    <span class="keyword">for</span> (<span class="class">int</span> i = <span class="number">0</span>; i &lt; <span
+        class="number">1000</span>; i++) example.increment();
+    });
+    <span class="class">Thread</span> t2 = <span class="keyword">new</span> <span class="class">Thread</span>(() -&gt; {
+    <span class="keyword">for</span> (<span class="class">int</span> i = <span class="number">0</span>; i &lt; <span
+        class="number">1000</span>; i++) example.increment();
+    });
+    t1.start(); t2.start();
+    t1.join(); t2.join();
+    <span class="class">System</span>.out.println(<span class="string">"Count: "</span> + example.count);
+    }
+}
+</code>
+</pre>
+
+    <h2>3. ReentrantLock in Java</h2>
+
+    <p>- A class from java.util.concurrent.locks package.</p>
+    <p>- Offers more flexibility than synchronized .</p>
+    <p>- When you need:</p>
+    <p> - Try-lock with timeout</p>
+    <p> - Interruptible lock waiting</p>
+    <p> - Fairness policy</p>
+
+    <p><strong>Example:</strong></p>
+
+    <pre class="java-code">
+<code>
+<span class="keyword">import</span> java.util.concurrent.locks.ReentrantLock;
+<span class="keyword">public class</span> <span class="class">ReentrantLockExample</span> {
+    <span class="keyword">private final</span> <span class="class">ReentrantLock</span> lock = <span
+        class="keyword">new</span> <span class="class">ReentrantLock</span>();
+    <span class="keyword">private</span> <span class="class">int</span> counter = <span class="number">0</span>;
+    <span class="keyword">public</span> <span class="class">void</span> <span class="method">increment</span>() {
+    lock.lock();
+    <span class="keyword">try</span> {
+    counter++;
+    } <span class="keyword">finally</span> {
+    lock.unlock();
+    }
+}
+
+<span class="keyword">public static</span> <span class="class">void</span> <span class="method">main</span>(<span
+        class="class">String</span>[] args) <span class="keyword">throws</span> <span
+        class="class">InterruptedException</span> {
+    <span class="class">ReentrantLockExample</span> example = <span class="keyword">new</span> <span class="class">ReentrantLockExample</span>();
+    <span class="class">Thread</span> t1 = <span class="keyword">new</span> <span class="class">Thread</span>(() -&gt; {
+    <span class="keyword">for</span> (<span class="class">int</span> i = <span class="number">0</span>; i &lt; <span
+        class="number">1000</span>; i++) example.increment();
+    });
+    <span class="class">Thread</span> t2 = <span class="keyword">new</span> <span class="class">Thread</span>(() -&gt; {
+    <span class="keyword">for</span> (<span class="class">int</span> i = <span class="number">0</span>; i &lt; <span
+        class="number">1000</span>; i++) example.increment();
+    });
+    t1.start(); t2.start();
+    t1.join(); t2.join();
+    <span class="class">System</span>.out.println(<span class="string">"Counter: "</span> + example.counter);
+    }
+}
+</code>
+</pre>
+
+    <h2>4. Semaphore in Java</h2>
+
+    <p>- A concurrency utility from java.util.concurrent .</p>
+    <p>- Controls access to a fixed number of permits (like limited resources).</p>
+    <p>- To limit concurrent access (e.g., to a database, or thread pool).</p>
+
+    <p><strong>Example:</strong></p>
+
+    <pre class="java-code">
+<code>
+<span class="keyword">import</span> java.util.concurrent.Semaphore;
+<span class="keyword">public class</span> <span class="class">SemaphoreExample</span> {
+    <span class="keyword">private final</span> <span class="class">Semaphore</span> semaphore = <span class="keyword">new</span> <span
+        class="class">Semaphore</span>(<span class="number">3</span>); <span
+        class="comment">// only 3 threads allowed</span>
+    <span class="keyword">public</span> <span class="class">void</span> <span class="method">accessResource</span>(<span
+        class="class">int</span> threadNumber) {
+</code>
+</pre>
+
+    <pre class="java-code">
+<code>
+<span class="keyword">try</span> {
+    semaphore.acquire();
+    <span class="class">System</span>.out.println(<span class="string">"Thread "</span> + threadNumber + <span
+        class="string">" acquired a permit."</span>);
+    <span class="class">Thread</span>.sleep(<span class="number">1000</span>); <span class="comment">// simulate resource usage</span>
+    <span class="class">System</span>.out.println(<span class="string">"Thread "</span> + threadNumber + <span
+        class="string">" released a permit."</span>);
+    semaphore.release();
+} <span class="keyword">catch</span> (<span class="class">InterruptedException</span> e) {
+    e.printStackTrace();
+}
+
+<span class="keyword">public static</span> <span class="class">void</span> <span class="method">main</span>(<span
+        class="class">String</span>[] args) {
+    <span class="class">SemaphoreExample</span> example = <span class="keyword">new</span> <span class="class">SemaphoreExample</span>();
+    <span class="keyword">for</span> (<span class="class">int</span> i = <span class="number">1</span>; i &lt;= <span
+        class="number">10</span>; i++) {
+    <span class="class">int</span> threadId = i;
+    <span class="keyword">new</span> <span class="class">Thread</span>(() -&gt; example.accessResource(threadId)).start();
+}
+</code>
+</pre>
+
+    <h2>VS Comparison Table</h2>
+
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Feature</th>
+                <th>volatile</th>
+                <th>synchronized</th>
+                <th>ReentrantLock</th>
+                <th>Semaphore</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Scope</td>
+                <td>Single variable</td>
+                <td>Block/method</td>
+                <td>Block or scope</td>
+                <td>Limited permits</td>
+            </tr>
+            <tr>
+                <td>Type</td>
+                <td>Visibility</td>
+                <td>Mutual exclusion</td>
+                <td>Mutual exclusion with flexibility</td>
+                <td>Concurrency control</td>
+            </tr>
+            <tr>
+                <td>Atomicity</td>
+                <td>✕ No</td>
+                <td>✔ Yes</td>
+                <td>✔ Yes</td>
+                <td>✔ Controlled by permits</td>
+            </tr>
+            <tr>
+                <td>Flexibility</td>
+                <td>✕ Low</td>
+                <td>✕ Medium</td>
+                <td>✔ High</td>
+                <td>✔ High</td>
+            </tr>
+            <tr>
+                <td>Timeout Support</td>
+                <td>✕ No</td>
+                <td>✕ No</td>
+                <td>✔ Yes</td>
+                <td>✔ Yes</td>
+            </tr>
+            <tr>
+                <td>Interruptible</td>
+                <td>✕ No</td>
+                <td>✕ No</td>
+                <td>✔ Yes</td>
+                <td>✔ Yes</td>
+            </tr>
+            <tr>
+                <td>Fairness Option</td>
+                <td>✕ No</td>
+                <td>✕ No</td>
+                <td>✔ Yes ( new ReentrantLock(true))</td>
+                <td>✔ Yes</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h2>Summary When to Use What</h2>
+
+    <p>✔ Use volatile for flags or state variables — no lock needed.</p>
+
+    <p>✔ Use synchronized for simple thread-safe methods.</p>
+
+    <p>✔ Use ReentrantLock when you need:</p>
+    <p> - Try/timeout-based locking</p>
+    <p> - Interruptible locking</p>
+    <p> - More control</p>
+
+    <p>✔ Use Semaphore for limiting concurrent access to resources (e.g. rate limiters, DB connections).</p>
     <hr>
     <div class="card-footer">
         <ul class="pagination justify-content-center">

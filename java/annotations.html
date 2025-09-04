@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Annotations</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../js/styles.css"/>
+</head>
+<body data-sidebar="java">
+<nav>
+    <button class="mobile-sidebar-btn" id="mobileSidebarBtn">☰</button>
+    <div class="breadcrumbs">
+        <a href="../home.html">Home</a>
+        <span class="separator">/</span>
+        <a href="intro.html">Java</a>
+        <span class="separator">/</span>
+        <a href="#">Annotations</a>
+    </div>
+</nav>
+
+<!-- Header will be inserted by JavaScript -->
+
+<!-- Sidebar will be inserted by JavaScript -->
+
+<!-- Main Content Section -->
+<main id="content">
+    <h2>1. Annotations</h2>
+
+    <h3>Custom annotations in Java</h3>
+
+    <p>Custom annotations in Java are a powerful way to add your own metadata or descriptive information to your code
+        elements (like classes, methods, or fields) beyond the standard built-in annotations. Think of them as custom
+        tags you can attach, providing extra context or instructions that can be processed by the compiler or at runtime
+        using reflection. This allows you to tailor your code's behavior, enhance readability, and reduce boilerplate,
+        especially when working with frameworks.</p>
+
+    <h4>Key aspects of creating and using custom annotations</h4>
+
+    <p>• Definition: You define a custom annotation using the @interface keyword, similar to defining an interface.</p>
+    <p>• Properties: You can include properties within your annotation by defining methods that return primitive types,
+        String, Class, enums, other annotation types, or arrays of these types. You can also assign default values to
+        these properties.</p>
+    <p>• Meta-annotations: To control the scope and retention of your custom annotation, you'll use Java's built-in
+        meta-annotations: @Retention, @Target, @Documented, @Inherited, and @Repeatable.</p>
+
+    <h3>Annotations used to define annotations (Meta-annotations)</h3>
+
+    <p>Here's an explanation of the annotations used to define other annotations (meta-annotations) in the
+        java.lang.annotation package:</p>
+
+    <p>• <strong>@Retention:</strong> Specifies how long the annotation information is retained. It takes a single
+        argument of type RetentionPolicy which can be:</p>
+    <p> • <strong>SOURCE:</strong> Retained only in the source code and discarded by the compiler.</p>
+    <p> • <strong>CLASS:</strong> Retained in the .class file but discarded during runtime. This is the default if no
+        @Retention is specified.</p>
+    <p> • <strong>RUNTIME:</strong> Retained at runtime and accessible via reflection.</p>
+
+    <p>• <strong>@Target:</strong> Indicates the types of program elements where the annotation can be applied. It takes
+        an array of ElementType constants as an argument, such as:</p>
+    <p> • ElementType.TYPE (class, interface, enum, record)</p>
+    <p> • ElementType.METHOD</p>
+    <p> • ElementType.FIELD</p>
+    <p> • ElementType.PARAMETER</p>
+    <p> • ElementType.CONSTRUCTOR</p>
+    <p> • ElementType.LOCAL_VARIABLE</p>
+    <p> • ElementType.ANNOTATION_TYPE (for annotating other annotations)</p>
+    <p> • ElementType.PACKAGE</p>
+    <p> • ElementType.TYPE_PARAMETER (type parameter declaration)</p>
+    <p> • ElementType.TYPE_USE (use of a type)</p>
+
+    <p>• <strong>@Documented:</strong> Indicates that the annotation should be included in the Javadoc documentation. By
+        default, annotations are not included in Javadoc comments.</p>
+    <p>• <strong>@Inherited:</strong> Indicates that if a class is annotated with a particular annotation, its
+        subclasses will automatically inherit that annotation. This applies only to class declarations.</p>
+    <p>• <strong>@Repeatable:</strong> Introduced in Java 8, this meta-annotation allows the same annotation to be
+        applied multiple times to a single declaration or type use.</p>
+
+    <h4>Benefits of custom annotations</h4>
+
+    <p>• <strong>Improved Readability and Documentation:</strong> Provide self-documenting code by adding inline
+        metadata.</p>
+    <p>• <strong>Reduced Boilerplate:</strong> Encapsulate common functionality, simplifying configuration and reducing
+        repetitive code.</p>
+    <p>• <strong>Enhanced Functionality:</strong> Enable custom processing behaviors at compile time (using annotation
+        processors) or runtime (using reflection).</p>
+    <p>• <strong>Decoupling Concerns:</strong> Allow separation of logic from business code, promoting a cleaner design.
+    </p>
+    <p>• <strong>Easier Integration with Frameworks:</strong> Many frameworks leverage annotations for configuration,
+        making integration smoother.</p>
+
+    <p>By leveraging custom annotations and the meta-annotations that control their behavior, you can create more
+        organized, readable, and functional Java applications.</p>
+    <hr>
+    <div class="card-footer">
+        <ul class="pagination justify-content-center">
+            <li class="page-item"><a class="page-link btn-outline-primary"
+                                     href="../java/generics.html">&lArr; Previous</a></li>
+        </ul>
+    </div>
+</main>
+
+<!-- Footer will be inserted by JavaScript -->
+
+<!-- Scripts -->
+<script src="../js/sidebar.js"></script>
+<script src="../js/componentLoader.js"></script>
+</body>
+</html>

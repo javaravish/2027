@@ -122,6 +122,10 @@ const sidebars = {
           <li class="nav-item"><a class="nav-link" data-href="/java/comparable_comparator.html" href="#">Comparable & Comparator</a></li>
           <h4>Collections Framework</h4>
           <li class="nav-item"><a class="nav-link" data-href="/java/collections.html" href="#">Collections in Java</a></li>
+          <h4>Java Miscellaneous</h4>
+          <li class="nav-item"><a class="nav-link" data-href="/java/clone.html" href="#">Java Clone</a></li>
+          <li class="nav-item"><a class="nav-link" data-href="/java/generics.html" href="#">Java Generics</a></li>
+          <li class="nav-item"><a class="nav-link" data-href="/java/annotations.html" href="#">Java Annotations</a></li>
           <br>
           <br>
         </ul>
@@ -236,6 +240,36 @@ const sidebars = {
             </ul>
           </aside>
         `,
+
+    sort: `
+             <!-- Java8 Sidebar -->
+             <aside id="sidebar">
+               <ul class="menu">
+                 <h4>Sortings</h4>
+                 <li class="nav-item"><a class="nav-link" data-href="/sorting/bubble.html" href="#">Introduction</a></li>
+               </ul>
+             </aside>
+           `,
+
+    dsa: `
+                 <!-- Java8 Sidebar -->
+                 <aside id="sidebar">
+                   <ul class="menu">
+                     <h4>Data Structures & Algorithms</h4>
+                     <li class="nav-item"><a class="nav-link" data-href="/dsa/dsa.html" href="#">Introduction</a></li>
+                   </ul>
+                 </aside>
+               `,
+
+    dp: `
+             <!-- Java8 Sidebar -->
+             <aside id="sidebar">
+               <ul class="menu">
+                 <h4>Design Pattern</h4>
+                 <li class="nav-item"><a class="nav-link" data-href="/dp/intro.html" href="#">Introduction</a></li>
+               </ul>
+             </aside>
+           `,
 
   db: `
       <!-- Interview Sidebar -->

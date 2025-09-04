@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Cloning</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../js/styles.css"/>
+</head>
+<body data-sidebar="java">
+<nav>
+    <button class="mobile-sidebar-btn" id="mobileSidebarBtn">☰</button>
+    <div class="breadcrumbs">
+        <a href="../home.html">Home</a>
+        <span class="separator">/</span>
+        <a href="intro.html">Java</a>
+        <span class="separator">/</span>
+        <a href="#">Cloning</a>
+    </div>
+</nav>
+
+<!-- Header will be inserted by JavaScript -->
+
+<!-- Sidebar will be inserted by JavaScript -->
+
+<!-- Main Content Section -->
+<main id="content">
+    <h2>1. Cloning</h2>
+
+    <p>In Java, cloning is the process of creating an exact copy of an object. It essentially allows you to create a new
+        object that has the same state as an existing one.</p>
+
+    <h3>The <code>Cloneable</code> interface and <code>clone()</code> method</h3>
+
+    <p>To enable cloning for a class, you need to:</p>
+    <p>• Implement the <code>Cloneable</code> interface: This is a marker interface, meaning it has no methods but acts
+        as a signal to the Java Virtual Machine (JVM) that the class supports cloning.</p>
+    <p>• Override the <code>clone()</code> method: This method is inherited from the <code>Object</code> class (the
+        superclass of all Java classes). It's protected, so you need to override it to make it publicly accessible for
+        cloning instances of your class. The <code>clone()</code> method in <code>Object</code> class performs a shallow
+        copy by default.</p>
+    <p>• Call super.clone() inside the clone() method.</p>
+    <p>Note: If you try to clone an object of a class that doesn't implement the <code>Cloneable</code> interface, it
+        will throw a <code>CloneNotSupportedException</code> at runtime.</p>
+
+    <h3>Types of cloning</h3>
+
+    <p>There are two main types of cloning in Java:</p>
+
+    <h4>1. Shallow cloning</h4>
+
+    <p>A shallow copy of an object copies all the member fields, but it does not copy objects that the fields refer to.
+        Instead, the references to these objects are copied, meaning both the original and the copied object refer to
+        the same objects.</p>
+    <p>In Java, the clone() method creates a shallow copy by default.</p>
+
+    <h4>Example of Shallow Copy</h4>
+
+    <p>Consider a Person class that has a reference to an Address class:</p>
+
+    <pre class="java-code">
+  <code>
+    <span class="keyword">class</span> <span class="class">Address</span> {
+        <span class="class">String</span> <span class="var">city</span>;
+        <span class="class">Address</span>(<span class="class">String</span> <span class="var">city</span>) {
+            <span class="var">this</span>.<span class="var">city</span> = <span class="var">city</span>;
+        }
+    }
+
+    <span class="keyword">class</span> <span class="class">Person</span> <span class="keyword">implements</span> <span
+          class="class">Cloneable</span> {
+        <span class="class">String</span> <span class="var">name</span>;
+        <span class="class">int</span> <span class="var">age</span>;
+        <span class="class">Address</span> <span class="var">address</span>;
+        <span class="class">Person</span>(<span class="class">String</span> <span class="var">name</span>, <span
+          class="class">int</span> <span class="var">age</span>, <span class="class">Address</span> <span class="var">address</span>) {
+            <span class="var">this</span>.<span class="var">name</span> = <span class="var">name</span>;
+            <span class="var">this</span>.<span class="var">age</span> = <span class="var">age</span>;
+            <span class="var">this</span>.<span class="var">address</span> = <span class="var">address</span>;
+        }
+        <span class="annotation">@Override</span>
+        <span class="keyword">protected</span> <span class="class">Object</span> <span
+          class="method">clone</span>() <span class="keyword">throws</span> <span class="class">CloneNotSupportedException</span> {
+            <span class="keyword">return</span> <span class="keyword">super</span>.<span class="method">clone</span>();
+        }
+        <span class="annotation">@Override</span>
+        <span class="keyword">public</span> <span class="class">String</span> <span class="method">toString</span>() {
+            <span class="keyword">return</span> <span class="string">"Person(name="</span> + <span
+          class="var">name</span> + <span class="string">", age="</span> + <span class="var">age</span> + <span
+          class="string">", address="</span> + <span class="var">address</span>.<span class="var">city</span> + <span
+          class="string">"]"</span>;
+        }
+        <span class="keyword">public</span> <span class="keyword">static</span> <span class="class">void</span> <span
+          class="method">main</span>(<span class="class">String</span>[] <span class="var">args</span>) {
+            <span class="keyword">try</span> {
+                <span class="class">Address</span> <span class="var">address</span> = <span
+          class="keyword">new</span> <span class="class">Address</span>(<span class="string">"New York"</span>);
+                <span class="class">Person</span> <span class="var">original</span> = <span
+          class="keyword">new</span> <span class="class">Person</span>(<span class="string">"Alice"</span>, <span
+          class="number">30</span>, <span class="var">address</span>);
+                <span class="class">Person</span> <span class="var">cloned</span> = (<span class="class">Person</span>) <span
+          class="var">original</span>.<span class="method">clone</span>();
+                <span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span
+          class="string">"Original: "</span> + <span class="var">original</span>);
+                <span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span
+          class="string">"Cloned: "</span> + <span class="var">cloned</span>);
+                <span class="comment">// Modify the address in the cloned object</span>
+                <span class="var">cloned</span>.<span class="var">address</span>.<span class="var">city</span> = <span
+          class="string">"Los Angeles"</span>;
+                <span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span
+          class="string">"After modifying cloned object:"</span>);
+                <span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span
+          class="string">"Original: "</span> + <span class="var">original</span>);
+                <span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span
+          class="string">"Cloned: "</span> + <span class="var">cloned</span>);
+            } <span class="keyword">catch</span> (<span class="class">CloneNotSupportedException</span> <span
+          class="var">e</span>) {
+                <span class="var">e</span>.<span class="method">printStackTrace</span>();
+            }
+        }
+    }
+  </code>
+</pre>
+
+    <p>Output:</p>
+
+    <pre class="code-block">
+  <code>
+    Original: Person(name='Alice', age=30, address=New York)
+    Cloned: Person(name='Alice', age=30, address=New York)
+    After modifying cloned object:
+    Original: Person(name='Alice', age=30, address=Los Angeles)
+    Cloned: Person(name='Alice', age=30, address=Los Angeles)
+  </code>
+</pre>
+
+    <p>As seen in the output, modifying the address field in the cloned object also affects the original object because
+        both the original and the clone share the same Address object.</p>
+
+    <h4>2. Deep cloning</h4>
+
+    <p>A deep copy, on the other hand, duplicates everything directly or indirectly referenced by the fields in the
+        original object. This means the cloned object does not share references with the original object; it creates a
+        completely independent copy.</p>
+
+    <h3>Copy constructors as an alternative to cloning</h3>
+
+    <p>Instead of using the clone() method and Cloneable interface, you can also use a <strong>copy constructor</strong>
+        to create object copies.</p>
+    <p>- A copy constructor takes an object of the same class as a parameter and initializes a new object by copying the
+        values from the existing object's fields.</p>
+    <p>- It offers <strong>more flexibility and control over the copying process</strong>, allowing you to choose
+        between shallow or deep copying.</p>
+    <p>- <strong>Benefits</strong>: Avoids the complexities associated with the clone() method (like
+        CloneNotSupportedException and the need for a marker interface) and provides a more straightforward way to
+        manage object copying.</p>
+
+    <h3>Example of Deep Copy</h3>
+
+    <p>To implement a deep copy, you need to clone each field that is an object:</p>
+
+    <pre class="java-code">
+  <code>
+    <span class="keyword">class</span> <span class="class">Address</span> <span class="keyword">implements</span> <span
+          class="class">Cloneable</span> {
+        <span class="class">String</span> <span class="var">city</span>;
+        <span class="class">Address</span>(<span class="class">String</span> <span class="var">city</span>) {
+            <span class="var">this</span>.<span class="var">city</span> = <span class="var">city</span>;
+        }
+        <span class="annotation">@Override</span>
+        <span class="keyword">protected</span> <span class="class">Object</span> <span
+          class="method">clone</span>() <span class="keyword">throws</span> <span class="class">CloneNotSupportedException</span> {
+            <span class="keyword">return</span> <span class="keyword">super</span>.<span class="method">clone</span>();
+        }
+    }
+
+    <span class="keyword">class</span> <span class="class">Person</span> <span class="keyword">implements</span> <span
+          class="class">Cloneable</span> {
+        <span class="class">String</span> <span class="var">name</span>;
+        <span class="class">int</span> <span class="var">age</span>;
+        <span class="class">Address</span> <span class="var">address</span>;
+        <span class="class">Person</span>(<span class="class">String</span> <span class="var">name</span>, <span
+          class="class">int</span> <span class="var">age</span>, <span class="class">Address</span> <span class="var">address</span>) {
+            <span class="var">this</span>.<span class="var">name</span> = <span class="var">name</span>;
+            <span class="var">this</span>.<span class="var">age</span> = <span class="var">age</span>;
+            <span class="var">this</span>.<span class="var">address</span> = <span class="var">address</span>;
+        }
+        <span class="annotation">@Override</span>
+        <span class="keyword">protected</span> <span class="class">Object</span> <span
+          class="method">clone</span>() <span class="keyword">throws</span> <span class="class">CloneNotSupportedException</span> {
+            <span class="class">Person</span> <span class="var">cloned</span> = (<span
+          class="class">Person</span>) <span class="keyword">super</span>.<span class="method">clone</span>();
+            <span class="var">cloned</span>.<span class="var">address</span> = (<span
+          class="class">Address</span>) <span class="var">address</span>.<span class="method">clone</span>(); <span
+          class="comment">// Deep copy of address</span>
+            <span class="keyword">return</span> <span class="var">cloned</span>;
+        }
+        <span class="annotation">@Override</span>
+        <span class="keyword">public</span> <span class="class">String</span> <span class="method">toString</span>() {
+            <span class="keyword">return</span> <span class="string">"Person(name="</span> + <span
+          class="var">name</span> + <span class="string">", age="</span> + <span class="var">age</span> + <span
+          class="string">", address="</span> + <span class="var">address</span>.<span class="var">city</span> + <span
+          class="string">"]"</span>;
+        }
+        <span class="keyword">public</span> <span class="keyword">static</span> <span class="class">void</span> <span
+          class="method">main</span>(<span class="class">String</span>[] <span class="var">args</span>) {
+            <span class="keyword">try</span> {
+                <span class="class">Address</span> <span class="var">address</span> = <span
+          class="keyword">new</span> <span class="class">Address</span>(<span class="string">"New York"</span>);
+                <span class="class">Person</span> <span class="var">original</span> = <span
+          class="keyword">new</span> <span class="class">Person</span>(<span class="string">"Alice"</span>, <span
+          class="number">30</span>, <span class="var">address</span>);
+                <span class="class">Person</span> <span class="var">cloned</span> = (<span class="class">Person</span>) <span
+          class="var">original</span>.<span class="method">clone</span>();
+                <span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span
+          class="string">"Original: "</span> + <span class="var">original</span>);
+                <span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span
+          class="string">"Cloned: "</span> + <span class="var">cloned</span>);
+                <span class="comment">// Modify the address in the cloned object</span>
+                <span class="var">cloned</span>.<span class="var">address</span>.<span class="var">city</span> = <span
+          class="string">"Los Angeles"</span>;
+                <span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span
+          class="string">"After modifying cloned object:"</span>);
+                <span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span
+          class="string">"Original: "</span> + <span class="var">original</span>);
+                <span class="class">System</span>.<span class="var">out</span>.<span class="method">println</span>(<span
+          class="string">"Cloned: "</span> + <span class="var">cloned</span>);
+            } <span class="keyword">catch</span> (<span class="class">CloneNotSupportedException</span> <span
+          class="var">e</span>) {
+                <span class="var">e</span>.<span class="method">printStackTrace</span>();
+            }
+        }
+    }
+  </code>
+</pre>
+
+    <p>Output:</p>
+
+    <pre class="code-block">
+  <code>
+    Original: Person(name='Alice', age=30, address=New York)
+    Cloned: Person(name='Alice', age=30, address=New York)
+    After modifying cloned object:
+    Original: Person(name='Alice', age=30, address=New York)
+    Cloned: Person(name='Alice', age=30, address=Los Angeles)
+  </code>
+</pre>
+
+    <p>In this case, modifying the address field in the cloned object does not affect the original object because both
+        the original and the clone have their own separate Address objects.</p>
+
+    <h3>Choosing the right approach</h3>
+
+    <p>• Use shallow cloning if your class primarily contains primitive data types or immutable objects, or if you need
+        to share references to certain fields.</p>
+    <p>• Use deep cloning for complex objects with mutable fields or nested structures that require complete
+        independence between the original and copied objects.</p>
+    <p>• Consider copy constructors as a flexible and often preferred alternative to the clone() method, especially for
+        complex deep cloning scenarios.</p>
+    <p>In essence, cloning and copy constructors are vital tools for managing object copies in Java, and choosing the
+        appropriate method depends on the specific requirements of your application.</p>
+    <hr>
+    <div class="card-footer">
+        <ul class="pagination justify-content-center">
+            <li class="page-item"><a class="page-link btn-outline-primary"
+                                     href="../java/collections.html">&lArr; Previous</a></li>
+            <li class="page-item"><a class="page-link" href="../java/generics.html">Next
+                &rArr;</a></li>
+        </ul>
+    </div>
+</main>
+
+<!-- Footer will be inserted by JavaScript -->
+
+<!-- Scripts -->
+<script src="../js/sidebar.js"></script>
+<script src="../js/componentLoader.js"></script>
+</body>
+</html>

@@ -23,12 +23,917 @@
 
 <!-- Main Content Section -->
 <main id="content">
+    <h2>1. Java Collections Framework</h2>
+    <img src="../js/images/Java/collections.png" class="responsive-img">
+    <hr>
+    <h2>2. Key Differences Between List and Set</h2>
 
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Feature</th>
+                <th>List</th>
+                <th>Set</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Duplicates</td>
+                <td>Allowed</td>
+                <td>Not allowed</td>
+            </tr>
+            <tr>
+                <td>Ordering</td>
+                <td>Insertion order (unless sorted)</td>
+                <td>Unordered ( HashSet ), Sorted ( TreeSet ), or Insertion-order ( LinkedHashSet )</td>
+            </tr>
+            <tr>
+                <td>Access Method</td>
+                <td>Index-based ( get(i) )</td>
+                <td>No index access (must iterate)</td>
+            </tr>
+            <tr>
+                <td>Search Performance</td>
+                <td>O(n) (linear search)</td>
+                <td>O(1) ( HashSet ) or O(log n) ( TreeSet )</td>
+            </tr>
+            <tr>
+                <td>Implementations</td>
+                <td>ArrayList, LinkedList, Vector</td>
+                <td>HashSet, LinkedHashSet, TreeSet</td>
+            </tr>
+            <tr>
+                <td>Primary Use Case</td>
+                <td>Ordered collections with duplicates</td>
+                <td>Unique elements, fast membership checks</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <hr>
+    <h2>3. Comparison of List Implementations</h2>
+
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Feature</th>
+                <th>ArrayList</th>
+                <th>LinkedList</th>
+                <th>Vector</th>
+                <th>Stack (extends Vector)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Underlying Structure</td>
+                <td>Dynamic resizable array</td>
+                <td>Doubly-linked list</td>
+                <td>Dynamic array (legacy)</td>
+                <td>Dynamic array (legacy)</td>
+            </tr>
+            <tr>
+                <td>Thread Safety</td>
+                <td>No (Not synchronized)</td>
+                <td>No (Not synchronized)</td>
+                <td>Yes (All methods synchronized)</td>
+                <td>Yes (All methods synchronized)</td>
+            </tr>
+            <tr>
+                <td>Random Access (get(i))</td>
+                <td>O(1) (Fast)</td>
+                <td>O(n) (Slow, traverses list)</td>
+                <td>O(1) (Fast, but slower due to sync)</td>
+                <td>O(1) (but slower due to sync)</td>
+            </tr>
+            <tr>
+                <td>Insertion (add)</td>
+                <td>O(n) worst-case (shifting)</td>
+                <td>O(1) (if known node)</td>
+                <td>O(n) (shifting + sync overhead)</td>
+                <td>O(n) (sync + shifting)</td>
+            </tr>
+            <tr>
+                <td>Deletion (remove)</td>
+                <td>O(n) worst-case (shifting)</td>
+                <td>O(1) (if known node)</td>
+                <td>O(n) (shifting + sync overhead)</td>
+                <td>O(n) (sync + shifting)</td>
+            </tr>
+            <tr>
+                <td>Memory Overhead</td>
+                <td>Low (contiguous memory)</td>
+                <td>High (extra pointers for nodes)</td>
+                <td>Low (like ArrayList but sync cost)</td>
+                <td>Low (like Vector)</td>
+            </tr>
+            <tr>
+                <td>Resizing</td>
+                <td>Grows by 50% (e.g., 10 ~ 15)</td>
+                <td>No resizing (dynamic node allocation)</td>
+                <td>Grows by 100% (e.g., 10 ~ 20)</td>
+                <td>Same as Vector</td>
+            </tr>
+            <tr>
+                <td>Null Elements</td>
+                <td>Allowed</td>
+                <td>Allowed</td>
+                <td>Allowed</td>
+                <td>Allowed</td>
+            </tr>
+            <tr>
+                <td>Duplicates</td>
+                <td>Allowed</td>
+                <td>Allowed</td>
+                <td>Allowed</td>
+                <td>Allowed</td>
+            </tr>
+            <tr>
+                <td>Iteration Order</td>
+                <td>Insertion order</td>
+                <td>Insertion order</td>
+                <td>Insertion order</td>
+                <td>Insertion order (LIFO for Stack)</td>
+            </tr>
+            <tr>
+                <td>Best Use Case</td>
+                <td>Frequent reads, fewer modifications</td>
+                <td>Frequent insertions/deletions</td>
+                <td>Legacy thread-safe needs</td>
+                <td>Legacy LIFO operations</td>
+            </tr>
+            <tr>
+                <td>Performance</td>
+                <td>Fast random access (0(1))</td>
+                <td>Slow random access (0(n))</td>
+                <td>Slower due to synchronization</td>
+                <td>Slower due to synchronization</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <h3>1. Detailed Breakdown</h3>
+
+    <h3>1.Insertion ( add(index, element) )</h3>
+
+    <p>- <strong>At the START ( add(0, element) )</strong></p>
+
+    <p> - ArrayList: O(n). It must shift every single existing element one position to the right to make room at index
+        0. This is very expensive for large lists.</p>
+
+    <p> - LinkedList: O(1). It simply creates a new node, points it to the old first node, and updates the head pointer.
+        Extremely fast, constant time.</p>
+
+    <p>- <strong>Winner:</strong> LinkedList by a huge margin.</p>
+
+    <p>- <strong>In the MIDDLE ( add(n/2, element) )</strong></p>
+
+    <p> - ArrayList: O(n). It must shift all elements from the insertion point to the end one position to the right.</p>
+
+    <p> - LinkedList: O(n). It must traverse the list from the start or end until it finds the insertion point (this is
+        the O(n) part). However, once found, the actual insertion (changing pointers) is O(1).</p>
+
+    <p>- <strong>Winner:</strong> Technically a Tie, but ArrayList often wins in practice. Why? Traversing in a
+        LinkedList involves pointer chasing, which is slow due to non-contiguous memory locations (cache misses).
+        Shifting elements in an ArrayList is a very fast, contiguous block memory copy.</p>
+
+    <p>- <strong>At the END ( add(element) )</strong></p>
+
+    <p> - ArrayList: O(1) amortized. Usually, it just plops the element into the next empty slot. Occasionally, when the
+        internal array is full, it triggers a new array creation and copy, which is O(n). But averaged over many
+        insertions, this is effectively constant time.</p>
+
+    <p> - LinkedList: O(1). It has a direct reference to the tail node, so it just adds a new node after it and updates
+        the tail pointer.</p>
+
+    <p> - Winner: Tie. Both are very fast for appending.</p>
+
+    <h3>2. Removal ( remove(index) )</h3>
+
+    <p>- <strong>From the START ( remove(0) )</strong></p>
+
+    <p>- ArrayList: O(n). It must shift all remaining elements one position to the left to fill the gap.</p>
+    <p>- LinkedList: O(1). It simply updates the head pointer to point to the second node and severs the link from the
+        old head.</p>
+    <p>- Winner: LinkedList by a huge margin.</p>
+
+    <p>- <strong>From the MIDDLE ( remove(n/2) )</strong></p>
+    <p> - ArrayList: O(n). It must shift all elements after the removal point one position to the left.</p>
+    <p> - LinkedList: O(n). It must traverse to the node to be removed (O(n)), but the actual removal (bypassing the
+        node) is O(1).</p>
+    <p> - Winner: Technically a Tie, but ArrayList often wins in practice for the same reason as insertion: fast block
+        copy vs. slow traversal.</p>
+
+    <p>- <strong>From the END ( remove(lastIndex) )</strong></p>
+    <p> - ArrayList: O(1). It can simply decrement its size counter. No shifting is needed.</p>
+    <p> - LinkedList: O(1). It has a direct tail pointer. To remove the tail, it must update the tail to point to the
+        previous node. This is O(1) because it's a doubly-linked list and the tail node has a pointer to its previous
+        node.</p>
+    <p> - Winner: Tie, though ArrayList is often a fraction faster as it's a simpler operation.</p>
+
+    <h3>5. Search / Access ( get(index) )</h3>
+
+    <p>- <strong>By Index ( get(index) )</strong></p>
+    <p> - ArrayList: O(1). This is its superpower. It performs a simple array lookup: internalArray[index].</p>
+    <p> - LinkedList: O(n). It has to start from the head (or tail if the index is in the second half) and traverse
+        node-by-node until it reaches the desired position. This is painfully slow for random access.</p>
+    <p> - Winner: ArrayList by a universe-sized margin.</p>
+
+    <p>- <strong>By Value ( indexOf(element) / contains(element) )</strong></p>
+    <p> - Both: O(n). Both must iterate through each element until they find a match (.equals() ). There is no inherent
+        advantage for either.</p>
+    <p> - Winner: Tie.</p>
+    <hr>
+
+    <h2>2. ArrayList Internal Structure</h2>
+
+    <h3>Default Size and Creation</h3>
+
+    <p>The behavior depends on which constructor you use:</p>
+
+    <p><h4>1. new ArrayList&lt;&gt;() (Default Constructor)</h4></p>
+    <p> In Java 21, the default constructor does not immediately create a 10-element array. It uses a lazy
+        initialization optimization.</p>
+    <p> The internal storage is set to a shared, static, empty array</p>
+    <p> ( DEFAULTCAPACITY_EMPTY_ELEMENTDATA ).</p>
+    <p> The first time an element is added to the list, the internal array is created with the default capacity of
+        10.</p>
+    <p> Why? This optimizes memory usage for potentially empty or short-lived ArrayLists.</p>
+
+    <p><h4>2. new ArrayList&lt;&gt;(int initialCapacity)</h4></p>
+    <p> This constructor immediately creates an internal array of the specified size</p>
+    <p> ( initialCapacity ).</p>
+    <p> If initialCapacity is 0, it uses a shared static empty array.</p>
+
+    <p><h4>3. new ArrayList&lt;&gt;(Collection&lt;? extends E&gt; c)</h4></p>
+    <p> The internal array is created immediately with a size equal to the size of the passed collection ( C.size()
+        ).</p>
+    <p> The elements from the collection are copied into this new array.</p>
+<hr>
+    <h3>Internal Structure & Growth</h3>
+
+    <p>The core internal structure remains a dynamic array, but Java 21 includes optimizations.</p>
+
+    <pre class="java-code">
+<code>
+<span class="number">1</span> <span class="comment">// Simplified view based on Java 21 source code</span>
+<span class="number">2</span> <span class="keyword">public class</span> <span class="class">ArrayList</span>&lt;<span
+        class="class">E</span>&gt; <span class="keyword">extends</span> <span class="class">AbstractList</span>&lt;<span
+        class="class">E</span>&gt; <span class="keyword">implements</span> <span class="class">List</span>&lt;<span
+        class="class">E</span>&gt; {
+<span class="number">3</span>    <span class="comment">// The internal storage. Can be one of several shared empty arrays for optimization.</span>
+<span class="number">4</span>    <span class="keyword">transient</span> <span class="class">Object</span>[] elementData;
+<span class="number">5</span>    <span class="comment">// The number of elements currently in the list (not the array length!)</span>
+<span class="number">6</span>    <span class="keyword">private</span> <span class="class">int</span> size;
+<span class="number">7</span>    <span class="comment">// Default constructor: LAZY INITIALIZATION</span>
+<span class="number">8</span>    <span class="keyword">public</span> <span class="method">ArrayList</span>() {
+<span class="number">9</span>    <span
+        class="keyword">this</span>.elementData = DEFAULTCAPACITY_EMPTY_ELEMENTDATA; <span class="comment">// Shared empty array</span>
+<span class="number">10</span>    <span class="keyword">this</span>.size = <span class="number">0</span>;
+<span class="number">11</span> }
+<span class="number">12</span>    <span class="comment">// The first add(E e) operation triggers this:</span>
+<span class="number">13</span>    <span class="keyword">private</span> <span class="class">Object</span>[] <span
+        class="method">grow</span>(<span class="class">int</span> minCapacity) {
+<span class="number">14</span>    <span class="class">int</span> oldCapacity = elementData.length;
+<span class="number">15</span>    <span class="keyword">if</span> (oldCapacity &gt; <span class="number">0</span> || elementData != DEFAULTCAPACITY_EMPTY_ELEMENTDATA) {
+<span class="number">16</span>    <span class="comment">// Standard growth: 50% larger (oldCapacity >> 1 is oldCapacity / 2)</span>
+<span class="number">17</span>    <span class="class">int</span> newCapacity = <span class="class">ArraysSupport</span>.newLength(oldCapacity,
+<span class="number">18</span>    minCapacity - oldCapacity, <span class="comment">// minimum growth</span>
+<span class="number">19</span>    oldCapacity &gt;&gt; <span class="number">1</span>);    <span class="comment">// preferred growth (50%)</span>
+<span class="keyword">return</span> elementData = <span class="class">Arrays</span>.copyOf(elementData, newCapacity);
+} <span class="keyword">else</span> {
+<span class="comment">// This is the first add to a default-constructed ArrayList</span>
+<span class="comment">// Creates the array with max(DEFAULT_CAPACITY=10, minCapacity)</span>
+<span class="keyword">return</span> elementData = <span class="keyword">new</span> <span
+        class="class">Object</span>[<span class="class">Math</span>.max(DEFAULT_CAPACITY, minCapacity)];
+</code>
+</pre>
+
+    <p>Key Java 21 Insight: The growth logic now uses ArraysSupport.newLength, which provides more controlled and
+        optimized calculation for the new array size, but the standard growth factor remains ~1.5x.</p>
+<hr>
+    <h3>The Growth Process (Dynamic Resizing)</h3>
+
+    <p>This is the most important concept. When the array is full (size == capacity) and a new element needs to be
+        added:</p>
+
+    <p>1. A new, larger array is created. The standard growth factor in Java's ArrayList is 1.5x (i.e., the new capacity
+        is oldCapacity + (oldCapacity >> 1) ).</p>
+
+    <p>2. All elements from the old array are copied into the new array using Arrays.copyOf .</p>
+
+    <p>3. The old array is discarded, and the elementData reference is updated to point to the new array.</p>
+
+    <p>4. The new element is added to the new array.</p>
+
+    <p>Example of Growth:</p>
+
+    <p>• Initial capacity: 10</p>
+
+    <p>• On the 11th add: New capacity = 10 + (10 >> 1) = 10 + 5 = 15</p>
+
+    <p>• On the 16th add: New capacity = 15 + (15 >> 1) = 15 + 7 = 22</p>
+
+    <p>• This amortizes the cost of the expensive O(n) copy operation over many fast O(1) adds, leading to an "amortized
+        constant time" cost for adding at the end.</p>
+<hr>
+    <h2>3. LinkedList Internal Structure</h2>
+
+    <h3>Default Size and Creation</h3>
+
+    <p>• LinkedList has no capacity concept. Its size is always exactly the number of elements it contains.</p>
+
+    <p>• The default constructor new LinkedList&lt;&gt;() creates an empty list. The first and last node references are
+        set to null, and the size is 0.</p>
+
+    <p>- There is no lazy initialization. The structure is created immediately, but it's just the shell of the list with
+        no nodes.</p>
+
+    <h3>Internal Structure</h3>
+
+    <p>A LinkedList is a doubly-linked list. It is built from Node objects (often a private inner class). Each Node
+        contains three things:</p>
+
+    <p>1. E item: The actual data element.</p>
+    <p>2. Node&lt;E&gt; next: A reference to the next node in the sequence.</p>
+    <p>3. Node&lt;E&gt; prev: A reference to the previous node in the sequence.</p>
+
+    <p>The LinkedList class itself maintains two references:</p>
+
+    <p>1. Node&lt;E&gt; first: A pointer to the first node in the list.</p>
+    <p>2. Node&lt;E&gt; last: A pointer to the last node in the list.</p>
+    <p>3. int size: The number of elements in the list.</p>
+
+    <pre class="java-code">
+<code>
+<span class="number">1</span> <span class="comment">// Simplified view of LinkedList and its Node</span>
+<span class="number">2</span> <span class="keyword">public class</span> <span class="class">LinkedList</span>&lt;<span
+        class="class">E</span>&gt; {
+    <span class="keyword">transient</span> <span class="class">Node</span>&lt;<span class="class">E</span>&gt; first;
+    <span class="keyword">transient</span> <span class="class">Node</span>&lt;<span class="class">E</span>&gt; last;
+    <span class="keyword">private</span> <span class="class">int</span> size;
+    <span class="keyword">private static class</span> <span class="class">Node</span>&lt;<span class="class">E</span>&gt; {
+    <span class="class">E</span> item;
+    <span class="class">Node</span>&lt;<span class="class">E</span>&gt; next;
+    <span class="class">Node</span>&lt;<span class="class">E</span>&gt; prev;
+    <span class="method">Node</span>(<span class="class">Node</span>&lt;<span class="class">E</span>&gt; prev, <span
+        class="class">E</span> element, <span class="class">Node</span>&lt;<span class="class">E</span>&gt; next) {
+    <span class="keyword">this</span>.item = element;
+    <span class="keyword">this</span>.next = next;
+    <span class="keyword">this</span>.prev = prev;
+    }
+    }
+    <span class="comment">// Default constructor</span>
+<span class="number">17</span> <span class="keyword">public</span> <span class="method">LinkedList</span>() {
+    <span class="keyword">this</span>.first = <span class="keyword">null</span>;
+<span class="number">19</span> <span class="keyword">this</span>.last = <span class="keyword">null</span>;
+<span class="number">20</span> <span class="keyword">this</span>.size = <span class="number">0</span>;
+<span class="number">21</span> }
+<span class="number">22</span> }
+</code>
+</pre>
+
+    <h3>The Growth Process</h3>
+
+    <p>Adding an element is simple and doesn't involve any copying:</p>
+
+    <p>1. A new Node object is created.</p>
+    <p>2. The next and prev pointers of the new node and the existing last node are updated to link it into the
+        chain.</p>
+
+    <p>3. The last pointer of the list is updated to point to the new node.</p>
+
+    <p>4. The size is incremented by 1.</p>
+
+    <p>There is no "resizing" event. Each addition is a standalone O(1) operation (assuming you are adding at the end
+        and have the tail pointer).</p>
+    <hr>
+    <h2>3. ArrayList vs SynchronizedList vs CopyOnWriteArrayList</h2>
+    <h3>Key Differences Explained</h3>
+
+    <h4>1. Thread Safety</h4>
+
+    <p>• ArrayList :</p>
+
+    <p> • Not thread-safe. Concurrent modifications (e.g., one thread adding while another reads) can cause:</p>
+
+    <p> • ConcurrentModificationException (during iteration).</p>
+
+    <p> • Data corruption (e.g., lost updates).</p>
+
+    <p> • Requires explicit synchronization:</p>
+
+    <pre class="java-code">
+<code>
+<span class="number">1</span> <span class="class">List</span>&lt;<span class="class">String</span>&gt; syncList = <span
+        class="class">Collections</span>.synchronizedList(<span class="keyword">new</span> <span
+        class="class">ArrayList</span>&lt;&gt;());
+</code>
+</pre>
+
+    <p>• CopyOnWriteArrayList :</p>
+
+    <p> • Thread-safe by design:</p>
+
+    <p> • Reads are lock-free (always work on an immutable snapshot).</p>
+
+    <p> • Writes ( add , set , remove ) create a new copy of the underlying array, ensuring thread safety at the cost of
+        performance.</p>
+    <hr>
+    <h2>4. Comparison of Set Implementations</h2>
+
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Feature</th>
+                <th>HashSet</th>
+                <th>LinkedHashSet</th>
+                <th>TreeSet</th>
+                <th>EnumSet</th>
+                <th>CopyOnWriteArraySet</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Underlying Structure</td>
+                <td>Hash table (HashMap backing)</td>
+                <td>HashSet + Linked List for order</td>
+                <td>Red-Black Tree (TreeMap)</td>
+                <td>Bit vector (optimized for enums)</td>
+                <td>Copy-on-write array</td>
+            </tr>
+            <tr>
+                <td>Thread Safety</td>
+                <td>No</td>
+                <td>No</td>
+                <td>No</td>
+                <td>No</td>
+                <td>Yes (thread-safe)</td>
+            </tr>
+            <tr>
+                <td>Performance</td>
+                <td>0(1) avg. for insert/delete</td>
+                <td>0(1) avg., slightly slower than HashSet</td>
+                <td>0(log n) for operations</td>
+                <td>0(1) (fastest for enums)</td>
+                <td>Slow writes (0(n)), fast reads</td>
+            </tr>
+            <tr>
+                <td>Add/Remove Performance</td>
+                <td>O(1) average</td>
+                <td>O(1) (slightly slower than HashSet )</td>
+                <td>O(log n) (tree balancing)</td>
+                <td>O(1) (fastest for enums)</td>
+                <td>O(n) (due to array copying)</td>
+            </tr>
+            <tr>
+                <td>Contains (search)</td>
+                <td>O(1) average</td>
+                <td>O(1) average</td>
+                <td>O(log n)</td>
+                <td>O(1)</td>
+                <td>O(n) (linear scan)</td>
+            </tr>
+            <tr>
+                <td>Null Elements</td>
+                <td>Yes (1 null allowed)</td>
+                <td>Yes (1 null allowed)</td>
+                <td>No (if natural ordering used)</td>
+                <td>No (enum only)</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <td>Duplicates</td>
+                <td>No</td>
+                <td>No</td>
+                <td>No</td>
+                <td>No</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <td>Iteration Order</td>
+                <td>Unordered</td>
+                <td>Insertion order</td>
+                <td>Sorted (natural/comparator order)</td>
+                <td>Natural enum order</td>
+                <td>Insertion order</td>
+            </tr>
+            <tr>
+                <td>Memory Overhead</td>
+                <td>Moderate (hash table + load factor)</td>
+                <td>Higher (maintains linked list)</td>
+                <td>High (tree nodes + balancing)</td>
+                <td>Very low (bit flags)</td>
+                <td>High (copies array on mutation)</td>
+            </tr>
+            <tr>
+                <td>Best Use Case</td>
+                <td>Fastest general-purpose set</td>
+                <td>Insertion-order preservation</td>
+                <td>Sorted unique elements</td>
+                <td>High-performance enum collections</td>
+                <td>Thread-safe, read-heavy scenarios</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <h2>1. How Does a Set Maintain Unique Elements?</h2>
+
+    <p>The core mechanism is delegated to the <strong>underlying Map</strong>. All standard Set implementations use a
+        Map internally.</p>
+
+    <p><strong>The Golden Rule:</strong> In a Map, every key must be unique. A Set cleverly uses this property by
+        storing its elements as keys in the map, with a dummy object as the value.</p>
+
+    <p>Here's the internal trick, common to HashSet, LinkedHashSet, and TreeSet :</p>
+
+    <pre class="java-code">
+<code>
+<span class="number">1</span> <span class="comment">// Simplified view of how HashSet (and others) are built</span>
+<span class="number">2</span> <span class="keyword">public class</span> <span class="class">HashSet</span>&lt;<span
+        class="class">E</span>&gt; {
+<span class="number">3</span> <span class="comment">// Backing Map - The real data structure</span>
+<span class="number">4</span> <span class="keyword">private</span> <span class="keyword">transient</span> <span
+        class="class">HashMap</span>&lt;<span class="class">E</span>, <span class="class">Object</span>&gt; map;
+<span class="number">5</span> <span
+        class="comment">// A single, static dummy object to use as the value for every key</span>
+<span class="number">6</span> <span class="keyword">private static final</span> <span class="class">Object</span> PRESENT = <span
+        class="keyword">new</span> <span class="class">Object</span>();
+<span class="number">7</span> <span class="keyword">public</span> <span class="class">boolean</span> <span
+        class="method">add</span>(<span class="class">E</span> e) {
+<span class="comment">// The magic happens in map.put(key, value):</span>
+<span class="comment">// 1. It calculates the hash of the key 'e'.</span>
+<span class="comment">// 2. It checks if a key that is "equal" to 'e' already exists.</span>
+<span class="comment">// 3. If it does NOT exist, it adds the entry (e -> PRESENT) and returns null.</span>
+<span class="comment">// 4. If it DOES exist, it replaces the value for that key and returns the old</span>
+value.
+<span class="keyword">return</span> map.put(e, PRESENT) == <span class="keyword">null</span>;
+</code>
+</pre>
+
+    <p>The put method's logic (for HashMap / HashSet ) is key to uniqueness:</p>
+
+    <p>1. <strong>Hash & Bucket</strong>: It calculates the hash code of the new element ( e ) to find its "bucket".</p>
+
+    <p>2. <strong>Check for Equality</strong>: Within that bucket, it checks if any existing key k meets the condition:
+    </p>
+    <p> (e == null ? k == null : e.equals(k) ).</p>
+
+    <p>3. <strong>Decision</strong>:</p>
+    <p> - If e.equals(k) is true for an existing key, the element is a duplicate. The put method returns the old value
+        (which is PRESENT ), so add() returns false .</p>
+    <p> - If no equal key is found, the new element is unique. The put method adds the new entry and returns null , so
+        add() returns true .</p>
+
+    <p>In short: Uniqueness is enforced by the equals() and hashCode() methods of the objects you add to the set. This
+        is why it's critical to correctly override these methods for your custom classes.</p>
+<hr>
+    <h2>2. How Does LinkedHashSet Maintain Insertion Order?</h2>
+
+    <p>LinkedHashSet is a subclass of HashSet . While HashSet uses a HashMap internally, LinkedHashSet uses a
+        LinkedHashMap .</p>
+
+    <p>A LinkedHashMap extends HashMap by adding a doubly-linked list that runs through all of its entries. This linked
+        list defines the iteration order.</p>
+
+    <p>Internal Structure of LinkedHashMap (and thus LinkedHashSet):</p>
+
+    <pre class="java-code">
+<code>
+<span class="number">1</span> <span class="comment">// Simplified view of the internal Node in LinkedHashMap</span>
+<span class="number">2</span> <span class="keyword">static class</span> <span class="class">Entry</span>&lt;<span
+        class="class">K</span>,<span class="class">V</span>&gt; <span class="keyword">extends</span> <span
+        class="class">HashMap</span>.<span class="class">Node</span>&lt;<span class="class">K</span>,<span
+        class="class">V</span>&gt; {
+    <span class="comment">// These fields add the linking functionality</span>
+    <span class="class">Entry</span>&lt;<span class="class">K</span>,<span
+        class="class">V</span>&gt; before, after; <span class="comment">// Pointers to the previous and next node in the linked list</span>
+    <span class="method">Entry</span>(<span class="class">int</span> hash, <span class="class">K</span> key, <span
+        class="class">V</span> value, <span class="class">Node</span>&lt;<span class="class">K</span>,<span
+        class="class">V</span>&gt; next) {
+    <span class="keyword">super</span>(hash, key, value, next);
+    }
+}
+<span class="number">9</span> <span class="comment">// The LinkedHashMap class maintains the head and tail of this linked list</span>
+<span class="number">10</span> <span class="keyword">transient</span> <span class="class">LinkedHashMap</span>.<span
+        class="class">Entry</span>&lt;<span class="class">K</span>,<span class="class">V</span>&gt; head;
+<span class="number">11</span> <span class="keyword">transient</span> <span class="class">LinkedHashMap</span>.<span
+        class="class">Entry</span>&lt;<span class="class">K</span>,<span class="class">V</span>&gt; tail;
+</code>
+</pre>
+
+    <p>The Process for add() (e.g., LinkedHashSet.add("Alice"));</p>
+    <p>1. Hash Table Operation: Exactly like a HashSet, it uses the hash table to check for uniqueness and find the
+        correct bucket.</p>
+    <p>2. Linking: Once the new entry is placed in the hash table, the LinkedHashMap appends it to the end of its
+        internal doubly-linked list.</p>
+    <p> The new entry's before pointer is set to the current tail.</p>
+    <p> The current tail's after pointer is set to the new entry.</p>
+    <p> The tail pointer is updated to point to the new entry.</p>
+
+    <p>Iteration: When you iterate over a LinkedHashSet (e.g., with a for-each loop), it doesn't iterate through the
+        hash table buckets. Instead, it simply traverses this internal linked list from head to tail, which guarantees
+        insertion-order.</p>
+<hr>
+    <h2>3. Default Capacity and Growth (LinkedHashSet & HashSet)</h2>
+
+    <p>Since LinkedHashSet is built on a LinkedHashMap, which is built on a HashMap, their capacity and growth behavior
+        are identical.</p>
+
+    <p>- <strong>Default Initial Capacity:</strong> 16 (of the underlying hash table).</p>
+    <p>- <strong>Load Factor:</strong> 0.75.</p>
+    <p>- <strong>Growth Trigger:</strong> When the number of elements exceeds (capacity * load factor).</p>
+    <p>- <strong>Growth Mechanism:</strong> The hash table doubles in size (i.e., new capacity = old capacity * 2). All
+        existing entries are rehashed and placed into new buckets in the larger table. The LinkedHashMap also maintains
+        the linked list order during this process.</p>
+
+    <p>Example: The default capacity is 16 and load factor is 0.75. The set will grow when you add the 13th element
+        (because 16 * 0.75 = 12). The new capacity will be 32.</p>
+    <hr>
+    <h2>5. Comparison of Map Implementations in Java</h2>
+
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Feature</th>
+                <th>HashMap</th>
+                <th>LinkedHashMap</th>
+                <th>TreeMap</th>
+                <th>HashTable (Legacy)</th>
+                <th>Concurrent HashMap</th>
+                <th>EnumMap</th>
+                <th>IdentityHashMap</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Underlying Structure</td>
+                <td>Hash Table (Array + LinkedList / RB Tree in Java 8+)</td>
+                <td>Hash Table + Linked List</td>
+                <td>Red-Black Tree (Balanced BST)</td>
+                <td>Hash Table (Synchronized)</td>
+                <td>Segmented Hash Table (Lock Stripping)</td>
+                <td>Bit Array (Optimized for Enums)</td>
+                <td>Hash Table (Uses == for equality)</td>
+            </tr>
+            <tr>
+                <td>Thread Safety</td>
+                <td>✅ No</td>
+                <td>✅ No</td>
+                <td>✅ No</td>
+                <td>✅ Yes (Synchronized methods)</td>
+                <td>✅ Yes (Lock per Segment)</td>
+                <td>✅ No</td>
+                <td>✅ No</td>
+            </tr>
+            <tr>
+                <td>Null Keys/Values</td>
+                <td>✅ 1 null key, multiple null values</td>
+                <td>✅ 1 null key, multiple null values</td>
+                <td>✅ No (if natural ordering)</td>
+                <td>✅ No (throws NullPointerException)</td>
+                <td>✅ No (since Java 8)</td>
+                <td>✅ null allowed (if enum allows)</td>
+                <td>✅ Allows null</td>
+            </tr>
+            <tr>
+                <td>Ordering</td>
+                <td>✗ Unordered</td>
+                <td>✔ Insertion Order / Access Order (LRU)</td>
+                <td>✔ Sorted (Natural/Comparator)</td>
+                <td>✗ Unordered</td>
+                <td>✗ Unordered</td>
+                <td>✔ Natural Enum Order</td>
+                <td>✗ Unordered</td>
+            </tr>
+            <tr>
+                <td>Performance (get/put)</td>
+                <td>O(1) avg. (Worst: O(n) if many collisions)</td>
+                <td>O(1) (Slightly slower than HashMap )</td>
+                <td>O(log n) (Tree operations)</td>
+                <td>O(1) (Slower due to sync)</td>
+                <td>O(1) (High concurrency)</td>
+                <td>O(1) (Fast for enums)</td>
+                <td>O(1) (Unless System.identityHashCode used)</td>
+            </tr>
+            <tr>
+                <td>Iteration Speed</td>
+                <td>Fast (but unordered)</td>
+                <td>Slower (maintains linked list)</td>
+                <td>Slow (tree traversal)</td>
+                <td>Slow (sync overhead)</td>
+                <td>Fast (optimized for concurrency)</td>
+                <td>Fast (like HashMap )</td>
+                <td>Fast</td>
+            </tr>
+            <tr>
+                <td>Duplicates</td>
+                <td>✗ Keys must be unique</td>
+                <td>✗ Keys must be unique</td>
+                <td>✗ Keys must be unique</td>
+                <td>✗ Keys must be unique</td>
+                <td>✗ Keys must be unique</td>
+                <td>✗ Keys must be unique</td>
+                <td>✗ Keys must be unique</td>
+            </tr>
+            <tr>
+                <td>Use Case</td>
+                <td>General-purpose, fastest lookups</td>
+                <td>Preserve insertion/access order</td>
+                <td>Sorted key ordering</td>
+                <td>Legacy thread-safe needs</td>
+                <td>High-concurrency scenarios</td>
+                <td>Enum key collections</td>
+                <td>Reference equality needed</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <hr>
+    <h2>6. Hashtable vs. SynchronizedMap vs. ConcurrentHashMap</h2>
+
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Feature</th>
+                <th>Hashtable (Legacy)</th>
+                <th>Collections.synchronizedMap()</th>
+                <th>ConcurrentHashMap (Modern)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Thread Safety</td>
+                <td>✔ Yes (All methods synchronized)</td>
+                <td>✔ Yes (Wrapper with synchronized blocks)</td>
+                <td>✔ Yes (Lock striping, partial sync)</td>
+            </tr>
+            <tr>
+                <td>Locking Mechanism</td>
+                <td>Global lock (entire map locked)</td>
+                <td>Global lock (entire map locked)</td>
+                <td>Segment-level locks (only parts locked)</td>
+            </tr>
+            <tr>
+                <td>Performance</td>
+                <td>🟧 Slow (High contention)</td>
+                <td>🟧 Slow (High contention)</td>
+                <td>🟧 Fast (Low contention, higher throughput)</td>
+            </tr>
+            <tr>
+                <td>Null Keys/Values</td>
+                <td>✗ No (NullPointerException )</td>
+                <td>✗ Depends on wrapped map (e.g., HashMap allows null)</td>
+                <td>✗ No (since Java 8)</td>
+            </tr>
+            <tr>
+                <td>Iterator Behavior</td>
+                <td>Fail-safe (throws ConcurrentModificationException)</td>
+                <td>Fail-fast (throws ConcurrentModificationException)</td>
+                <td>Weakly consistent (no exceptions)</td>
+            </tr>
+            <tr>
+                <td>Concurrency Level</td>
+                <td>1 (Single lock)</td>
+                <td>1 (Single lock)</td>
+                <td>Configurable (Default: 16 segments)</td>
+            </tr>
+            <tr>
+                <td>Introduced In</td>
+                <td>Java 1.0</td>
+                <td>Java 1.2</td>
+                <td>Java 5 (JSR 166)</td>
+            </tr>
+            <tr>
+                <td>Use Case</td>
+                <td>Legacy code</td>
+                <td>Simple thread-safe wrapper for existing maps</td>
+                <td>High-concurrency applications</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+
+    <h3>Key Differences Explained</h3>
+
+    <h4>1. Thread Safety Mechanism</h4>
+    <p>Hashtable:</p>
+
+    <p>- Uses synchronized methods (e.g., put() , get() ), locking the entire map for every operation.</p>
+    <p>- Example:</p>
+    <pre class="java-code">
+<code>
+  <span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="class">V</span> <span class="method">put</span>(<span class="class">K</span> key, <span class="class">V</span> value) { ... }
+</code>
+</pre>
+
+    <p>- Collections.synchronizedMap():</p>
+    <p>  Wraps any Map (e.g., HashMap ) with synchronized blocks, locking the entire map.</p>
+    <p>- Example:</p>
+    <pre class="java-code">
+<code>
+  <span class="class">Map</span>&lt;<span class="class">K</span>, <span class="class">V</span>&gt; syncMap = <span class="class">Collections</span>.synchronizedMap(<span class="keyword">new</span> <span class="class">HashMap</span>&lt;&gt;());
+</code>
+</pre>
+
+    <p>- ConcurrentHashMap:</p>
+    <p>  Uses lock striping (multiple locks for different segments).</p>
+    <p>  Only a segment (bucket) is locked during writes, allowing concurrent reads.</p>
+<hr>
+    <h4>2. Performance</h4>
+
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Scenario</th>
+                <th>Hashtable</th>
+                <th>SynchronizedMap</th>
+                <th>ConcurrentHashMap</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Single Thread</td>
+                <td>Slow (legacy)</td>
+                <td>Slow (sync overhead)</td>
+                <td>Fast (near HashMap )</td>
+            </tr>
+            <tr>
+                <td>High Contention</td>
+                <td>Very Slow</td>
+                <td>Very Slow</td>
+                <td>Optimal (scales well)</td>
+            </tr>
+            <tr>
+                <td>Read-Heavy</td>
+                <td>Slow</td>
+                <td>Slow</td>
+                <td>Blazing Fast (no locks on reads)</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+<hr>
+    <h4>3. Null Support</h4>
+    <p>- Hashtable: Prohibits null keys/values (throws NullPointerException).</p>
+    <p>- SynchronizedMap: Inherits behavior from the wrapped map (e.g., HashMap allows null).</p>
+    <p>- ConcurrentHashMap: Does not allow null keys/values (design choice to avoid ambiguity).</p>
+    <hr>
+    <h4>4. Iteration Behavior</h4>
+    <p>- <strong>Hashtable & SynchronizedMap:</strong></p>
+    <p>  - Fail-fast iterators (throw ConcurrentModificationException if modified during iteration).</p>
+
+    <p>- <strong>ConcurrentHashMap</strong>:</p>
+    <p>  - Weakly consistent iterators (reflects state at some point during iteration; no exceptions).</p>
+    <hr>
+    <h4>5. When to Use Which?</h4>
+
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Use Case</th>
+                <th>Best Choice</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Legacy code maintenance</td>
+                <td>Hashtable (but prefer alternatives)</td>
+            </tr>
+            <tr>
+                <td>Simple thread-safe wrapper</td>
+                <td>Collections.synchronizedMap( )</td>
+            </tr>
+            <tr>
+                <td>High-concurrency, low-latency systems</td>
+                <td>ConcurrentHashMap</td>
+            </tr>
+            <tr>
+                <td>Read-heavy applications</td>
+                <td>ConcurrentHashMap</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
     <hr>
     <div class="card-footer">
         <ul class="pagination justify-content-center">
             <li class="page-item"><a class="page-link btn-outline-primary"
                                      href="../java/comparable_comparator.html">&lArr; Previous</a></li>
+            <li class="page-item"><a class="page-link" href="../java/clone.html">Next
+                &rArr;</a></li>
         </ul>
     </div>
 </main>

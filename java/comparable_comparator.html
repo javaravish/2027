@@ -23,6 +23,151 @@
 
 <!-- Main Content Section -->
 <main id="content">
+    <h2>1. Compare vs comparable</h2>
+
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Property</th>
+                <th>java.lang.Comparable</th>
+                <th>java.util.Comparator</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Comparing instances of class</td>
+                <td>Comparable is used to compare instances of same class in java.</td>
+                <td>Comparator can be used to compare instances of same or different classes in java.</td>
+            </tr>
+            <tr>
+                <td><strong>sorting order</strong></td>
+                <td>Comparable can be implemented by class which need to define a <strong>natural ordering for its
+                    objects</strong>. Example - String, Integer, Long , Date and all other wrapper classes implements
+                    Comparable.
+                </td>
+                <td>Comparator is implemented when one wants a <strong>different sorting order</strong> and define
+                    custom way of comparing two instances.
+                </td>
+            </tr>
+            <tr>
+                <td>Changes to class</td>
+                <td>For using Comparable, original Class must implement it.
+                    <h3>Example of Comparable in java-</h3>
+                    <pre class="java-code">
+<code>
+<span class="number">1</span> <span class="keyword">class</span> <span class="class">Employee</span> <span
+        class="keyword">implements</span> <span class="class">Comparable</span>&lt;<span class="class">Employee</span>&gt;
+</code>
+</pre>
+                    For using Comparable, Employee Class must implement it, no other class can implement it.
+                </td>
+                <td>Class itself can implement Comparator or any other class can implement Comparator. Hence avoiding
+                    modification to original class.
+                    <h3>Example of Comparator in java-</h3>
+
+                    <pre class="java-code">
+<code>
+<span class="number">1</span> <span class="keyword">class</span> <span class="class">ComparatorName</span> <span
+        class="keyword">implements</span> <span class="class">Comparator</span>&lt;<span class="class">Employee</span>&gt;
+<span class="number">2</span> <span class="keyword">class</span> <span class="class">ComparatorId</span> <span
+        class="keyword">implements</span> <span class="class">Comparator</span>&lt;<span class="class">Employee</span>&gt;
+</code>
+</pre>
+
+                    <p>In above example modifications were made to <strong>ComparatorName</strong> and <strong>ComparatorId</strong>.
+                        Hence avoiding modification to Employee class.</p>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Sorting on basis on one or many criteria in java</td>
+                <td>Provides sorting only on <strong>one</strong> criteria, <strong>because</strong> Comparable can be
+                    implemented by original class only in java.
+                </td>
+                <td>We can use Comparator to sort class on <strong>many</strong> criterias <strong>because</strong>
+                    class itself or any other class can implement Comparator in java.
+                </td>
+            </tr>
+            <tbody>
+            <tr>
+                <td>Method</td>
+                <td>After implementing Comparable class must override <strong>compareTo</strong> method
+                    <pre class="java-code">
+<code>
+<span class="number">1</span> <span class="annotation">@Override</span>
+<span class="number">2</span> <span class="keyword">public</span> <span class="class">int</span> <span class="method">compareTo</span>(<span
+        class="class">Employee</span> obj) {
+<span class="number">3</span> <span class="comment">//sort Employee on basis of name(ascending order)</span>
+<span class="number">4</span> <span class="keyword">return</span> <span class="keyword">this</span>.name.compareTo(obj.name);
+<span class="number">5</span> }
+</code>
+</pre>
+                    <p>Method compares <strong>this</strong> with <strong>obj</strong> object and returns a integer.</p>
+
+                    <p>- positive – <strong>this</strong> is <strong>greater</strong> than <strong>obj</strong></p>
+                    <p>- zero – <strong>this</strong> is <strong>equal</strong> to <strong>obj</strong></p>
+                    <p>- negative – <strong>this</strong> is <strong>less</strong> than <strong>obj</strong></p>
+
+                    <p>As used in <strong>Program 1</strong></p></td>
+                <td>After implementing Comparable class must override <strong>compare</strong> method
+                    <pre class="java-code">
+<code>
+<span class="number">1</span> <span class="annotation">@Override</span>
+<span class="number">2</span> <span class="keyword">public</span> <span class="class">int</span> <span class="method">compare</span>(<span
+        class="class">Employee</span> obj1, <span
+        class="class">Employee</span> obj2) {
+<span class="number">3</span> <span class="comment">//sort Employee on basis of name(ascending order)</span>
+<span class="number">4</span> <span class="keyword">return</span> <span class="keyword"></span>obj1.name.compareTo(obj2.name);
+<span class="number">5</span> }
+</code>
+</pre>
+                    <p>Method compares <strong>obj1</strong> with <strong>obj2</strong> object and returns a integer.
+                    </p>
+
+                    <p>- positive – <strong>obj1</strong> is <strong>greater</strong> than <strong>obj2</strong></p>
+                    <p>- zero – <strong>obj1</strong> is <strong>equal</strong> to <strong>obj2</strong></p>
+                    <p>- negative – <strong>obj1</strong> is <strong>less</strong> than <strong>obj2</strong></p>
+
+                    <p>As used in <strong>Program 3</strong></p>
+
+                </td>
+            </tr>
+            <tr>
+                <td>Package</td>
+                <td>java.lang
+
+                    java.lang package is automatically imported by every program in java.
+
+                    Hence, we need not to write explicit statement for importing java.lang.Comparable.
+                </td>
+                <td>java.util
+
+                    We need to write explicit import statement -
+
+                    import java.util.Comparator
+                </td>
+            </tr>
+            <tr>
+                <td>Using <b>Collections.sort</b></td>
+                <td>Let's say we wanna sort list of Employee,
+
+                    <b>Collections.sort(list)</b> uses Comparable interface for sorting class.
+
+                    As used in Program 1
+                </td>
+                <td>Let's say we wanna sort list of Employee,
+
+                    <b>Collections.sort(list,new ComparatorName());</b>
+
+                    uses Comparator interface for sorting class.
+
+                    As used in Program 5
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
     <hr>
     <div class="card-footer">

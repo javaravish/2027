@@ -23,7 +23,432 @@
 
 <!-- Main Content Section -->
 <main id="content">
+    <h1>Java Strings</h1>
 
+    <p>In Java, a string is a sequence of characters. For example, "hello" is a string containing a sequence of
+        characters 'h', 'e', 'l', 'l', and 'o'.</p>
+
+    <p>String is an object of String class that represents a string of characters. For example, "Pencil" is a string of
+        6 characters.</p>
+
+    <p>String class is used to create a string object. It is a predefined immutable class that is present in java.lang
+        package. But in Java, all classes are also considered as a data type. So, you can also consider a string as a
+        data type. Immutable means it cannot be changed.</p>
+
+    <p>o handle string data in Java, we need an object of string class. Basically, there are three ways to create a
+        string object in Java.</p>
+
+    <p>1. By string literal.</p>
+    <p>2. By new keyword.</p>
+    <p>3. By converting character arrays into strings</p>
+
+    <p>The string literal is always created in the string constant pool. In Java, <strong>String constant pool</strong>
+        is a special area that is used for storing string objects.</p>
+
+    <p>Whenever we create a string literal in Java, JVM checks string constant pool first. If the string already exists
+        in string constant pool, no new string object will be created in the string pool by JVM.</p>
+
+    <p>JVM uses the same string object by pointing a reference to it to save memory. But if string does not exist in the
+        string pool, JVM creates a new string object and placed it in the pool</p>
+
+    <p><strong>String class in Java is immutable.</strong> The meaning of immutable is unchangeable or unmodifiable.
+        That is, once we create a string object with value, we are not allowed to perform any changes in that object.
+    </p>
+
+    <p>In other words, we cannot modify the value of the string. But if you try to change with a new value, a new string
+        object will be created by storing a new value.</p>
+    <hr>
+    <p><strong>Why String Objects are Immutable in Java?</strong></p>
+
+    <p>String objects are immutable in Java because Java uses the concept of string constant pool. Suppose there are 6
+        reference variables, and pointing to the same object "Hello world".</p>
+
+    <p>If one reference variable of them changes the value of object from "Hello world" to "Hello", with this change,
+        all the reference variables will be affected. That's why string objects are immutable in Java.</p>
+
+    <p>The primary advantage of string immutability is that Java compiler can save space in the memory by sharing
+        strings.</p>
+
+    <p>• Security (safe for sensitive data like passwords)</p>
+    <p>• Thread safety (can be shared between threads)</p>
+    <p>• Caching/hashing (String pool works because Strings are immutable)</p>
+    <p>• Class loading (Strings used as class names must be immutable)</p>
+
+    <h2>Key Points of Immutable String in Java</h2>
+
+    <p>There are the following key points of immutable strings in Java that you should keep in mind. They are:</p>
+
+    <p>(1) String objects are immutable in Java, meaning that once a string object is constructed, its value cannot be
+        changed or updated. Any operation that appears to modify a string actually creates a new string with the desired
+        changes.</p>
+
+    <p>(2) Java maintains a pool of string literals known as string constant pool (SCP). When we create a string object,
+        Java checks if an identical string object exists in the pool. If it does, the new string references the existing
+        one, saving memory.</p>
+
+    <p>(3) Immutable strings are inherently thread-safe. Multiple threads can access and use the same string object
+        without worrying about concurrent modifications.</p>
+
+    <p>(4) Immutable strings are used extensively in cryptographic operations and secure code, as their values cannot be
+        changed accidentally or maliciously.</p>
+
+    <p>(5) String concatenation operation using the + operator may seem inefficient due to creating new strings. Java
+        internally optimizes this process using a StringBuilder or StringBuffer to minimize memory and performance
+        overhead.</p>
+
+    <p>(6) Since strings are immutable, they can be safely cached and reused without concern for unintended changes.</p>
+
+    <p>(7) Immutable strings secure that the value of string remains constant, which simplifies program logic and
+        debugging.</p>
+
+    <p>(8) Immutable strings can be compared using the equals() method, as their values are constant. This makes
+        comparing strings for equality straightforward.</p>
+    <hr>
+    <h2>Creating an Immutable Class in Java</h2>
+
+    <p>To create an immutable class in Java, you need to follow these general principles:</p>
+
+    <p>1. Declare the class as final so it can't be extended.</p>
+
+    <p>2. Make all of the fields private so that direct access is not allowed.</p>
+
+    <p>3. Don't provide setter methods for variables.</p>
+
+    <p>4. Make all mutable fields final so that a field's value can be assigned only once.</p>
+
+    <p>5. Initialize all fields using a constructor method performing deep copy.</p>
+
+    <p>6. Perform cloning of objects in the getter methods to return a copy rather than returning the actual object
+        reference.</p>
+
+    <pre class="java-code">
+<code>
+<span class="keyword">import</span> java.util.HashMap;
+<span class="keyword">import</span> java.util.Iterator;
+
+<span class="keyword">public final class</span> <span class="class">FinalClassExample</span> {
+    <span class="comment">// fields of the FinalClassExample class</span>
+    <span class="keyword">private final</span> <span class="class">int</span> id;
+
+    <span class="keyword">private final</span> <span class="class">String</span> name;
+
+    <span class="keyword">private final</span> <span class="class">HashMap</span>&lt;<span
+        class="class">String</span>,<span class="class">String</span>&gt; testMap;
+
+    <span class="keyword">public</span> <span class="class">int</span> <span class="method">getId</span>() {
+    <span class="keyword">return</span> id;
+}
+
+    <span class="keyword">public</span> <span class="class">String</span> <span class="method">getName</span>() {
+    <span class="keyword">return</span> name;
+}
+
+    <span class="comment">// Getter function for mutable objects</span>
+
+    <span class="keyword">public</span> <span class="class">HashMap</span>&lt;<span class="class">String</span>, <span
+        class="class">String</span>&gt; <span class="method">getTestMap</span>() {
+    <span class="keyword">return</span> (<span class="class">HashMap</span>&lt;<span class="class">String</span>, <span
+        class="class">String</span>&gt;) testMap.clone();
+}
+
+    <span class="comment">// Constructor method performing deep copy</span>
+
+    <span class="keyword">public</span> <span class="method">FinalClassExample</span>(<span class="class">int</span> i, <span
+        class="class">String</span> n, <span class="class">HashMap</span>&lt;<span class="class">String</span>,<span
+        class="class">String</span>&gt; hm){
+    <span class="class">System</span>.out.println(<span
+        class="string">"Performing Deep Copy for Object initialization"</span>);
+
+    <span class="comment">// "this" keyword refers to the current object</span>
+    <span class="keyword">this</span>.id=i;
+    <span class="keyword">this</span>.name=n;
+
+    <span class="class">HashMap</span>&lt;<span class="class">String</span>,<span class="class">String</span>&gt; tempMap=<span
+        class="keyword">new</span> <span class="class">HashMap</span>&lt;<span class="class">String</span>,<span
+        class="class">String</span>&gt;();
+    <span class="class">String</span> key;
+    <span class="class">Iterator</span>&lt;<span class="class">String</span>&gt; it = hm.keySet().iterator();
+    <span class="keyword">while</span>(it.hasNext())
+    key=it.next();
+</code>
+</pre>
+
+    <pre class="java-code">
+<code>
+<span class="number">42</span>    tempMap.put(key, hm.get(key));
+<span class="number">43</span>    }
+<span class="number">44</span>    <span class="keyword">this</span>.testMap=tempMap;
+<span class="number">45</span>    }
+
+<span class="number">46</span>
+<span class="number">47</span>    <span class="comment">// Test the immutable class</span>
+<span class="number">48</span>
+<span class="number">49</span>    <span class="keyword">public static</span> <span class="class">void</span> <span
+        class="method">main</span>(<span class="class">String</span>[] args) {
+<span class="number">50</span>    <span class="class">HashMap</span>&lt;<span class="class">String</span>, <span
+        class="class">String</span>&gt; h1 = <span class="keyword">new</span> <span
+        class="class">HashMap</span>&lt;<span class="class">String</span>,<span class="class">String</span>&gt;();
+<span class="number">51</span>    h1.put(<span class="string">"1"</span>, <span class="string">"first"</span>);
+<span class="number">52</span>    h1.put(<span class="string">"2"</span>, <span class="string">"second"</span>);
+<span class="number">53</span>
+<span class="number">54</span>    <span class="class">String</span> s = <span class="string">"original"</span>;
+<span class="number">55</span>
+<span class="number">56</span>    <span class="class">int</span> i=<span class="number">10</span>;
+<span class="number">57</span>
+<span class="number">58</span>    <span class="class">FinalClassExample</span> ce = <span
+        class="keyword">new</span> <span class="class">FinalClassExample</span>(i,s,h1);
+<span class="number">59</span>
+<span class="number">60</span>    <span class="comment">// print the ce values</span>
+<span class="number">61</span>    <span class="class">System</span>.out.println(<span class="string">"ce id: "</span>+ce.getId());
+<span class="number">62</span>    <span class="class">System</span>.out.println(<span class="string">"ce name: "</span>+ce.getName());
+<span class="number">63</span>    <span class="class">System</span>.out.println(<span
+        class="string">"ce testMap: "</span>+ce.getTestMap());
+<span class="number">64</span>    <span class="comment">// change the local variable values</span>
+<span class="number">65</span>    i=<span class="number">20</span>;
+<span class="number">66</span>    s=<span class="string">"modified"</span>;
+<span class="number">67</span>    h1.put(<span class="string">"3"</span>, <span class="string">"third"</span>);
+<span class="number">68</span>    <span class="comment">// print the values again</span>
+<span class="number">69</span>    <span class="class">System</span>.out.println(<span class="string">"ce id after local variable change: "</span>+ce.getId());
+<span class="number">70</span>    <span class="class">System</span>.out.println(<span class="string">"ce name after local variable change: "</span>+ce.getName());
+<span class="number">71</span>    <span class="class">System</span>.out.println(<span class="string">"ce testMap after local variable change: "</span>+ce.getTestMap());
+<span class="number">72</span>
+<span class="number">73</span>    <span class="class">HashMap</span>&lt;<span class="class">String</span>, <span
+        class="class">String</span>&gt; hmTest = ce.getTestMap();
+<span class="number">74</span>    hmTest.put(<span class="string">"4"</span>, <span class="string">"new"</span>);
+<span class="number">75</span>
+<span class="number">76</span>    <span class="class">System</span>.out.println(<span class="string">"ce testMap after changing variable from getter methods: "</span>+ce.getTestMap());
+<span class="number">77</span>
+<span class="number">78</span>    }
+<span class="number">79</span>
+<span class="number">80</span> }
+</code>
+</pre>
+    <hr>
+    <h2>String vs StringBuilder vs StringBuffer java</h2>
+
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Feature</th>
+                <th>String</th>
+                <th>StringBuffer</th>
+                <th>StringBuilder</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Mutability</td>
+                <td>Immutable</td>
+                <td>Mutable</td>
+                <td>Mutable</td>
+            </tr>
+            <tr>
+                <td>Thread-Safety</td>
+                <td>Yes (implicitly thread-safe due to immutability)</td>
+                <td>Yes (synchronized methods)</td>
+                <td>No (not synchronized)</td>
+            </tr>
+            <tr>
+                <td>Performance</td>
+                <td>Slow for modifications</td>
+                <td>Slower than StringBuilder due to synchronization</td>
+                <td>Fast (best performance in single-threaded scenarios)</td>
+            </tr>
+            <tr>
+                <td>Use Case</td>
+                <td>Use when string immutability is required</td>
+                <td>Use when thread-safe mutable strings are needed</td>
+                <td>Use when mutable strings are needed, but thread safety is not a concern</td>
+            </tr>
+            <tr>
+                <td>Memory Usage</td>
+                <td>Higher memory usage as new objects are created for every modification</td>
+                <td>More efficient than String (modifications happen in-place)</td>
+                <td>More efficient than StringBuilder and String</td>
+            </tr>
+            <tr>
+                <td>Synchronization</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <td>Methods</td>
+                <td>Limited to immutability-related methods (e.g., concat(), substring())</td>
+                <td>Provides methods like append(), insert(), delete(), reverse()</td>
+                <td>Same as StringBuilder (e.g., append(), insert(), delete(), reverse())</td>
+            </tr>
+            <tr>
+                <td>Best for</td>
+                <td>Fixed or unchanging strings</td>
+                <td>Multi-threaded applications where strings are frequently modified</td>
+                <td>Single-threaded applications where performance is critical</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+<hr>
+    <h3>Difference between == and .equals() for Strings?</h3>
+
+    <p>Answer:</p>
+
+    <p>• == compares references (memory addresses)</p>
+
+    <p>• .equals() compares actual content</p>
+    <hr>
+    <h3>How does intern() method work?</h3>
+
+    <p>Answer: The intern() method looks for the string in the pool:</p>
+
+    <p>• If found, returns the pooled reference</p>
+
+    <p>• If not found, adds the string to pool and returns reference</p>
+
+    <pre class="java-code">
+<code>
+<span class="number">1</span> <span class="class">String</span> s1 = <span class="keyword">new</span> <span
+        class="class">String</span>(<span class="string">"hello"</span>);
+<span class="number">2</span> <span class="class">String</span> s2 = s1.intern(); <span class="comment">// Returns pooled</span>
+</code>
+</pre>
+    <hr>
+    <h2>Complete String Conversion Examples in Java</h2>
+
+    <pre class="java-code">
+<code>
+<span class="keyword">import</span> java.nio.charset.StandardCharsets;
+<span class="keyword">import</span> java.util.*;
+<span class="keyword">import</span> java.util.stream.Collections;
+</code>
+</pre>
+
+    <pre class="java-code">
+<code>
+<span class="keyword">public class</span> <span class="class">StringConversionExamples</span> {
+    <span class="keyword">public static</span> <span class="class">void</span> <span class="method">main</span>(<span
+        class="class">String</span>[] args) {
+    <span class="comment">// 1. String to primitive types</span>
+    <span class="class">String</span> intStr = <span class="string">"123"</span>;
+    <span class="class">int</span> intValue = <span class="class">Integer</span>.parseInt(intStr);
+    <span class="class">System</span>.out.println(<span class="string">"String to int: "</span> + intValue);
+
+    <span class="class">String</span> doubleStr = <span class="string">"3.14"</span>;
+    <span class="class">double</span> doubleValue = <span class="class">Double</span>.parseDouble(doubleStr);
+    <span class="class">System</span>.out.println(<span class="string">"String to double: "</span> + doubleValue);
+
+    <span class="class">String</span> boolStr = <span class="string">"true"</span>;
+    <span class="class">boolean</span> boolValue = <span class="class">Boolean</span>.parseBoolean(boolStr);
+    <span class="class">System</span>.out.println(<span class="string">"String to boolean: "</span> + boolValue);
+
+    <span class="comment">// 2. Primitive types to String</span>
+    <span class="class">int</span> num = <span class="number">456</span>;
+    <span class="class">String</span> fromInt1 = <span class="class">Integer</span>.toString(num);
+    <span class="class">String</span> fromInt2 = <span class="class">String</span>.valueOf(num);
+    <span class="class">System</span>.out.println(<span class="string">"int to String (method 1): "</span> + fromInt1);
+    <span class="class">System</span>.out.println(<span class="string">"int to String (method 2): "</span> + fromInt2);
+
+    <span class="class">double</span> d = <span class="number">2.718</span>;
+    <span class="class">String</span> fromDouble = <span class="class">Double</span>.toString(d);
+    <span class="class">System</span>.out.println(<span class="string">"double to String: "</span> + fromDouble);
+
+    <span class="comment">// 3. String to char array and back</span>
+    <span class="class">String</span> str = <span class="string">"hello"</span>;
+    <span class="class">char</span>[] charArray = str.toCharArray();
+    <span class="class">System</span>.out.println(<span class="string">"String to char array: "</span> + <span
+        class="class">Arrays</span>.toString(charArray));
+
+    <span class="class">String</span> fromCharArray1 = <span class="keyword">new</span> <span
+        class="class">String</span>(charArray);
+    <span class="class">String</span> fromCharArray2 = <span class="class">String</span>.valueOf(charArray);
+    <span class="class">System</span>.out.println(<span class="string">"char array to String (method 1): "</span> + fromCharArray1);
+    <span class="class">System</span>.out.println(<span class="string">"char array to String (method 2): "</span> + fromCharArray2);
+
+    <span class="comment">// 4. String to byte array and back (with charset)</span>
+    <span class="class">byte</span>[] utf8Bytes = str.getBytes(<span class="class">StandardCharsets</span>.UTF_8);
+    <span class="class">System</span>.out.println(<span class="string">"String to UTF-8 bytes: "</span> + <span
+        class="class">Arrays</span>.toString(utf8Bytes));
+
+    <span class="class">String</span> fromUtf8Bytes = <span class="keyword">new</span> <span class="class">String</span>(utf8Bytes, <span
+        class="class">StandardCharsets</span>.UTF_8);
+    <span class="class">System</span>.out.println(<span class="string">"UTF-8 bytes to String: "</span> + fromUtf8Bytes);
+
+    <span class="comment">// 5. String to List<Character> and back</span>
+    <span class="class">List</span>&lt;<span class="class">Character</span>&gt; charList = str.chars()
+    .mapToObj(c -> (<span class="class">char</span>)c)
+    .collect(<span class="class">Collectors</span>.toList());
+    <span class="class">System</span>.out.println(<span class="string">"String to List<Character>: "</span> + charList);
+
+    <span class="class">String</span> fromCharList = charList.stream()
+    .map(<span class="class">String</span>::valueOf)
+    .collect(<span class="class">Collectors</span>.jaining());
+    <span class="class">System</span>.out.println(<span class="string">"List<Character> to String: "</span> + fromCharList);
+
+    <span class="comment">// 6. String to String[] (split)</span>
+    <span class="class">String</span> csv = <span class="string">"apple,orange,banana"</span>;
+    <span class="class">String</span>[] fruits = csv.split(<span class="string">","</span>);
+</code>
+</pre>
+
+    <pre class="java-code">
+<code>
+<span class="class">System</span>.out.println(<span class="string">"CSV to String array: "</span> + <span class="class">Arrays</span>.toString(fruits));
+
+<span class="comment">// 7. Collection to String</span>
+<span class="class">List</span>&lt;<span class="class">String</span>&gt; colors = <span class="class">Arrays</span>.asList(<span
+        class="string">"red"</span>, <span class="string">"green"</span>, <span class="string">"blue"</span>);
+<span class="class">String</span> colorsStr = <span class="class">String</span>.join(<span class="string">", "</span>, colors);
+<span class="class">System</span>.out.println(<span class="string">"List to delimited String: "</span> + colorsStr);
+
+<span class="comment">// 8. StringBuilder to String</span>
+<span class="class">StringBuilder</span> sb = <span class="keyword">new</span> <span class="class">StringBuilder</span>();
+sb.append(<span class="string">"Hello"</span>);
+sb.append(<span class="string">" "</span>);
+sb.append(<span class="string">"World"</span>);
+<span class="class">String</span> fromBuilder = sb.toString();
+<span class="class">System</span>.out.println(<span class="string">"StringBuilder to String: "</span> + fromBuilder);
+
+<span class="comment">// 9. String case conversions</span>
+<span class="class">String</span> mixedCase = <span class="string">"Hello WoRLd"</span>;
+<span class="class">System</span>.out.println(<span class="string">"Uppercase: "</span> + mixedCase.toUpperCase());
+<span class="class">System</span>.out.println(<span class="string">"Lowercase: "</span> + mixedCase.toLowerCase());
+
+<span class="comment">// 10. Formatting numbers to String</span>
+<span class="class">double</span> price = <span class="number">19.99</span>;
+<span class="class">String</span> formattedPrice = <span class="class">String</span>.format(<span class="string">"Price: $%.2f"</span>, price);
+<span class="class">System</span>.out.println(<span class="string">"Formatted number: "</span> + formattedPrice);
+</code>
+</pre>
+    <hr>
+    <h2>Immutable break</h2>
+
+    <p>• <strong>Mutable fields within an immutable class:</strong> If an immutable class holds references to mutable
+        objects (e.g., Date , ArrayList, or custom mutable classes) and does not handle them with deep copies during
+        construction and in getter methods, external modifications to these mutable objects can affect the internal
+        state of the "immutable" object.</p>
+    <p>• <strong>Reflection:</strong> Java's Reflection API allows bypassing access modifiers and directly modifying
+        private final fields. While this is a powerful tool, it can be misused to alter the state of an immutable
+        object.</p>
+    <p>• <strong>Serialization/Deserialization:</strong> If not handled carefully, serialization and deserialization can
+        introduce vulnerabilities. Maliciously crafted serialized data could be used to create an object with an altered
+        state upon deserialization.</p>
+
+    <h3>Preventing immutability breaks:</h3>
+
+    <p>• <strong>Deep copying mutable fields:</strong></p>
+    <p>When an immutable class contains mutable objects, ensure deep copies are made in the constructor and getter
+        methods to prevent external modifications from affecting the internal state.</p>
+
+    <p>• <strong>Defensive copying for collections:</strong></p>
+    <p>For mutable collections, create new copies of the collection when initializing them and when returning them from
+        getter methods.</p>
+
+    <p>• <strong>SecurityManager (for reflection):</strong></p>
+    <p>In highly secure environments, a SecurityManager can be used to restrict reflection access to private fields.</p>
+
+    <p>• <strong>Careful serialization handling:</strong></p>
+    <p>Implement readObject and writeObject methods in a secure manner to prevent manipulation during
+        serialization/deserialization.</p>
     <hr>
     <div class="card-footer">
         <ul class="pagination justify-content-center">
