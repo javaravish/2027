@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Java Introduction</title>
+    <title>Java 8 Collectors</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../js/styles.css"/>
 </head>
@@ -23,453 +23,446 @@
 
 <!-- Main Content Section -->
 <main id="content">
-    <h2>1. Java 8 Collectors Tutorial</h2>
-    <p>Java 8 Collectors tutorial mainly consist of three things – Stream.collect() method, Collector interface and
-        Collectors class. collect() method is a terminal operation in Stream interface. Collector is an interface in
-        java.util.stream package. Collectors class, also a member of java.util.stream package, is an utility class
-        containing many static methods which perform some common reduction operations. Let's discuss them one by
-        one.</p>
+    <h2>Java 8 Collectors Tutorial</h2>
+    <p>Java 8 Collectors tutorial mainly consist of three things – Stream.collect() method, Collector interface and Collectors class. collect() method is a terminal operation in Stream interface. Collector is an interface in java.util.stream package. Collectors class, also a member of java.util.stream package, is an utility class containing many static methods which perform some common reduction operations. Let's discuss them one by one.</p>
 
     <h3>1) Stream.collect() Method</h3>
-    <p>collect() method is a terminal operation in Stream interface. It is a special case of reduction operation called
-        mutable reduction operation because it returns mutable result container such as List, Set or Map according to
-        supplied Collector.</p>
+    <p>collect() method is a terminal operation in Stream interface. It is a special case of reduction operation called mutable reduction operation because it returns mutable result container such as List, Set or Map according to supplied Collector.</p>
 
     <pre class="java-code">
-<code>
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+        <code>
+<span class="keyword">import</span> java.util.Arrays;
+<span class="keyword">import</span> java.util.List;
+<span class="keyword">import</span> java.util.stream.Collectors;
 
-public class CollectorsExamples
+<span class="keyword">public class</span> <span class="class">CollectorsExamples</span>
 {
-    public static void main(String[] args)
+    <span class="keyword">public static</span> <span class="class">void</span> <span class="method">main</span>(<span class="class">String</span>[] args)
     {
-        List&lt;Integer&gt; numbers = Arrays.asList(8, 2, 5, 7, 3, 6);
-        //collect() method returning List of OddNumbers
-        List&lt;Integer&gt; oddNumbers = numbers.stream().filter(i -> i%2 != 0).collect(Collectors.toList());
-        System.out.println(oddNumbers);
-        //OUTPUT : [5, 7, 3]
+        <span class="class">List</span>&lt;<span class="class">Integer</span>&gt; numbers = <span class="class">Arrays</span>.asList(8, 2, 5, 7, 3, 6);
+
+        <span class="comment">//collect() method returning List of OddNumbers</span>
+        <span class="class">List</span>&lt;<span class="class">Integer</span>&gt; oddNumbers = numbers.stream().filter(i -> i%2 != 0).collect(<span class="class">Collectors</span>.toList());
+        <span class="class">System</span>.out.println(oddNumbers);
+
+        <span class="comment">//OUTPUT : [5, 7, 3]</span>
     }
 }
-</code>
-</pre>
+        </code>
+    </pre>
 
     <h3>2) java.util.stream.Collector Interface</h3>
-    <p>java.util.stream.Collector interface contains four functions that work together to accumulate input elements into
-        a mutable result container and optionally performs a final transformation on the result. Those four functions
-        are,</p>
+    <p>java.util.stream.Collector interface contains four functions that work together to accumulate input elements into a mutable result container and optionally performs a final transformation on the result. Those four functions are,</p>
 
-    <h4>a) Supplier() :</h4>
-    <p>A function that creates and returns a new mutable result container.</p>
+    <p>a) Supplier():<br>
+        A function that creates and returns a new mutable result container.</p>
 
-    <h4>b) accumulator() :</h4>
-    <p>A function that accumulates a value into a mutable result container.</p>
+    <p>b) accumulator():<br>
+        A function that accumulates a value into a mutable result container.</p>
 
-    <h4>c) combiner() :</h4>
-    <p>A function that accepts two partial results and merges them.</p>
+    <p>c) combiner() :<br>
+        A function that accepts two partial results and merges them.</p>
 
-    <h4>d) finisher() :</h4>
-    <p>A function that performs final transformation from the intermediate accumulation type to the final result
-        type.</p>
+    <p>d) finisher() :<br>
+        A function that performs final transformation from the intermediate accumulation type to the final result type.</p>
 
     <h3>3) java.util.stream.Collectors Class</h3>
-    <p>java.util.stream.Collectors class contains static factory methods which perform some common reduction operations
-        such as accumulating elements into Collection, finding min, max, average, sum of elements etc. All the methods
-        of Collectors class return Collector type which will be supplied to collect() method as an argument.</p>
+    <p>java.util.stream.Collectors class contains static factory methods which perform some common reduction operations such as accumulating elements into Collection, finding min, max, average, sum of elements etc. All the methods of Collectors class return Collector type which will be supplied to collect() method as an argument.</p>
 
-    <table class="basic-table">
-        <thead>
-        <tr>
-            <th>Collectors.tolist()</th>
-            <th>Collectors.toSet()</th>
-            <th>Collectors.toMap()</th>
-            <th>Collectors.toCollection()</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>Collectors.joining()</td>
-            <td>Collectors.counting()</td>
-            <td>Collectors.collectingAndThen()</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Collectors.maxBy()</td>
-            <td></td>
-            <td>Collectors.minBy()</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Collectors.summingInt()</td>
-            <td>Collectors.summingLong()</td>
-            <td>Collectors.summingDouble()</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Collectors.groupingBy()</td>
-            <td></td>
-            <td>Collectors.partitioningBy()</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Collectors.averagingInt()</td>
-            <td>Collectors.averagingLong()</td>
-            <td>Collectors.averagingDouble()</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Collectors.summarizingInt()</td>
-            <td>Collectors.summarizingLong()</td>
-            <td>Collectors.summarizingDouble()</td>
-            <td></td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Collectors.tolist()</th>
+                <th>Collectors.toSet()</th>
+                <th>Collectors.toMap()</th>
+                <th>Collectors.toCollection()</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Collectors.joining()</td>
+                <td>Collectors.counting()</td>
+                <td>Collectors.collectingAndThen()</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Collectors.maxBy()</td>
+                <td></td>
+                <td>Collectors.minBy()</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Collectors.summingInt()</td>
+                <td>Collectors.summingLong()</td>
+                <td>Collectors.summingDouble()</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Collectors.groupingBy()</td>
+                <td></td>
+                <td>Collectors.partitioningBy()</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Collectors.averagingInt()</td>
+                <td>Collectors.averagingLong()</td>
+                <td>Collectors.averagingDouble()</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Collectors.summarizingInt()</td>
+                <td>Collectors.summarizingLong()</td>
+                <td>Collectors.summarizingDouble()</td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
     <p>Let's see Collectors class methods one by one.</p>
     <p>In the below coding examples, we will be using following Student class and studentList.</p>
 
-    <h4>Student Class :</h4>
-
+    <p>Student Class :</p>
     <pre class="java-code">
-<code>
-class Student
+        <code>
+<span class="keyword">class</span> <span class="class">Student</span>
 {
-    String name;
-    int id;
-    String subject;
-    double percentage;
+    <span class="class">String</span> name;
+    <span class="class">int</span> id;
+    <span class="class">String</span> subject;
+    <span class="class">double</span> percentage;
 
-    public Student(String name, int id, String subject, double percentage)
+    <span class="keyword">public</span> <span class="class">Student</span>(<span class="class">String</span> name, <span class="class">int</span> id, <span class="class">String</span> subject, <span class="class">double</span> percentage)
     {
-        this.name = name;
-        this.id = id;
-        this.subject = subject;
-        this.percentage = percentage;
+        <span class="keyword">this</span>.name = name;
+        <span class="keyword">this</span>.id = id;
+        <span class="keyword">this</span>.subject = subject;
+        <span class="keyword">this</span>.percentage = percentage;
     }
 
-    public String getName()
+    <span class="keyword">public</span> <span class="class">String</span> <span class="method">getName</span>()
     {
-        return name;
+        <span class="keyword">return</span> name;
     }
 
-    public int getId()
+    <span class="keyword">public</span> <span class="class">int</span> <span class="method">getId</span>()
     {
-        return id;
+        <span class="keyword">return</span> id;
     }
 
-    public String getSubject()
+    <span class="keyword">public</span> <span class="class">String</span> <span class="method">getSubject</span>()
     {
-        return subject;
+        <span class="keyword">return</span> subject;
     }
 
-    public double getPercentage()
+    <span class="keyword">public</span> <span class="class">double</span> <span class="method">getPercentage</span>()
     {
-        return percentage;
+        <span class="keyword">return</span> percentage;
     }
 
     @Override
-    public String toString()
+    <span class="keyword">public</span> <span class="class">String</span> <span class="method">toString</span>()
     {
-        return name+"-"+id+"-"+subject+"-"+percentage;
+        <span class="keyword">return</span> name+<span class="string">"-"</span>+id+<span class="string">"-"</span>+subject+<span class="string">"-"</span>+percentage;
     }
 }
-</code>
-</pre>
+        </code>
+    </pre>
 
-    <h4>studentList:</h4>
-
+    <p>studentList:</p>
     <pre class="java-code">
-<code>
-List&lt;Student&gt; studentList = new ArrayList&lt;Student&gt;();
+        <code>
+<span class="class">List</span>&lt;<span class="class">Student</span>&gt; studentList = <span class="keyword">new</span> <span class="class">ArrayList</span>&lt;<span class="class">Student</span>&gt;();
 
-studentList.add(new Student("Paul", 11, "Economics", 78.9));
-studentList.add(new Student("Zevin", 12, "Computer Science", 91.2));
-studentList.add(new Student("Harish", 13, "History", 83.7));
-studentList.add(new Student("Xiano", 14, "Literature", 71.5));
-studentList.add(new Student("Soumya", 15, "Economics", 77.5));
-studentList.add(new Student("Asif", 16, "Mathematics", 89.4));
-studentList.add(new Student("Nihira", 17, "Computer Science", 84.6));
-studentList.add(new Student("Mitshu", 18, "History", 73.5));
-studentList.add(new Student("Vijay", 19, "Mathematics", 92.8));
-studentList.add(new Student("Harry", 20, "History", 71.9));
-</code>
-</pre>
+studentList.add(<span class="keyword">new</span> <span class="class">Student</span>(<span class="string">"Paul"</span>, 11, <span class="string">"Economics"</span>, 78.9));
+studentList.add(<span class="keyword">new</span> <span class="class">Student</span>(<span class="string">"Zevin"</span>, 12, <span class="string">"Computer Science"</span>, 91.2));
+studentList.add(<span class="keyword">new</span> <span class="class">Student</span>(<span class="string">"Harish"</span>, 13, <span class="string">"History"</span>, 83.7));
+studentList.add(<span class="keyword">new</span> <span class="class">Student</span>(<span class="string">"Xiano"</span>, 14, <span class="string">"Literature"</span>, 71.5));
+studentList.add(<span class="keyword">new</span> <span class="class">Student</span>(<span class="string">"Soumya"</span>, 15, <span class="string">"Economics"</span>, 77.5));
+studentList.add(<span class="keyword">new</span> <span class="class">Student</span>(<span class="string">"Asif"</span>, 16, <span class="string">"Mathematics"</span>, 89.4));
+studentList.add(<span class="keyword">new</span> <span class="class">Student</span>(<span class="string">"Nihira"</span>, 17, <span class="string">"Computer Science"</span>, 84.6));
+studentList.add(<span class="keyword">new</span> <span class="class">Student</span>(<span class="string">"Mitshu"</span>, 18, <span class="string">"History"</span>, 73.5));
+studentList.add(<span class="keyword">new</span> <span class="class">Student</span>(<span class="string">"Vijay"</span>, 19, <span class="string">"Mathematics"</span>, 92.8));
+studentList.add(<span class="keyword">new</span> <span class="class">Student</span>(<span class="string">"Harry"</span>, 20, <span class="string">"History"</span>, 71.9));
+        </code>
+    </pre>
 
     <h4>3.1 Collectors.toList():</h4>
     <p>It returns a Collector which collects all input elements into a new List.</p>
     <p>Example: Collecting top 3 performing students into List</p>
-
     <pre class="java-code">
-<code>
-List&lt;Student&gt; top3Students = studentList.stream().sorted(Comparator.comparingDouble(Student::getPercentage).reversed()).limit(3).collect(Collectors.toList());
+        <code>
+<span class="class">List</span>&lt;<span class="class">Student</span>&gt; top3Students = studentList.stream()
+    .sorted(<span class="class">Comparator</span>.comparingDouble(<span class="class">Student</span>::getPercentage).reversed())
+    .limit(3)
+    .collect(<span class="class">Collectors</span>.toList());
 
-System.out.println(top3Students);
+<span class="class">System</span>.out.println(top3Students);
 
-//Output :
-//[Vijay-19-Mathematics-92.8, Zevin-12-Computer Science-91.2, Asif-16-Mathematics-89.4]
-</code>
-</pre>
+<span class="comment">//Output:</span>
+<span class="comment">//[Vijay-19-Mathematics-92.8, Zevin-12-Computer Science-91.2, Asif-16-Mathematics-89.4]</span>
+        </code>
+    </pre>
 
     <h4>3.2) Collectors.toSet():</h4>
     <p>It returns a Collector which collects all input elements into a new Set.</p>
     <p>Example: Collecting subjects offered into Set.</p>
-
     <pre class="java-code">
-<code>
-Set&lt;String&gt; subjects = studentList.stream().map(Student::getSubject).collect(Collectors.toSet());
+        <code>
+<span class="class">Set</span>&lt;<span class="class">String</span>&gt; subjects = studentList.stream()
+    .map(<span class="class">Student</span>::getSubject)
+    .collect(<span class="class">Collectors</span>.toSet());
 
-System.out.println(subjects);
+<span class="class">System</span>.out.println(subjects);
 
-//Output :
-//[Economics, Literature, Computer Science, Mathematics, History]
-</code>
-</pre>
+<span class="comment">//Output:</span>
+<span class="comment">//[Economics, Literature, Computer Science, Mathematics, History]</span>
+        </code>
+    </pre>
 
     <h4>3.3) Collectors.toMap():</h4>
-    <p>This method returns a Collector which collects input elements into a Map whose keys and values are the result of
-        applying mapping functions to input elements.</p>
+    <p>This method returns a Collector which collects input elements into a Map whose keys and values are the result of applying mapping functions to input elements.</p>
     <p>Example: Collecting name and percentage of each student into a Map</p>
-
     <pre class="java-code">
-<code>
-Map&lt;String, Double&gt; namePercentageMap = studentList.stream().collect(Collectors.toMap(Student::getName, Student::getPercentage));
+        <code>
+<span class="class">Map</span>&lt;<span class="class">String</span>, <span class="class">Double</span>&gt; namePercentageMap = studentList.stream()
+    .collect(<span class="class">Collectors</span>.toMap(<span class="class">Student</span>::getName, <span class="class">Student</span>::getPercentage));
 
-System.out.println(namePercentageMap);
+<span class="class">System</span>.out.println(namePercentageMap);
 
-//Output :
-//[Asif=89.4, Vijay=92.8, Zevin=91.2, Harry=71.9, Xiano=71.5, Nihira=84.6, Soumya=77.5, Mitshu=73.5, Harish=83.7, Paul=78.9]
-</code>
-</pre>
+<span class="comment">//Output:</span>
+<span class="comment">//[Asif-89.4, Vijay-92.8, Zevin-91.2, Harry-71.9, Xiano-71.5, Nihira-84.6, Soumya-77.5, Mitshu-73.5, Harish-83.7, Paul-78.9]</span>
+        </code>
+    </pre>
 
     <h4>3.4) Collectors.toCollection():</h4>
     <p>This method returns a Collector which collects all input elements into a new Collection.</p>
     <p>Example: Collecting first 3 students into LinkedList</p>
-
     <pre class="java-code">
-<code>
-LinkedList&lt;Student&gt; studentLinkedList = studentList.stream().limit(3).collect(Collectors.toCollection(LinkedList::new));
+        <code>
+<span class="class">LinkedList</span>&lt;<span class="class">Student</span>&gt; studentLinkedList = studentList.stream()
+    .limit(3)
+    .collect(<span class="class">Collectors</span>.toCollection(<span class="class">LinkedList</span>::<span class="keyword">new</span>));
 
-System.out.println(studentLinkedList);
+<span class="class">System</span>.out.println(studentLinkedList);
 
-//Output :
-//[Paul-11-Economics-78.9, Zevin-12-Computer Science-91.2, Harish-13-History-83.7]
-</code>
-</pre>
+<span class="comment">//Output :</span>
+<span class="comment">//[Paul-11-Economics-78.9, Zevin-12-Computer Science-91.2, Harish-13-History-83.7]</span>
+        </code>
+    </pre>
 
     <h4>3.5) Collectors.joining():</h4>
-    <p>This method returns a <em>Collector</em> which concatenates input elements separated by the specified delimiter.
-    </p>
+    <p>This method returns a <strong>Collector</strong> which concatenates input elements separated by the specified delimiter.</p>
     <p>Example : Collecting the names of all students joined as a string</p>
-
     <pre class="java-code">
-<code>
-String namesJoined = studentList.stream().map(Student::getName).collect(Collectors.joining(", "));
+        <code>
+<span class="class">String</span> namesJoined = studentList.stream()
+    .map(<span class="class">Student</span>::getName)
+    .collect(<span class="class">Collectors</span>.joining(<span class="string">", "</span>));
 
-System.out.println(namesJoined);
+<span class="class">System</span>.out.println(namesJoined);
 
-//Output :
-//Paul, Zevin, Harish, Xiano, Soumya, Asif, Nihira, Mitshu, Vijay, Harry
-</code>
-</pre>
+<span class="comment">//Output :</span>
+<span class="comment">//Paul, Zevin, Harish, Xiano, Soumya, Asif, Nihira, Mitshu, Vijay, Harry</span>
+        </code>
+    </pre>
 
     <h4>3.6) Collectors.counting():</h4>
-    <p>It returns a <em>Collector</em> that counts number of input elements.</p>
+    <p>It returns a <strong>Collector</strong> that counts number of input elements.</p>
     <p>Example : Counting number of students.</p>
-
     <pre class="java-code">
-<code>
-Long studentCount = studentList.stream().collect(Collectors.counting());
+        <code>
+<span class="class">Long</span> studentCount = studentList.stream().collect(<span class="class">Collectors</span>.counting());
 
-System.out.println(studentCount);
+<span class="class">System</span>.out.println(studentCount);
 
-//Output : 10
-</code>
-</pre>
+<span class="comment">//Output : 10</span>
+        </code>
+    </pre>
 
     <h4>3.7) Collectors.maxBy():</h4>
-    <p>This method returns a <em>Collector</em> that collects largest element in a stream according to supplied <em>Comparator</em>.
-    </p>
+    <p>This method returns a <strong>Collector</strong> that collects largest element in a stream according to supplied <strong>Comparator</strong>.</p>
     <p>Example : Collecting highest percentage.</p>
-
     <pre class="java-code">
-<code>
-Optional&lt;Double&gt; highPercentage = studentList.stream().map(Student::getPercentage).collect(Collectors.maxBy(Comparator.naturalOrder()));
+        <code>
+<span class="class">Optional</span>&lt;<span class="class">Double</span>&gt; highPercentage = studentList.stream()
+    .map(<span class="class">Student</span>::getPercentage)
+    .collect(<span class="class">Collectors</span>.maxBy(<span class="class">Comparator</span>.naturalOrder()));
 
-System.out.println(highPercentage);
+<span class="class">System</span>.out.println(highPercentage);
 
-//Output : Optional[92.8]
-</code>
-</pre>
+<span class="comment">//Output : Optional[92.8]</span>
+        </code>
+    </pre>
 
-    <h4>3.8) Collectors.minBy():</h4>
-    <p>This method returns a <em>Collector</em> which collects smallest element in a stream according to supplied <em>Comparator</em>.
-    </p>
+    <h4>3.8) Collectors.minBy();</h4>
+    <p>This method returns a <em>Collector</em> which collects smallest element in a stream according to supplied <em>Comparator</em>.</p>
     <p>Example : Collecting lowest percentage.</p>
-
     <pre class="java-code">
-<code>
-Optional&lt;Double&gt; lowPercentage = studentList.stream().map(Student::getPercentage).collect(Collectors.minBy(Comparator.naturalOrder()));
+        <code>
+<span class="class">Optional</span>&lt;<span class="class">Double</span>&gt; lowPercentage = studentList.stream()
+    .map(<span class="class">Student</span>::getPercentage)
+    .collect(<span class="class">Collectors</span>.minBy(<span class="class">Comparator</span>.naturalOrder()));
 
-System.out.println(lowPercentage);
+<span class="class">System</span>.out.println(lowPercentage);
 
-//Output : Optional[71.5]
-</code>
-</pre>
+<span class="comment">//Output : Optional[71.5]</span>
+        </code>
+    </pre>
 
     <h4>3.9) summingInt(), summingLong(), summingDouble()</h4>
     <p>These methods returns a Collector which collects sum of all input elements.</p>
     <p>Example : Collecting sum of percentages</p>
-
     <pre class="java-code">
-<code>
-Double sumOfPercentages = studentList.stream().collect(Collectors.summingDouble(Student::getPercentage));
+        <code>
+<span class="class">Double</span> sumOfPercentages = studentList.stream()
+    .collect(<span class="class">Collectors</span>.summingDouble(<span class="class">Student</span>::getPercentage));
 
-System.out.println(sumOfPercentages);
+<span class="class">System</span>.out.println(sumOfPercentages);
 
-//Output : 815.0
-</code>
-</pre>
+<span class="comment">//Output : 815.0</span>
+        </code>
+    </pre>
 
     <h4>3.10) averagingInt(), averagingLong(), averagingDouble()</h4>
     <p>These methods return a Collector which collects average of input elements.</p>
     <p>Example : Collecting average percentage</p>
-
     <pre class="java-code">
-<code>
-Double averagePercentage = studentList.stream().collect(Collectors.averagingDouble(Student::getPercentage));
+        <code>
+<span class="class">Double</span> averagePercentage = studentList.stream()
+    .collect(<span class="class">Collectors</span>.averagingDouble(<span class="class">Student</span>::getPercentage));
 
-System.out.println(averagePercentage);
+<span class="class">System</span>.out.println(averagePercentage);
 
-//Output : 81.5
-</code>
-</pre>
+<span class="comment">//Output : 81.5</span>
+        </code>
+    </pre>
 
     <h4>3.11) summarizingInt(), summarizingLong(), summarizingDouble()</h4>
-    <p>These methods return a special class called Int/Long/ DoubleSummaryStatistics which contain statistical
-        information like sum, max, min, average etc of input elements.</p>
+    <p>These methods return a special class called Int/Long/ DoubleSummaryStatistics which contain statistical information like sum, max, min, average etc of input elements.</p>
     <p>Example : Extracting highest, lowest and average of percentage of students</p>
-
     <pre class="java-code">
-<code>
-DoubleSummaryStatistics studentStats = studentList.stream().collect(Collectors.summarizingDouble(Student::getPercentage));
+        <code>
+<span class="class">DoubleSummaryStatistics</span> studentStats = studentList.stream()
+    .collect(<span class="class">Collectors</span>.summarizingDouble(<span class="class">Student</span>::getPercentage));
 
-System.out.println("Highest Percentage : "+studentStats.getMax());
-System.out.println("Lowest Percentage : "+studentStats.getMin());
-System.out.println("Average Percentage : "+studentStats.getAverage());
-//Output :
-//Highest Percentage : 92.8
-//Lowest Percentage : 71.5
-//Average Percentage : 81.5
-</code>
-</pre>
+<span class="class">System</span>.out.println(<span class="string">"Highest Percentage : "</span>+studentStats.getMax());
+<span class="class">System</span>.out.println(<span class="string">"Lowest Percentage : "</span>+studentStats.getMin());
+<span class="class">System</span>.out.println(<span class="string">"Average Percentage : "</span>+studentStats.getAverage());
+
+<span class="comment">//Output :</span>
+<span class="comment">//Highest Percentage : 92.8</span>
+<span class="comment">//Lowest Percentage : 71.5</span>
+<span class="comment">//Average Percentage : 81.5</span>
+        </code>
+    </pre>
 
     <h4>3.12) Collectors.groupingBy();</h4>
     <p>This method groups the input elements according supplied classifier and returns the results in a Map.</p>
     <p>Example : Grouping the students by subject</p>
-
     <pre class="java-code">
-<code>
-Map&lt;String, List&lt;Student&gt;&gt; studentsGroupedBySubject = studentList.stream().collect(Collectors.groupingBy(Student::getSubject));
+        <code>
+<span class="class">Map</span>&lt;<span class="class">String</span>, <span class="class">List</span>&lt;<span class="class">Student</span>&gt;&gt; studentsGroupedBySubject = studentList.stream()
+    .collect(<span class="class">Collectors</span>.groupingBy(<span class="class">Student</span>::getSubject));
 
-System.out.println(studentsGroupedBySubject);
+<span class="class">System</span>.out.println(studentsGroupedBySubject);
 
-//Output :
-//Economics=[Paul-11-Economics-78.9, Soumya-15-Economics-77.5],
-//Literature=[Xiano-14-Literature-71.5],
-//Computer Science=[Zevin-12-Computer Science-91.2, Nihira-17-Computer Science-84.6],
-//Mathematics=[Asif-16-Mathematics-89.4, Vijay-19-Mathematics-92.8],
-//History=[Harish-13-History-83.7, Mitshu-18-History-73.5, Harry-20-History-71.9]}
-</code>
-</pre>
+<span class="comment">//Output :</span>
+<span class="comment">//Economics=[Paul-11-Economics-78.9, Soumya-15-Economics-77.5],</span>
+<span class="comment">//Literature=[Xiano-14-Literature-71.5],</span>
+<span class="comment">//Computer Science=[Zevin-12-Computer Science-91.2, Nihira-17-Computer Science-84.6],</span>
+<span class="comment">//Mathematics=[Asif-16-Mathematics-89.4, Vijay-19-Mathematics-92.8],</span>
+<span class="comment">//History=[Harish-13-History-83.7, Mitshu-18-History-73.5, Harry-20-History-71.9]</span>
+        </code>
+    </pre>
 
     <h4>3.13) Collectors.partitioningBy() :</h4>
-    <p>This method partitions the input elements according to supplied Predicate and returns a Map&lt;Boolean, List&lt;T&gt;&gt;.
-        Under the true key, you will find elements which match given Predicate and under the false key, you will find
-        the elements which doesn't match given Predicate.</p>
+    <p>This method partitions the input elements according to supplied Predicate and returns a Map&lt;Boolean, List&lt;T&gt;&gt;. Under the true key, you will find elements which match given Predicate and under the false key, you will find the elements which doesn't match given Predicate.</p>
     <p>Example : Partitioning the students who got above 80.0% from who don't.</p>
-
     <pre class="java-code">
-<code>
-Map&lt;Boolean, List&lt;Student&gt;&gt; studentsPartitionedByPercentage = studentList.stream().collect(Collectors.partitioningBy(student -> student.getPercentage() > 80.0));
+        <code>
+<span class="class">Map</span>&lt;<span class="class">Boolean</span>, <span class="class">List</span>&lt;<span class="class">Student</span>&gt;&gt; studentsPartitionedByPercentage = studentList.stream()
+    .collect(<span class="class">Collectors</span>.partitioningBy(student -> student.getPercentage() > 80.0));
 
-System.out.println(studentsPartitionedByPercentage);
+<span class="class">System</span>.out.println(studentsPartitionedByPercentage);
 
-//Output :
-//[false=[Paul-11-Economics-78.9, Xiano-14-Literature-71.5, Soumya-15-Economics-77.5, Mitshu-18-History-73.5, Harry-20-History-71.9],
-//true=[Zevin-12-Computer Science-91.2, Harish-13-History-83.7, Asif-16-Mathematics-89.4, Nihira-17-Computer Science-84.6, Vijay-19-Mathematics-92.8]}
-</code>
-</pre>
+<span class="comment">//Output :</span>
+<span class="comment">//[false=[Paul-11-Economics-78.9, Xiano-14-Literature-71.5, Soumya-15-Economics-77.5, Mitshu-18-History-73.5, Harry-20-History-71.9],</span>
+<span class="comment">//true=[Zevin-12-Computer Science-91.2, Harish-13-History-83.7, Asif-16-Mathematics-89.4, Nihira-17-Computer Science-84.6, Vijay-19-Mathematics-92.8]]</span>
+        </code>
+    </pre>
 
-    <h4>3.14) Collectors.collectingAndThen() :</h4>
+    <h4>3.14) Collectors.collectingAndThen():</h4>
     <p>This is a special method which lets you to perform one more action on the result after collecting the result.</p>
-    <p>Example : Collecting first three students into List and making it unmodifiable</p>
-
+    <p>Example: Collecting first three students into List and making it unmodifiable</p>
     <pre class="java-code">
-<code>
-List&lt;Student&gt; first3Students = studentList.stream().limit(3).collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
+        <code>
+<span class="class">List</span>&lt;<span class="class">Student</span>&gt; first3Students = studentList.stream()
+    .limit(3)
+    .collect(<span class="class">Collectors</span>.collectingAndThen(<span class="class">Collectors</span>.toList(), <span class="class">Collections</span>::unmodifiableList));
 
-System.out.println(first3Students);
+<span class="class">System</span>.out.println(first3Students);
 
-//Output :
-//[Paul-11-Economics-78.9, Zevin-12-Computer Science-91.2, Harish-13-History-83.7]
-</code>
-</pre>
+<span class="comment">//Output :</span>
+<span class="comment">//[Paul-11-Economics-78.9, Zevin-12-Computer Science-91.2, Harish-13-History-83.7]</span>
+        </code>
+    </pre>
 
-    <h2>Differences between Java 8 Map() Vs flatMap() :</h2>
+    <h3>Differences between Java 8 Map() Vs flatMap():</h3>
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Map()</th>
+                <th>flatMap()</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>It processes stream of values.</td>
+                <td>It processes stream of stream of values.</td>
+            </tr>
+            <tr>
+                <td>It does only mapping.</td>
+                <td>It performs mapping as well as flattening.</td>
+            </tr>
+            <tr>
+                <td>It's mapper function produces single value for each input value.</td>
+                <td>It's mapper function produces multiple values for each input value.</td>
+            </tr>
+            <tr>
+                <td>It is a One-To-One mapping.</td>
+                <td>It is a One-To-Many mapping.</td>
+            </tr>
+            <tr>
+                <td>Data Transformation : From Stream&lt;T&gt; to Stream&lt;R&gt;</td>
+                <td>Data Transformation : From Stream&lt;String&gt; to Stream&lt;R&gt;</td>
+            </tr>
+            <tr>
+                <td>Use this method when the mapper function is producing a single value for each input value.</td>
+                <td>Use this method when the mapper function is producing multiple values for each input value.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
-    <table class="basic-table">
-        <thead>
-        <tr>
-            <th>Map()</th>
-            <th>flatMap()</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>It processes stream of values.</td>
-            <td>It processes stream of stream of values.</td>
-        </tr>
-        <tr>
-            <td>It does only mapping.</td>
-            <td>It performs mapping as well as flattening.</td>
-        </tr>
-        <tr>
-            <td>It's mapper function produces single value for each input value.</td>
-            <td>It's mapper function produces multiple values for each input value.</td>
-        </tr>
-        <tr>
-            <td>It is a One-To-One mapping.</td>
-            <td>It is a One-To-Many mapping.</td>
-        </tr>
-        <tr>
-            <td>Data Transformation : From Stream&lt;T&gt; to Stream&lt;R&gt;</td>
-            <td>Data Transformation : From Stream&lt;Stream&lt;T&gt;&gt; to Stream&lt;R&gt;</td>
-        </tr>
-        <tr>
-            <td>Use this method when the mapper function is producing a single value for each input value.</td>
-            <td>Use this method when the mapper function is producing multiple values for each input value.</td>
-        </tr>
-        </tbody>
-    </table>
+    <h3>Java 8 map() Vs flatMap()</h3>
 
-    <h2>Java 8 map() Vs flatMap()</h2>
-
-    <h3>Map()</h3>
+    <h4>Map()</h4>
     <p>It does only mapping.</p>
     <p>It processes stream of values.</p>
     <p>It's mapper function produces single value for each input value.</p>
     <p>Data Transformation : From Stream&lt;T&gt; to Stream&lt;R&gt;</p>
     <p>Use this method when the mapper function is producing single value for each input value.</p>
 
-    <h3>flatMap()</h3>
+    <h4>flatMap()</h4>
     <p>It processes stream of stream of values.</p>
-    <p>Data Transformation : From Stream&lt;Stream&lt;T&gt;&gt; to Stream&lt;R&gt;</p>
+    <p>Data Transformation : From Stream&lt;String&gt; to Stream&lt;R&gt;</p>
     <p>Use this method when the mapper function is producing multiple values for each input value.</p>
     <p>It performs mapping as well as flattening.</p>
     <p>It's mapper function produces multiple values for each input value.</p>
-    <p>Data Transformation : From Stream&lt;Stream&lt;T&gt;&gt; to Stream&lt;R&gt;</p>
+    <p>Data Transformation : From Stream&lt;String&gt; to Stream&lt;R&gt;</p>
     <p>Use this method when the mapper function is producing multiple values for each input value.</p>
     <hr>
     <div class="card-footer">

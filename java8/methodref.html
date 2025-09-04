@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Java Introduction</title>
+    <title>Method References</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../js/styles.css"/>
 </head>
@@ -23,89 +23,87 @@
 
 <!-- Main Content Section -->
 <main id="content">
-    <h2>4. Java 8 Method References</h2>
+    <h2>Java 8 Method References</h2>
 
     <h3>1) Definition</h3>
-    <p>Java 8 method references can be defined as shortened versions of lambda expressions calling a specific method.
-        Method references are the easiest way to refer a method than the lambdas calling a specific method. Method
-        references will enhance the readability of your code.</p>
+    <p>Java 8 method references can be defined as shortened versions of lambda expressions calling a specific method. Method references are the easiest way to refer a method than the lambdas calling a specific method. Method references will enhance the readability of your code.</p>
 
     <h3>2) Syntax</h3>
     <p>a) Method reference to static method :<br>
-        ClassName::MethodName<br>
-        Use this syntax when you are referring to a static method.<br>
+        ClassName::MethodName</p>
+    <p>Use this syntax when you are referring to a static method.<br>
         ex : Integer::parseInt, Math::max</p>
 
     <p>b) Method reference to instance method of an existing object :<br>
-        ReferenceVariable::MethodName<br>
-        Use this syntax when you are referring to an instance method of already existing object.<br>
-        ex : s::getName<br>
-        where 's' is a reference variable referring to Student object which already exist.</p>
+        ReferenceVariable::MethodName</p>
+    <p>Use this syntax when you are referring to an instance method of already existing object.<br>
+        ex : s::getName</p>
+    <p>where 's' is a reference variable referring to Student object which already exist.</p>
 
     <p>c) Method reference to instance method of non-existing object :<br>
-        ClassName::MethodName<br>
-        Use this syntax when you are referring to an instance method by passing reference variables as an argument.<br>
+        ClassName::MethodName</p>
+    <p>Use this syntax when you are referring to an instance method by passing reference variables as an argument.<br>
         ex : (Student s)->s.getName() can be written as Student::getName</p>
 
     <h3>3) Constructor References</h3>
-    <p>You can also refer to the constructor of a class same as method references. Syntax for referring to constructor
-        is,</p>
+    <p>You can also refer to the constructor of a class same as method references. Syntax for referring to constructor is,</p>
     <p><strong>ClassName::new</strong></p>
     <p>Ex : Student::new</p>
 
     <h3>4) Examples</h3>
-    <table class="basic-table">
-        <thead>
-        <tr>
-            <th>Lambda Expressions</th>
-            <th>Equivalent Method References</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>(Strings)-> Integer.parseInt(s)</td>
-            <td>Integer::parseInt</td>
-        </tr>
-        <tr>
-            <td>(Strings)-> s.toLowerCase()</td>
-            <td>String::toLowerCase</td>
-        </tr>
-        <tr>
-            <td>(inti)-> System.out.println(i)</td>
-            <td>System.out::printIn</td>
-        </tr>
-        <tr>
-            <td>(Student's)-> s.getName()</td>
-            <td>Student::getName</td>
-        </tr>
-        <tr>
-            <td>()-> s.getName()</td>
-            <td>s::getName<br>where 's' refers to Student object which already exist.</td>
-        </tr>
-        <tr>
-            <td>()-> new Student()</td>
-            <td>Student::new</td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="table-container">
+        <table class="basic-table">
+            <thead>
+            <tr>
+                <th>Lambda Expressions</th>
+                <th>Equivalent Method References</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>(String s)-> Integer.parseInt(s)</td>
+                <td>Integer::parseInt</td>
+            </tr>
+            <tr>
+                <td>(String s) -> s.toLowerCase()</td>
+                <td>String::toLowerCase</td>
+            </tr>
+            <tr>
+                <td>(int i) -> System.out.println(i)</td>
+                <td>System.out::println</td>
+            </tr>
+            <tr>
+                <td>(Student s) -> s.getName()</td>
+                <td>Student::getName</td>
+            </tr>
+            <tr>
+                <td>() -> s.getName()</td>
+                <td>s::getName where 's' refers to Student object which already exist.</td>
+            </tr>
+            <tr>
+                <td>() -> new Student()</td>
+                <td>Student::new</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
     <p>a) Method reference to static method</p>
     <pre class="java-code">
         <code>
-import java.util.function.Function;
+<span class="keyword">import</span> java.util.function.Function;
 
-public class Java8MethodReferences
+<span class="keyword">public class</span> <span class="class">Java8MethodReferences</span>
 {
-    public static void main(String[] args)
+    <span class="keyword">public static</span> <span class="class">void</span> <span class="method">main</span>(<span class="class">String</span>[] args)
     {
-    //Calling parseInt() method using lambda
+        <span class="comment">//Calling parseInt() method using lambda</span>
+        <span class="class">Function</span>&lt;<span class="class">String</span>, <span class="class">Integer</span>&gt; lambdaFunction = (<span class="class">String</span> s) -> <span class="class">Integer</span>.parseInt(s);
+        <span class="class">System</span>.out.println(lambdaFunction.apply(<span class="string">"12"</span>));
 
-    Function<String, Integer> lambdaFunction = (String s) -> Integer.parseInt(s);
-    System.out.println(lambdaFunction.apply("12"));
-    //Calling parseInt() method using method reference
-
-    Function<String, Integer> referenceFunction = Integer::parseInt;
-    System.out.println(referenceFunction.apply("12"));
+        <span class="comment">//Calling parseInt() method using method reference</span>
+        <span class="class">Function</span>&lt;<span class="class">String</span>, <span class="class">Integer</span>&gt; referenceFunction = <span class="class">Integer</span>::parseInt;
+        <span class="class">System</span>.out.println(referenceFunction.apply(<span class="string">"12"</span>));
     }
 }
         </code>
@@ -114,56 +112,57 @@ public class Java8MethodReferences
     <p>b) Method reference to instance method (ClassName::MethodName)</p>
     <pre class="java-code">
         <code>
-import java.util.function.Function;
+<span class="keyword">import</span> java.util.function.Function;
 
-public class Java8MethodReferences
+<span class="keyword">public class</span> <span class="class">Java8MethodReferences</span>
 {
-    public static void main(String[] args)
+    <span class="keyword">public static</span> <span class="class">void</span> <span class="method">main</span>(<span class="class">String</span>[] args)
     {
-    //Calling toLowerCase() method using lambda
+        <span class="comment">//Calling toLowerCase() method using lambda</span>
+        <span class="class">Function</span>&lt;<span class="class">String</span>, <span class="class">String</span>&gt; lambdaFunction = (<span class="class">String</span> s) -> s.toLowerCase();
+        <span class="class">System</span>.out.println(lambdaFunction.apply(<span class="string">"JAVA"</span>));
 
-    Function<String, String> lambdaFunction = (String s) -> s.toLowerCase();
-    System.out.println(lambdaFunction.apply("JAVA"));
-    //Calling toLowerCase() method using method reference
-
-13
-14    Function<String, String> referenceFunction = String::toLowerCase;
-15    System.out.println(referenceFunction.apply("JAVA"));
-16    }
-17 }
+        <span class="comment">//Calling toLowerCase() method using method reference</span>
+        <span class="class">Function</span>&lt;<span class="class">String</span>, <span class="class">String</span>&gt; referenceFunction = <span class="class">String</span>::toLowerCase;
+        <span class="class">System</span>.out.println(referenceFunction.apply(<span class="string">"JAVA"</span>));
+    }
+}
         </code>
     </pre>
 
     <p>c) Method reference to instance method (ReferenceVariable::MethodName)</p>
     <pre class="java-code">
         <code>
-import java.util.function.Supplier;
+<span class="keyword">import</span> java.util.function.Supplier;
 
-class Company
+<span class="keyword">class</span> <span class="class">Company</span>
 {
-    String name;
-    public Company(String name)
+    <span class="class">String</span> name;
+
+    <span class="keyword">public</span> <span class="class">Company</span>(<span class="class">String</span> name)
     {
-    this.name = name;
+        <span class="keyword">this</span>.name = name;
+    }
+
+    <span class="keyword">public</span> <span class="class">String</span> <span class="method">getName</span>()
+    {
+        <span class="keyword">return</span> name;
     }
 }
 
-public String getName()
+<span class="keyword">public class</span> <span class="class">Java8MethodReferences</span>
 {
-    return name;
-}
-
-public class Java8MethodReferences
-{
-    public static void main(String[] args)
+    <span class="keyword">public static</span> <span class="class">void</span> <span class="method">main</span>(<span class="class">String</span>[] args)
     {
-    Company c = new Company("My_Company");
-    //Calling getName() of c using lambda
-    Supplier<String> lambdaSupplier = () -> c.getName();
-    System.out.println(lambdaSupplier.get());
-    //Calling getName() of c using method reference
-    Supplier<String> referenceSupplier = c::getName;
-    System.out.println(referenceSupplier.get());
+        <span class="class">Company</span> c = <span class="keyword">new</span> <span class="class">Company</span>(<span class="string">"My_Company"</span>);
+
+        <span class="comment">//Calling getName() of c using lambda</span>
+        <span class="class">Supplier</span>&lt;<span class="class">String</span>&gt; lambdaSupplier = () -> c.getName();
+        <span class="class">System</span>.out.println(lambdaSupplier.get());
+
+        <span class="comment">//Calling getName() of c using method reference</span>
+        <span class="class">Supplier</span>&lt;<span class="class">String</span>&gt; referenceSupplier = c::getName;
+        <span class="class">System</span>.out.println(referenceSupplier.get());
     }
 }
         </code>
@@ -172,24 +171,25 @@ public class Java8MethodReferences
     <p>d) Constructor References</p>
     <pre class="java-code">
         <code>
-import java.util.function.Supplier;
+<span class="keyword">import</span> java.util.function.Supplier;
 
-class Company
+<span class="keyword">class</span> <span class="class">Company</span>
 {
-    }
 }
 
-public class Java8MethodReferences
+<span class="keyword">public class</span> <span class="class">Java8MethodReferences</span>
 {
-    public static void main(String[] args)
+    <span class="keyword">public static</span> <span class="class">void</span> <span class="method">main</span>(<span class="class">String</span>[] args)
     {
-    //Creating objects using lambda
-    Supplier<Company> lambdaSupplier = () -> new Company();
-    lambdaSupplier.get();
+        <span class="comment">//Creating objects using lambda</span>
+        <span class="class">Supplier</span>&lt;<span class="class">Company</span>&gt; lambdaSupplier = () -> <span class="keyword">new</span> <span class="class">Company</span>();
+        lambdaSupplier.get();
 
-//Creating objects using constructor references
-Supplier<Company> referenceSupplier = Company::new;
-referenceSupplier.get();
+        <span class="comment">//Creating objects using constructor references</span>
+        <span class="class">Supplier</span>&lt;<span class="class">Company</span>&gt; referenceSupplier = <span class="class">Company</span>::new;
+        referenceSupplier.get();
+    }
+}
         </code>
     </pre>
     <hr>

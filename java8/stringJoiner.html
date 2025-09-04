@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Java Introduction</title>
+    <title>StringJoiners</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../js/styles.css"/>
 </head>
@@ -23,9 +23,8 @@
 
 <!-- Main Content Section -->
 <main id="content">
+    <h2>Java 8 StringJoiner, String.join() And Collectors.joining()</h2>
 
-
-    <h2>6. Java 8 StringJoiner, String.join() And Collectors.joining()</h2>
     <p>Joining the strings or concatenating the strings is the frequent operation while programming any kind of
         applications. To make this process easy and efficient, Java API developers has introduced java.util.StringJoiner
         class, String.join() method and Collectors.joining() method from Java 8. By using them, you can join an array of
@@ -36,214 +35,267 @@
     <p>StringJoiner class internally uses StringBuilder class to join the strings. It is placed in java.util package.
         Using Java 8 StringJoiner, you can join only the strings, but not the array of strings or list of strings.</p>
     <p>There are two ways to construct StringJoiner objects. They are,</p>
+
     <pre class="java-code">
-        <code>
-1 a) StringJoiner(CharSequence delimiter)
-2 b) StringJoiner(CharSequence delimiter, CharSequence prefix, CharSequence suffix)
-        </code>
+<code>
+<span class="number">1</span> a) <span class="class">StringJoiner</span>(<span class="class">CharSequence</span> delimiter)
+<span class="number">2</span> b) <span class="class">StringJoiner</span>(<span class="class">CharSequence</span> delimiter, <span
+        class="class">CharSequence</span> prefix, <span class="class">CharSequence</span> suffix)
+</code>
     </pre>
 
     <p>StringJoiner Example: Joining the strings with delimiter</p>
-    <pre class="java-code">
-        <code>
-import java.util.StringJoiner;
-public class JavaScriptJoiner
 
-public static void main(String[] args)
-{
-    StringJoiner stringJoiner = new StringJoiner(" | ");
-    stringJoiner.add("Facebook");
-    stringJoiner.add("Twitter");
-    stringJoiner.add("YouTube");
-    stringJoiner.add("WhatsApp");
-    stringJoiner.add("LinkedIn");
-    System.out.println(stringJoiner);
-}
-        </code>
+    <pre class="java-code">
+<code>
+<span class="number">1</span> <span class="keyword">import</span> java.util.StringJoiner;
+<span class="number">2</span> <span class="keyword">public class</span> <span class="class">JavaScriptJoiner</span>
+<span class="number">3</span> {
+<span class="number">4</span>    <span class="keyword">public static void</span> <span class="method">main</span>(<span
+        class="class">String</span>[] args)
+<span class="number">5</span>    {
+<span class="number">6</span>        <span class="class">StringJoiner</span> stringJoiner = <span
+        class="keyword">new</span> <span class="class">StringJoiner</span>(<span class="string">" | "</span>);
+<span class="number">7</span>        stringJoiner.<span class="method">add</span>(<span class="string">"Facebook"</span>);
+<span class="number">8</span>        stringJoiner.<span class="method">add</span>(<span class="string">"Twitter"</span>);
+<span class="number">9</span>        stringJoiner.<span class="method">add</span>(<span class="string">"YouTube"</span>);
+<span class="number">10</span>       stringJoiner.<span class="method">add</span>(<span class="string">"WhatsApp"</span>);
+<span class="number">11</span>       stringJoiner.<span class="method">add</span>(<span class="string">"LinkedIn"</span>);
+<span class="number">12</span>       <span class="class">System</span>.out.<span class="method">println</span>(stringJoiner);
+<span class="number">13</span>    }
+<span class="number">14</span> }
+</code>
     </pre>
+
     <p>Output:</p>
     <pre class="java-code">
-        <code>
+<code>
 Facebook | Twitter | YouTube | WhatsApp | LinkedIn
-        </code>
+</code>
     </pre>
 
     <p>StringJoiner Example: Joining the strings with delimiter, prefix and suffix</p>
+
     <pre class="java-code">
-        <code>
-import java.util.StringJoiner;
-public class JavaScriptJoiner
+<code>
+<span class="keyword">import</span> java.util.StringJoiner;
+<span class="keyword">public class</span> <span class="class">JavaScriptJoiner</span>
 {
-    public static void main(String[] args)
+    <span class="keyword">public static void</span> <span class="method">main</span>(<span class="class">String</span>[] args)
     {
-    StringJoiner stringJoiner = new StringJoiner(". ", "[", "]");
-    stringJoiner.add("Facebook");
-    stringJoiner.add("Twitter");
-    stringJoiner.add("YouTube");
-    stringJoiner.add("WhatsApp");
-    stringJoiner.add("LinkedIn");
-    System.out.println(stringJoiner);
+        <span class="class">StringJoiner</span> stringJoiner = <span class="keyword">new</span> <span class="class">StringJoiner</span>(<span
+        class="string">", "</span>, <span class="string">"["</span>, <span class="string">"]"</span>);
+        stringJoiner.<span class="method">add</span>(<span class="string">"Facebook"</span>);
+        stringJoiner.<span class="method">add</span>(<span class="string">"Twitter"</span>);
+        stringJoiner.<span class="method">add</span>(<span class="string">"YouTube"</span>);
+        stringJoiner.<span class="method">add</span>(<span class="string">"WhatsApp"</span>);
+        stringJoiner.<span class="method">add</span>(<span class="string">"LinkedIn"</span>);
+        <span class="class">System</span>.out.<span class="method">println</span>(stringJoiner);
+    }
 }
-        </code>
+</code>
     </pre>
+
     <p>Output:</p>
     <pre class="java-code">
-        <code>
+<code>
 [Facebook, Twitter, YouTube, WhatsApp, LinkedIn]
-        </code>
+</code>
     </pre>
 
     <h3>Java 8 String.join() Method:</h3>
     <p>String.join() method internally uses StringJoiner class. This method can be used to join strings or array of
         strings or list of strings, but only with delimiter not with prefix and suffix.</p>
-    <p>There are two overloaded forms of String.join() .</p>
-    <p>a) public static String join(CharSequence delimiter, CharSequence… elements)<br>
-        b) public static String join(CharSequence delimiter, Iterable<? extends CharSequence> elements)</p>
+    <p>There are two overloaded forms of String.join().</p>
+    <p>a) public static String join(CharSequence delimiter, CharSequence... elements)</p>
+    <p>b) public static String join(CharSequence delimiter, Iterable elements)</p>
 
     <p>String.join() Method Example: Joining the strings</p>
+
     <pre class="java-code">
-        <code>
-1 public class JavaScriptJoinMethod
-2 {
-3    public static void main(String[] args)
-4    {
-5    String joinedString = String.join(" | ", "Facebook", "Twitter", "YouTube",
-6    System.out.println(joinedString);
-7    }
-8 }
-        </code>
+<code>
+<span class="number">1</span> <span class="keyword">public class</span> <span class="class">JavaScriptJoinMethod</span>
+<span class="number">2</span> {
+<span class="number">3</span>    <span class="keyword">public static void</span> <span class="method">main</span>(<span
+        class="class">String</span>[] args)
+<span class="number">4</span>    {
+<span class="number">5</span>        <span class="class">String</span> joinedString = <span class="class">String</span>.<span
+        class="method">join</span>(<span class="string">" | "</span>, <span class="string">"Facebook"</span>, <span
+        class="string">"Twitter"</span>, <span class="string">"YouTube"</span>, <span class="string">"WhatsApp"</span>, <span
+        class="string">"LinkedIn"</span>);
+<span class="number">6</span>        <span class="class">System</span>.out.<span class="method">println</span>(joinedString);
+<span class="number">7</span>    }
+<span class="number">8</span> }
+</code>
     </pre>
+
     <p>Output:</p>
     <pre class="java-code">
-        <code>
+<code>
 Facebook | Twitter | YouTube | WhatsApp | LinkedIn
-        </code>
+</code>
     </pre>
 
     <p>String.join() Method Example: Joining an array of strings</p>
+
     <pre class="java-code">
-        <code>
-public class JavaScriptJoinMethod
-{
-3    public static void main(String[] args)
-4    {
-5    String[] strArray = new String[] {"Facebook", "Twitter", "YouTube", "WhatsApp",
-6    String joinedString = String.join(" | ", strArray);
-7    System.out.println(joinedString);
-8    }
-9 }
-        </code>
+<code>
+<span class="keyword">public class</span> <span class="class">JavaScriptJoinMethod</span> {
+    <span class="keyword">public static void</span> <span class="method">main</span>(<span class="class">String</span>[] args) {
+        <span class="class">String</span>[] strArray = <span class="keyword">new</span> <span
+        class="class">String</span>[] {<span class="string">"Facebook"</span>, <span
+        class="string">"Twitter"</span>, <span class="string">"YouTube"</span>, <span class="string">"WhatsApp"</span>, <span
+        class="string">"LinkedIn"</span>};
+        <span class="class">String</span> joinedString = <span class="class">String</span>.<span
+        class="method">join</span>(<span class="string">" | "</span>, strArray);
+        <span class="class">System</span>.out.<span class="method">println</span>(joinedString);
+    }
+}
+</code>
     </pre>
+
     <p>Output:</p>
     <pre class="java-code">
-        <code>
+<code>
 Facebook | Twitter | YouTube | WhatsApp | LinkedIn
-        </code>
+</code>
     </pre>
 
     <p>String.join() Method Example: Joining list of strings</p>
-    <pre class="java-code">
-        <code>
-import java.util.Arrays;
-import java.util.List;
 
-public class JavaScriptJoinMethod
-{
-6    public static void main(String[] args)
-7    {
-8    List<String> listOfStrings = Arrays.asList("Facebook", "Twitter", "YouTube",
-9    "WhatsApp", "LinkedIn");
-10    String joinedString = String.join(" | ", listOfStrings);
-11    System.out.println(joinedString);
-12 }
-        </code>
+    <pre class="java-code">
+<code>
+<span class="keyword">import</span> java.util.Arrays;
+<span class="keyword">import</span> java.util.List;
+
+<span class="keyword">public class</span> <span class="class">JavaScriptJoinMethod</span> {
+    <span class="keyword">public static void</span> <span class="method">main</span>(<span class="class">String</span>[] args) {
+        <span class="class">List</span>&lt;<span class="class">String</span>&gt; listOfStrings = <span class="class">Arrays</span>.<span
+        class="method">asList</span>(<span class="string">"Facebook"</span>, <span
+        class="string">"Twitter"</span>, <span class="string">"YouTube"</span>, <span class="string">"WhatsApp"</span>, <span
+        class="string">"LinkedIn"</span>);
+        <span class="class">String</span> joinedString = <span class="class">String</span>.<span
+        class="method">join</span>(<span class="string">" | "</span>, listOfStrings);
+        <span class="class">System</span>.out.<span class="method">println</span>(joinedString);
+    }
+}
+</code>
     </pre>
+
     <p>Output:</p>
     <pre class="java-code">
-        <code>
+<code>
 Facebook | Twitter | YouTube | WhatsApp | LinkedIn
-        </code>
+</code>
     </pre>
 
     <h3>Java 8 Collectors.joining():</h3>
     <p>There are three forms of `Collectors.joining()` method available. They are,</p>
+
     <pre class="java-code">
-        <code>
-1 a) Collectors.joining()
-2 b) Collectors.joining(CharSequence delimiter)
-3 c) Collectors.joining(CharSequence delimiter, CharSequence prefix, CharSequence suffix)
-        </code>
+<code>
+<span class="number">1</span> a) <span class="class">Collectors</span>.<span class="method">joining</span>()
+<span class="number">2</span> b) <span class="class">Collectors</span>.<span class="method">joining</span>(<span
+        class="class">CharSequence</span> delimiter)
+<span class="number">3</span> c) <span class="class">Collectors</span>.<span class="method">joining</span>(<span
+        class="class">CharSequence</span> delimiter, <span class="class">CharSequence</span> prefix, <span
+        class="class">CharSequence</span> suffix)
+</code>
     </pre>
 
     <p>Collectors.joining() Example: Joining list of strings without delimiter</p>
-    <pre class="java-code">
-        <code>
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collections;
 
-public class Java8CollectorsJoining
+    <pre class="java-code">
+<code>
+<span class="keyword">import</span> java.util.Arrays;
+<span class="keyword">import</span> java.util.List;
+<span class="keyword">import</span> java.util.stream.Collectors;
+
+<span class="keyword">public class</span> <span class="class">Java8CollectorsJoining</span>
 {
-    public static void main(String[] args)
+    <span class="keyword">public static void</span> <span class="method">main</span>(<span class="class">String</span>[] args)
     {
-    List<String> listOfStrings = Arrays.asList("Facebook", "Twitter", "YouTube",
-    "WhatsApp", "LinkedIn");
-    String joinedString = listOfStrings.stream().collect(Collectors.joining());
-    System.out.println(joinedString);
+        <span class="class">List</span>&lt;<span class="class">String</span>&gt; listOfStrings = <span class="class">Arrays</span>.<span
+        class="method">asList</span>(<span class="string">"Facebook"</span>, <span
+        class="string">"Twitter"</span>, <span class="string">"YouTube"</span>, <span class="string">"WhatsApp"</span>, <span
+        class="string">"LinkedIn"</span>);
+        <span class="class">String</span> joinedString = listOfStrings.<span class="method">stream</span>().<span
+        class="method">collect</span>(<span class="class">Collectors</span>.<span class="method">joining</span>());
+        <span class="class">System</span>.out.<span class="method">println</span>(joinedString);
+    }
 }
-        </code>
+</code>
     </pre>
+
     <p>Output:</p>
     <pre class="java-code">
-        <code>
+<code>
 FacebookTwitterYouTubeWhatsAppLinkedIn
-        </code>
+</code>
     </pre>
 
     <p>Collectors.joining() Example: Joining list of strings with delimiter</p>
-    <pre class="java-code">
-        <code>
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collections;
 
-public class Java8CollectorsJoining
+    <pre class="java-code">
+<code>
+<span class="keyword">import</span> java.util.Arrays;
+<span class="keyword">import</span> java.util.List;
+<span class="keyword">import</span> java.util.stream.Collectors;
+
+<span class="keyword">public class</span> <span class="class">Java8CollectorsJoining</span>
 {
-    public static void main(String[] args)
+    <span class="keyword">public static void</span> <span class="method">main</span>(<span class="class">String</span>[] args)
     {
-    List<String> listOfStrings = Arrays.asList("Facebook", "Twitter", "YouTube",
-    "WhatsApp", "LinkedIn");
-    String joinedString = listOfStrings.stream().collect(Collectors.joining(' |
-    "));
-    System.out.println(joinedString);
+        <span class="class">List</span>&lt;<span class="class">String</span>&gt; listOfStrings = <span class="class">Arrays</span>.<span
+        class="method">asList</span>(<span class="string">"Facebook"</span>, <span
+        class="string">"Twitter"</span>, <span class="string">"YouTube"</span>, <span class="string">"WhatsApp"</span>, <span
+        class="string">"LinkedIn"</span>);
+        <span class="class">String</span> joinedString = listOfStrings.<span class="method">stream</span>().<span
+        class="method">collect</span>(<span class="class">Collectors</span>.<span class="method">joining</span>(<span
+        class="string">" | "</span>));
+        <span class="class">System</span>.out.<span class="method">println</span>(joinedString);
+    }
 }
-        </code>
+</code>
     </pre>
+
     <p>Output:</p>
     <pre class="java-code">
-        <code>
+<code>
 Facebook | Twitter | YouTube | WhatsApp | LinkedIn
-        </code>
+</code>
     </pre>
 
     <p>Collectors.joining() Example: Joining list of strings with delimiter, prefix and suffix</p>
-    <pre class="java-code">
-        <code>
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collections;
 
-public class Java8CollectorsJoining
+    <pre class="java-code">
+<code>
+<span class="keyword">import</span> java.util.Arrays;
+<span class="keyword">import</span> java.util.List;
+<span class="keyword">import</span> java.util.stream.Collectors;
+
+<span class="keyword">public class</span> <span class="class">Java8CollectorsJoining</span>
 {
-    public static void main(String[] args)
+    <span class="keyword">public static void</span> <span class="method">main</span>(<span class="class">String</span>[] args)
     {
-    List<String> listOfStrings = Arrays.asList("Facebook", "Twitter", "YouTube",
-    "WhatsApp", "LinkedIn");
-    String joinedString = listOfStrings.stream().collect(Collectors.joining(". ", "[",
-    "]"));
-    System.out.println(jointedString);
+        <span class="class">List</span>&lt;<span class="class">String</span>&gt; listOfStrings = <span class="class">Arrays</span>.<span
+        class="method">asList</span>(<span class="string">"Facebook"</span>, <span
+        class="string">"Twitter"</span>, <span class="string">"YouTube"</span>, <span class="string">"WhatsApp"</span>, <span
+        class="string">"LinkedIn"</span>);
+        <span class="class">String</span> joinedString = listOfStrings.<span class="method">stream</span>().<span
+        class="method">collect</span>(<span class="class">Collectors</span>.<span class="method">joining</span>(<span
+        class="string">", "</span>, <span class="string">"["</span>, <span class="string">"]"</span>));
+        <span class="class">System</span>.out.<span class="method">println</span>(joinedString);
+    }
 }
-        </code>
+</code>
+    </pre>
+
+    <p>Output:</p>
+    <pre class="java-code">
+<code>
+[Facebook, Twitter, YouTube, WhatsApp, LinkedIn]
+</code>
     </pre>
     <hr>
     <div class="card-footer">
